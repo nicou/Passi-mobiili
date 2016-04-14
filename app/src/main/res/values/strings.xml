@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Passi</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_kirjaudu">KirjauduActivity</string>
+    <string name="title_activity_tehtavakortti_nosto">Tehtäväkortti: Nostaminen</string>
+    <string name="title_activity_tyoasento">TyoasentoActivity</string>
+    <string name="title_activity_camera">CameraActivity</string>
+</resources>

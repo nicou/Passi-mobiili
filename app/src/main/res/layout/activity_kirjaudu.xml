@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="1"
+    android:background="#ff7cff86">
+    <TableRow>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip" />
+
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text="  "
+            android:padding="3dip"
+            android:textSize="30dip" />
+
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text="Käyttäjätunnus (passi)"
+            android:padding="3dip"
+            android:textSize="20dip" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etKayttajaTunnus"
+            android:layout_column="1"
+            android:background="#fffff7fd" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip" />
+
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+
+        <TextView
+            android:text="Salasana (passi)"
+            android:padding="3dip"
+            android:textSize="20dip" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etSalasana"
+            android:layout_column="1"
+            android:background="#fffff7fd" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+
+        <TextView
+            android:text="            "
+            android:padding="3dip"
+            android:textSize="30dip" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kirjaudu"
+            android:id="@+id/btKirjaudu"
+            android:layout_column="1"
+            android:singleLine="true" />
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+    </TableRow>
+
+</TableLayout>
