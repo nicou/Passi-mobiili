@@ -52,6 +52,7 @@ public class TehtavakorttiNostoActivity extends ActionBarActivity {
                 } catch (Exception e) {
                 }
                 showToast("OIKEIN!");
+                //Move to next view
                 Intent intent = new Intent(TehtavakorttiNostoActivity.this, Tehtavakortti2Activity.class);
                 startActivity(intent);
             }
