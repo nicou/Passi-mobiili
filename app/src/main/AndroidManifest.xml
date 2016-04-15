@@ -21,14 +21,21 @@
         </activity>
         <activity
             android:name=".KirjauduActivity"
-            android:label="@string/title_activity_kirjaudu"></activity>
+            android:label="@string/title_activity_kirjaudu" />
         <activity
             android:name=".TehtavakorttiNostoActivity"
-            android:label="@string/title_activity_tehtavakortti_nosto"></activity>
+            android:label="@string/title_activity_tehtavakortti_nosto" />
         <activity
             android:name=".TyoasentoActivity"
-            android:label="@string/title_activity_tyoasento"></activity>
-        <activity android:name=".Tehtavakortti2Activity"></activity>
+            android:label="@string/title_activity_tyoasento" />
+        <activity android:name=".KulttuuripassiActivity" />
+        <activity android:name=".OhjeistusTyohonActivity" />
+        <activity android:name=".OmaTapaLiikkuaActivity" />
+        <activity android:name=".TurvallisuuskavelyActivity" />
+        <activity android:name=".TyotaHakemassaActivity" />
+        <activity
+            android:name=".VaarakarttaActivity"
+            android:label="@string/title_activity_vaarakartta" />
     </application>
 
 </manifest>
