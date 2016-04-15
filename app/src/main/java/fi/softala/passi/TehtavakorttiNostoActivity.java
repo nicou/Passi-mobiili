@@ -52,6 +52,8 @@ public class TehtavakorttiNostoActivity extends ActionBarActivity {
                 } catch (Exception e) {
                 }
                 showToast("OIKEIN!");
+                Intent intent = new Intent(TehtavakorttiNostoActivity.this, Tehtavakortti2Activity.class);
+                startActivity(intent);
             }
         });
         final Button btSeuraava = (Button) findViewById(R.id.btSeuraava);
