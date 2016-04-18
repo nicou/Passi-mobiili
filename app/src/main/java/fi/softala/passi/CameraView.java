@@ -1,8 +1,5 @@
 package fi.softala.passi;
 
-/**
- * Created by jusju on 14.4.2016.
- */
 
 import android.content.Context;
 import android.hardware.Camera;

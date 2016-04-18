@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <TextView android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:text="Esimerkki" />
+        android:layout_height="wrap_content" android:text="Kamera" />
     <Button android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:text="Kuva paikalliseen tiedostoon"
         android:id="@+id/capture" />
@@ -16,3 +16,4 @@
     <FrameLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:id="@+id/frame" />
 </LinearLayout>
+
