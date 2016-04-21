@@ -72,7 +72,8 @@
             android:padding="3dip"
             android:id="@+id/btKirjautumiseen"
             android:background="@drawable/cell_shape1"
-            android:textColor="#197fb3" />
+            android:textColor="#197fb3"
+            android:textSize="30dip"/>
         <TextView
             android:text="         "
             android:padding="3dip"

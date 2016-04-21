@@ -6,7 +6,7 @@
     android:background="@drawable/background">
     <TableRow android:background="#ffd874">
         <TextView
-            android:text="         "
+            android:text="       "
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
@@ -14,27 +14,27 @@
             android:padding="3dip"
             android:textSize="30dip" />
         <TextView
-            android:text="         "
+            android:text="             "
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
     <TableRow>
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
-            android:text=""
+            android:text="       "
             android:padding="3dip"
             android:textSize="30dip" />
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
     <TableRow>
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
@@ -44,27 +44,27 @@
             android:gravity="center"
             android:background="@drawable/cell_shape2"/>
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
     <TableRow>
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
-            android:text=""
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip" />
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
     <TableRow>
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip"/>
 
@@ -73,15 +73,16 @@
             android:padding="3dip"
             android:id="@+id/btValikkoon"
             android:background="@drawable/cell_shape1"
-            android:textColor="#197fb3" />
+            android:textColor="#197fb3"
+            android:textSize="30dip"/>
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
     <TableRow>
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
@@ -89,13 +90,13 @@
             android:padding="3dip"
             android:textSize="30dip" />
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
     <TableRow>
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
@@ -105,7 +106,7 @@
             android:gravity="center"
             android:background="@drawable/cell_shape2"/>
         <TextView
-            android:text="         "
+            android:text="   "
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>

@@ -136,7 +136,8 @@
             android:layout_column="1"
             android:singleLine="true"
             android:textColor="#197fb3"
-            android:background="@drawable/cell_shape1" />
+            android:background="@drawable/cell_shape1"
+            android:textSize="30dip"/>
         <TextView
             android:text="         "
             android:padding="3dip"
