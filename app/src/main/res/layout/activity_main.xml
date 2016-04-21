@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:stretchColumns="1"
-    android:background="#ff7cff86">
+    android:background="@drawable/background">
     <TableRow>
         <TextView
             android:text="         "
@@ -12,7 +12,9 @@
         <TextView
             android:text="Tervetuloa"
             android:padding="3dip"
-            android:textSize="30dip" />
+            android:textSize="30dip"
+            android:background="#ffffff"
+            android:textColor="#197fb3" />
 
     </TableRow>
     <TableRow>
@@ -23,7 +25,9 @@
         <TextView
             android:text="työkykypassiin"
             android:padding="3dip"
-            android:textSize="30dip" />
+            android:textSize="30dip"
+            android:background="#ffffff"
+            android:textColor="#197fb3" />
 
     </TableRow>
 
@@ -61,7 +65,8 @@
             android:text="Kirjaudu sisään"
             android:padding="3dip"
             android:id="@+id/btKirjautumiseen"
-            />
+            android:background="#ffffff"
+            android:textColor="#197fb3" />
         <TextView
             android:text="            "
             android:padding="3dip"

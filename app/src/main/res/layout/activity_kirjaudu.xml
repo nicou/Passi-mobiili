@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:stretchColumns="1"
-    android:background="#ff7cff86">
+    android:background="@drawable/background">
     <TableRow>
         <TextView
             android:text="         "
@@ -134,7 +134,9 @@
             android:text="Kirjaudu"
             android:id="@+id/btKirjaudu"
             android:layout_column="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="#197fb3"
+            android:background="#ffffff" />
         <TextView
             android:text="         "
             android:padding="3dip"
