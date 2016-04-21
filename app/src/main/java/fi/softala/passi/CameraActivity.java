@@ -1,9 +1,5 @@
 package fi.softala.passi;
 
-
-import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,12 +7,28 @@ import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class CameraActivity extends Activity {
     final private static String STILL_IMAGE_FILE = "mypic.jpg";
@@ -90,6 +102,35 @@ public class CameraActivity extends Activity {
                         } catch (Exception e) {
                             Log.e("Still", "Error writing file", e);
                         }
+                        try {
+                            File f = new File("/data/data/fi.softala.passi/files/", "mypic.jpg");
+                            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+                        HttpClient httpclient = new DefaultHttpClient();
+                        String url = "http://proto280.haaga-helia.fi/tkpassibackend/api2/addAnswer?id=1&answerNumber=1&answerText=Natiivista&user_id=2";
+                        // Prepare a request object
+                        HttpPost httppost = new HttpPost(url);
+
+                        MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+                        File file = new File("/data/data/fi.softala.passi/files/mypic.jpg");
+                        Log.d("EDIT USER PROFILE", "UPLOAD: file length = " + file.length());
+                        Log.d("EDIT USER PROFILE", "UPLOAD: file exist = " + file.exists());
+                        mpEntity.addPart("avatar", new FileBody(file, "application/octet"));
+
+
+                        httppost.setEntity(mpEntity);
+                        try {
+                            HttpResponse response = httpclient.execute(httppost);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 });
             }
