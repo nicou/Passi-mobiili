@@ -13,44 +13,11 @@
             android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
-
-    </TableRow>
-    <TableRow>
         <TextView
             android:text="         "
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        <TextView
-            android:text="  "
             android:padding="3dip"
             android:textSize="30dip" />
-
     </TableRow>
-
-    <TableRow>
-        <TextView
-            android:text="         "
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        <TextView
-            android:text="Käyttäjätunnus (passi)"
-            android:padding="3dip"
-            android:textSize="20dip" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/etKayttajaTunnus"
-            android:layout_column="1"
-            android:background="#fffff7fd" />
-    </TableRow>
-
     <TableRow>
         <TextView
             android:text="         "
@@ -60,87 +27,85 @@
             android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
-
-    </TableRow>
-
-    <TableRow>
         <TextView
             android:text="         "
-            android:padding="3dip"
-            android:textSize="30dip"/>
-
-        <TextView
-            android:text="Salasana (passi)"
-            android:padding="3dip"
-            android:textSize="20dip" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/etSalasana"
-            android:layout_column="1"
-            android:background="#fffff7fd" />
-    </TableRow>
-
-    <TableRow>
-        <TextView
-            android:text="         "
-            android:padding="3dip"
-            android:textSize="30dip"/>
-
-        <TextView
-            android:text="            "
             android:padding="3dip"
             android:textSize="30dip" />
-
     </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-    </TableRow>
-
     <TableRow>
         <TextView
             android:text="         "
             android:padding="3dip"
             android:textSize="30dip"/>
-
-
+        <TextView
+            android:text="PROFIILI"
+            android:padding="3dip"
+            android:textSize="30dip"
+            android:gravity="center"
+            android:background="@drawable/cell_shape2"/>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip" />
     </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kirjaudu"
-            android:id="@+id/btKirjaudu"
-            android:layout_column="1"
-            android:singleLine="true"
-            android:textColor="#197fb3"
-            android:background="@drawable/cell_shape1" />
+    <TableRow>
         <TextView
             android:text="         "
             android:padding="3dip"
             android:textSize="30dip"/>
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip" />
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip" />
     </TableRow>
-
+    <TableRow>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text="TYÖKYKYPASSIIN"
+            android:padding="3dip"
+            android:textSize="30dip"
+            android:gravity="center"
+            android:background="@drawable/cell_shape1"/>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip" />
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip" />
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip" />
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text="HATTUKAUPPA"
+            android:padding="3dip"
+            android:textSize="30dip"
+            android:gravity="center"
+            android:background="@drawable/cell_shape2"/>
+        <TextView
+            android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip" />
+    </TableRow>
 </TableLayout>

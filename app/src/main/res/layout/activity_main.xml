@@ -4,38 +4,57 @@
     android:layout_height="match_parent"
     android:stretchColumns="1"
     android:background="@drawable/background">
-    <TableRow>
+    <TableRow android:baselineAligned="true"
+        android:background="#ffd874">
         <TextView
-            android:text="         "
+            android:text="    "
             android:padding="3dip"
             android:textSize="30dip"/>
-        <TextView
-            android:text="Tervetuloa"
-            android:padding="3dip"
-            android:textSize="30dip"
-            android:background="#ffffff"
-            android:textColor="#197fb3" />
 
     </TableRow>
     <TableRow>
+
+
         <TextView
-            android:text="         "
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        <TextView
-            android:text="työkykypassiin"
+            android:text="TERVETULOA\nTYÖKYKYPASSIIN"
             android:padding="3dip"
             android:textSize="30dip"
             android:background="#ffffff"
-            android:textColor="#197fb3" />
-
+            android:textColor="#197fb3"
+            android:gravity="center"
+            android:maxLines="2"
+            android:layout_column="1" />
     </TableRow>
 
     <TableRow>
         <TextView
-            android:text="         "
+            android:text="      "
             android:padding="3dip"
             android:textSize="30dip"/>
+        <TextView
+            android:text="     "
+            android:padding="3dip"
+            android:textSize="30dip" />
+
+        <TextView
+            android:text="      "
+            android:padding="3dip"
+            android:textSize="30dip" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="    "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+
         <TextView
             android:text=""
             android:padding="3dip"
@@ -45,30 +64,17 @@
 
     <TableRow>
         <TextView
-            android:text="         "
-            android:padding="3dip"
-            android:textSize="30dip"/>
-
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip" />
-
-    </TableRow>
-
-    <TableRow>
-        <TextView
-            android:text="         "
+            android:text="        "
             android:padding="3dip"
             android:textSize="30dip"/>
         <Button
             android:text="Kirjaudu sisään"
             android:padding="3dip"
             android:id="@+id/btKirjautumiseen"
-            android:background="#ffffff"
+            android:background="@drawable/cell_shape1"
             android:textColor="#197fb3" />
         <TextView
-            android:text="            "
+            android:text="         "
             android:padding="3dip"
             android:textSize="30dip" />
 
@@ -76,14 +82,14 @@
 
     <TableRow>
         <TextView
-            android:text="         "
+            android:text="    "
             android:padding="3dip"
             android:textSize="30dip"/>
 
         <TextView
-            android:text="         "
+            android:text="    "
             android:padding="3dip"
-            android:textSize="30dip"/>
+            android:textSize="10dip"/>
     </TableRow>
 
     <TableRow
@@ -104,7 +110,9 @@
             android:text="Luo tunnus"
             android:id="@+id/button"
             android:layout_column="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:background="@drawable/cell_shape2"
+            android:textColor="#666666" />/>
     </TableRow>
 
 </TableLayout>

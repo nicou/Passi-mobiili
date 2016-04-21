@@ -39,7 +39,7 @@ public class TehtavakorttiNostoActivity extends ActionBarActivity {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
                 HttpClient httpclient = new DefaultHttpClient();
-                String url = "http://proto280.haaga-helia.fi/tkpassibackend/api2/addAnswer?id=3&answerNumber=2&answerText=2&user_id=2";
+                String url = "http://proto280.haaga-helia.fi/tkpassibackend/api2/addAnswer?id=1&answerNumber=1&answerText=Natiivista&user_id=2";
                 // Prepare a request object
                 HttpGet httpget = new HttpGet(url);
 
