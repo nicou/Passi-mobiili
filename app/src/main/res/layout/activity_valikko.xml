@@ -67,12 +67,13 @@
             android:text="         "
             android:padding="3dip"
             android:textSize="30dip"/>
-        <TextView
+
+        <Button
             android:text="TYÖKYKYPASSIIN"
             android:padding="3dip"
-            android:textSize="30dip"
-            android:gravity="center"
-            android:background="@drawable/cell_shape1"/>
+            android:id="@+id/btValikkoon"
+            android:background="@drawable/cell_shape1"
+            android:textColor="#197fb3" />
         <TextView
             android:text="         "
             android:padding="3dip"

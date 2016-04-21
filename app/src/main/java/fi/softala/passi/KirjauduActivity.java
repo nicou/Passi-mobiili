@@ -26,7 +26,7 @@ public class KirjauduActivity extends Activity {
                 final EditText etSalasana = (EditText) findViewById(R.id.etSalasana);
                 String salasana = etSalasana.getText().toString();
                 if (salasana.equals("passi") && kayttajatunnus.equals("passi")) {
-                    Intent intent = new Intent(KirjauduActivity.this, TehtavakorttiNostoActivity.class);
+                    Intent intent = new Intent(KirjauduActivity.this, ValikkoActivity.class);
                     startActivity(intent);
                 }
             }
