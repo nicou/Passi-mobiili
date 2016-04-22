@@ -6,7 +6,22 @@
     android:background="@drawable/background">
     <TableRow android:background="#ffd874">
         <TextView
+            android:text="     "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip" />
+        <TextView
             android:text="         "
+            android:padding="3dip"
+            android:textSize="30dip" />
+
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
@@ -15,21 +30,10 @@
             android:textSize="30dip" />
 
     </TableRow>
-    <TableRow>
-        <TextView
-            android:text="         "
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        <TextView
-            android:text="  "
-            android:padding="3dip"
-            android:textSize="30dip" />
-
-    </TableRow>
 
     <TableRow>
         <TextView
-            android:text="         "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
@@ -53,7 +57,7 @@
 
     <TableRow>
         <TextView
-            android:text="         "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
@@ -65,7 +69,7 @@
 
     <TableRow>
         <TextView
-            android:text="         "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
 
@@ -95,7 +99,7 @@
             android:textSize="30dip"/>
 
         <TextView
-            android:text="            "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
 
@@ -109,7 +113,7 @@
 
     <TableRow>
         <TextView
-            android:text="         "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
 
@@ -139,7 +143,7 @@
             android:background="@drawable/cell_shape1"
             android:textSize="30dip"/>
         <TextView
-            android:text="         "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
     </TableRow>

@@ -7,7 +7,15 @@
     <TableRow android:baselineAligned="true"
         android:background="#ffd874">
         <TextView
-            android:text="    "
+            android:text="       "
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text="       "
             android:padding="3dip"
             android:textSize="30dip"/>
 
@@ -28,16 +36,16 @@
 
     <TableRow>
         <TextView
-            android:text="      "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
-            android:text="     "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
 
         <TextView
-            android:text="      "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
 
@@ -51,7 +59,7 @@
 
     <TableRow>
         <TextView
-            android:text="    "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
 
@@ -64,7 +72,7 @@
 
     <TableRow>
         <TextView
-            android:text="        "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
         <Button
@@ -73,9 +81,9 @@
             android:id="@+id/btKirjautumiseen"
             android:background="@drawable/cell_shape1"
             android:textColor="#197fb3"
-            android:textSize="30dip"/>
+            android:textSize="25dip"/>
         <TextView
-            android:text="         "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
 
@@ -83,12 +91,12 @@
 
     <TableRow>
         <TextView
-            android:text="    "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
 
         <TextView
-            android:text="    "
+            android:text=""
             android:padding="3dip"
             android:textSize="10dip"/>
     </TableRow>
@@ -112,6 +120,7 @@
             android:id="@+id/button"
             android:layout_column="1"
             android:singleLine="true"
+            android:textSize="20dip"
             android:background="@drawable/cell_shape2"
             android:textColor="#666666" />/>
     </TableRow>

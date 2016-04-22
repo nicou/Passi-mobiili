@@ -6,7 +6,7 @@
     android:background="@drawable/background">
     <TableRow android:background="#ffd874">
         <TextView
-            android:text="       "
+            android:text="     "
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
@@ -14,75 +14,87 @@
             android:padding="3dip"
             android:textSize="30dip" />
         <TextView
-            android:text="             "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
     <TableRow>
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
+
         <TextView
-            android:text="       "
+            android:text=""
             android:padding="3dip"
-            android:textSize="30dip" />
+            android:textSize="30dip"/>
+
         <TextView
-            android:text="   "
-            android:padding="3dip"
-            android:textSize="30dip" />
+            android:text="300"
+            android:layout_height="30dp"
+            android:layout_width="60dp"
+            android:padding="2dip"
+            android:textSize="20dip"
+            android:gravity="right"
+            android:background="@drawable/pisteet"/>
+
     </TableRow>
     <TableRow>
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
             android:text="PROFIILI"
-            android:padding="3dip"
-            android:textSize="30dip"
+            android:layout_height="75dp"
+            android:layout_width="160dp"
+            android:paddingLeft="70dp"
+            android:textSize="18dip"
             android:gravity="center"
-            android:background="@drawable/cell_shape2"/>
+            android:background="@drawable/profiili_pohja"/>
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
     <TableRow>
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
     <TableRow>
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
 
         <Button
             android:text="TYÖKYKYPASSIIN"
-            android:padding="3dip"
             android:id="@+id/btValikkoon"
-            android:background="@drawable/cell_shape1"
+            android:background="@drawable/tyokykypassiin_pohja"
             android:textColor="#197fb3"
-            android:textSize="30dip"/>
+            android:layout_height="75dp"
+            android:layout_width="160dp"
+            android:paddingLeft="75dp"
+            android:textSize="18dip"
+            android:gravity="center"/>
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
     <TableRow>
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
@@ -90,24 +102,70 @@
             android:padding="3dip"
             android:textSize="30dip" />
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
     <TableRow>
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
             android:text="HATTUKAUPPA"
-            android:padding="3dip"
-            android:textSize="30dip"
+            android:layout_height="75dp"
+            android:layout_width="160dp"
+            android:paddingLeft="70dp"
+            android:textSize="18dip"
             android:gravity="center"
-            android:background="@drawable/cell_shape2"/>
+            android:background="@drawable/hattukauppa_pohja"/>
         <TextView
-            android:text="   "
+            android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text="ETENEMINEN 80%"
+            android:textSize="16dip"
+            android:padding="7dip"
+            android:layout_height="75dp"
+            android:layout_width="160dp"
+            android:id="@+id/imageView3"
+            android:layout_column="1"
+            android:background="@drawable/etenemispalkki_pohja"
+            android:textColor="#197fb3" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text=""
+            android:layout_height="20dp"
+            android:layout_width="10dp"
+            android:background="@drawable/etenemispalkki"
+            android:layout_column="1" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip" />
+
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip" />
+
     </TableRow>
 </TableLayout>
