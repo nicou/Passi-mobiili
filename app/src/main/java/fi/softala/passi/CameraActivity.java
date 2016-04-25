@@ -116,15 +116,15 @@ public class CameraActivity extends Activity {
                         // Prepare a request object
                         HttpPost httppost = new HttpPost(url);
 
-                        MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+                        //MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 
                         File file = new File("/data/data/fi.softala.passi/files/mypic.jpg");
                         Log.d("EDIT USER PROFILE", "UPLOAD: file length = " + file.length());
                         Log.d("EDIT USER PROFILE", "UPLOAD: file exist = " + file.exists());
-                        mpEntity.addPart("avatar", new FileBody(file, "application/octet"));
+                        //mpEntity.addPart("avatar", new FileBody(file, "application/octet"));
 
 
-                        httppost.setEntity(mpEntity);
+                        //httppost.setEntity(mpEntity);
                         try {
                             HttpResponse response = httpclient.execute(httppost);
                         } catch (IOException e) {
