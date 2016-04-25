@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Passi.iml" filepath="$PROJECT_DIR$/Passi.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/passi.iml" filepath="$PROJECT_DIR$/passi.iml" />
     </modules>
   </component>
 </project>
+
