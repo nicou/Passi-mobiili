@@ -18,9 +18,9 @@ import android.widget.Toast;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.FileBody;
+//import org.apache.http.entity.mime.HttpMultipartMode;
+//import org.apache.http.entity.mime.MultipartEntity;
+//import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.ByteArrayInputStream;
@@ -29,6 +29,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class CameraActivity extends Activity {
     final private static String STILL_IMAGE_FILE = "mypic.jpg";
@@ -111,26 +114,39 @@ public class CameraActivity extends Activity {
                         }
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
+
+                        try {
+                            URL url = new URL("http://proto280.haaga-helia.fi/");
+                            try {
+                                URLConnection conn = url.openConnection();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+
+                        /*
                         HttpClient httpclient = new DefaultHttpClient();
                         String url = "http://proto280.haaga-helia.fi/tkpassibackend/api2/addAnswer?id=1&answerNumber=1&answerText=Natiivista&user_id=2";
-                        // Prepare a request object
+
                         HttpPost httppost = new HttpPost(url);
 
-                        //MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+                        MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 
                         File file = new File("/data/data/fi.softala.passi/files/mypic.jpg");
                         Log.d("EDIT USER PROFILE", "UPLOAD: file length = " + file.length());
                         Log.d("EDIT USER PROFILE", "UPLOAD: file exist = " + file.exists());
-                        //mpEntity.addPart("avatar", new FileBody(file, "application/octet"));
+                        mpEntity.addPart("avatar", new FileBody(file, "application/octet"));
 
 
-                        //httppost.setEntity(mpEntity);
+                        httppost.setEntity(mpEntity);
                         try {
                             HttpResponse response = httpclient.execute(httppost);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
+                        */
                     }
                 });
             }
