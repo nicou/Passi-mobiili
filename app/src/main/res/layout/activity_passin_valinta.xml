@@ -6,7 +6,7 @@
     android:background="@drawable/background_title_and_side">
     <TableRow android:background="#ffd874">
         <TextView
-            android:text="     "
+            android:text="        "
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
@@ -25,66 +25,45 @@
             android:textSize="30dip"/>
 
         <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-
-        TextView
-            android:text="300"
-            android:layout_height="30dp"
-            android:layout_width="60dp"
-            android:padding="2dip"
-            android:textSize="20dip"
-            android:gravity="right"
-            android:background="@drawable/pisteet"/>
-
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        TextView
-            android:text="PROFIILI"
-            android:layout_height="75dp"
-            android:layout_width="160dp"
-            android:paddingLeft="70dp"
-            android:textSize="18dip"
-            android:gravity="center"
-            android:background="@drawable/profiili_pohja"/>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip" />
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip" />
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip" />
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-
-        Button
             android:text="TYÖKYKYPASSIIN"
-            android:id="@+id/btValikkoon"
-            android:background="@drawable/tyokykypassiin_pohja"
+            android:padding="3dip"
+            android:textSize="30dip"/>
+
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip"/>
+
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip"/>
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text=""
+            android:padding="3dip"
+            android:textSize="30dip"/>
+
+        <Button
+            android:text="AMMATIN TYÖKYKYVALMIUDET"
+            android:id="@+id/bt"
+
             android:textColor="#197fb3"
             android:layout_height="75dp"
             android:layout_width="160dp"
-            android:paddingLeft="75dp"
+            android:paddingLeft="25dp"
             android:textSize="18dip"
             android:gravity="center"/>
         <TextView
@@ -92,37 +71,22 @@
             android:padding="3dip"
             android:textSize="30dip" />
     </TableRow>
+
     <TableRow>
         <TextView
             android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip" />
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip" />
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        TextView
-            android:text="HATTUKAUPPA"
+        <Button
+            android:text="TYÖKYKYÄ EDISTÄVÄ LIIKUNTA"
+            android:id="@+id/bt"
+
+            android:textColor="#197fb3"
             android:layout_height="75dp"
             android:layout_width="160dp"
-            android:paddingLeft="70dp"
+            android:paddingLeft="25dp"
             android:textSize="18dip"
-            android:gravity="center"
-            android:background="@drawable/hattukauppa_pohja"/>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip" />
+            android:gravity="center"/>
     </TableRow>
 
     <TableRow>

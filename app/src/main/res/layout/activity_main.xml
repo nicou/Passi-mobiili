@@ -27,7 +27,6 @@
             android:text="TERVETULOA\nTYÖKYKYPASSIIN"
             android:padding="3dip"
             android:textSize="30dip"
-            android:background="#ffffff"
             android:textColor="#197fb3"
             android:gravity="center"
             android:maxLines="2"

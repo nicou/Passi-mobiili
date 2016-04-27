@@ -12,7 +12,7 @@ public class ValikkoActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valikko);
-        Button button = (Button) findViewById(R.id.btValikkoon);
+        Button button = (Button) findViewById(R.id.btTyokykypassiin);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 

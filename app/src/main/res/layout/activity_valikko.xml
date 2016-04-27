@@ -79,7 +79,7 @@
 
         <Button
             android:text="TYÖKYKYPASSIIN"
-            android:id="@+id/btValikkoon"
+            android:id="@+id/btTyokykypassiin"
             android:background="@drawable/tyokykypassiin_pohja"
             android:textColor="#197fb3"
             android:layout_height="75dp"
