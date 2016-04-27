@@ -8,43 +8,36 @@
         <TextView
             android:text="        "
             android:padding="3dip"
-            android:textSize="30dip"/>
-        <TextView
-            android:text=""
-            android:padding="3dip"
             android:textSize="30dip" />
         <TextView
             android:text=""
             android:padding="3dip"
             android:textSize="30dip" />
+        <TextView
+            android:text="        "
+            android:padding="3dip"
+            android:textSize="30dip" />
+
     </TableRow>
     <TableRow>
         <TextView
-            android:text=""
+            android:text="TYÖKYKYPASSI"
             android:padding="3dip"
-            android:textSize="30dip"/>
-
-        <TextView
-            android:text="TYÖKYKYPASSIIN"
+            android:textSize="30dip"
             android:textColor="#197fb3"
-            android:padding="3dip"
-            android:textSize="30dip"/>
-
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-
+            android:gravity="center"
+            android:maxLines="2"
+            android:layout_column="1" />
     </TableRow>
     <TableRow>
         <TextView
             android:text=""
             android:padding="3dip"
-            android:textSize="30dip"/>
+            android:textSize="30dip" />
         <TextView
             android:text=""
             android:padding="3dip"
-            android:textSize="30dip"/>
+            android:textSize="30dip" />
         <TextView
             android:text=""
             android:padding="3dip"
