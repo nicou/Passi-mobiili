@@ -26,6 +26,7 @@
 
         <TextView
             android:text="TYÖKYKYPASSIIN"
+            android:textColor="#197fb3"
             android:padding="3dip"
             android:textSize="30dip"/>
 
@@ -58,10 +59,10 @@
 
         <Button
             android:text="AMMATIN TYÖKYKYVALMIUDET"
-            android:id="@+id/bt"
+            android:id="@+id/btJotain"
 
             android:textColor="#197fb3"
-            android:layout_height="75dp"
+            android:layout_height="70dp"
             android:layout_width="160dp"
             android:paddingLeft="25dp"
             android:textSize="18dip"
@@ -79,10 +80,10 @@
             android:textSize="30dip"/>
         <Button
             android:text="TYÖKYKYÄ EDISTÄVÄ LIIKUNTA"
-            android:id="@+id/bt"
+            android:id="@+id/btJotain2"
 
             android:textColor="#197fb3"
-            android:layout_height="75dp"
+            android:layout_height="70dp"
             android:layout_width="160dp"
             android:paddingLeft="25dp"
             android:textSize="18dip"
@@ -94,42 +95,49 @@
             android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
-        TextView
-            android:text="ETENEMINEN 80%"
-            android:textSize="16dip"
-            android:padding="7dip"
-            android:layout_height="75dp"
+        <Button
+            android:text="TERVEYSOSAAMINEN"
+            android:id="@+id/btJotain3"
+
+            android:textColor="#197fb3"
+            android:layout_height="70dp"
             android:layout_width="160dp"
-            android:id="@+id/imageView3"
-            android:layout_column="1"
-            android:background="@drawable/etenemispalkki_pohja"
-            android:textColor="#197fb3" />
+            android:paddingLeft="25dp"
+            android:textSize="18dip"
+            android:gravity="center"/>
     </TableRow>
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        TextView
-            android:text=""
-            android:layout_height="20dp"
-            android:layout_width="10dp"
-            android:background="@drawable/etenemispalkki"
-            android:layout_column="1" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TableRow>
         <TextView
             android:text=""
             android:padding="3dip"
-            android:textSize="30dip" />
+            android:textSize="30dip"/>
+        <Button
+            android:text="HARRASTUNEISUUS JA YHTEISTYÖTAIDOT"
+            android:id="@+id/btJotain4"
 
+            android:textColor="#197fb3"
+            android:layout_height="72dp"
+            android:layout_width="160dp"
+            android:paddingLeft="25dp"
+            android:textSize="18dip"
+            android:gravity="center"/>
+    </TableRow>
+
+    <TableRow>
         <TextView
             android:text=""
             android:padding="3dip"
-            android:textSize="30dip" />
+            android:textSize="30dip"/>
+        <Button
+            android:text="TYÖKYKYVALMIUKSIEN VAHVISTAMINEN"
+            android:id="@+id/btJotain5"
 
+            android:textColor="#197fb3"
+            android:layout_height="72dp"
+            android:layout_width="160dp"
+            android:paddingLeft="25dp"
+            android:textSize="18dip"
+            android:gravity="center"/>
     </TableRow>
 </TableLayout>
