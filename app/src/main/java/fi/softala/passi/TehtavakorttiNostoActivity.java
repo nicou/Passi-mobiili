@@ -53,14 +53,14 @@ public class TehtavakorttiNostoActivity extends ActionBarActivity {
                 }
                 showToast("OIKEIN!");
                 //Move to next view
-                Intent intent = new Intent(TehtavakorttiNostoActivity.this, TyoasentoActivity.class);
+                Intent intent = new Intent(TehtavakorttiNostoActivity.this, CameraActivity.class);
                 startActivity(intent);
             }
         });
         final Button btSeuraava = (Button) findViewById(R.id.btSeuraava);
         btSeuraava.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(TehtavakorttiNostoActivity.this, TyoasentoActivity.class);
+                Intent intent = new Intent(TehtavakorttiNostoActivity.this, CameraActivity.class);
                 startActivity(intent);
             }
         });

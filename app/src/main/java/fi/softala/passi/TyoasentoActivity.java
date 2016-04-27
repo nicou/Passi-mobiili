@@ -32,6 +32,11 @@ import org.apache.http.util.EntityUtils;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
+/**
+ * Activity työasennon demonstrointiin
+ * @author Jukka Juslin
+ *
+ */
 public class TyoasentoActivity extends Activity {
 
     Button btpic, btnup;
