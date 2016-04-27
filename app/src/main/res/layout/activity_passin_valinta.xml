@@ -60,11 +60,11 @@
         <Button
             android:text="AMMATIN TYÖKYKYVALMIUDET"
             android:id="@+id/btJotain"
-
+            android:background="@drawable/ammatin_tyokykyvalmiudet_small"
             android:textColor="#197fb3"
             android:layout_height="70dp"
             android:layout_width="160dp"
-            android:paddingLeft="25dp"
+            android:paddingLeft="5dp"
             android:textSize="18dip"
             android:gravity="center"/>
         <TextView
@@ -81,11 +81,11 @@
         <Button
             android:text="TYÖKYKYÄ EDISTÄVÄ LIIKUNTA"
             android:id="@+id/btJotain2"
-
+            android:background="@drawable/tyokykya_edistava_liikunta_small"
             android:textColor="#197fb3"
             android:layout_height="70dp"
             android:layout_width="160dp"
-            android:paddingLeft="25dp"
+            android:paddingLeft="5dp"
             android:textSize="18dip"
             android:gravity="center"/>
     </TableRow>
@@ -98,11 +98,11 @@
         <Button
             android:text="TERVEYSOSAAMINEN"
             android:id="@+id/btJotain3"
-
+            android:background="@drawable/terveysosaaminen_small"
             android:textColor="#197fb3"
             android:layout_height="70dp"
             android:layout_width="160dp"
-            android:paddingLeft="25dp"
+            android:paddingLeft="5dp"
             android:textSize="18dip"
             android:gravity="center"/>
     </TableRow>
@@ -115,11 +115,11 @@
         <Button
             android:text="HARRASTUNEISUUS JA YHTEISTYÖTAIDOT"
             android:id="@+id/btJotain4"
-
+            android:background="@drawable/harrastuneisuus_ja_yhetietyotaidot_small"
             android:textColor="#197fb3"
             android:layout_height="72dp"
             android:layout_width="160dp"
-            android:paddingLeft="25dp"
+            android:paddingLeft="5dp"
             android:textSize="18dip"
             android:gravity="center"/>
     </TableRow>
@@ -132,11 +132,11 @@
         <Button
             android:text="TYÖKYKYVALMIUKSIEN VAHVISTAMINEN"
             android:id="@+id/btJotain5"
-
+            android:background="@drawable/tyokykyvalmiuksien_vahvistaminen_small"
             android:textColor="#197fb3"
             android:layout_height="72dp"
             android:layout_width="160dp"
-            android:paddingLeft="25dp"
+            android:paddingLeft="5dp"
             android:textSize="18dip"
             android:gravity="center"/>
     </TableRow>
