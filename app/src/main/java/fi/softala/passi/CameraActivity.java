@@ -32,10 +32,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-// jukan saatoa
+// jukan saatoa2
 public class CameraActivity extends Activity {
     final private static String STILL_IMAGE_FILE = "mypic.jpg";
-
+    // metodi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
