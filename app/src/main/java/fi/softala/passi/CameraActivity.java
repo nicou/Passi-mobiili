@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-
+// jukan saatoa
 public class CameraActivity extends Activity {
     final private static String STILL_IMAGE_FILE = "mypic.jpg";
 
