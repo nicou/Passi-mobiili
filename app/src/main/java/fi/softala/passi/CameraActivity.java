@@ -114,17 +114,9 @@ public class CameraActivity extends Activity {
                         }
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
-
-                        try {
-                            URL url = new URL("http://proto280.haaga-helia.fi/");
-                            try {
-                                URLConnection conn = url.openConnection();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
+                        // URL url = new URL("http://proto280.haaga-helia.fi/");
+                        //jukka
+                        //billgates
 
                         /*
                         HttpClient httpclient = new DefaultHttpClient();
