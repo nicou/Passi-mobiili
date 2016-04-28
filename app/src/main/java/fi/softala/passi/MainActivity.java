@@ -51,6 +51,8 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+
+        //Testikommentti
         if (id == R.id.action_settings) {
             return true;
         }
