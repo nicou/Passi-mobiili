@@ -21,13 +21,13 @@
     </TableRow>
     <TableRow>
         <TextView
-            android:text=""
+            android:text="         "
             android:padding="3dip"
-            android:textSize="30dip"/>
+            android:textSize="20dip"/>
         <TextView
             android:text=""
             android:padding="3dip"
-            android:textSize="30dip" />
+            android:textSize="20dip" />
 
     </TableRow>
 
@@ -57,20 +57,12 @@
     </TableRow>
 
     <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip" />
 
     </TableRow>
 
     <TableRow>
         <TextView
-            android:text=""
+            android:text="         "
             android:padding="3dip"
             android:textSize="30dip"/>
 
@@ -96,29 +88,20 @@
 
     <TableRow>
         <TextView
-            android:text="         "
+            android:text=""
             android:padding="3dip"
-            android:textSize="30dip"/>
+            android:textSize="20dip"/>
 
         <TextView
             android:text=""
             android:padding="3dip"
-            android:textSize="30dip" />
+            android:textSize="20dip" />
 
     </TableRow>
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-
-    </TableRow>
-
-    <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-
 
     </TableRow>
 
