@@ -29,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -114,6 +115,14 @@ public class CameraActivity extends Activity {
                         }
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
+
+                        try {
+                            URL url = new URL("http://proto280.haaga-helia.fi/");
+                            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                         // URL url = new URL("http://proto280.haaga-helia.fi/");
                         //jukka
                         //billgates
