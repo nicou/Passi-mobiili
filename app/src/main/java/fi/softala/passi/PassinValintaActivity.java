@@ -16,7 +16,7 @@ public class PassinValintaActivity extends ActionBarActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(PassinValintaActivity.this, TehtavakorttiNostoActivity.class);
+                Intent intent = new Intent(PassinValintaActivity.this, TehtavakortinValintaActivity.class);
                 startActivity(intent);
             }
         });
@@ -24,7 +24,7 @@ public class PassinValintaActivity extends ActionBarActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(PassinValintaActivity.this, TyoasentoActivity.class);
+                Intent intent = new Intent(PassinValintaActivity.this, TehtavakortinValintaActivity.class);
                 startActivity(intent);
             }
         });
@@ -32,7 +32,7 @@ public class PassinValintaActivity extends ActionBarActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(PassinValintaActivity.this, TehtavakorttiNostoActivity.class);
+                Intent intent = new Intent(PassinValintaActivity.this, TehtavakortinValintaActivity.class);
                 startActivity(intent);
             }
         });
@@ -40,7 +40,7 @@ public class PassinValintaActivity extends ActionBarActivity {
         button4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(PassinValintaActivity.this, TehtavakorttiNostoActivity.class);
+                Intent intent = new Intent(PassinValintaActivity.this, TehtavakortinValintaActivity.class);
                 startActivity(intent);
             }
         });
@@ -48,7 +48,7 @@ public class PassinValintaActivity extends ActionBarActivity {
         button5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(PassinValintaActivity.this, TehtavakorttiNostoActivity.class);
+                Intent intent = new Intent(PassinValintaActivity.this, TehtavakortinValintaActivity.class);
                 startActivity(intent);
             }
         });

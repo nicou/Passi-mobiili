@@ -40,7 +40,8 @@
             android:name=".CameraActivity"
             android:label="@string/title_activity_camera" />
         <activity android:name=".ValikkoActivity" />
-        <activity android:name=".PassinValintaActivity"></activity>
+        <activity android:name=".PassinValintaActivity" />
+        <activity android:name=".TehtavakortinValintaActivity"></activity>
     </application>
 
 </manifest>
