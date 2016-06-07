@@ -119,6 +119,8 @@ public class CameraActivity extends Activity {
                         try {
                             URL url = new URL("http://proto280.haaga-helia.fi/");
                             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

@@ -37,7 +37,7 @@
             android:padding="3dip"
             android:textSize="30dip"/>
         <TextView
-            android:text="Käyttäjätunnus (passi)"
+            android:text="Käyttäjätunnus (testi1)"
             android:textColor="#197fb3"
             android:padding="3dip"
             android:textSize="20dip" />
@@ -67,7 +67,7 @@
             android:textSize="30dip"/>
 
         <TextView
-            android:text="Salasana (passi)"
+            android:text="Salasana (testi1)"
             android:textColor="#197fb3"
             android:padding="3dip"
             android:textSize="20dip" />

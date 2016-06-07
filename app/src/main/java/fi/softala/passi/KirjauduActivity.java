@@ -1,13 +1,26 @@
 package fi.softala.passi;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
 
 
 public class KirjauduActivity extends Activity {
@@ -29,6 +42,53 @@ public class KirjauduActivity extends Activity {
                     Intent intent = new Intent(KirjauduActivity.this, ValikkoActivity.class);
                     startActivity(intent);
                 }
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                HttpClient httpclient = new DefaultHttpClient();
+//String url = "http://proto284.haaga-helia.fi/passibe/KontrolleriServlet?action=kirjaudu&email=testi1@haaga-helia.fi&salasana=testi1";
+
+                ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+                postParameters.add(new BasicNameValuePair("kayttajatunnus", kayttajatunnus));
+                postParameters.add(new BasicNameValuePair("salasana", salasana));
+
+//String valid = "1";
+                String response = null;
+                try {
+
+                    response = CustomHttpClient.executeHttpPost("http://proto284.haaga-helia.fi/passibe/KirjautumisMobiiliServlet", postParameters);  //Enetr Your remote PHP,ASP, Servlet file link
+                    String res = response.toString();
+// res = res.trim();
+                    res = res.replaceAll("\\s+", "");
+//error.setText(res);
+                    if (res.equals("1")) {
+                        showToast("Success!");
+                        Intent intent = new Intent(KirjauduActivity.this, ValikkoActivity.class);
+                        startActivity(intent);
+                        //error.setText("Correct Username or Password");
+                    } else {
+                        showToast("Failure!");
+                        //error.setText("Sorry!! Incorrect Username or Password");
+                    }
+                } catch (Exception e) {
+
+                    //un.setText(e.toString());
+                }
+                /*
+                // Prepare a request object
+                HttpGet httpget = new HttpGet(url);
+
+                // Execute the request
+                HttpResponse response;
+                try {
+                    response = httpclient.execute(httpget);
+                    // Examine the response status
+                    Log.i("Praeda", response.get);
+                } catch (Exception e) {
+                }
+                showToast("OIKEIN!");
+                //Move to next view
+                */
+
             }
         });
     }
@@ -39,6 +99,13 @@ public class KirjauduActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_kirjaudu, menu);
         return true;
+    }
+
+    public void showToast(String text) {
+        int duration = Toast.LENGTH_SHORT;
+        Context context = getApplicationContext();
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
     @Override
