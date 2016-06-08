@@ -30,21 +30,24 @@
         android:text="monivalinta1"
         android:id="@+id/rbValinta1"
         android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="onRadioButtonClicked"/>
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="monivalinta2"
         android:id="@+id/rbValinta2"
         android:layout_below="@+id/rbValinta1"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="onRadioButtonClicked"/>
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="monivalinta3"
         android:id="@+id/rbValinta3"
         android:layout_below="@+id/rbValinta2"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="onRadioButtonClicked"/>
 
 
 
