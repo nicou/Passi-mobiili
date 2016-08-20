@@ -13,6 +13,7 @@ class CameraView extends SurfaceView implements SurfaceHolder.Callback {
 
     public CameraView(Context context) {
         super(context);
+        
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed
         mHolder = getHolder();
