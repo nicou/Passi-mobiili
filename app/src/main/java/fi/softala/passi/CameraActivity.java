@@ -117,8 +117,9 @@ public class CameraActivity extends Activity {
                         StrictMode.setThreadPolicy(policy);
 
                         try {
-                            URL url = new URL("http://proto280.haaga-helia.fi/");
+                            URL url = new URL("http://proto280.haaga-helia.fi/passibe/http://localhost:8080/passibe/KuvaVastaanottoServlet");
                             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+
 
 
                         } catch (Exception e) {
