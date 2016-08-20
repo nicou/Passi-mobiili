@@ -23,12 +23,20 @@ import org.apache.http.client.methods.HttpPost;
 //import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -106,8 +114,9 @@ public class CameraActivity extends Activity {
                         } catch (Exception e) {
                             Log.e("Still", "Error writing file", e);
                         }
+                        File f = null;
                         try {
-                            File f = new File("/data/data/fi.softala.passi/files/", "mypic.jpg");
+                            f = new File("/data/data/fi.softala.passi/files/", "mypic.jpg");
                             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
 
                         } catch (FileNotFoundException e) {
@@ -116,15 +125,7 @@ public class CameraActivity extends Activity {
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
 
-                        try {
-                            URL url = new URL("http://proto280.haaga-helia.fi/passibe/http://localhost:8080/passibe/KuvaVastaanottoServlet");
-                            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
 
                         // URL url = new URL("http://proto280.haaga-helia.fi/");
                         //jukka
@@ -181,6 +182,29 @@ public class CameraActivity extends Activity {
             }
         });
 
+    }
+
+    private static String readStream(InputStream in) {
+        BufferedReader reader = null;
+        StringBuilder builder = new StringBuilder();
+        try {
+            reader = new BufferedReader(new InputStreamReader(in));
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return builder.toString();
     }
 
 }
