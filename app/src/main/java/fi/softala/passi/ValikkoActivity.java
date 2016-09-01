@@ -16,8 +16,12 @@ public class ValikkoActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(ValikkoActivity.this, GeneerinenKorttiActivity.class);
+
+                Intent intent = new Intent(ValikkoActivity.this, PassinValintaActivity.class);
                 startActivity(intent);
+
+//                Intent intent = new Intent(ValikkoActivity.this, GeneerinenKorttiActivity.class);
+//                startActivity(intent);
             }
         });
     }

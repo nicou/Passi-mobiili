@@ -56,7 +56,7 @@ public class KirjauduActivity extends Activity {
                     res = res.replaceAll("\\s+", "");
                     if (res.equals("1")) {
                         showToast("Success!");
-                        Intent intent = new Intent(KirjauduActivity.this, CameraActivity.class);
+                        Intent intent = new Intent(KirjauduActivity.this, ValikkoActivity.class);
                         startActivity(intent);
                     } else {
                         showToast("Failure!");
