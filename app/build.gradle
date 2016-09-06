@@ -24,6 +24,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
 }
 
+
 android {
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'

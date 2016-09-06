@@ -19,7 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".KirjauduActivity"
             android:label="Kirjaudu" />
@@ -42,11 +41,17 @@
             android:label="@string/title_activity_camera" />
         <activity android:name=".ValikkoActivity" />
         <activity android:name=".PassinValintaActivity" />
-
         <activity android:name=".GeneerinenKorttiActivity" />
         <activity android:name=".TehtavakortinValintaActivity" />
-        <!--<activity android:name=".MainActivity"></activity>-->
-
+        <activity
+            android:name=".Turvallisuuskavely_johdantoActivity"
+            android:label="@string/title_activity_turvallisuuskavely_johdanto" />
+        <activity
+            android:name=".Turvallisuuskavely_suunnitelmaActivity"
+            android:label="@string/title_activity_turvallisuuskavely_suunnitelma" />
+        <activity
+            android:name=".Turvallisuuskavely_toteutusActivity"
+            android:label="@string/title_activity_turvallisuuskavely_toteutus" />
     </application>
 
 </manifest>
