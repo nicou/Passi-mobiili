@@ -21,11 +21,32 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.VideoView;
 import android.util.Log;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class Camera2Activity extends Activity {
@@ -51,6 +72,11 @@ public class Camera2Activity extends Activity {
     private NotificationManager mNotifyManager;
     private Builder mBuilder;
     int id = 1;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     /* Photo album for this application */
@@ -104,7 +130,7 @@ public class Camera2Activity extends Activity {
         Log.v("Passi", "polku kuvaan" + mCurrentPhotoPath);
 
         mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(Camera2Activity.this);
+        mBuilder = new Builder(Camera2Activity.this);
         mBuilder.setContentTitle("Vastaus")
                 .setContentText("Tallennetaan...")
                 .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp);
@@ -134,21 +160,38 @@ public class Camera2Activity extends Activity {
         @Override
         protected Integer doInBackground(String... path) {
             int i;
-            
+            OutputStream outStream = null;
+            File imageBefore = new File(path[0]);
+            File image = saveBitmapToFile(imageBefore);
+            String url = "http://proto284.haaga-helia.fi/passibe/KuvaVastaanottoServlet";
+
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody formBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM).addFormDataPart("file", "image.png",
+                            RequestBody.create(MediaType.parse("image/png"), image))
+                    .build();
+
+            Request request = new Request.Builder().url(url).post(formBody).build();
+
+            Response response = null;
+
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            Log.d("Passi", "Jee " + response);
+            response.close();
             for (i = 0; i <= 100; i += 5) {
-                Log.v("Passi", "polku kuvaan" + path[0] + " pituus " + path.length);
                 // Sets the progress indicator completion percentage
                 publishProgress(Math.min(i, 100));
-                try {
-                    // Sleep for 5 seconds
-                    Thread.sleep(2 * 1000);
-                } catch (InterruptedException e) {
-                    Log.d("TAG", "sleep failure");
-                }
+
             }
             return null;
         }
-
 
 
         @Override
@@ -187,7 +230,7 @@ public class Camera2Activity extends Activity {
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
-		/* Decode the JPEG file into a Bitmap */
+        /* Decode the JPEG file into a Bitmap */
         Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
 
 		/* Associate the Bitmap to the ImageView */
@@ -241,7 +284,48 @@ public class Camera2Activity extends Activity {
         }
 
     }
+    public File saveBitmapToFile(File file){
+        try {
 
+            // BitmapFactory options to downsize the image
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            o.inSampleSize = 6;
+            // factor of downsizing the image
+
+            FileInputStream inputStream = new FileInputStream(file);
+            //Bitmap selectedBitmap = null;
+            BitmapFactory.decodeStream(inputStream, null, o);
+            inputStream.close();
+
+            // The new size we want to scale to
+            final int REQUIRED_SIZE=75;
+
+            // Find the correct scale value. It should be the power of 2.
+            int scale = 1;
+            while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+                    o.outHeight / scale / 2 >= REQUIRED_SIZE) {
+                scale *= 2;
+            }
+
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            inputStream = new FileInputStream(file);
+
+            Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
+            inputStream.close();
+
+            // here i override the original image file
+            file.createNewFile();
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100 , outputStream);
+
+            return file;
+        } catch (Exception e) {
+            return null;
+        }
+    }
     ImageButton.OnClickListener mTakePicOnClickListener =
             new ImageButton.OnClickListener() {
                 @Override
@@ -273,6 +357,9 @@ public class Camera2Activity extends Activity {
 
         mAlbumStorageDirFactory = new BaseAlbumDirFactory();
         dispatchTakePictureIntent(ACTION_TAKE_PHOTO_B);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
