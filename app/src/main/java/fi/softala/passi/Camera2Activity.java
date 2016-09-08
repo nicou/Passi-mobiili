@@ -69,7 +69,7 @@ public class Camera2Activity extends Activity {
             if (storageDir != null) {
                 if (!storageDir.mkdirs()) {
                     if (!storageDir.exists()) {
-                        Log.d("CameraSample", "failed to create directory");
+                        Log.d("Passi", "failed to create directory");
                         return null;
                     }
                 }
@@ -99,19 +99,20 @@ public class Camera2Activity extends Activity {
         return f;
     }
 
-    private void startUpload(String path) {
-        File fol = new File(path);
-        Log.v("TAGI", "usd" + path);
+    private void startUpload() {
+        File fol = new File(mCurrentPhotoPath);
+        Log.v("Passi", "polku kuvaan" + mCurrentPhotoPath);
+
         mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(Camera2Activity.this);
-        mBuilder.setContentTitle("Download")
-                .setContentText("Download in progress")
+        mBuilder.setContentTitle("Vastaus")
+                .setContentText("Tallennetaan...")
                 .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp);
 
-        new Downloader().execute();
+        new UploadImage().execute(mCurrentPhotoPath);
     }
 
-    private class Downloader extends AsyncTask<Void, Integer, Integer> {
+    private class UploadImage extends AsyncTask<String, Integer, Integer> {
 
         @Override
         protected void onPreExecute() {
@@ -131,9 +132,11 @@ public class Camera2Activity extends Activity {
         }
 
         @Override
-        protected Integer doInBackground(Void... params) {
+        protected Integer doInBackground(String... path) {
             int i;
+            
             for (i = 0; i <= 100; i += 5) {
+                Log.v("Passi", "polku kuvaan" + path[0] + " pituus " + path.length);
                 // Sets the progress indicator completion percentage
                 publishProgress(Math.min(i, 100));
                 try {
@@ -146,10 +149,12 @@ public class Camera2Activity extends Activity {
             return null;
         }
 
+
+
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
-            mBuilder.setContentText("Download complete");
+            mBuilder.setContentText("Vastaus tallennettu");
             // Removes the progress bar
             mBuilder.setProgress(0, 0, false);
             mNotifyManager.notify(id, mBuilder.build());
@@ -231,7 +236,7 @@ public class Camera2Activity extends Activity {
         if (mCurrentPhotoPath != null) {
             setPic();
             galleryAddPic();
-            startUpload(mCurrentPhotoPath);
+            startUpload();
             mCurrentPhotoPath = null;
         }
 
