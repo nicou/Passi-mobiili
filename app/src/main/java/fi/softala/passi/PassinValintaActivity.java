@@ -53,4 +53,13 @@ public class PassinValintaActivity extends ActionBarActivity {
             }
         });
     }
+
+    public void onBackPressed() {
+
+        super.onBackPressed();
+        Intent intent = new Intent(PassinValintaActivity.this, ValikkoActivity.class);
+        startActivity(intent);
+
+    }
+
 }

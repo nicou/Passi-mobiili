@@ -120,5 +120,15 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
     }
+
+    public void onBackPressed() {
+
+        super.onBackPressed();
+        Intent intent = new Intent(TehtavakortinValintaActivity.this, PassinValintaActivity.class);
+        startActivity(intent);
+
+    }
+
 }

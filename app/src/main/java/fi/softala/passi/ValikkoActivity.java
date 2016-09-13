@@ -25,4 +25,13 @@ public class ValikkoActivity extends ActionBarActivity {
             }
         });
     }
+
+    public void onBackPressed() {
+
+        super.onBackPressed();
+        Intent intent = new Intent(ValikkoActivity.this, ValikkoActivity.class);
+        startActivity(intent);
+    }
+
+
 }

@@ -37,7 +37,7 @@ public class Turvallisuuskavely_toteutusActivity extends ActionBarActivity {
     public void onBackPressed() {
 
         super.onBackPressed();
-        Intent intent = new Intent(Turvallisuuskavely_toteutusActivity.this, PassinValintaActivity.class);
+        Intent intent = new Intent(Turvallisuuskavely_toteutusActivity.this, TehtavakortinValintaActivity.class);
         startActivity(intent);
 
     }

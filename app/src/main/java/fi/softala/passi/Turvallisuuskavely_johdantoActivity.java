@@ -46,7 +46,7 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
     public void onBackPressed() {
 
         super.onBackPressed();
-        Intent intent = new Intent(Turvallisuuskavely_johdantoActivity.this, PassinValintaActivity.class);
+        Intent intent = new Intent(Turvallisuuskavely_johdantoActivity.this, TehtavakortinValintaActivity.class);
         startActivity(intent);
 
     }
