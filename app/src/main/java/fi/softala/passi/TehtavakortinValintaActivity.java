@@ -102,11 +102,12 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
             }
         });
 
+//          Turvallisuuskävely
         Button button11 = (Button) findViewById(R.id.button11);
         button11.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
+                Intent intent = new Intent(TehtavakortinValintaActivity.this, Turvallisuuskavely_johdantoActivity.class);
                 startActivity(intent);
             }
         });

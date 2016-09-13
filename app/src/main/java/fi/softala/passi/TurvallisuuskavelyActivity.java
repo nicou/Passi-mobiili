@@ -8,6 +8,6 @@ public class TurvallisuuskavelyActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_turvallisuuskavely);
+        setContentView(R.layout.activity_turvallisuuskavely_johdanto);
     }
 }
