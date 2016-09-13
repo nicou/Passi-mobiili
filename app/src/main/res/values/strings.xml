@@ -18,14 +18,19 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
+
     <string name="title_activity_activity_turvallisuuskavely_johdanto">
         activity_turvallisuuskavely_johdanto
     </string>
-    <string name="title_activity_turvallisuuskavely_johdanto">turvallisuuskavely_johdanto</string>
     <string name="title_activity_turvallisuuskavely_suunnitelma">turvallisuuskavely_suunnitelma
     </string>
     <string name="title_activity_turvallisuuskavely_toteutus">turvallisuuskavely_toteutus</string>
     <string name="title_activity_turvallisuuskavelu_suunnittelu">turvallisuuskavelu_suunnittelu
     </string>
+
+    <string name="title_activity_camera2">Camera2Activity</string>
+    <string name="cannot">Cannot</string>
+    <string name="album_name">Passi</string>
+
 
 </resources>

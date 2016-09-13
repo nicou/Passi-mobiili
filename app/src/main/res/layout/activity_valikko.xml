@@ -97,6 +97,13 @@
             android:text=""
             android:padding="3dip"
             android:textSize="30dip"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TestiKamera"
+            android:id="@+id/btCameraTest" />
+
         <TextView
             android:text=""
             android:padding="3dip"
