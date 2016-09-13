@@ -182,22 +182,31 @@ public class Camera2Activity extends Activity {
                 e.printStackTrace();
             }
 
+            int kahvi = 0;
 
             Log.d("Passi", "Jee " + response);
+            if (response.isSuccessful()){
+                kahvi = 1;
+            }
             response.close();
             for (i = 0; i <= 100; i += 5) {
                 // Sets the progress indicator completion percentage
                 publishProgress(Math.min(i, 100));
 
             }
-            return null;
+            return kahvi;
         }
 
 
         @Override
         protected void onPostExecute(Integer result) {
+            Log.d("Passi", "Jee jöö " + result);
             super.onPostExecute(result);
-            mBuilder.setContentText("Vastaus tallennettu");
+            if (result == 1) {
+                mBuilder.setContentText("Vastaus tallennettu");
+            } else {
+                mBuilder.setContentText("Tallennus epäonnistui");
+            }
             // Removes the progress bar
             mBuilder.setProgress(0, 0, false);
             mNotifyManager.notify(id, mBuilder.build());
