@@ -2,6 +2,7 @@ package fi.softala.passi;
 
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,8 +24,10 @@ import android.widget.VideoView;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,6 +39,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okio.Buffer;
+import okio.BufferedSink;
+import okio.BufferedSource;
+import okio.Okio;
 
 
 public class Camera2Activity extends Activity {
@@ -62,6 +69,8 @@ public class Camera2Activity extends Activity {
     private Builder mBuilder;
     int id = 1;
 
+    public static final MediaType MEDIA_TYPE_MARKDOWN
+            = MediaType.parse("text/x-markdown; charset=utf-8");
 
 
     /* Photo album for this application */
@@ -116,9 +125,14 @@ public class Camera2Activity extends Activity {
 
         mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mBuilder = new Builder(Camera2Activity.this);
+        Intent untent = new Intent(Camera2Activity.this, ValikkoActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                untent, 0);
         mBuilder.setContentTitle("Vastaus")
                 .setContentText("Tallennetaan...")
-                .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp);
+                .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
+        .setContentIntent(pendingIntent);
+
 
         new UploadImage().execute(mCurrentPhotoPath);
     }
@@ -170,7 +184,7 @@ public class Camera2Activity extends Activity {
             int kahvi = 0;
 
             Log.d("Passi", "Jee " + response);
-            if (response.isSuccessful()){
+            if (response.isSuccessful() && response != null) {
                 kahvi = 1;
             }
             response.close();
@@ -278,7 +292,8 @@ public class Camera2Activity extends Activity {
         }
 
     }
-    public File saveBitmapToFile(File file){
+
+    public File saveBitmapToFile(File file) {
         try {
 
             // BitmapFactory options to downsize the image
@@ -293,11 +308,11 @@ public class Camera2Activity extends Activity {
             inputStream.close();
 
             // The new size we want to scale to
-            final int REQUIRED_SIZE=75;
+            final int REQUIRED_SIZE = 75;
 
             // Find the correct scale value. It should be the power of 2.
             int scale = 1;
-            while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE &&
                     o.outHeight / scale / 2 >= REQUIRED_SIZE) {
                 scale *= 2;
             }
@@ -313,13 +328,14 @@ public class Camera2Activity extends Activity {
             file.createNewFile();
             FileOutputStream outputStream = new FileOutputStream(file);
 
-            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100 , outputStream);
+            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
             return file;
         } catch (Exception e) {
             return null;
         }
     }
+
     ImageButton.OnClickListener mTakePicOnClickListener =
             new ImageButton.OnClickListener() {
                 @Override
