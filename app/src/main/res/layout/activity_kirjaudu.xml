@@ -53,7 +53,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/etKayttajaTunnus"
             android:layout_column="1"
-            android:background="#fffff7fd" />
+            android:background="#fffff7fd"
+            android:singleLine="true"/>
     </TableRow>
 
     <TableRow>
@@ -84,7 +85,8 @@
             android:id="@+id/etSalasana"
             android:layout_column="1"
             android:background="#fffff7fd"
-            android:password="true" />
+            android:password="true"
+            android:singleLine="true"/>
     </TableRow>
 
     <TableRow>

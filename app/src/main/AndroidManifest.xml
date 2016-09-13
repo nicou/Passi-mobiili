@@ -44,8 +44,7 @@
         <activity android:name=".GeneerinenKorttiActivity" />
         <activity android:name=".TehtavakortinValintaActivity" />
         <activity
-            android:name=".Turvallisuuskavely_johdantoActivity"
-            android:label="@string/title_activity_turvallisuuskavely_johdanto" />
+            android:name=".Turvallisuuskavely_johdantoActivity" />
         <activity
             android:name=".Turvallisuuskavely_suunnitelmaActivity"
             android:label="@string/title_activity_turvallisuuskavely_suunnitelma" />
