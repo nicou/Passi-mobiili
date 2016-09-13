@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,7 +13,11 @@
         <activity
             android:name=".MainActivity"
             android:label="Työkykypassi">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".KirjauduActivity"
@@ -35,12 +39,7 @@
         <activity
             android:name=".CameraActivity"
             android:label="@string/title_activity_camera" />
-        <activity android:name=".ValikkoActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ValikkoActivity" />
         <activity android:name=".PassinValintaActivity" />
         <activity android:name=".GeneerinenKorttiActivity" />
         <activity android:name=".TehtavakortinValintaActivity" />
@@ -52,16 +51,6 @@
         <activity
             android:name=".Turvallisuuskavely_toteutusActivity"
             android:label="@string/title_activity_turvallisuuskavely_toteutus" />
-
-        <activity
-            android:name=".Camera2Activity"
-            android:label="@string/title_activity_camera2">
-
-        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
