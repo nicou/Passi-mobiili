@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
 
@@ -28,6 +29,15 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
 
                 Intent intent = new Intent(Turvallisuuskavely_johdantoActivity.this, Turvallisuuskavely_toteutusActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        ImageButton cameraButton = (ImageButton) findViewById(R.id.button_kamera);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent cameraIntent = new Intent(Turvallisuuskavely_johdantoActivity.this, Camera2Activity.class);
+                startActivity(cameraIntent);
             }
         });
 
