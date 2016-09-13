@@ -55,11 +55,11 @@ public class KirjauduActivity extends Activity {
                     String res = response.toString();
                     res = res.replaceAll("\\s+", "");
                     if (res.equals("1")) {
-                        showToast("Success!");
+                        showToast("Onnistui!");
                         Intent intent = new Intent(KirjauduActivity.this, ValikkoActivity.class);
                         startActivity(intent);
                     } else {
-                        showToast("Failure!");
+                        showToast("Käyttäjätunnus tai salasana väärin!");
                     }
                 } catch (Exception e) {
                 }

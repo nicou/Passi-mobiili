@@ -50,3 +50,7 @@ captures/
 
 ### Android Patch ###
 gen-external-apklibs
+
+app/app.iml
+
+app/app.iml
