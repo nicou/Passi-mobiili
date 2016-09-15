@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".ValikkoActivity"
             android:label="Työkykypassi">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +40,7 @@
         <activity
             android:name=".CameraActivity"
             android:label="@string/title_activity_camera" />
-        <activity android:name=".ValikkoActivity" />
+
         <activity android:name=".PassinValintaActivity" />
         <activity android:name=".GeneerinenKorttiActivity" />
         <activity android:name=".TehtavakortinValintaActivity" />
