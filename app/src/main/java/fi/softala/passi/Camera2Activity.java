@@ -184,7 +184,7 @@ public class Camera2Activity extends Activity {
             int kahvi = 0;
 
             Log.d("Passi", "Jee " + response);
-            if (response.isSuccessful() && response != null) {
+            if (response != null && response.isSuccessful() ) {
                 kahvi = 1;
             }
             response.close();
