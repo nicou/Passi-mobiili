@@ -54,9 +54,7 @@
         <activity
             android:name=".Camera2Activity"
             android:label="@string/title_activity_camera2" />
-        <activity
-            android:name=".turvallisuuskavely_toteutus_2"
-            android:label="@string/title_activity_turvallisuuskavely_toteutus_2"></activity>
+
     </application>
 
 </manifest>
