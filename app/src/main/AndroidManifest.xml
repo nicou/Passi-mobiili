@@ -44,8 +44,7 @@
         <activity android:name=".PassinValintaActivity" />
         <activity android:name=".GeneerinenKorttiActivity" />
         <activity android:name=".TehtavakortinValintaActivity" />
-        <activity
-            android:name=".Turvallisuuskavely_johdantoActivity" />
+        <activity android:name=".Turvallisuuskavely_johdantoActivity" />
         <activity
             android:name=".Turvallisuuskavely_suunnitelmaActivity"
             android:label="@string/title_activity_turvallisuuskavely_suunnitelma" />
@@ -53,8 +52,11 @@
             android:name=".Turvallisuuskavely_toteutusActivity"
             android:label="@string/title_activity_turvallisuuskavely_toteutus" />
         <activity
-                   android:name=".Camera2Activity"
-                   android:label="@string/title_activity_camera2" />
+            android:name=".Camera2Activity"
+            android:label="@string/title_activity_camera2" />
+        <activity
+            android:name=".turvallisuuskavely_toteutus_2"
+            android:label="@string/title_activity_turvallisuuskavely_toteutus_2"></activity>
     </application>
 
 </manifest>

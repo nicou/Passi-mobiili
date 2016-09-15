@@ -107,7 +107,7 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button11.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, Turvallisuuskavely_johdantoActivity.class);
+                Intent intent = new Intent(TehtavakortinValintaActivity.this, turvallisuuskavely_toteutus_2.class);
                 startActivity(intent);
             }
         });
