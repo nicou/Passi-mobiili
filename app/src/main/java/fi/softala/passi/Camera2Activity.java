@@ -184,9 +184,12 @@ public class Camera2Activity extends Activity {
             int kahvi = 0;
 
             Log.d("Passi", "Jee " + response);
-            if (response.isSuccessful() && response != null) {
-                kahvi = 1;
+            if (response != null){
+                if (response.isSuccessful()) {
+                    kahvi = 1;
+                }
             }
+
             response.close();
             for (i = 0; i <= 100; i += 5) {
                 // Sets the progress indicator completion percentage
