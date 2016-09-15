@@ -124,12 +124,12 @@
         android:paddingTop="10px"
         android:paddingBottom="10px" />
     
-    <ImageView
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/kameranappi"
 
-        android:id="@+id/imageView16"
+        android:id="@+id/button_kamera"
         android:layout_marginTop="55dp"
         android:layout_below="@+id/imageView17"
         android:layout_toRightOf="@+id/imageView8"
