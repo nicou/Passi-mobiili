@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -46,11 +47,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Jokainen ammattilainen huolehtii työturvallisuudesta työpaikalla. On tärkeää tunnistaa ja torjua työhön liittyviä vaaroja. Turvallisuuskävelyssä kierretään työympäristön kannalta tärkeitä paikkoja ja arvioidaan turvallisuustasoa. Toteuta yksin tai ryhmässä turvallisuuskävely oppilaitoksessa. Suunnitelkaa etukäteen reitti ja toteutusajankohta. Esittäkää suunnitelma opettajalle ennen toteuttamista.  "
+                        android:text="Jokainen ammattilainen huolehtii työturvallisuudesta työpaikalla. On tärkeää tunnistaa ja torjua työhön liittyviä vaaroja. Turvallisuuskävelyssä kierretään työympäristön kannalta tärkeitä paikkoja ja arvioidaan turvallisuustasoa. Toteuta yksin tai ryhmässä turvallisuuskävely oppilaitoksessa. Suunnitelkaa etukäteen reitti ja toteutusajankohta. Esittäkää suunnitelma opettajalle ennen toteuttamista. chakalalakakaklalakaklakaklalakalkalak "
                         android:textSize="20dp"
                         android:id="@+id/textView1"
-
-
+                        android:scrollbars="vertical"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingBottom="15dp"
+                        android:paddingTop="15dp"
                         />
 
                 </LinearLayout>
@@ -58,16 +62,39 @@
                 <LinearLayout
                     android:id="@+id/Suunnitelma"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="Kirjoita turvallisuuskävelyn kohteet (5 paikkaa) ja reitti alapuolelle"
                         android:textSize="20dp"
-                        android:id="@+id/textView2"/>
+                        android:id="@+id/textView2"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingBottom="15dp"
+                        android:paddingTop="15dp"
+                        android:layout_gravity="top"/>
+
+
+                    <EditText
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:ems="10"
+                        android:lines="10"
+                        android:id="@+id/editText4"
+
+                        android:hint="Kirjoita vastauksesi tähän"
+                        android:layout_width="match_parent"
+                        android:gravity="top|center_vertical"
+                        android:layout_gravity="start"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingBottom="15dp"
+                        android:paddingTop="15dp" />
+
 
 
                 </LinearLayout>
@@ -76,8 +103,17 @@
                     android:id="@+id/Toteutus"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"></LinearLayout>
+                    android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        </RelativeLayout>
+
+                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
+        
     </TabHost>
 </RelativeLayout>
