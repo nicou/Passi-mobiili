@@ -13,8 +13,10 @@
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:elevation="10dp"
+        android:textSize="30sp"
         android:background="#ffffcc">
         <android.support.design.widget.TextInputLayout
+            android:textSize="30sp"
             android:id="@+id/usernameWrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

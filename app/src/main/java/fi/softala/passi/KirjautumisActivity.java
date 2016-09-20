@@ -32,10 +32,12 @@ public class KirjautumisActivity extends Activity {
             public void onClick(View v) {
                 hideKeyboard();
                 String username = usernameWrapper.getEditText().getText().toString();
-                String password = usernameWrapper.getEditText().getText().toString();
+                String password = passwordWrapper.getEditText().getText().toString();
                 if (!validateEmail(username)) {
+                    usernameWrapper.requestFocus();
                     usernameWrapper.setError("Käyttäjänimi liian lyhyt!");
                 } else if (!validatePassword(password)) {
+                    passwordWrapper.requestFocus();
                     passwordWrapper.setError("Salasana liian lyhyt!");
                 } else {
                     usernameWrapper.setErrorEnabled(false);
