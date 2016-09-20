@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Credentials;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
+
+import static fi.softala.passi.R.id.password;
 
 /**
  * Created by villeaaltonen on 15/09/16.
@@ -77,14 +80,16 @@ public class KirjautumisActivity extends Activity {
                 }, 3000);
     }
 
-    @Override
     public void onBackPressed() {
-        // disable going back to the MainActivity
-        moveTaskToBack(true);
+        super.onBackPressed();
+        Intent intent = new Intent(KirjautumisActivity.this, MainActivity.class);
+        startActivity(intent);
+
     }
 
     public void onLoginSuccess() {
         // btn.setEnabled(true);
+
         Intent valikko = new Intent(KirjautumisActivity.this, ValikkoActivity.class);
         startActivity(valikko);
     }
