@@ -6,40 +6,40 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TabHost;
+import android.widget.TabWidget;
 
 public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
+
+    TabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_turvallisuuskavely_johdanto);
 
-        Button button1 = (Button) findViewById(R.id.button1);
-        button1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
 
-                Intent intent = new Intent(Turvallisuuskavely_johdantoActivity.this, Turvallisuuskavely_suunnitelmaActivity.class);
-                startActivity(intent);
-            }
-        });
+        TabHost host= (TabHost)findViewById(R.id.tabHost);
+        host.setup();
 
-        Button button2 = (Button) findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("Tab One");
+        spec.setContent(R.id.Johdanto);
+        spec.setIndicator("Johdanto");
+        host.addTab(spec);
 
-                Intent intent = new Intent(Turvallisuuskavely_johdantoActivity.this, Turvallisuuskavely_toteutusActivity.class);
-                startActivity(intent);
-            }
-        });
+        //Tab 2
+        spec = host.newTabSpec("Tab Two");
+        spec.setContent(R.id.Suunnitelma);
+        spec.setIndicator("Suunnitelma");
+        host.addTab(spec);
 
-        ImageButton cameraButton = (ImageButton) findViewById(R.id.button_kamera);
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent cameraIntent = new Intent(Turvallisuuskavely_johdantoActivity.this, Camera2Activity.class);
-                startActivity(cameraIntent);
-            }
-        });
+        //Tab 3
+        spec = host.newTabSpec("Tab Three");
+        spec.setContent(R.id.Toteutus);
+        spec.setIndicator("Toteutus");
+        host.addTab(spec);
+
 
     }
 
@@ -50,5 +50,4 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         startActivity(intent);
 
     }
-
 }

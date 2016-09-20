@@ -6,150 +6,71 @@
     tools:context="fi.softala.passi.Turvallisuuskavely_johdantoActivity"
     android:background="@drawable/background">
 
-    <ImageView
+
+
+    <TabHost
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/palkki_kelt"
-        android:adjustViewBounds="true"
-        />
-
-
-
-    <ImageView
-        android:src="@drawable/valilehti_nappula"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|left|top"
-        android:cropToPadding="false"
-        android:adjustViewBounds="false"
-        android:layout_alignTop="@+id/imageView4"
-        android:layout_alignLeft="@+id/imageView4"
-        android:layout_alignStart="@+id/imageView4"
-        android:id="@+id/imageView5" />
-
-
-    <ImageView
-        android:src="@drawable/suunnitelma_valilehti"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="false"
-        android:cropToPadding="false"
-        android:layout_alignParentBottom="true"
+        android:layout_height="match_parent"
+        android:id="@+id/tabHost"
+        android:background="@drawable/valilehdet"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/imageView4" />
+        android:layout_marginTop="233dp"
+        android:layout_marginLeft="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/Johdanto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:showDividers="none"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Jokainen ammattilainen huolehtii työturvallisuudesta työpaikalla. On tärkeää tunnistaa ja torjua työhön liittyviä vaaroja. Turvallisuuskävelyssä kierretään työympäristön kannalta tärkeitä paikkoja ja arvioidaan turvallisuustasoa. Toteuta yksin tai ryhmässä turvallisuuskävely oppilaitoksessa. Suunnitelkaa etukäteen reitti ja toteutusajankohta. Esittäkää suunnitelma opettajalle ennen toteuttamista.  "
+                        android:textSize="20dp"
+                        android:id="@+id/textView10"
 
 
-    <ImageView
-        android:src="@drawable/toteutus_valilehti"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="false"
-        android:cropToPadding="false"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        />
+                        />
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Johdanto"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:id="@+id/textView1"
-                android:layout_alignTop="@+id/imageView5"
-                android:layout_alignLeft="@+id/imageView5"
-                android:layout_alignStart="@+id/imageView5" />
+                <LinearLayout
+                    android:id="@+id/Suunnitelma"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="mosdomdsoasdmoamd"/>
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Suunnitelma"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:layout_alignTop="@+id/textView1"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/textView2" />
-
-            <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="Toteutus"
-                 android:textSize="20dp"
-                 android:textStyle="bold"
-                android:textAlignment="center"
-                 android:layout_alignTop="@+id/textView1"
-                 android:layout_toRightOf="@+id/textView2"
-                 android:layout_toEndOf="@+id/textView2"
-                 android:id="@+id/textView3"/>
-
-
-
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_alignTop="@+id/imageView5"
-                android:layout_alignBottom="@+id/imageView5"
-                android:layout_alignRight="@+id/textView2"
-                android:layout_alignLeft="@+id/textView2"
-                android:layout_centerHorizontal="true" />
-
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:layout_gravity="right|top"
-                android:layout_alignTop="@+id/imageView5"
-                android:layout_alignBottom="@+id/imageView5"
-                android:layout_alignRight="@+id/textView3"
-                android:layout_alignLeft="@+id/textView3" />
-
-    <Button
-        android:id="@+id/button_tallenna"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/nappi"
-        android:text="Tallenna"
-        android:textAlignment="center"
-        android:background="@drawable/nappi"
-        android:layout_marginBottom="47dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/button1"
-        android:layout_toStartOf="@+id/button1" />
-
-    <Button
-        android:id="@+id/button_peruuta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/nappi"
-        android:text="Peruuta"
-        android:textAlignment="center"
-        android:layout_alignTop="@+id/button_tallenna"
-        android:layout_alignRight="@+id/button2"
-        android:layout_alignEnd="@+id/button2" />
-
-
-    <ImageButton
-        android:id="@+id/button_kamera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/kamera_icon"
-        android:layout_above="@+id/button_peruuta"
-        android:layout_alignLeft="@+id/button_peruuta"
-        android:layout_alignStart="@+id/button_peruuta"
-        android:layout_marginBottom="43dp" />
-
-
-
-
-
-
+                <LinearLayout
+                    android:id="@+id/Toteutus"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"></LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
 </RelativeLayout>

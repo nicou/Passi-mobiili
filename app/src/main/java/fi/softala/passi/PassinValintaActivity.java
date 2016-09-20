@@ -48,7 +48,7 @@ public class PassinValintaActivity extends ActionBarActivity {
         button5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(PassinValintaActivity.this, turvallisuuskavely_toteutus_2.class);
+                Intent intent = new Intent(PassinValintaActivity.this, TehtavakortinValintaActivity.class);
                 startActivity(intent);
             }
         });
