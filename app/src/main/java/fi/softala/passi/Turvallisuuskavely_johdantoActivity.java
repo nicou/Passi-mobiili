@@ -1,6 +1,7 @@
 package fi.softala.passi;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -19,8 +20,23 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         setContentView(R.layout.activity_turvallisuuskavely_johdanto);
 
 
-        TabHost host= (TabHost)findViewById(R.id.tabHost);
+        final TabHost host= (TabHost)findViewById(R.id.tabHost);
         host.setup();
+
+
+        host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+
+                for(int i = 0; i < host.getTabWidget().getChildCount(); i++) {
+                    host.getTabWidget().getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                }
+
+
+                host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundResource(R.drawable.valilehti_nappula);
+            }
+        });
+
 
         //Tab 1
         TabHost.TabSpec spec = host.newTabSpec("Tab One");
@@ -41,6 +57,7 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         host.addTab(spec);
 
 
+
     }
 
     public void onBackPressed() {
@@ -50,4 +67,8 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         startActivity(intent);
 
     }
+
+
+
+
 }
