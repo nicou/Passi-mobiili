@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.TextView;
 
 public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
 
@@ -62,7 +64,16 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         host.getTabWidget().getChildAt(host.getCurrentTab()). setBackgroundColor(Color.TRANSPARENT);
 
 
+        TextView tv = (TextView) findViewById(R.id.textView1);
+        tv.setMovementMethod(new ScrollingMovementMethod());
+
+
+
     }
+
+
+
+
 
     public void onBackPressed() {
 
