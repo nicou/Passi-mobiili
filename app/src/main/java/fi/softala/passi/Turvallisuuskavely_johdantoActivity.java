@@ -23,18 +23,17 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         final TabHost host= (TabHost)findViewById(R.id.tabHost);
         host.setup();
 
-
         host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
 
                 for(int i = 0; i < host.getTabWidget().getChildCount(); i++) {
-                    host.getTabWidget().getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                    host.getTabWidget().getChildAt(i).setBackgroundResource(R.drawable.valilehti_nappula);
                 }
 
-
-                host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundResource(R.drawable.valilehti_nappula);
+                host.getTabWidget().getChildAt(host.getCurrentTab()). setBackgroundColor(Color.TRANSPARENT);
             }
+
         });
 
 
@@ -56,6 +55,11 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         spec.setIndicator("Toteutus");
         host.addTab(spec);
 
+        for(int i = 0; i < host.getTabWidget().getChildCount(); i++) {
+            host.getTabWidget().getChildAt(i).setBackgroundResource(R.drawable.valilehti_nappula);
+        }
+
+        host.getTabWidget().getChildAt(host.getCurrentTab()). setBackgroundColor(Color.TRANSPARENT);
 
 
     }
@@ -67,6 +71,7 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         startActivity(intent);
 
     }
+
 
 
 
