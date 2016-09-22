@@ -103,7 +103,7 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         }
     }
 
-    
+
 
 
 
