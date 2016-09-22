@@ -4,9 +4,14 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">#3fa5e4</item>
     </style>
+
     <style name="AppTheme_Dark_Dialog" parent="Theme.AppCompat.Dialog">
         <item name="colorAccent">#FFFFFF</item>
         <item name="android:textColorPrimary">#CCCCCC</item>
         <item name="android:background">#3fa5e4</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

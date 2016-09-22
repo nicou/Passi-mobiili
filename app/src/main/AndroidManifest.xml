@@ -16,12 +16,13 @@
             android:label="Työkykypassi">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".KirjautumisActivity"
-            android:label="Kirjautuminen">
-        </activity>
+        <activity
+            android:name=".KirjautumisActivity"
+            android:label="Kirjautuminen"></activity>
         <activity
             android:name=".KirjauduActivity"
             android:label="Kirjaudu" />
@@ -42,7 +43,7 @@
         <activity
             android:name=".CameraActivity"
             android:label="@string/title_activity_camera" />
-        <activity android:name=".ValikkoActivity"/>
+        <activity android:name=".ValikkoActivity" />
         <activity android:name=".PassinValintaActivity" />
         <activity android:name=".GeneerinenKorttiActivity" />
         <activity android:name=".TehtavakortinValintaActivity" />
@@ -56,7 +57,6 @@
         <activity
             android:name=".Camera2Activity"
             android:label="@string/title_activity_camera2" />
-
     </application>
 
 </manifest>
