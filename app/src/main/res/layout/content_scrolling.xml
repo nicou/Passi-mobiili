@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="fi.softala.passi.ScrollingActivity"
-    tools:showIn="@layout/activity_scrolling">
+>
 
     <LinearLayout
         android:id="@+id/Toteutus"
@@ -18,6 +17,28 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="352dp">
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textImeMultiLine"
+                android:text="Etappi 1. Arvioi ja kuvaile turvallisuus tasoa. Ota kuva kohteesta."
+                android:ems="10"
+                android:lines="3"
+                android:minLines="3"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/editText50"
+                android:layout_alignStart="@+id/editText50"
+                android:id="@+id/editText20"
+                android:layout_alignRight="@+id/imageButton50"
+                android:layout_alignEnd="@+id/imageButton50"
+                android:singleLine="false"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:gravity="top|left|center_vertical"
+                android:clickable="false"
+                android:editable="false"
+                android:enabled="false" />
 
 
             <ImageButton
@@ -49,60 +70,48 @@
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <RadioButton
-                android:text="Vaarallinen tai selkeitä puuteita"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton40"
-                android:button="@drawable/red_face"
-                android:layout_above="@+id/editText50"
-                android:layout_alignRight="@+id/editText50"
-                android:layout_alignEnd="@+id/editText50"
-                android:layout_marginBottom="40dp" />
-
-            <RadioButton
-                android:text="Korjattavaa löytyy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton30"
-                android:button="@drawable/yellow_face"
-                android:layout_above="@+id/radioButton40"
-                android:layout_alignLeft="@+id/radioButton40"
-                android:layout_alignStart="@+id/radioButton40"
-                android:layout_marginBottom="14dp" />
+                android:layout_height="match_parent"
+                android:id="@+id/radio1"
+                android:layout_below="@+id/editText20"
+>
 
                 <RadioButton
-                    android:text="Kaikki OK"
+                        android:text="Kaikki OK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radioButton20"
+                        android:button="@drawable/green_face"
+                        android:layout_above="@+id/radioButton30"
+                        android:layout_alignLeft="@+id/radioButton30"
+                        android:layout_alignStart="@+id/radioButton30"
+                        android:layout_marginBottom="12dp" />
+
+
+                <RadioButton
+                        android:text="Korjattavaa löytyy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radioButton30"
+                        android:button="@drawable/yellow_face"
+                    android:layout_marginBottom="11dp"
+                    android:layout_above="@+id/radioButton40"
+                    android:layout_alignRight="@+id/radioButton40"
+                    android:layout_alignEnd="@+id/radioButton40"
+                    android:layout_marginRight="100dp"
+                    android:layout_marginEnd="100dp" />
+
+                <RadioButton
+                    android:text="Vaarallinen tai selkeitä puuteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radioButton20"
-                    android:button="@drawable/green_face"
-                    android:layout_above="@+id/radioButton30"
-                    android:layout_alignLeft="@+id/radioButton30"
-                    android:layout_alignStart="@+id/radioButton30"
-                    android:layout_marginBottom="12dp" />
+                    android:id="@+id/radioButton40"
+                    android:button="@drawable/red_face"
+                    android:layout_marginBottom="40dp"
+                    android:layout_above="@+id/editText50"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
             </RadioGroup>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textImeMultiLine"
-                android:text="Etappi 1. Arvioi ja kuvaile turvallisuus tasoa. Ota kuva kohteesta."
-                android:ems="10"
-                android:lines="2"
-                android:minLines="2"
-                android:layout_alignParentTop="true"
-                android:layout_alignLeft="@+id/editText50"
-                android:layout_alignStart="@+id/editText50"
-                android:id="@+id/editText20"
-                android:layout_above="@+id/radioButton20"
-                android:layout_alignRight="@+id/imageButton50"
-                android:layout_alignEnd="@+id/imageButton50"
-                android:singleLine="false"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:gravity="top|left|center_vertical"
-                />
 
         </RelativeLayout>
 
@@ -139,17 +148,21 @@
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <RadioButton
-                android:text="Vaarallinen tai selkeitä puuteita"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton41"
-                android:button="@drawable/red_face"
-                android:layout_above="@+id/editText51"
-                android:layout_alignRight="@+id/editText51"
-                android:layout_alignEnd="@+id/editText51"
-                android:layout_marginBottom="40dp" />
+                android:layout_height="match_parent"
+                android:layout_below="@+id/editText21"
+                android:id="@+id/radio2"
+                >
+                <RadioButton
+                    android:text="Kaikki OK"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton21"
+                    android:button="@drawable/green_face"
+                    android:layout_above="@+id/radioButton31"
+                    android:layout_alignLeft="@+id/radioButton31"
+                    android:layout_alignStart="@+id/radioButton31"
+                    android:layout_marginBottom="12dp" />
+
 
             <RadioButton
                 android:text="Korjattavaa löytyy"
@@ -161,17 +174,17 @@
                 android:layout_alignLeft="@+id/radioButton41"
                 android:layout_alignStart="@+id/radioButton41"
                 android:layout_marginBottom="14dp" />
+                <RadioButton
+                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton41"
+                    android:button="@drawable/red_face"
+                    android:layout_above="@+id/editText51"
+                    android:layout_alignRight="@+id/editText51"
+                    android:layout_alignEnd="@+id/editText51"
+                    android:layout_marginBottom="40dp" />
 
-            <RadioButton
-                android:text="Kaikki OK"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton21"
-                android:button="@drawable/green_face"
-                android:layout_above="@+id/radioButton31"
-                android:layout_alignLeft="@+id/radioButton31"
-                android:layout_alignStart="@+id/radioButton31"
-                android:layout_marginBottom="12dp" />
 
             </RadioGroup>
             <EditText
@@ -186,13 +199,14 @@
                 android:layout_alignLeft="@+id/editText51"
                 android:layout_alignStart="@+id/editText51"
                 android:id="@+id/editText21"
-                android:layout_above="@+id/radioButton21"
                 android:layout_alignRight="@+id/imageButton51"
                 android:layout_alignEnd="@+id/imageButton51"
                 android:singleLine="false"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:gravity="top|left|center_vertical"
-                />
+                android:clickable="false"
+                android:editable="false"
+                android:enabled="false"  />
 
         </RelativeLayout>
         <RelativeLayout
@@ -228,17 +242,20 @@
                 android:layout_marginStart="10dp" />
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <RadioButton
-                android:text="Vaarallinen tai selkeitä puuteita"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton42"
-                android:button="@drawable/red_face"
-                android:layout_above="@+id/editText52"
-                android:layout_alignRight="@+id/editText52"
-                android:layout_alignEnd="@+id/editText52"
-                android:layout_marginBottom="40dp" />
+                android:layout_height="match_parent"
+                android:layout_below="@+id/editText22"
+                android:id="@+id/radio3"
+                >
+                <RadioButton
+                    android:text="Kaikki OK"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton22"
+                    android:button="@drawable/green_face"
+                    android:layout_above="@+id/radioButton32"
+                    android:layout_alignLeft="@+id/radioButton32"
+                    android:layout_alignStart="@+id/radioButton32"
+                    android:layout_marginBottom="12dp" />
 
             <RadioButton
                 android:text="Korjattavaa löytyy"
@@ -251,16 +268,18 @@
                 android:layout_alignStart="@+id/radioButton42"
                 android:layout_marginBottom="14dp" />
 
-            <RadioButton
-                android:text="Kaikki OK"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton22"
-                android:button="@drawable/green_face"
-                android:layout_above="@+id/radioButton32"
-                android:layout_alignLeft="@+id/radioButton32"
-                android:layout_alignStart="@+id/radioButton32"
-                android:layout_marginBottom="12dp" />
+
+
+                <RadioButton
+                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton42"
+                    android:button="@drawable/red_face"
+                    android:layout_above="@+id/editText52"
+                    android:layout_alignRight="@+id/editText52"
+                    android:layout_alignEnd="@+id/editText52"
+                    android:layout_marginBottom="40dp" />
             </RadioGroup>
             <EditText
                 android:layout_width="wrap_content"
@@ -274,13 +293,14 @@
                 android:layout_alignLeft="@+id/editText52"
                 android:layout_alignStart="@+id/editText52"
                 android:id="@+id/editText22"
-                android:layout_above="@+id/radioButton22"
                 android:layout_alignRight="@+id/imageButton52"
                 android:layout_alignEnd="@+id/imageButton52"
                 android:singleLine="false"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:gravity="top|left|center_vertical"
-                />
+                android:clickable="false"
+                android:editable="false"
+                android:enabled="false" />
 
         </RelativeLayout>
         <RelativeLayout
@@ -309,7 +329,7 @@
                 android:ems="10"
                 android:id="@+id/editText53"
                 android:gravity="top|left"
-                android:layout_alignBottom="@+id/imageButton52"
+                android:layout_alignBottom="@+id/imageButton53"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="10dp"
@@ -317,17 +337,20 @@
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <RadioButton
-                android:text="Vaarallinen tai selkeitä puuteita"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton43"
-                android:button="@drawable/red_face"
-                android:layout_above="@+id/editText53"
-                android:layout_alignRight="@+id/editText53"
-                android:layout_alignEnd="@+id/editText53"
-                android:layout_marginBottom="40dp" />
+                android:layout_height="match_parent"
+                android:layout_below="@+id/editText23"
+                android:id="@+id/radio4"
+                >
+                <RadioButton
+                    android:text="Kaikki OK"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton23"
+                    android:button="@drawable/green_face"
+                    android:layout_above="@+id/radioButton33"
+                    android:layout_alignLeft="@+id/radioButton33"
+                    android:layout_alignStart="@+id/radioButton33"
+                    android:layout_marginBottom="12dp" />
 
             <RadioButton
                 android:text="Korjattavaa löytyy"
@@ -340,16 +363,19 @@
                 android:layout_alignStart="@+id/radioButton43"
                 android:layout_marginBottom="14dp" />
 
-            <RadioButton
-                android:text="Kaikki OK"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton23"
-                android:button="@drawable/green_face"
-                android:layout_above="@+id/radioButton33"
-                android:layout_alignLeft="@+id/radioButton33"
-                android:layout_alignStart="@+id/radioButton33"
-                android:layout_marginBottom="12dp" />
+                <RadioButton
+                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton43"
+                    android:button="@drawable/red_face"
+                    android:layout_above="@+id/editText53"
+                    android:layout_alignRight="@+id/editText53"
+                    android:layout_alignEnd="@+id/editText53"
+                    android:layout_marginBottom="40dp" />
+
+
+
 
             </RadioGroup>
 
@@ -365,13 +391,14 @@
                 android:layout_alignLeft="@+id/editText53"
                 android:layout_alignStart="@+id/editText53"
                 android:id="@+id/editText23"
-                android:layout_above="@+id/radioButton23"
                 android:layout_alignRight="@+id/imageButton53"
                 android:layout_alignEnd="@+id/imageButton53"
                 android:singleLine="false"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:gravity="top|left|center_vertical"
-                />
+                android:clickable="false"
+                android:editable="false"
+                android:enabled="false"  />
 
         </RelativeLayout>
         <RelativeLayout
@@ -408,18 +435,21 @@
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_below="@+id/editText24"
+                android:id="@+id/radio5"
+                >
+                <RadioButton
+                    android:text="Kaikki OK"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton24"
+                    android:button="@drawable/green_face"
+                    android:layout_above="@+id/radioButton34"
+                    android:layout_alignLeft="@+id/radioButton34"
+                    android:layout_alignStart="@+id/radioButton34"
+                    android:layout_marginBottom="12dp" />
 
-            <RadioButton
-                android:text="Vaarallinen tai selkeitä puuteita"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton44"
-                android:button="@drawable/red_face"
-                android:layout_above="@+id/editText54"
-                android:layout_alignRight="@+id/editText54"
-                android:layout_alignEnd="@+id/editText54"
-                android:layout_marginBottom="40dp" />
 
             <RadioButton
                 android:text="Korjattavaa löytyy"
@@ -432,36 +462,39 @@
                 android:layout_alignStart="@+id/radioButton44"
                 android:layout_marginBottom="14dp" />
 
-            <RadioButton
-                android:text="Kaikki OK"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton24"
-                android:button="@drawable/green_face"
-                android:layout_above="@+id/radioButton34"
-                android:layout_alignLeft="@+id/radioButton34"
-                android:layout_alignStart="@+id/radioButton34"
-                android:layout_marginBottom="12dp" />
+                <RadioButton
+                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton44"
+                    android:button="@drawable/red_face"
+                    android:layout_above="@+id/editText54"
+                    android:layout_alignRight="@+id/editText54"
+                    android:layout_alignEnd="@+id/editText54"
+                    android:layout_marginBottom="40dp" />
+
+
             </RadioGroup>
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textImeMultiLine"
-                android:text="Etappi 5. Arvioi ja kuvaile turvallisuus tasoa. Ota kuva kohteesta."
+                android:text="Etappi 5.  Arvioi ja kuvaile turvallisuus tasoa. Ota kuva kohteesta."
                 android:ems="10"
                 android:lines="2"
                 android:minLines="2"
                 android:layout_alignParentTop="true"
                 android:layout_alignLeft="@+id/editText54"
                 android:layout_alignStart="@+id/editText54"
-                android:id="@+id/editText22"
-                android:layout_above="@+id/radioButton24"
+                android:id="@+id/editText24"
                 android:layout_alignRight="@+id/imageButton54"
                 android:layout_alignEnd="@+id/imageButton54"
                 android:singleLine="false"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:gravity="top|left|center_vertical"
-                />
+                android:clickable="false"
+                android:editable="false"
+                android:enabled="false" />
 
         </RelativeLayout>
 
