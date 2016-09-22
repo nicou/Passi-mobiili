@@ -16,7 +16,7 @@
         android:textSize="30sp"
         android:background="#ffffcc">
         <android.support.design.widget.TextInputLayout
-            android:textSize="30sp"
+
             android:id="@+id/usernameWrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,8 +30,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="Username"
-                android:textColor="#3498db"/>
+                android:hint="Käyttäjätunnus"
+                android:ems="10"
+                android:maxLines="1"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -50,10 +51,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="Password"
-                android:textColor="#3498db"/>
+                android:maxLines="1"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:ems="10"
+                android:hint="Salasana"/>
 
         </android.support.design.widget.TextInputLayout>
+
 
         <Button
             android:id="@+id/btn"

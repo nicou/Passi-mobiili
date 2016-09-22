@@ -12,7 +12,7 @@
         android:layout_weight="0.2"
         android:orientation="vertical"
         android:elevation="10dp"
-        android:background="#ffffcc"
+        android:background="#f7f5e9"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp">
 
@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="Tervetuloa työkykypassiin"
-            android:textSize="35sp"
+            android:text="TERVETULOA TYÖKYKYPASSIIN"
+            android:textSize="30sp"
             android:padding="10dp"
             android:textColor="#3498db"
             />

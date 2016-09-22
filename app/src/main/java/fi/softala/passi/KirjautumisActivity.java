@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Credentials;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -36,48 +37,65 @@ public class KirjautumisActivity extends Activity {
                 hideKeyboard();
                 String username = usernameWrapper.getEditText().getText().toString();
                 String password = passwordWrapper.getEditText().getText().toString();
-                if (!validateEmail(username)) {
+                if (!validateUsername(username)) {
+                    if (validatePassword(password)) {
+                        passwordWrapper.setErrorEnabled(false);
+                    }
                     usernameWrapper.requestFocus();
                     usernameWrapper.setError("Käyttäjänimi liian lyhyt!");
                 } else if (!validatePassword(password)) {
+                    if (validateUsername(username)) {
+                        usernameWrapper.setErrorEnabled(false);
+                    }
                     passwordWrapper.requestFocus();
                     passwordWrapper.setError("Salasana liian lyhyt!");
                 } else {
                     usernameWrapper.setErrorEnabled(false);
                     passwordWrapper.setErrorEnabled(false);
-                    doLogin();
+                    doLogin(username, password);
                 }
             }
         });
 
     }
 
-    public boolean validateEmail(String email) {
-        return email.length() > 5;
+    public boolean validateUsername(String username) {
+        return username.length() > 4;
     }
 
     public boolean validatePassword(String password) {
-        return password.length() > 5;
+        return password.length() > 4;
     }
 
-    public void doLogin() {
+    public void doLogin(String username,String password) {
         final ProgressDialog progressDialog = new ProgressDialog(KirjautumisActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Kirjaudutaan...");
         progressDialog.show();
-
+        Log.d("Passi", username + " username " + password + " password");
         // TODO: Implement your own authentication logic here.
+        if (username.equals("admin") && password.equals("admin")) {
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+                            // On complete call either onLoginSuccess or onLoginFailed
+                            onLoginSuccess();
+                            // onLoginFailed();
+                            progressDialog.dismiss();
+                        }
+                    }, 3000);
+        } else {
+            progressDialog.dismiss();
+            int duration = Toast.LENGTH_LONG;
+            String text = "Salasana tai käyttäjänimi väärin";
+            Context context = getApplicationContext();
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+
+
     }
 
     public void onBackPressed() {
