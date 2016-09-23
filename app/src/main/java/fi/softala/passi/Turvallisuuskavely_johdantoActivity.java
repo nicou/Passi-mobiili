@@ -52,6 +52,7 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
     private NotificationManager mNotifyManager;
     private NotificationCompat.Builder mBuilder;
     int id = 1;
+    int kameraButtons = 0;
     final int RC_TAKE_PHOTO = 1;
 
 
@@ -107,39 +108,65 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         TextView tv = (TextView) findViewById(R.id.textView1);
         tv.setMovementMethod(new ScrollingMovementMethod());
 
+
+
+    }
+    public void onButtonClick(View view) {
+        if (view.getId() == R.id.kameraButton1) {
+            kameraButtons = 1;
+        } else if (view.getId() == R.id.kameraButton2){
+            kameraButtons = 2;
+        }else if (view.getId() == R.id.kameraButton3){
+            kameraButtons = 3;
+        }else if (view.getId() == R.id.kameraButton4){
+            kameraButtons = 4;
+        }else if (view.getId() == R.id.kameraButton5){
+            kameraButtons = 5;
+        }
+        Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        file = new File(Turvallisuuskavely_johdantoActivity.this.getExternalCacheDir(),
+                String.valueOf(System.currentTimeMillis() + ".jpg"));
+        fileUri = Uri.fromFile(file);
+        kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        Turvallisuuskavely_johdantoActivity.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Turvallisuuskavely_johdantoActivity.super.onActivityResult(requestCode, resultCode, data);
         ImageButton kameraButton1 = (ImageButton) findViewById(R.id.kameraButton1);
         ImageButton kameraButton2 = (ImageButton) findViewById(R.id.kameraButton2);
         ImageButton kameraButton3 = (ImageButton) findViewById(R.id.kameraButton3);
         ImageButton kameraButton4 = (ImageButton) findViewById(R.id.kameraButton4);
         ImageButton kameraButton5 = (ImageButton) findViewById(R.id.kameraButton5);
 
-        kameraButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                file = new File(Turvallisuuskavely_johdantoActivity.this.getExternalCacheDir(),
-                        String.valueOf(System.currentTimeMillis() + ".jpg"));
-                fileUri = Uri.fromFile(file);
-                kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-                Turvallisuuskavely_johdantoActivity.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
-            }
-        });
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Turvallisuuskavely_johdantoActivity.super.onActivityResult(requestCode, resultCode, data);
-        ImageButton kameraButton = (ImageButton) findViewById(R.id.kameraButton1);
-
         if (requestCode == RC_TAKE_PHOTO && resultCode == RESULT_OK){
             stringUri = fileUri.toString();
             mCurrentPhotoPath = stringUri;
             Log.e("Passi ", stringUri);
             Context context = getApplicationContext();
-            kameraButton.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
-            );
-            kameraButton.setEnabled(false);
+            if (kameraButtons == 1) {
+                kameraButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                );
+                kameraButton1.setEnabled(false);
+            } else if (kameraButtons == 2) {
+                kameraButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                );
+                kameraButton2.setEnabled(false);
+            } else if (kameraButtons == 3) {
+                kameraButton3.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                );
+                kameraButton3.setEnabled(false);
+            } else if (kameraButtons == 4) {
+                kameraButton4.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                );
+                kameraButton4.setEnabled(false);
+            } else if (kameraButtons == 5) {
+                kameraButton5.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                );
+                kameraButton5.setEnabled(false);
+            }
+
         }
     }
 
