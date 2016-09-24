@@ -20,8 +20,6 @@ public class ValikkoActivity extends ActionBarActivity {
                 Intent intent = new Intent(ValikkoActivity.this, PassinValintaActivity.class);
                 startActivity(intent);
 
-//                Intent intent = new Intent(ValikkoActivity.this, GeneerinenKorttiActivity.class);
-//                startActivity(intent);
             }
         });
     }

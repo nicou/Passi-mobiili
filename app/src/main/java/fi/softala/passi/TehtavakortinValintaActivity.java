@@ -16,8 +16,6 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -25,8 +23,6 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -34,8 +30,6 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -43,8 +37,6 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -52,8 +44,6 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -61,8 +51,7 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button6.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
-                startActivity(intent);
+
             }
         });
 
@@ -70,8 +59,7 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button7.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
-                startActivity(intent);
+
             }
         });
 
@@ -79,8 +67,7 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button8.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
-                startActivity(intent);
+
             }
         });
 
@@ -88,8 +75,7 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button9.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
-                startActivity(intent);
+
             }
         });
 
@@ -97,8 +83,7 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button10.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
-                startActivity(intent);
+
             }
         });
 
@@ -116,8 +101,7 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
         button12.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiNostoActivity.class);
-                startActivity(intent);
+
             }
         });
 
