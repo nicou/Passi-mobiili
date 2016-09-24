@@ -2,38 +2,30 @@ package fi.softala.passi;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -42,17 +34,16 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
+public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
     TabHost tabHost;
     File file;
     Uri fileUri;
     String stringUri;
-    private String mCurrentPhotoPath;
     private NotificationManager mNotifyManager;
     private NotificationCompat.Builder mBuilder;
     int id = 1;
-    int kameraButtons = 0;
+    int kameraButtonPressed = 0;
     final int RC_TAKE_PHOTO = 1;
 
 
@@ -62,18 +53,18 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         setContentView(R.layout.activity_turvallisuuskavely_johdanto);
 
 
-        final TabHost host= (TabHost)findViewById(R.id.tabHost);
+        final TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
 
         host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
 
-                for(int i = 0; i < host.getTabWidget().getChildCount(); i++) {
+                for (int i = 0; i < host.getTabWidget().getChildCount(); i++) {
                     host.getTabWidget().getChildAt(i).setBackgroundResource(R.drawable.valilehti_nappula);
                 }
 
-                host.getTabWidget().getChildAt(host.getCurrentTab()). setBackgroundColor(Color.TRANSPARENT);
+                host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundColor(Color.TRANSPARENT);
             }
 
         });
@@ -97,31 +88,31 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         spec.setIndicator("Toteutus");
         host.addTab(spec);
 
-        for(int i = 0; i < host.getTabWidget().getChildCount(); i++) {
+        for (int i = 0; i < host.getTabWidget().getChildCount(); i++) {
             host.getTabWidget().getChildAt(i).setBackgroundResource(R.drawable.valilehti_nappula);
         }
 
-        host.getTabWidget().getChildAt(host.getCurrentTab()). setBackgroundColor(Color.TRANSPARENT);
-
+        host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundColor(Color.TRANSPARENT);
 
 
         TextView tv = (TextView) findViewById(R.id.textView1);
         tv.setMovementMethod(new ScrollingMovementMethod());
 
 
-
     }
+
+    // kun painetaan kameranappia
     public void onButtonClick(View view) {
         if (view.getId() == R.id.kameraButton1) {
-            kameraButtons = 1;
-        } else if (view.getId() == R.id.kameraButton2){
-            kameraButtons = 2;
-        }else if (view.getId() == R.id.kameraButton3){
-            kameraButtons = 3;
-        }else if (view.getId() == R.id.kameraButton4){
-            kameraButtons = 4;
-        }else if (view.getId() == R.id.kameraButton5){
-            kameraButtons = 5;
+            kameraButtonPressed = 1;
+        } else if (view.getId() == R.id.kameraButton2) {
+            kameraButtonPressed = 2;
+        } else if (view.getId() == R.id.kameraButton3) {
+            kameraButtonPressed = 3;
+        } else if (view.getId() == R.id.kameraButton4) {
+            kameraButtonPressed = 4;
+        } else if (view.getId() == R.id.kameraButton5) {
+            kameraButtonPressed = 5;
         }
         Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         file = new File(Turvallisuuskavely_johdantoActivity.this.getExternalCacheDir(),
@@ -131,6 +122,7 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         Turvallisuuskavely_johdantoActivity.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Turvallisuuskavely_johdantoActivity.super.onActivityResult(requestCode, resultCode, data);
@@ -140,38 +132,39 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         ImageButton kameraButton4 = (ImageButton) findViewById(R.id.kameraButton4);
         ImageButton kameraButton5 = (ImageButton) findViewById(R.id.kameraButton5);
 
-        if (requestCode == RC_TAKE_PHOTO && resultCode == RESULT_OK){
+        if (requestCode == RC_TAKE_PHOTO && resultCode == RESULT_OK) {
             stringUri = fileUri.toString();
-            mCurrentPhotoPath = stringUri;
-            Log.e("Passi ", stringUri);
+            Log.d("Passi ", stringUri);
             Context context = getApplicationContext();
-            if (kameraButtons == 1) {
+            if (kameraButtonPressed == 1) {
+                // vaihetaan nappulan taustakuva
                 kameraButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
                 );
                 kameraButton1.setEnabled(false);
-            } else if (kameraButtons == 2) {
+            } else if (kameraButtonPressed == 2) {
                 kameraButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
                 );
                 kameraButton2.setEnabled(false);
-            } else if (kameraButtons == 3) {
+            } else if (kameraButtonPressed == 3) {
                 kameraButton3.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
                 );
                 kameraButton3.setEnabled(false);
-            } else if (kameraButtons == 4) {
+            } else if (kameraButtonPressed == 4) {
                 kameraButton4.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
                 );
                 kameraButton4.setEnabled(false);
-            } else if (kameraButtons == 5) {
+            } else if (kameraButtonPressed == 5) {
                 kameraButton5.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
                 );
                 kameraButton5.setEnabled(false);
             }
+            kameraButtonPressed = 0;
 
         }
     }
 
     private void startUpload() {
-        Log.v("Passi", "polku kuvaan" + mCurrentPhotoPath);
+        Log.v("Passi", "polku kuvaan" + stringUri);
 
         mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(Turvallisuuskavely_johdantoActivity.this);
@@ -184,7 +177,7 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
                 .setContentIntent(pendingIntent);
 
 
-        new Turvallisuuskavely_johdantoActivity.UploadImage().execute(mCurrentPhotoPath);
+        new Turvallisuuskavely_johdantoActivity.UploadImage().execute(stringUri);
     }
 
     private class UploadImage extends AsyncTask<String, Integer, Integer> {
@@ -234,7 +227,7 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
 
             Log.d("Passi", "Jee " + response);
 
-            if (response != null){
+            if (response != null) {
                 if (response.isSuccessful()) {
                     kahvi = 1;
                 }
@@ -309,7 +302,6 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
     }
 
 
-
     public void onBackPressed() {
 
         super.onBackPressed();
@@ -317,9 +309,6 @@ public class Turvallisuuskavely_johdantoActivity extends ActionBarActivity {
         startActivity(intent);
 
     }
-
-
-
 
 
 }
