@@ -1,136 +1,271 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:stretchColumns="1"
-    android:background="@drawable/background_title_and_side">
-    <TableRow android:background="#ffd874">
-        <TextView
-            android:text="        "
-            android:padding="3dip"
-            android:textSize="30dip" />
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip" />
-        <TextView
-            android:text="        "
-            android:padding="3dip"
-            android:textSize="30dip" />
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/background_title_and_side"
+    >
 
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text="TYÖKYKYPASSI"
-            android:padding="3dip"
-            android:textSize="30dip"
-            android:textColor="#197fb3"
-            android:gravity="center"
-            android:maxLines="2"
-            android:layout_column="1" />
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="18dip" />
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="18dip" />
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="18dip" />
-    </TableRow>
 
-    <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
+    <ImageView
 
-        <Button
-            android:text="AMMATIN TYÖKYKYVALMIUDET"
-            android:id="@+id/btPassi1"
-            android:background="@drawable/ammatin_tyokykyvalmiudet_small"
-            android:textColor="#197fb3"
-            android:layout_height="70dp"
-            android:layout_width="160dp"
-            android:paddingLeft="5dp"
-            android:textSize="18dip"
-            android:gravity="center" />
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip" />
-    </TableRow>
+        android:background="@drawable/yellow_top_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:scaleType="fitXY" />
 
-    <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        <Button
-            android:text="TYÖKYKYÄ EDISTÄVÄ LIIKUNTA"
-            android:id="@+id/btPassi2"
-            android:background="@drawable/tyokykya_edistava_liikunta_small"
-            android:textColor="#197fb3"
-            android:layout_height="70dp"
-            android:layout_width="160dp"
-            android:paddingLeft="5dp"
-            android:textSize="18dip"
-            android:gravity="center"/>
-    </TableRow>
+    <ImageView
+        android:id="@+id/btnHome"
+        android:background="@drawable/homeicon"
+        android:layout_width="38dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginEnd="70dp"
+        />
 
-    <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        <Button
-            android:text="TERVEYSOSAAMINEN"
-            android:id="@+id/btPassi3"
-            android:background="@drawable/terveysosaaminen_small"
-            android:textColor="#197fb3"
-            android:layout_height="70dp"
-            android:layout_width="160dp"
-            android:paddingLeft="5dp"
-            android:textSize="18dip"
-            android:gravity="center"/>
-    </TableRow>
+    <ImageView
+        android:id="@+id/btnFeedBack"
+        android:background="@drawable/feedbackicon"
+        android:layout_width="37dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginEnd="70dp"
+        />
 
-    <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        <Button
-            android:text="HARRASTUNEISUUS JA YHTEISTYÖTAIDOT"
-            android:id="@+id/btPassi4"
-            android:background="@drawable/harrastuneisuus_ja_yhetietyotaidot_small"
-            android:textColor="#197fb3"
-            android:layout_height="72dp"
-            android:layout_width="160dp"
-            android:paddingLeft="5dp"
-            android:textSize="18dip"
-            android:gravity="center"/>
-    </TableRow>
+    <ImageView
+        android:id="@+id/btnLogout"
+        android:background="@drawable/logouticon"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginStart="320dp"
+        android:layout_marginLeft="320dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginEnd="70dp"
+        />
 
-    <TableRow>
-        <TextView
-            android:text=""
-            android:padding="3dip"
-            android:textSize="30dip"/>
-        <Button
-            android:text="TYÖKYKYVALMIUKSIEN VAHVISTAMINEN"
-            android:id="@+id/btPassi5"
-            android:background="@drawable/tyokykyvalmiuksien_vahvistaminen_small"
-            android:textColor="#197fb3"
-            android:layout_height="72dp"
-            android:layout_width="160dp"
-            android:paddingLeft="5dp"
-            android:textSize="18dip"
-            android:gravity="center"/>
-    </TableRow>
-</TableLayout>
+
+    <Button
+        android:id="@+id/btnProfile"
+        android:layout_marginTop="160dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="100dp"
+        android:padding="20dp"
+        android:elevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3498db"
+        android:text="Profiili"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="@drawable/ammatin_tyokykyvalmiudet_small"
+
+        />
+
+
+    <Button
+        android:id="@+id/btnTyokykypassi"
+        android:layout_marginTop="270dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginEnd="70dp"
+        android:padding="20dp"
+        android:elevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Työkykypassiin"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#3498db"
+        android:background="@drawable/nappi"
+        />
+
+    <ImageView
+        android:id="@+id/btnValinekauppaPohja"
+        android:layout_width="280dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="230dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="100dip"
+        android:src="@drawable/valinekauppa_pohja"
+        />
+
+    <Button
+        android:id="@+id/btnValinekauppa"
+        android:layout_marginTop="380dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginEnd="70dp"
+        android:padding="20dp"
+        android:elevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Välinekauppa"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#3498db"
+        android:background="@drawable/nappi" />
+
+
+</FrameLayout>
+
+
+
+
+
+
+
+
+
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1"
+        android:background="@drawable/background_title_and_side">
+        <TableRow android:background="#ffd874">
+            <TextView
+                android:text="        "
+                android:padding="3dip"
+                android:textSize="30dip" />
+            <TextView
+                android:text=""
+                android:padding="3dip"
+                android:textSize="30dip" />
+            <TextView
+                android:text="        "
+                android:padding="3dip"
+                android:textSize="30dip" />
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="TYÖKYKYPASSI"
+                android:padding="3dip"
+                android:textSize="30dip"
+                android:textColor="#197fb3"
+                android:gravity="center"
+                android:maxLines="2"
+                android:layout_column="1" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text=""
+                android:padding="3dip"
+                android:textSize="18dip" />
+            <TextView
+                android:text=""
+                android:padding="3dip"
+                android:textSize="18dip" />
+            <TextView
+                android:text=""
+                android:padding="3dip"
+                android:textSize="18dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text=""
+                android:padding="3dip"
+                android:textSize="30dip"/>
+
+            <Button
+                android:text="AMMATIN TYÖKYKYVALMIUDET"
+                android:id="@+id/btPassi1"
+                android:background="@drawable/ammatin_tyokykyvalmiudet_small"
+                android:textColor="#197fb3"
+                android:layout_height="70dp"
+                android:layout_width="160dp"
+                android:paddingLeft="5dp"
+                android:textSize="18dip"
+                android:gravity="center" />
+            <TextView
+                android:text=""
+                android:padding="3dip"
+                android:textSize="30dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text=""
+                android:padding="3dip"
+                android:textSize="30dip"/>
+            <Button
+                android:text="TYÖKYKYÄ EDISTÄVÄ LIIKUNTA"
+                android:id="@+id/btPassi2"
+                android:background="@drawable/tyokykya_edistava_liikunta_small"
+                android:textColor="#197fb3"
+                android:layout_height="70dp"
+                android:layout_width="160dp"
+                android:paddingLeft="5dp"
+                android:textSize="18dip"
+                android:gravity="center"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text=""
+                android:padding="3dip"
+                android:textSize="30dip"/>
+            <Button
+                android:text="TERVEYSOSAAMINEN"
+                android:id="@+id/btPassi3"
+                android:background="@drawable/terveysosaaminen_small"
+                android:textColor="#197fb3"
+                android:layout_height="70dp"
+                android:layout_width="160dp"
+                android:paddingLeft="5dp"
+                android:textSize="18dip"
+                android:gravity="center"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text=""
+                android:padding="3dip"
+                android:textSize="30dip"/>
+            <Button
+                android:text="HARRASTUNEISUUS JA YHTEISTYÖTAIDOT"
+                android:id="@+id/btPassi4"
+                android:background="@drawable/harrastuneisuus_ja_yhetietyotaidot_small"
+                android:textColor="#197fb3"
+                android:layout_height="72dp"
+                android:layout_width="160dp"
+                android:paddingLeft="5dp"
+                android:textSize="18dip"
+                android:gravity="center"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text=""
+                android:padding="3dip"
+                android:textSize="30dip"/>
+            <Button
+                android:text="TYÖKYKYVALMIUKSIEN VAHVISTAMINEN"
+                android:id="@+id/btPassi5"
+                android:background="@drawable/tyokykyvalmiuksien_vahvistaminen_small"
+                android:textColor="#197fb3"
+                android:layout_height="72dp"
+                android:layout_width="160dp"
+                android:paddingLeft="5dp"
+                android:textSize="18dip"
+                android:gravity="center"/>
+        </TableRow>
+    </TableLayout>
+    -->
