@@ -1,47 +1,50 @@
 package fi.softala.passi;
 
+import java.io.File;
+import java.util.ArrayList;
+
 /**
  * Created by villeaaltonen on 27/09/16.
  */
 
 public class Vastaus {
-    String suunnitelma;
-    String selostus;
-    String kuvaURI;
-    String valinta;
+    String planningText;
+    ArrayList<String> selectedOptionID;
+    ArrayList<File> image;
+    ArrayList<String> selostukset;
+
+    public ArrayList<String> getSelostukset() {
+        return selostukset;
+    }
+
+    public void setSelostukset(ArrayList<String> selostukset) {
+        this.selostukset = selostukset;
+    }
 
     public Vastaus() {
     }
 
-    public String getSuunnitelma() {
-        return suunnitelma;
+    public String getPlanningText() {
+        return planningText;
     }
 
-    public void setSuunnitelma(String suunnitelma) {
-        this.suunnitelma = suunnitelma;
+    public void setPlanningText(String planningText) {
+        this.planningText = planningText;
     }
 
-    public String getSelostus() {
-        return selostus;
+    public ArrayList<String> getSelectedOptionID() {
+        return selectedOptionID;
     }
 
-    public void setSelostus(String selostus) {
-        this.selostus = selostus;
+    public void setSelectedOptionID(ArrayList<String> selectedOptionID) {
+        this.selectedOptionID = selectedOptionID;
     }
 
-    public String getKuvaURI() {
-        return kuvaURI;
+    public ArrayList<File> getImage() {
+        return image;
     }
 
-    public void setKuvaURI(String kuvaURI) {
-        this.kuvaURI = kuvaURI;
-    }
-
-    public String getValinta() {
-        return valinta;
-    }
-
-    public void setValinta(String valinta) {
-        this.valinta = valinta;
+    public void setImage(ArrayList<File> image) {
+        this.image = image;
     }
 }
