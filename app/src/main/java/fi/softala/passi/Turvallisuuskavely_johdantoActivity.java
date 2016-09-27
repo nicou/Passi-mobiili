@@ -34,6 +34,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -47,8 +49,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
     TabHost tabHost;
     File file;
     Uri fileUri;
-    String stringUri;
-    String kuva1, kuva2, kuva3, kuva4, kuva5;
+    File kuva1, kuva2, kuva3, kuva4, kuva5;
     private NotificationManager mNotifyManager;
     private NotificationCompat.Builder mBuilder;
     int id = 1;
@@ -164,8 +165,8 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         ImageButton kameraButton5 = (ImageButton) findViewById(R.id.kameraButton5);
 
         if (requestCode == RC_TAKE_PHOTO && resultCode == RESULT_OK) {
-            stringUri = fileUri.toString();
-            Log.d("Passi ", stringUri);
+
+            File stringUri = new File(file.toString());
             Context context = getApplicationContext();
             if (kameraButtonPressed == 1) {
                 // vaihetaan nappulan taustakuva
@@ -241,6 +242,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         } else {
         selectedId = radioGroup4.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(selectedId);
+            valinta4 = radioButton.getText().toString();
         }
 
         if (radioGroup5.getCheckedRadioButtonId() == -1 ) {
@@ -248,6 +250,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         } else {
         selectedId = radioGroup5.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(selectedId);
+            valinta5 = radioButton.getText().toString();
         }
 
         EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
@@ -285,26 +288,10 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
                 + "kuva1" + kuva4
                 + "kuva1" + kuva5);
 
-        ObjectMapper mapper = new ObjectMapper();
-
-        suunnitelmaString = "Vallottaa maailma";
-        valinta1 = "Kaikki ok";
-        selostus1 = "SUperhyvä";
-        kuva1 = "file:///storage/emulated/0/Android/data/fi.softala.passi/cache/1474964986377.jpg";
-
-        Vastaus uusiVastaus = new Vastaus();
-        uusiVastaus.setKuvaURI(kuva1);
-        uusiVastaus.setSelostus(selostus1);
-        uusiVastaus.setValinta(valinta1);
-        uusiVastaus.setSuunnitelma(suunnitelmaString);
-
-        String JSONjeesus = mapper.writeValueAsString(uusiVastaus);
-        JSONjeesus = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(uusiVastaus);
-        Log.d("Passi", JSONjeesus);
+        startUpload();
 
     }
     private void startUpload() {
-        Log.v("Passi", "polku kuvaan" + stringUri);
 
         mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(Turvallisuuskavely_johdantoActivity.this);
@@ -317,7 +304,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
                 .setContentIntent(pendingIntent);
 
 
-        new Turvallisuuskavely_johdantoActivity.UploadImage().execute(stringUri);
+        new Turvallisuuskavely_johdantoActivity.UploadImage().execute();
     }
 
     private class UploadImage extends AsyncTask<String, Integer, Integer> {
@@ -347,6 +334,45 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             String url = "http://proto284.haaga-helia.fi/passibe/KuvaVastaanottoServlet";
 
             OkHttpClient client = new OkHttpClient();
+            ObjectMapper mapper = new ObjectMapper();
+
+            Vastaus uusiVastaus = new Vastaus();
+
+            ArrayList<File> kuvat = new ArrayList<>();
+            ArrayList<File> kuvatSmaller = new ArrayList<>();
+            ArrayList<String> selostukset = new ArrayList<>();
+            ArrayList<String> vastaukset = new ArrayList<>();
+            kuvat.add(kuva1);
+            kuvat.add(kuva2);
+            kuvat.add(kuva3);
+            kuvat.add(kuva4);
+            kuvat.add(kuva5);
+            for (File kuva: kuvat) {
+                File tempKuva = saveBitmapToFile(kuva);
+                kuvatSmaller.add(tempKuva);
+            }
+            vastaukset.add(valinta1);
+            vastaukset.add(valinta2);
+            vastaukset.add(valinta3);
+            vastaukset.add(valinta4);
+            vastaukset.add(valinta5);
+            selostukset.add(selostus1);
+            selostukset.add(selostus2);
+            selostukset.add(selostus3);
+            selostukset.add(selostus4);
+            selostukset.add(selostus5);
+
+            uusiVastaus.setImage(kuvatSmaller);
+            uusiVastaus.setSelectedOptionID(vastaukset);
+            uusiVastaus.setPlanningText(suunnitelmaString);
+            uusiVastaus.setSelostukset(selostukset);
+
+            try {
+                String JSONjeesus = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(uusiVastaus);
+                Log.d("Passi", JSONjeesus);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
 
             RequestBody formBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM).addFormDataPart("file", "image.png",
