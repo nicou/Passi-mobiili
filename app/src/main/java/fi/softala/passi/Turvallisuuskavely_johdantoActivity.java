@@ -25,6 +25,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -126,17 +127,24 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
     // kun painetaan kameranappia
     public void onButtonClick(View view) {
-        if (view.getId() == R.id.kameraButton1) {
-            kameraButtonPressed = 1;
-        } else if (view.getId() == R.id.kameraButton2) {
-            kameraButtonPressed = 2;
-        } else if (view.getId() == R.id.kameraButton3) {
-            kameraButtonPressed = 3;
-        } else if (view.getId() == R.id.kameraButton4) {
-            kameraButtonPressed = 4;
-        } else if (view.getId() == R.id.kameraButton5) {
-            kameraButtonPressed = 5;
+        switch(view.getId()) {
+            case R.id.kameraButton1:
+                kameraButtonPressed = 1;
+                break;
+            case R.id.kameraButton2:
+                kameraButtonPressed = 2;
+                break;
+            case R.id.kameraButton3:
+                kameraButtonPressed = 3;
+                break;
+            case R.id.kameraButton4:
+                kameraButtonPressed = 4;
+                break;
+            case R.id.kameraButton5:
+                kameraButtonPressed = 5;
+                break;
         }
+
         Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         file = new File(Turvallisuuskavely_johdantoActivity.this.getExternalCacheDir(),
                 String.valueOf(System.currentTimeMillis() + ".jpg"));
@@ -189,7 +197,13 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             kameraButtonPressed = 0;
 
         }
+
     }
+
+    private void errorLuokka() {
+        Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_LONG).show();
+    }
+
     private void keraaTiedot() throws JsonProcessingException {
         EditText selostus;
         RadioGroup radioGroup1 = (RadioGroup)findViewById(R.id.radio1);
@@ -198,25 +212,43 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         RadioGroup radioGroup4 = (RadioGroup)findViewById(R.id.radio4);
         RadioGroup radioGroup5 = (RadioGroup)findViewById(R.id.radio5);
 
-        selectedId = radioGroup1.getCheckedRadioButtonId();
-        radioButton = (RadioButton) findViewById(selectedId);
-        valinta1 = radioButton.getText().toString();
+        if (radioGroup1.getCheckedRadioButtonId() == -1 ) {
+            errorLuokka();
+        } else {
+            selectedId = radioGroup1.getCheckedRadioButtonId();
+            radioButton = (RadioButton) findViewById(selectedId);
+            valinta1 = radioButton.getText().toString();
+        }
 
-        selectedId = radioGroup2.getCheckedRadioButtonId();
-        radioButton = (RadioButton) findViewById(selectedId);
-        valinta2 = radioButton.getText().toString();
+        if (radioGroup2.getCheckedRadioButtonId() == -1 ) {
+            errorLuokka();
+        } else {
+            selectedId = radioGroup2.getCheckedRadioButtonId();
+            radioButton = (RadioButton) findViewById(selectedId);
+            valinta2 = radioButton.getText().toString();
+        }
 
+        if (radioGroup3.getCheckedRadioButtonId() == -1 ) {
+            errorLuokka();
+        } else {
         selectedId = radioGroup3.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(selectedId);
-        valinta3 = radioButton.getText().toString();
+            valinta3 = radioButton.getText().toString();
+        }
 
+        if (radioGroup4.getCheckedRadioButtonId() == -1 ) {
+            errorLuokka();
+        } else {
         selectedId = radioGroup4.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(selectedId);
-        valinta4 = radioButton.getText().toString();
+        }
 
+        if (radioGroup5.getCheckedRadioButtonId() == -1 ) {
+            errorLuokka();
+        } else {
         selectedId = radioGroup5.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(selectedId);
-        valinta5 = radioButton.getText().toString();
+        }
 
         EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
         suunnitelmaString = suunnitelma.getText().toString();
