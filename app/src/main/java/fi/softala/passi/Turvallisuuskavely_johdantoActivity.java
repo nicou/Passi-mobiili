@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,9 +19,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,8 +53,11 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
     int id = 1;
     int kameraButtonPressed = 0;
     final int RC_TAKE_PHOTO = 1;
-
-
+    int selectedId;
+    RadioButton radioButton;
+    String valinta1, valinta2, valinta3, valinta4, valinta5;
+    String suunnitelmaString;
+    String selostus1, selostus2, selostus3, selostus4, selostus5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +105,18 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
         host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundColor(Color.TRANSPARENT);
 
+        ImageButton lahetaNappula = (ImageButton) findViewById(R.id.lahetaNappula);
+
+        lahetaNappula.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    keraaTiedot();
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         TextView tv = (TextView) findViewById(R.id.textView1);
         tv.setMovementMethod(new ScrollingMovementMethod());
@@ -168,7 +190,87 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
         }
     }
+    private void keraaTiedot() throws JsonProcessingException {
+        EditText selostus;
+        RadioGroup radioGroup1 = (RadioGroup)findViewById(R.id.radio1);
+        RadioGroup radioGroup2 = (RadioGroup)findViewById(R.id.radio2);
+        RadioGroup radioGroup3 = (RadioGroup)findViewById(R.id.radio3);
+        RadioGroup radioGroup4 = (RadioGroup)findViewById(R.id.radio4);
+        RadioGroup radioGroup5 = (RadioGroup)findViewById(R.id.radio5);
 
+        selectedId = radioGroup1.getCheckedRadioButtonId();
+        radioButton = (RadioButton) findViewById(selectedId);
+        valinta1 = radioButton.getText().toString();
+
+        selectedId = radioGroup2.getCheckedRadioButtonId();
+        radioButton = (RadioButton) findViewById(selectedId);
+        valinta2 = radioButton.getText().toString();
+
+        selectedId = radioGroup3.getCheckedRadioButtonId();
+        radioButton = (RadioButton) findViewById(selectedId);
+        valinta3 = radioButton.getText().toString();
+
+        selectedId = radioGroup4.getCheckedRadioButtonId();
+        radioButton = (RadioButton) findViewById(selectedId);
+        valinta4 = radioButton.getText().toString();
+
+        selectedId = radioGroup5.getCheckedRadioButtonId();
+        radioButton = (RadioButton) findViewById(selectedId);
+        valinta5 = radioButton.getText().toString();
+
+        EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
+        suunnitelmaString = suunnitelma.getText().toString();
+
+        selostus = (EditText) findViewById(R.id.selostusKentta1);
+        selostus1 = selostus.getText().toString();
+
+        selostus = (EditText) findViewById(R.id.selostusKentta2);
+        selostus2 = selostus.getText().toString();
+
+        selostus = (EditText) findViewById(R.id.selostusKentta3);
+        selostus3 = selostus.getText().toString();
+
+        selostus = (EditText) findViewById(R.id.selostusKentta4);
+        selostus4 = selostus.getText().toString();
+
+        selostus = (EditText) findViewById(R.id.selostusKentta5);
+        selostus5 = selostus.getText().toString();
+
+        Log.d("Passi", "Valinta1 = " + valinta1
+        + "Valinta2 = " + valinta2
+        + "Valinta3 = " + valinta3
+        + "Valinta4 = " + valinta4
+        + "Valinta5 = " + valinta5
+        + "Selostus1 = " + selostus1
+        + "Selostus2 = " + selostus2
+        + "Selostus3 = " + selostus3
+        + "Selostus4 = "  + selostus4
+        + "Selostus5 = " + selostus5
+        + "Suunnitelma =  " + suunnitelmaString
+        + "kuva1" + kuva1
+        + "kuva2 " + kuva2
+                + "kuva1" + kuva3
+                + "kuva1" + kuva4
+                + "kuva1" + kuva5);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        suunnitelmaString = "Vallottaa maailma";
+        valinta1 = "Kaikki ok";
+        selostus1 = "SUperhyvä";
+        kuva1 = "file:///storage/emulated/0/Android/data/fi.softala.passi/cache/1474964986377.jpg";
+
+        Vastaus uusiVastaus = new Vastaus();
+        uusiVastaus.setKuvaURI(kuva1);
+        uusiVastaus.setSelostus(selostus1);
+        uusiVastaus.setValinta(valinta1);
+        uusiVastaus.setSuunnitelma(suunnitelmaString);
+
+        String JSONjeesus = mapper.writeValueAsString(uusiVastaus);
+        JSONjeesus = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(uusiVastaus);
+        Log.d("Passi", JSONjeesus);
+
+    }
     private void startUpload() {
         Log.v("Passi", "polku kuvaan" + stringUri);
 

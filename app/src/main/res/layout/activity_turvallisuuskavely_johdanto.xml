@@ -84,7 +84,7 @@
                         android:inputType="textMultiLine"
                         android:ems="10"
                         android:lines="10"
-                        android:id="@+id/editText4"
+                        android:id="@+id/suunnitelmaKentta"
                         android:background="@drawable/tekstikentta"
                         android:hint="Kirjoita vastauksesi tähän"
                         android:layout_width="match_parent"
