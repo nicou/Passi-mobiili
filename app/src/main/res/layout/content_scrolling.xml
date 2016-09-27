@@ -90,7 +90,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/radioButton20"
-                        android:button="@drawable/green_face"
                         android:layout_above="@+id/radioButton30"
                         android:layout_alignLeft="@+id/radioButton30"
                         android:layout_alignStart="@+id/radioButton30"
@@ -98,13 +97,14 @@
                         android:paddingLeft="10dp"
                     />
 
+                <!--android:button="@drawable/green_face"-->
+
 
                 <RadioButton
                         android:text="Korjattavaa löytyy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/radioButton30"
-                        android:button="@drawable/yellow_face"
                     android:layout_marginBottom="11dp"
                     android:layout_above="@+id/radioButton40"
                     android:layout_alignRight="@+id/radioButton40"
@@ -112,18 +112,21 @@
                     android:layout_marginRight="100dp"
                     android:layout_marginEnd="100dp"
                     android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/yellow_face"-->
+
 
                 <RadioButton
                     android:text="Vaarallinen tai selkeitä puuteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton40"
-                    android:button="@drawable/red_face"
                     android:layout_marginBottom="40dp"
                     android:layout_above="@+id/editText50"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/red_face"-->
+
 
             </RadioGroup>
 
@@ -178,36 +181,38 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton21"
-                    android:button="@drawable/green_face"
                     android:layout_above="@+id/radioButton31"
                     android:layout_alignLeft="@+id/radioButton31"
                     android:layout_alignStart="@+id/radioButton31"
                     android:layout_marginBottom="12dp"
                     android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/green_face"-->
 
 
-            <RadioButton
+                <RadioButton
                 android:text="Korjattavaa löytyy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radioButton31"
-                android:button="@drawable/yellow_face"
                 android:layout_above="@+id/radioButton41"
                 android:layout_alignLeft="@+id/radioButton41"
                 android:layout_alignStart="@+id/radioButton41"
                 android:layout_marginBottom="14dp"
                 android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/yellow_face"-->
+
                 <RadioButton
                     android:text="Vaarallinen tai selkeitä puuteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton41"
-                    android:button="@drawable/red_face"
                     android:layout_above="@+id/editText51"
                     android:layout_alignRight="@+id/editText51"
                     android:layout_alignEnd="@+id/editText51"
                     android:layout_marginBottom="40dp"
                     android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/red_face"-->
+
 
 
             </RadioGroup>
@@ -284,24 +289,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton22"
-                    android:button="@drawable/green_face"
                     android:layout_above="@+id/radioButton32"
                     android:layout_alignLeft="@+id/radioButton32"
                     android:layout_alignStart="@+id/radioButton32"
                     android:layout_marginBottom="12dp"
                     android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/green_face"-->
 
-            <RadioButton
+
+                <RadioButton
                 android:text="Korjattavaa löytyy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radioButton32"
-                android:button="@drawable/yellow_face"
                 android:layout_above="@+id/radioButton42"
                 android:layout_alignLeft="@+id/radioButton42"
                 android:layout_alignStart="@+id/radioButton42"
                 android:layout_marginBottom="14dp"
                 android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/yellow_face"-->
+
 
 
 
@@ -310,12 +317,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton42"
-                    android:button="@drawable/red_face"
                     android:layout_above="@+id/editText52"
                     android:layout_alignRight="@+id/editText52"
                     android:layout_alignEnd="@+id/editText52"
                     android:layout_marginBottom="40dp"
                     android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/red_face"-->
+
             </RadioGroup>
             <EditText
                 android:layout_width="wrap_content"
@@ -392,36 +400,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton23"
-                    android:button="@drawable/green_face"
                     android:layout_above="@+id/radioButton33"
                     android:layout_alignLeft="@+id/radioButton33"
                     android:layout_alignStart="@+id/radioButton33"
                     android:layout_marginBottom="12dp"
                     android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/green_face"-->
 
-            <RadioButton
+
+                <RadioButton
                 android:text="Korjattavaa löytyy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radioButton33"
-                android:button="@drawable/yellow_face"
                 android:layout_above="@+id/radioButton43"
                 android:layout_alignLeft="@+id/radioButton43"
                 android:layout_alignStart="@+id/radioButton43"
                 android:layout_marginBottom="14dp"
                 android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/yellow_face"-->
+
 
                 <RadioButton
                     android:text="Vaarallinen tai selkeitä puuteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton43"
-                    android:button="@drawable/red_face"
                     android:layout_above="@+id/editText53"
                     android:layout_alignRight="@+id/editText53"
                     android:layout_alignEnd="@+id/editText53"
                     android:layout_marginBottom="40dp"
                     android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/red_face"-->
+
 
 
 
@@ -502,37 +513,40 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton24"
-                    android:button="@drawable/green_face"
                     android:layout_above="@+id/radioButton34"
                     android:layout_alignLeft="@+id/radioButton34"
                     android:layout_alignStart="@+id/radioButton34"
                     android:layout_marginBottom="12dp"
                     android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/green_face"-->
 
 
-            <RadioButton
+
+                <RadioButton
                 android:text="Korjattavaa löytyy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radioButton34"
-                android:button="@drawable/yellow_face"
                 android:layout_above="@+id/radioButton44"
                 android:layout_alignLeft="@+id/radioButton44"
                 android:layout_alignStart="@+id/radioButton44"
                 android:layout_marginBottom="14dp"
                 android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/yellow_face"-->
+
 
                 <RadioButton
                     android:text="Vaarallinen tai selkeitä puuteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton44"
-                    android:button="@drawable/red_face"
                     android:layout_above="@+id/editText54"
                     android:layout_alignRight="@+id/editText54"
                     android:layout_alignEnd="@+id/editText54"
                     android:layout_marginBottom="40dp"
                     android:paddingLeft="10dp"/>
+                <!--android:button="@drawable/red_face"-->
+
 
 
             </RadioGroup>
@@ -567,8 +581,7 @@
             android:paddingTop="10dp">
 
             <ImageButton
-                android:layout_width="100dp"
-                android:layout_height="50dp"
+                
                 android:background="@drawable/tallenna_v2"
                 android:id="@+id/imageButton3"
                 android:layout_weight="1"
@@ -576,18 +589,22 @@
                 android:layout_marginStart="73dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <ImageButton
-                android:layout_width="100dp"
-                android:layout_height="50dp"
+
                 android:background="@drawable/laheta_v2"
                 android:id="@+id/imageButton4"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/imageButton3"
-                android:layout_toRightOf="@+id/imageButton3"
-                android:layout_toEndOf="@+id/imageButton3"
-                android:layout_marginRight="70dp"
-                android:layout_marginLeft="50dp" />
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="54dp"
+                android:layout_marginEnd="54dp" />
 
 
         </RelativeLayout>
