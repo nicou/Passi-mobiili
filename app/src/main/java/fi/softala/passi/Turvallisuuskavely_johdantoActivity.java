@@ -2,6 +2,7 @@ package fi.softala.passi;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -60,6 +61,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
     String valinta1, valinta2, valinta3, valinta4, valinta5;
     String suunnitelmaString;
     String selostus1, selostus2, selostus3, selostus4, selostus5;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,8 +110,10 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundColor(Color.TRANSPARENT);
 
         ImageButton lahetaNappula = (ImageButton) findViewById(R.id.lahetaNappula);
-
+        final ProgressDialog progressDialog = new ProgressDialog(Turvallisuuskavely_johdantoActivity.this,
+                R.style.AppTheme_Dark_Dialog);
         lahetaNappula.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 try {
@@ -308,6 +312,8 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
     }
 
     private class UploadImage extends AsyncTask<String, Integer, Integer> {
+        final ProgressDialog progressDialog = new ProgressDialog(Turvallisuuskavely_johdantoActivity.this,
+                R.style.AppTheme_Dark_Dialog);
 
         @Override
         protected void onPreExecute() {
@@ -316,6 +322,10 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             // Displays the progress bar for the first time.
             mBuilder.setProgress(100, 0, false);
             mNotifyManager.notify(id, mBuilder.build());
+            progressDialog.setIndeterminate(true);
+            progressDialog.setTitle("Vastauksen lähetys");
+            progressDialog.setMessage("Lähetetään...");
+            progressDialog.show();
         }
 
         @Override
@@ -330,7 +340,6 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         protected Integer doInBackground(String... path) {
             int i;
 
-            File image = saveBitmapToFile(file);
             String url = "http://proto284.haaga-helia.fi/passibe/KuvaVastaanottoServlet";
 
             OkHttpClient client = new OkHttpClient();
@@ -342,11 +351,13 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             ArrayList<File> kuvatSmaller = new ArrayList<>();
             ArrayList<String> selostukset = new ArrayList<>();
             ArrayList<String> vastaukset = new ArrayList<>();
+
             kuvat.add(kuva1);
             kuvat.add(kuva2);
             kuvat.add(kuva3);
             kuvat.add(kuva4);
             kuvat.add(kuva5);
+
             for (File kuva: kuvat) {
                 File tempKuva = saveBitmapToFile(kuva);
                 kuvatSmaller.add(tempKuva);
@@ -356,6 +367,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             vastaukset.add(valinta3);
             vastaukset.add(valinta4);
             vastaukset.add(valinta5);
+            
             selostukset.add(selostus1);
             selostukset.add(selostus2);
             selostukset.add(selostus3);
@@ -374,9 +386,10 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+
             RequestBody formBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM).addFormDataPart("file", "image.png",
-                            RequestBody.create(MediaType.parse("image/png"), image))
+                            RequestBody.create(MediaType.parse("image/png"), kuva1))
                     .build();
 
             Request request = new Request.Builder().url(url).post(formBody).build();
@@ -412,12 +425,19 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             Log.d("Passi", "Jee jöö " + result);
+
             super.onPostExecute(result);
+
+            progressDialog.dismiss();
             if (result == 1) {
                 mBuilder.setContentText("Vastaus tallennettu");
+                Toast.makeText(getApplicationContext(), "Vastaus tallennettu!", Toast.LENGTH_LONG);
             } else {
                 mBuilder.setContentText("Tallennus epäonnistui");
+                Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG);
             }
+            Intent intent = new Intent(Turvallisuuskavely_johdantoActivity.this, ValikkoActivity.class);
+            startActivity(intent);
             // Removes the progress bar
             mBuilder.setProgress(0, 0, false);
             mNotifyManager.notify(id, mBuilder.build());
