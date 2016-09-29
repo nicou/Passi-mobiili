@@ -377,7 +377,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         protected Integer doInBackground(String... path) {
             int i;
 
-            String url = "http://proto384.haaga-helia.fi/passi-rest/upload/";
+            String url = " http://proto384.haaga-helia.fi/passi-rest/answer/";
 
             OkHttpClient client = new OkHttpClient();
             ObjectMapper mapper = new ObjectMapper();
@@ -469,11 +469,13 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
             Request request = new Request.Builder().url(url).post(formBody).build();
 
+
             Response response = null;
 
             try {
                 response = client.newCall(request).execute();
             } catch (IOException e) {
+
                 e.printStackTrace();
             }
 
