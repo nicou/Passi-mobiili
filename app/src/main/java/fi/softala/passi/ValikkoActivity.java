@@ -12,12 +12,12 @@ public class ValikkoActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valikko);
-        Button button = (Button) findViewById(R.id.btTyokykypassiin);
+        Button button = (Button) findViewById(R.id.btnTyokykypassi);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
 
-                Intent intent = new Intent(ValikkoActivity.this, PassinValintaActivity.class);
+                Intent intent = new Intent(ValikkoActivity.this, TehtavakortinValintaActivity.class);
                 startActivity(intent);
 
             }

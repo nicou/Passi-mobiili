@@ -110,7 +110,7 @@ public class TehtavakortinValintaActivity extends ActionBarActivity {
     public void onBackPressed() {
 
         super.onBackPressed();
-        Intent intent = new Intent(TehtavakortinValintaActivity.this, PassinValintaActivity.class);
+        Intent intent = new Intent(TehtavakortinValintaActivity.this, ValikkoActivity.class);
         startActivity(intent);
 
     }

@@ -8,14 +8,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -31,12 +29,14 @@ import android.widget.Toast;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -61,6 +61,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
     String valinta1, valinta2, valinta3, valinta4, valinta5;
     String suunnitelmaString;
     String selostus1, selostus2, selostus3, selostus4, selostus5;
+    Integer selectedOptionID1, selectedOptionID2, selectedOptionID3, selectedOptionID4, selectedOptionID5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,6 +210,34 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_LONG).show();
     }
 
+    private int haeRadioVastaus(int kysymysnumero, String valinta){
+        final String ok = "Kaikki ok";
+        final String puutteita ="Vaarallinen tai selkeitä puuteitaValinta";
+        final String korjattavaa ="Korjattavaa löytyy";
+        int laskuNumero = 0;
+
+        Integer laskettuVastaus =0;
+        // Laskee radiobutton id. Vaihtoehtoinen tapa on "valintanumero + (kysymysnumero -1) * 3"
+        // Molemmat vaativat kysymysnumeron lähtevän 1.
+        if(valinta.equals(ok)){
+            laskuNumero = -2;
+            laskettuVastaus = kysymysnumero*3-laskuNumero;
+
+        }
+        if(valinta.equals(puutteita)){
+            laskuNumero = -1;
+            laskettuVastaus = kysymysnumero*3-laskuNumero;
+
+        }
+        if(valinta.equals(korjattavaa)){
+            laskuNumero = 0;
+            laskettuVastaus = kysymysnumero*3-laskuNumero;
+
+        }
+
+        return laskettuVastaus;
+    };
+
     private void keraaTiedot() throws JsonProcessingException {
         EditText selostus;
         RadioGroup radioGroup1 = (RadioGroup)findViewById(R.id.radio1);
@@ -223,6 +252,9 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             selectedId = radioGroup1.getCheckedRadioButtonId();
             radioButton = (RadioButton) findViewById(selectedId);
             valinta1 = radioButton.getText().toString();
+
+            selectedOptionID1 = haeRadioVastaus(1, valinta1);
+
         }
 
         if (radioGroup2.getCheckedRadioButtonId() == -1 ) {
@@ -231,6 +263,8 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             selectedId = radioGroup2.getCheckedRadioButtonId();
             radioButton = (RadioButton) findViewById(selectedId);
             valinta2 = radioButton.getText().toString();
+
+            selectedOptionID2 = haeRadioVastaus(2, valinta2);
         }
 
         if (radioGroup3.getCheckedRadioButtonId() == -1 ) {
@@ -239,6 +273,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         selectedId = radioGroup3.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(selectedId);
             valinta3 = radioButton.getText().toString();
+            selectedOptionID3 = haeRadioVastaus(3, valinta3);
         }
 
         if (radioGroup4.getCheckedRadioButtonId() == -1 ) {
@@ -247,6 +282,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         selectedId = radioGroup4.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(selectedId);
             valinta4 = radioButton.getText().toString();
+            selectedOptionID4 = haeRadioVastaus(4, valinta4);
         }
 
         if (radioGroup5.getCheckedRadioButtonId() == -1 ) {
@@ -255,6 +291,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         selectedId = radioGroup5.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(selectedId);
             valinta5 = radioButton.getText().toString();
+            selectedOptionID5 = haeRadioVastaus(5, valinta5);
         }
 
         EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
@@ -275,7 +312,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         selostus = (EditText) findViewById(R.id.selostusKentta5);
         selostus5 = selostus.getText().toString();
 
-        Log.d("Passi", "Valinta1 = " + valinta1
+        Log.e("Passi", "Valinta1 = " + valinta1
         + "Valinta2 = " + valinta2
         + "Valinta3 = " + valinta3
         + "Valinta4 = " + valinta4
@@ -340,51 +377,89 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         protected Integer doInBackground(String... path) {
             int i;
 
-            String url = "http://proto284.haaga-helia.fi/passibe/KuvaVastaanottoServlet";
+            String url = "http://proto384.haaga-helia.fi/passi-rest/upload/";
 
             OkHttpClient client = new OkHttpClient();
             ObjectMapper mapper = new ObjectMapper();
 
             Vastaus uusiVastaus = new Vastaus();
 
-            ArrayList<File> kuvat = new ArrayList<>();
-            ArrayList<File> kuvatSmaller = new ArrayList<>();
-            ArrayList<String> selostukset = new ArrayList<>();
-            ArrayList<String> vastaukset = new ArrayList<>();
+            List<Etappi> etappiLista = new ArrayList<>();
+            Etappi etappi = new Etappi();
 
-            kuvat.add(kuva1);
-            kuvat.add(kuva2);
-            kuvat.add(kuva3);
-            kuvat.add(kuva4);
-            kuvat.add(kuva5);
+            Vastaus1 vastaus1 = new Vastaus1();
 
-            for (File kuva: kuvat) {
-                File tempKuva = saveBitmapToFile(kuva);
-                kuvatSmaller.add(tempKuva);
-            }
-            vastaukset.add(valinta1);
-            vastaukset.add(valinta2);
-            vastaukset.add(valinta3);
-            vastaukset.add(valinta4);
-            vastaukset.add(valinta5);
-            
-            selostukset.add(selostus1);
-            selostukset.add(selostus2);
-            selostukset.add(selostus3);
-            selostukset.add(selostus4);
-            selostukset.add(selostus5);
+            etappi.setAnsweWaypointID(0);
+            etappi.setAnswerID(0);
+            etappi.setWaypointID(1);
+            etappi.setSelectedOptionID(selectedOptionID1);
+            etappi.setImageURL("ukko");
+            etappi.setAnswerText(selostus1);
+            etappi.setInstructorComment("");
 
-            uusiVastaus.setImage(kuvatSmaller);
-            uusiVastaus.setSelectedOptionID(vastaukset);
-            uusiVastaus.setPlanningText(suunnitelmaString);
-            uusiVastaus.setSelostukset(selostukset);
+            etappiLista.add(etappi);
+
+            etappi = new Etappi();
+
+            etappi.setAnsweWaypointID(0);
+            etappi.setAnswerID(0);
+            etappi.setWaypointID(2);
+            etappi.setSelectedOptionID(selectedOptionID2);
+            etappi.setImageURL("ukko");
+            etappi.setAnswerText(selostus2);
+            etappi.setInstructorComment("");
+
+            etappiLista.add(etappi);
+
+            etappi = new Etappi();
+
+            etappi.setAnsweWaypointID(0);
+            etappi.setAnswerID(0);
+            etappi.setWaypointID(3);
+            etappi.setSelectedOptionID(selectedOptionID3);
+            etappi.setImageURL("ukko");
+            etappi.setAnswerText(selostus3);
+            etappi.setInstructorComment("");
+
+            etappiLista.add(etappi);
+
+            etappi = new Etappi();
+
+            etappi.setAnsweWaypointID(0);
+            etappi.setAnswerID(0);
+            etappi.setWaypointID(4);
+            etappi.setSelectedOptionID(selectedOptionID4);
+            etappi.setImageURL("ukko");
+            etappi.setAnswerText(selostus4);
+            etappi.setInstructorComment("");
+
+            etappiLista.add(etappi);
+
+            etappi = new Etappi();
+
+            etappi.setAnsweWaypointID(0);
+            etappi.setAnswerID(0);
+            etappi.setWaypointID(5);
+            etappi.setSelectedOptionID(selectedOptionID5);
+            etappi.setImageURL("ukko");
+            etappi.setAnswerText(selostus5);
+            etappi.setInstructorComment("");
+
+            etappiLista.add(etappi);
+
+            vastaus1.setAnswerID(0);
+            vastaus1.setWorksheetID(1);
+            vastaus1.setUsername("jaapa");
+            vastaus1.setPlanningText(suunnitelmaString);
+            vastaus1.setWaypoints(etappiLista);
 
             try {
-                String JSONjeesus = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(uusiVastaus);
-                Log.d("Passi", JSONjeesus);
+                String JSONjeesus = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(vastaus1);
+                Log.e("Passi", JSONjeesus);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
+
 
 
             RequestBody formBody = new MultipartBody.Builder()
@@ -393,6 +468,12 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder().url(url).post(formBody).build();
+
+            JSONObject jsonWaypoints = new JSONObject();
+            JSONObject json = new JSONObject();
+
+
+
 
             Response response = null;
 

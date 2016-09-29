@@ -1,6 +1,5 @@
 package fi.softala.passi;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 public class Vastaus {
     String planningText;
     ArrayList<String> selectedOptionID;
-    ArrayList<File> image;
+//    ArrayList<File> image;
     ArrayList<String> selostukset;
 
     public ArrayList<String> getSelostukset() {
@@ -40,11 +39,11 @@ public class Vastaus {
         this.selectedOptionID = selectedOptionID;
     }
 
-    public ArrayList<File> getImage() {
-        return image;
-    }
-
-    public void setImage(ArrayList<File> image) {
-        this.image = image;
-    }
+//    public ArrayList<File> getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(ArrayList<File> image) {
+//        this.image = image;
+//    }
 }
