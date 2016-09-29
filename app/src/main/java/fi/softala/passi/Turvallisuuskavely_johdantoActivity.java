@@ -469,12 +469,6 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
             Request request = new Request.Builder().url(url).post(formBody).build();
 
-            JSONObject jsonWaypoints = new JSONObject();
-            JSONObject json = new JSONObject();
-
-
-
-
             Response response = null;
 
             try {
@@ -513,6 +507,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             if (result == 1) {
                 mBuilder.setContentText("Vastaus tallennettu");
                 Toast.makeText(getApplicationContext(), "Vastaus tallennettu!", Toast.LENGTH_LONG);
+
             } else {
                 mBuilder.setContentText("Tallennus epäonnistui");
                 Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG);
