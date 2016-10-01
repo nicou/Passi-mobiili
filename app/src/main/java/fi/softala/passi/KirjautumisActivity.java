@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.design.widget.TextInputLayout;
 import android.util.Base64;
 import android.util.Log;
@@ -17,6 +18,18 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+
+import org.springframework.http.HttpAuthentication;
+import org.springframework.http.HttpBasicAuthentication;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -135,42 +148,37 @@ public class KirjautumisActivity extends Activity {
             protected Integer doInBackground(String... params)  {
                 username = params[0];
                 password = params[0];
+                String pohja = username + ":" + password;
+                base = Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
 
-                String pohja;
-                String urlIlmantunnusta = "http://proto384.haaga-helia.fi/passi-rest/student/";
+                String url = "http://proto384.haaga-helia.fi/passi-rest/student/"+username;
 
-                pohja = username + ":" + password;
-                base =Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
-                String basicAuth = "Basic " + base;
+                // aseta headeriin tiedot
+                HttpHeaders requestHeaders = new HttpHeaders();
+                requestHeaders.setContentType(new MediaType("application", "json"));
+                requestHeaders.setAuthorization(new HttpBasicAuthentication(username, password));
+                HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
 
-                URL url;
+
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
                 try {
-                    url = new URL(urlIlmantunnusta+username);
+                    // pyydä serveriltä checkaus
+                    ResponseEntity<Kayttaja> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Kayttaja.class);
 
-                    HttpURLConnection client = (HttpURLConnection) url.openConnection();
-                    client.setRequestMethod("GET");
-                    client.setRequestProperty("Authorization", basicAuth);
-                    client.setRequestProperty("Content-Type", "application/json");
-
-                    paluukoodi = client.getResponseCode();
-                    String paluukoodiString =Integer.toString(client.getResponseCode());
-
-                    Log.d("Paluukoodi", paluukoodiString);
-                    if(client != null){
-                        client.disconnect();
+                    paluukoodi = responseEntity.getStatusCode().value();
+                } catch (HttpClientErrorException e) {
+                    if (e.getStatusCode().value() == 401) {
+                        paluukoodi = 401;
                     }
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    } catch (ProtocolException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
                 }
+                
                 return paluukoodi;
             }
 
             @Override
              protected void onPostExecute(Integer result){
+                Log.d("Passi", "resuöltti " + result);
                 super.onPostExecute(result);
                 final int ok = 200;
                 final int notFound = 401;
