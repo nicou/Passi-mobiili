@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import org.springframework.http.ContentCodingType;
 import org.springframework.http.HttpAuthentication;
 import org.springframework.http.HttpBasicAuthentication;
 import org.springframework.http.HttpEntity;
@@ -162,6 +163,8 @@ public class KirjautumisActivity extends Activity {
 
                 // aseta headeriin tiedot
                 HttpHeaders requestHeaders = new HttpHeaders();
+                requestHeaders.setAcceptEncoding(ContentCodingType.GZIP);
+                requestHeaders.setContentEncoding(ContentCodingType.GZIP);
                 requestHeaders.setContentType(new MediaType("application", "json"));
                 requestHeaders.setAuthorization(new HttpBasicAuthentication(username, password));
                 HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
