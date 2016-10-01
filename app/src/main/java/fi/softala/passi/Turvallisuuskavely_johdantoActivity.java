@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.ByteArrayBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
@@ -44,6 +45,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import org.apache.http.entity.ByteArrayEntity;
 
 public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
@@ -369,6 +371,10 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
                 String paluukoodiString = Integer.toString(clientti.getResponseCode());
 
                 Log.e("Paluukoodi poisto: ", paluukoodiString);
+
+                if (clientti != null) {
+                    clientti.disconnect();
+                }
             } catch (ProtocolException e) {
                 e.printStackTrace();
             } catch (MalformedURLException e) {
@@ -553,7 +559,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
                 Log.e("Paluukoodi lähety: ", paluukoodiString);
 
-                if (client != null) {
+                if (clientti != null) {
                     clientti.disconnect();
                 }
 /*
@@ -627,6 +633,65 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
                 mNotifyManager.notify(id, mBuilder.build());
             }
         }
+
+    private class UploadKuva extends AsyncTask<String, Integer, Integer> {
+        Integer paluukoodi=null;
+        protected Integer doInBackground(String... path) {
+            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
+            try {
+                List<File> kuvat = new ArrayList<File>();
+
+                kuvat.add(0,kuva1);
+                kuvat.add(2,kuva2);
+                kuvat.add(3,kuva3);
+                kuvat.add(4,kuva4);
+                kuvat.add(5,kuva5);
+
+                for (int i = 0; kuvat.size() > i; i++){
+
+
+                    String pohja;
+                    String urlIlmantunnusta = "http://proto384.haaga-helia.fi/passi-rest/answer/";
+                    String base = mySharedPreferences.getString("token", "");
+                    String basicAuth = "Basic " + base;
+                    URL urli = new URL(urlIlmantunnusta);
+                    HttpURLConnection clientti = (HttpURLConnection) urli.openConnection();
+                    clientti.setRequestMethod("POST");
+                    clientti.setRequestProperty("Authorization", basicAuth);
+                    clientti.setRequestProperty("Content-Type", "image/jpeg");
+                    clientti.setDoOutput(true);
+                    clientti.setDoInput(true);
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+                    File kuva = kuvat.get(i);
+
+                    File ukko = saveBitmapToFile(kuva);
+
+                    baos.flush();
+                    baos.close();
+
+                    paluukoodi = clientti.getResponseCode();
+                    String paluukoodiString = Integer.toString(clientti.getResponseCode());
+
+                    Log.e("Paluukoodi lähety: ", paluukoodiString);
+
+                    if (clientti != null) {
+                        clientti.disconnect();
+                    }
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 
 
     public File saveBitmapToFile(File file) {
