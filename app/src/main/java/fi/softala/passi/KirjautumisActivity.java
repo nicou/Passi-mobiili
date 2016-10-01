@@ -92,14 +92,7 @@ public class KirjautumisActivity extends Activity {
         return password.length() > 4;
     }
 
-    public void doLogin(String username, final String password) {
-        final ProgressDialog progressDialog = new ProgressDialog(KirjautumisActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Kirjaudutaan...");
-        progressDialog.show();
-
-        Log.d("Passi", username + " username " + password + " password");
+    public void doLogin(String username, String password) {
 
         new tarkistaKirjautuminen().execute(new String[]{username, password});
     }
@@ -117,9 +110,12 @@ public class KirjautumisActivity extends Activity {
         startActivity(valikko);
     }
 
-    public void onLoginFailed() {
-        Intent valikko = new Intent(KirjautumisActivity.this, KirjautumisActivity.class);
-        startActivity(valikko);
+    public void onLoginFailed(String virheViesti) {
+        Context context = getApplicationContext();
+        Toast toast;
+        int duration = Toast.LENGTH_LONG;
+        toast = Toast.makeText(context, virheViesti, duration);
+        toast.show();
     }
 
     private void hideKeyboard() {
@@ -133,7 +129,8 @@ public class KirjautumisActivity extends Activity {
     private class tarkistaKirjautuminen extends AsyncTask<String, Void, Integer>{
 
         Context context = getApplicationContext();
-
+        final ProgressDialog progressDialog = new ProgressDialog(KirjautumisActivity.this,
+                R.style.AppTheme_Dark_Dialog);
         // Get an instance of the Android account manager
         final AccountManager accountManager =
                 (AccountManager) context.getSystemService(
@@ -143,11 +140,21 @@ public class KirjautumisActivity extends Activity {
         String username;
         String password;
         String base;
+        final int RESULT_OK = 200;
+        final int RESULT_NOT_FOUND = 401;
 
-            @Override
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Kirjaudutaan...");
+            progressDialog.show();
+        }
+
+        @Override
             protected Integer doInBackground(String... params)  {
                 username = params[0];
-                password = params[0];
+                password = params[1];
                 String pohja = username + ":" + password;
                 base = Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
 
@@ -172,21 +179,19 @@ public class KirjautumisActivity extends Activity {
                         paluukoodi = 401;
                     }
                 }
-                
+
                 return paluukoodi;
             }
 
             @Override
              protected void onPostExecute(Integer result){
-                Log.d("Passi", "resuöltti " + result);
                 super.onPostExecute(result);
-                final int ok = 200;
-                final int notFound = 401;
-
+                progressDialog.dismiss();
+                String text;
                 SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
                 // Haku onnistui
-                if(result == ok){
+                if(result == RESULT_OK){
                     Account account = new Account(username, ACCOUNT_TYPE);
                     accountManager.addAccountExplicitly(account, password, null);
                     SharedPreferences.Editor editor = mySharedPreferences.edit();
@@ -198,20 +203,14 @@ public class KirjautumisActivity extends Activity {
                     onLoginSuccess();
 
                 // Väärät tunnukset
-                }else if(result == notFound ){
-                    int duration = Toast.LENGTH_LONG;
-                    String text = "Salasana tai käyttäjänimi väärin";
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                    onLoginFailed();
+                } else if(result == RESULT_NOT_FOUND ){
+                    text = "Salasana tai käyttäjänimi väärin";
+                    onLoginFailed(text);
 
                 // Jokin muu virhe
-                }else{
-                    int duration = Toast.LENGTH_LONG;
-                    String text = "Virhe tietojen haussa";
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                    onLoginFailed();
+                } else {
+                    text = "Virhe tietojen haussa";
+                    onLoginFailed(text);
                 }
         }
 }}
