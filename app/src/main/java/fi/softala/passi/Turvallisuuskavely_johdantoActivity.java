@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -29,12 +30,11 @@ import android.widget.Toast;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -344,8 +344,61 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
                 .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
                 .setContentIntent(pendingIntent);
 
+        new Turvallisuuskavely_johdantoActivity.PoisaVastaus().execute("1");
+          }
+    private class PoisaVastaus extends AsyncTask<String, Integer, Integer> {
+        @Override
+        protected Integer doInBackground(String... path) {
+            Integer paluukoodi = 1;
+            try {
+                SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+                String username = mySharedPreferences.getString("tunnus", "");
+                String base = mySharedPreferences.getString("token", "");
+                String basicAuth = "Basic " + base;
 
-        new Turvallisuuskavely_johdantoActivity.UploadImage().execute();
+                // http://proto384.haaga-helia.fi/passi-rest/answer/ { worksheetID } / { username }
+                String urlPoistoTunnuksella = "http://proto384.haaga-helia.fi/passi-rest/answer/1/"+username;
+                URL urli = new URL(urlPoistoTunnuksella);
+
+                HttpURLConnection clientti = (HttpURLConnection) urli.openConnection();
+                clientti.setRequestMethod("DELETE");
+                clientti.setRequestProperty("Authorization", basicAuth);
+                clientti.setRequestProperty("Content-Type", "application/json");
+
+                paluukoodi = clientti.getResponseCode();
+                String paluukoodiString = Integer.toString(clientti.getResponseCode());
+
+                Log.e("Paluukoodi poisto: ", paluukoodiString);
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return paluukoodi;
+        }
+
+        @Override
+        protected void onPostExecute (Integer result){
+            Log.d("Passi", "Poisto " + result);
+
+            super.onPostExecute(result);
+
+
+            if (result == 204) {
+                new Turvallisuuskavely_johdantoActivity.UploadImage().execute("1");
+
+            }else if(result == 404 ){
+                new Turvallisuuskavely_johdantoActivity.UploadImage().execute("1");
+            }
+            else if (result == 417){
+                new Turvallisuuskavely_johdantoActivity.UploadImage().execute("1");
+            }
+            else {
+                new Turvallisuuskavely_johdantoActivity.UploadImage().execute("1");
+            }
+        }
     }
 
     private class UploadImage extends AsyncTask<String, Integer, Integer> {
@@ -375,19 +428,26 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
         @Override
         protected Integer doInBackground(String... path) {
-            int i;
+
+            String resultVanha = path[0];
+
+            Integer paluukoodi = 1;
 
             String url = " http://proto384.haaga-helia.fi/passi-rest/answer/";
+
+            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
+            String username = mySharedPreferences.getString("tunnus", "");
+
+
 
             OkHttpClient client = new OkHttpClient();
             ObjectMapper mapper = new ObjectMapper();
 
-            Vastaus uusiVastaus = new Vastaus();
-
             List<Etappi> etappiLista = new ArrayList<>();
             Etappi etappi = new Etappi();
 
-            Vastaus1 vastaus1 = new Vastaus1();
+            Vastaus vastaus = new Vastaus();
 
             etappi.setAnsweWaypointID(0);
             etappi.setAnswerID(0);
@@ -395,7 +455,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             etappi.setSelectedOptionID(selectedOptionID1);
             etappi.setImageURL("ukko");
             etappi.setAnswerText(selostus1);
-            etappi.setInstructorComment("");
+            etappi.setInstructorComment("moi");
 
             etappiLista.add(etappi);
 
@@ -407,7 +467,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             etappi.setSelectedOptionID(selectedOptionID2);
             etappi.setImageURL("ukko");
             etappi.setAnswerText(selostus2);
-            etappi.setInstructorComment("");
+            etappi.setInstructorComment("moi");
 
             etappiLista.add(etappi);
 
@@ -419,7 +479,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             etappi.setSelectedOptionID(selectedOptionID3);
             etappi.setImageURL("ukko");
             etappi.setAnswerText(selostus3);
-            etappi.setInstructorComment("");
+            etappi.setInstructorComment("moi");
 
             etappiLista.add(etappi);
 
@@ -431,7 +491,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             etappi.setSelectedOptionID(selectedOptionID4);
             etappi.setImageURL("ukko");
             etappi.setAnswerText(selostus4);
-            etappi.setInstructorComment("");
+            etappi.setInstructorComment("moi");
 
             etappiLista.add(etappi);
 
@@ -443,25 +503,60 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             etappi.setSelectedOptionID(selectedOptionID5);
             etappi.setImageURL("ukko");
             etappi.setAnswerText(selostus5);
-            etappi.setInstructorComment("");
+            etappi.setInstructorComment("moi");
 
             etappiLista.add(etappi);
 
-            vastaus1.setAnswerID(0);
-            vastaus1.setWorksheetID(1);
-            vastaus1.setUsername("jaapa");
-            vastaus1.setPlanningText(suunnitelmaString);
-            vastaus1.setWaypoints(etappiLista);
+            vastaus.setAnswerID(0);
+            vastaus.setWorksheetID(1);
+            vastaus.setUsername(username);
+            vastaus.setPlanningText(suunnitelmaString);
+            vastaus.setWaypoints(etappiLista);
+            vastaus.setInstructorComment("moi");
+
+            String JSONjeesus = "";
 
             try {
-                String JSONjeesus = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(vastaus1);
-                Log.e("Passi", JSONjeesus);
+                JSONjeesus = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(vastaus);
+                Log.d("Passi", JSONjeesus);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
+            String pohja;
+            String urlIlmantunnusta = "http://proto384.haaga-helia.fi/passi-rest/answer/";
+            String base = mySharedPreferences.getString("token", "");
+            String basicAuth = "Basic " + base;
+            Integer rv = Integer.parseInt(resultVanha);
+            Log.e("Tässä on: ", resultVanha);
 
 
+            try {
+                URL urli = new URL(urlIlmantunnusta);
 
+                HttpURLConnection clientti = (HttpURLConnection) urli.openConnection();
+                clientti.setRequestMethod("POST");
+                clientti.setRequestProperty("Authorization", basicAuth);
+                clientti.setRequestProperty("Content-Type", "application/json");
+                clientti.setDoOutput(true);
+                clientti.setDoInput(true);
+
+
+                OutputStreamWriter wr = new OutputStreamWriter(clientti.getOutputStream());
+                if (JSONjeesus.length() > 1){
+                    wr.write(JSONjeesus);
+                }
+                wr.flush();
+                wr.close();
+
+                paluukoodi = clientti.getResponseCode();
+                String paluukoodiString = Integer.toString(clientti.getResponseCode());
+
+                Log.e("Paluukoodi lähety: ", paluukoodiString);
+
+                if (client != null) {
+                    clientti.disconnect();
+                }
+/*
             RequestBody formBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM).addFormDataPart("file", "image.png",
                             RequestBody.create(MediaType.parse("image/png"), kuva1))
@@ -494,33 +589,45 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
                 // Sets the progress indicator completion percentage
                 publishProgress(Math.min(i, 100));
 
+            }*/
+
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return kahvi;
+            return paluukoodi;
         }
 
 
-        @Override
-        protected void onPostExecute(Integer result) {
-            Log.d("Passi", "Jee jöö " + result);
+            @Override
+            protected void onPostExecute (Integer result){
+                Log.d("Passi", "Jee jöö " + result);
 
-            super.onPostExecute(result);
+                super.onPostExecute(result);
 
-            progressDialog.dismiss();
-            if (result == 1) {
-                mBuilder.setContentText("Vastaus tallennettu");
-                Toast.makeText(getApplicationContext(), "Vastaus tallennettu!", Toast.LENGTH_LONG);
+                progressDialog.dismiss();
+                if (result == 201) {
+                    mBuilder.setContentText("Vastaus tallennettu");
+                    Toast.makeText(getApplicationContext(), "Vastaus tallennettu!", Toast.LENGTH_LONG);
 
-            } else {
-                mBuilder.setContentText("Tallennus epäonnistui");
-                Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG);
+                }else if(result == 409){
+                    //new Turvallisuuskavely_johdantoActivity.UploadImage().execute(new String[]{Integer.toString(result)});
+                }
+                else {
+                    mBuilder.setContentText("Tallennus epäonnistui");
+                    Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG);
+                }
+                Intent intent = new Intent(Turvallisuuskavely_johdantoActivity.this, ValikkoActivity.class);
+                startActivity(intent);
+                // Removes the progress bar
+                mBuilder.setProgress(0, 0, false);
+                mNotifyManager.notify(id, mBuilder.build());
             }
-            Intent intent = new Intent(Turvallisuuskavely_johdantoActivity.this, ValikkoActivity.class);
-            startActivity(intent);
-            // Removes the progress bar
-            mBuilder.setProgress(0, 0, false);
-            mNotifyManager.notify(id, mBuilder.build());
         }
-    }
+
 
     public File saveBitmapToFile(File file) {
         try {
