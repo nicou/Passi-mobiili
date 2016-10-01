@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.util.ByteArrayBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
@@ -39,13 +38,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import org.apache.http.entity.ByteArrayEntity;
 
 public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
@@ -238,7 +231,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         }
 
         return laskettuVastaus;
-    };
+    }
 
     private void keraaTiedot() throws JsonProcessingException {
         EditText selostus;
@@ -640,7 +633,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
             try {
-                List<File> kuvat = new ArrayList<File>();
+                List<File> kuvat = new ArrayList<>();
 
                 kuvat.add(0,kuva1);
                 kuvat.add(2,kuva2);
