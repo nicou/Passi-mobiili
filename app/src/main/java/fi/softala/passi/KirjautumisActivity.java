@@ -175,9 +175,7 @@ public class KirjautumisActivity extends Activity {
 
                     paluukoodi = responseEntity.getStatusCode().value();
                 } catch (HttpClientErrorException e) {
-                    if (e.getStatusCode().value() == 401) {
-                        paluukoodi = 401;
-                    }
+                    paluukoodi = e.getStatusCode().value();
                 }
 
                 return paluukoodi;
