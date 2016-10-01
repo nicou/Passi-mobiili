@@ -32,9 +32,7 @@
         <activity android:name=".ValikkoActivity" />
         <activity android:name=".TehtavakortinValintaActivity" />
         <activity android:name=".Turvallisuuskavely_johdantoActivity" />
-        <activity
-            android:name=".Camera2Activity"
-            android:label="@string/title_activity_camera2" />
+
         <service
             android:name="fi.softala.passi.AuthenticatorService">
             <intent-filter>
