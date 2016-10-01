@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.Base64;
@@ -16,7 +17,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 
 /**
  * Created by villeaaltonen on 15/09/16.
@@ -24,9 +30,7 @@ import java.util.ArrayList;
 public class KirjautumisActivity extends Activity {
     // Constants
     // The authority for the sync adapter's content provider
-    public static final String AUTHORITY = "com.example.android.datasync.provider";
     public static final String ACCOUNT_TYPE = "fi.softala.passi";
-    // An account type, in the form of a domain name
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,84 +85,11 @@ public class KirjautumisActivity extends Activity {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Kirjaudutaan...");
         progressDialog.show();
-        Context context = getApplicationContext();
 
-        // Get an instance of the Android account manager
-        final AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        ACCOUNT_SERVICE);
         Log.d("Passi", username + " username " + password + " password");
-        // TODO: Implement your own authentication logic here.
 
-        ArrayList tunnukset = new ArrayList();
-
-        tunnukset.add("Oppilas1");
-        tunnukset.add("Oppilas2");
-        tunnukset.add("Oppilas3");
-        tunnukset.add("Oppilas4");
-        tunnukset.add("Oppilas5");
-        tunnukset.add("Oppilas6");
-        tunnukset.add("Oppilas7");
-        tunnukset.add("Oppilas8");
-        tunnukset.add("Oppilas9");
-        tunnukset.add("Oppilas10");
-        tunnukset.add("Oppilas11");
-        tunnukset.add("Oppilas12");
-        tunnukset.add("Oppilas13");
-        tunnukset.add("Oppilas14");
-        tunnukset.add("Oppilas15");
-
-        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mySharedPreferences.edit();
-
-
-        String tunnus = "";
-        Boolean oikein = false;
-        String pohja = "";
-        String base ="";
-        for(int i = 0; tunnukset.size() > i; i++){
-
-            tunnus = (String) tunnukset.get(i);
-            if(username.equals(tunnus) && password.equals("salakala") || username.equals("admin") && password.equals("admin")){
-                oikein = true;
-      if(username != null && password != null){
-            pohja = "jaapa" + ":" + "jaapa";
-            base =Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
-            System.out.println(base + " Väliaikainen token");
-
-            }
-
-        }
-        if (oikein == true) {
-            Account account = new Account(username, ACCOUNT_TYPE);
-            accountManager.addAccountExplicitly(account, password, null);
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            // On complete call either onLoginSuccess or onLoginFailed
-                            onLoginSuccess();
-                            // onLoginFailed();
-                            progressDialog.dismiss();
-                        }
-                    }, 3000);
-
-            editor.putString("tunnus", tunnus);
-            editor.commit();
-            editor.putString("token", base);
-            editor.commit();
-        } else {
-
-
-            progressDialog.dismiss();
-            int duration = Toast.LENGTH_LONG;
-            String text = "Salasana tai käyttäjänimi väärin";
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-
-        }
-
-
-    }}
+        new tarkistaKirjautuminen().execute(new String[]{username, password});
+    }
 
     public void onBackPressed() {
         super.onBackPressed();
@@ -169,17 +100,13 @@ public class KirjautumisActivity extends Activity {
 
 
     public void onLoginSuccess() {
-        // btn.setEnabled(true);
-// Create the dummy account
-        // mAccount = CreateSyncAccount(this);
         Intent valikko = new Intent(KirjautumisActivity.this, ValikkoActivity.class);
         startActivity(valikko);
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
-        // btn.setEnabled(true);
+        Intent valikko = new Intent(KirjautumisActivity.this, KirjautumisActivity.class);
+        startActivity(valikko);
     }
 
     private void hideKeyboard() {
@@ -190,5 +117,93 @@ public class KirjautumisActivity extends Activity {
         }
     }
 
+    private class tarkistaKirjautuminen extends AsyncTask<String, Void, Integer>{
 
-}
+        Context context = getApplicationContext();
+
+        // Get an instance of the Android account manager
+        final AccountManager accountManager =
+                (AccountManager) context.getSystemService(
+                        ACCOUNT_SERVICE);
+
+        Integer paluukoodi = 0;
+        String username;
+        String password;
+        String base;
+
+            @Override
+            protected Integer doInBackground(String... params)  {
+                username = params[0];
+                password = params[0];
+
+                String pohja;
+                String urlIlmantunnusta = "http://proto384.haaga-helia.fi/passi-rest/student/";
+
+                pohja = username + ":" + password;
+                base =Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
+                String basicAuth = "Basic " + base;
+
+                URL url;
+                try {
+                    url = new URL(urlIlmantunnusta+username);
+
+                    HttpURLConnection client = (HttpURLConnection) url.openConnection();
+                    client.setRequestMethod("GET");
+                    client.setRequestProperty("Authorization", basicAuth);
+                    client.setRequestProperty("Content-Type", "application/json");
+
+                    paluukoodi = client.getResponseCode();
+                    String paluukoodiString =Integer.toString(client.getResponseCode());
+
+                    Log.d("Paluukoodi", paluukoodiString);
+                    if(client != null){
+                        client.disconnect();
+                    }
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                }
+                return paluukoodi;
+            }
+
+            @Override
+             protected void onPostExecute(Integer result){
+                super.onPostExecute(result);
+                final int ok = 200;
+                final int notFound = 401;
+
+                SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
+                // Haku onnistui
+                if(result == ok){
+                    Account account = new Account(username, ACCOUNT_TYPE);
+                    accountManager.addAccountExplicitly(account, password, null);
+                    SharedPreferences.Editor editor = mySharedPreferences.edit();
+                    editor.putString("tunnus", username);
+                    editor.apply();
+                    editor.putString("token", base);
+                    editor.apply();
+
+                    onLoginSuccess();
+
+                // Väärät tunnukset
+                }else if(result == notFound ){
+                    int duration = Toast.LENGTH_LONG;
+                    String text = "Salasana tai käyttäjänimi väärin";
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    onLoginFailed();
+
+                // Jokin muu virhe
+                }else{
+                    int duration = Toast.LENGTH_LONG;
+                    String text = "Virhe tietojen haussa";
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    onLoginFailed();
+                }
+        }
+}}
