@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -89,15 +88,15 @@
                         android:text="Kaikki OK"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/radioButton20"
-                        android:layout_above="@+id/radioButton30"
+                    android:layout_above="@+id/radioButton30"
                         android:layout_alignLeft="@+id/radioButton30"
                         android:layout_alignStart="@+id/radioButton30"
                         android:layout_marginBottom="12dp"
                         android:paddingLeft="10dp"
+                    android:button="@drawable/greenfaceselector"
+
                     />
 
-                <!--android:button="@drawable/green_face"-->
 
 
                 <RadioButton
@@ -111,8 +110,11 @@
                     android:layout_alignEnd="@+id/radioButton40"
                     android:layout_marginRight="100dp"
                     android:layout_marginEnd="100dp"
-                    android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/yellow_face"-->
+                    android:paddingLeft="10dp"
+                    android:button="@drawable/yellowfaceselector"
+
+
+                    />
 
 
                 <RadioButton
@@ -124,8 +126,9 @@
                     android:layout_above="@+id/selostusKentta1"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/red_face"-->
+                    android:paddingLeft="10dp"
+                    android:button="@drawable/redfaceselector"
+                    />
 
 
             </RadioGroup>
@@ -180,13 +183,14 @@
                     android:text="Kaikki OK"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radioButton21"
                     android:layout_above="@+id/radioButton31"
                     android:layout_alignLeft="@+id/radioButton31"
                     android:layout_alignStart="@+id/radioButton31"
                     android:layout_marginBottom="12dp"
-                    android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/green_face"-->
+                    android:paddingLeft="10dp"
+                    android:button="@drawable/greenfaceselector"
+                    />
+
 
 
                 <RadioButton
@@ -198,8 +202,9 @@
                 android:layout_alignLeft="@+id/radioButton41"
                 android:layout_alignStart="@+id/radioButton41"
                 android:layout_marginBottom="14dp"
-                android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/yellow_face"-->
+                android:paddingLeft="10dp"
+                    android:button="@drawable/yellowfaceselector"/>
+
 
                 <RadioButton
                     android:text="Vaarallinen tai selkeitä puuteita"
@@ -210,8 +215,10 @@
                     android:layout_alignRight="@+id/selostusKentta2"
                     android:layout_alignEnd="@+id/selostusKentta2"
                     android:layout_marginBottom="40dp"
-                    android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/red_face"-->
+                    android:paddingLeft="10dp"
+                    android:button="@drawable/redfaceselector"
+                    />
+
 
 
 
@@ -288,13 +295,13 @@
                     android:text="Kaikki OK"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radioButton22"
                     android:layout_above="@+id/radioButton32"
                     android:layout_alignLeft="@+id/radioButton32"
                     android:layout_alignStart="@+id/radioButton32"
                     android:layout_marginBottom="12dp"
-                    android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/green_face"-->
+                    android:paddingLeft="10dp"
+                android:button="@drawable/greenfaceselector" />
+
 
 
                 <RadioButton
@@ -306,8 +313,10 @@
                 android:layout_alignLeft="@+id/radioButton42"
                 android:layout_alignStart="@+id/radioButton42"
                 android:layout_marginBottom="14dp"
-                android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/yellow_face"-->
+                android:paddingLeft="10dp"
+                    android:button="@drawable/yellowfaceselector"
+                    />
+
 
 
 
@@ -321,8 +330,10 @@
                     android:layout_alignRight="@+id/selostusKentta3"
                     android:layout_alignEnd="@+id/selostusKentta3"
                     android:layout_marginBottom="40dp"
-                    android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/red_face"-->
+                    android:paddingLeft="10dp"
+                    android:button="@drawable/redfaceselector"
+                    />
+
 
             </RadioGroup>
             <EditText
@@ -399,13 +410,14 @@
                     android:text="Kaikki OK"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radioButton23"
                     android:layout_above="@+id/radioButton33"
                     android:layout_alignLeft="@+id/radioButton33"
                     android:layout_alignStart="@+id/radioButton33"
                     android:layout_marginBottom="12dp"
-                    android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/green_face"-->
+                    android:paddingLeft="10dp"
+                    android:button="@drawable/greenfaceselector"
+                    />
+
 
 
                 <RadioButton
@@ -417,8 +429,9 @@
                 android:layout_alignLeft="@+id/radioButton43"
                 android:layout_alignStart="@+id/radioButton43"
                 android:layout_marginBottom="14dp"
-                android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/yellow_face"-->
+                android:paddingLeft="10dp"
+                    android:button="@drawable/yellowfaceselector"/>
+
 
 
                 <RadioButton
@@ -430,8 +443,10 @@
                     android:layout_alignRight="@+id/selostusKentta4"
                     android:layout_alignEnd="@+id/selostusKentta4"
                     android:layout_marginBottom="40dp"
-                    android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/red_face"-->
+                    android:paddingLeft="10dp"
+                    android:button="@drawable/redfaceselector"
+                    />
+
 
 
 
@@ -512,13 +527,14 @@
                     android:text="Kaikki OK"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radioButton24"
                     android:layout_above="@+id/radioButton34"
                     android:layout_alignLeft="@+id/radioButton34"
                     android:layout_alignStart="@+id/radioButton34"
                     android:layout_marginBottom="12dp"
-                    android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/green_face"-->
+                    android:paddingLeft="10dp"
+                    android:button="@drawable/greenfaceselector"
+                    />
+
 
 
 
@@ -531,8 +547,9 @@
                 android:layout_alignLeft="@+id/radioButton44"
                 android:layout_alignStart="@+id/radioButton44"
                 android:layout_marginBottom="14dp"
-                android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/yellow_face"-->
+                android:paddingLeft="10dp"
+                    android:button="@drawable/yellowfaceselector"/>
+
 
 
                 <RadioButton
@@ -544,8 +561,10 @@
                     android:layout_alignRight="@+id/selostusKentta5"
                     android:layout_alignEnd="@+id/selostusKentta5"
                     android:layout_marginBottom="40dp"
-                    android:paddingLeft="10dp"/>
-                <!--android:button="@drawable/red_face"-->
+                    android:paddingLeft="10dp"
+                    android:button="@drawable/redfaceselector"
+                    />
+
 
 
 
@@ -610,11 +629,5 @@
         </RelativeLayout>
 
     </LinearLayout>
-
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="@dimen/text_margin"-->
-        <!--android:text="@string/large_text" />-->
 
 </android.support.v4.widget.NestedScrollView>

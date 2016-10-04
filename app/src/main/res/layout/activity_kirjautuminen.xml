@@ -26,7 +26,6 @@
             android:layout_marginRight="20dp">
 
             <EditText
-                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -47,7 +46,6 @@
             android:layout_marginTop="4dp">
 
             <EditText
-                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -76,12 +74,5 @@
             android:background="@drawable/nappi" />
 
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:layout_marginBottom="-12dp">
 
-    </RelativeLayout>
 </LinearLayout>

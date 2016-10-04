@@ -53,7 +53,6 @@
             android:background="@drawable/nappi" />
 
         <Button
-            android:id="@+id/btnCreate"
             android:layout_marginTop="4dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"

@@ -28,7 +28,6 @@
         android:scaleType="fitXY" />
 
     <ImageView
-        android:id="@+id/btnHome"
         android:background="@drawable/homeicon"
         android:layout_width="35dp"
         android:layout_height="32dp"
@@ -40,7 +39,6 @@
         />
 
     <ImageView
-        android:id="@+id/btnFeedBack"
         android:background="@drawable/feedbackicon"
         android:layout_width="34dp"
         android:layout_height="24dp"
@@ -52,7 +50,6 @@
         />
 
     <ImageView
-        android:id="@+id/btnLogout"
         android:background="@drawable/logouticon"
         android:layout_width="37dp"
         android:layout_height="30dp"
@@ -74,7 +71,6 @@
         />
 
     <ImageView
-        android:id="@+id/btnProfiiliPohja"
         android:layout_width="280dp"
         android:layout_height="200dp"
         android:layout_marginTop="10dp"
@@ -85,7 +81,6 @@
 
 
     <Button
-        android:id="@+id/btnProfile"
         android:layout_marginTop="160dp"
         android:layout_marginStart="260dp"
         android:layout_marginLeft="140dp"
@@ -105,7 +100,6 @@
     />
 
     <ImageView
-        android:id="@+id/btnTyokykypassiPohja"
         android:layout_width="280dp"
         android:layout_height="200dp"
         android:layout_marginTop="120dp"
@@ -133,7 +127,6 @@
     />
 
     <ImageView
-        android:id="@+id/btnValinekauppaPohja"
         android:layout_width="280dp"
         android:layout_height="200dp"
         android:layout_marginTop="230dp"
@@ -143,7 +136,6 @@
         />
 
     <Button
-        android:id="@+id/btnValinekauppa"
         android:layout_marginTop="380dp"
         android:layout_marginStart="260dp"
         android:layout_marginLeft="140dp"
@@ -160,7 +152,6 @@
         android:background="@drawable/nappi" />
 
     <ImageView
-        android:id="@+id/btnEtenemispalkki_pohja"
         android:layout_width="345dp"
         android:layout_height="200dp"
         android:layout_marginTop="320dp"
@@ -171,7 +162,6 @@
         />
 
     <ImageView
-        android:id="@+id/btnEtenemispalkki"
         android:layout_width="290dp"
         android:layout_height="200dp"
         android:layout_marginTop="318dp"

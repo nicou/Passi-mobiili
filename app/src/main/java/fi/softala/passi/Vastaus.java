@@ -1,26 +1,72 @@
 package fi.softala.passi;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by villeaaltonen on 27/09/16.
+ * Created by joakimkajan on 29/09/16.
  */
 
 public class Vastaus {
+
+    Integer answerID;
+    Integer worksheetID;
+
+    String username;
     String planningText;
-    ArrayList<String> selectedOptionID;
-//    ArrayList<File> image;
-    ArrayList<String> selostukset;
+    List<Etappi> waypoints;
+    String instructorComment;
 
-    public ArrayList<String> getSelostukset() {
-        return selostukset;
-    }
-
-    public void setSelostukset(ArrayList<String> selostukset) {
-        this.selostukset = selostukset;
+    public Vastaus(Integer answerID, Integer worksheetID, String username, String planningText, List<Etappi> waypoints, String instructorComment) {
+        this.answerID = answerID;
+        this.worksheetID = worksheetID;
+        this.username = username;
+        this.planningText = planningText;
+        this.waypoints = waypoints;
+        this.instructorComment = instructorComment;
     }
 
     public Vastaus() {
+
+    }
+
+    public String getInstructorComment() {
+        return instructorComment;
+    }
+
+    public void setInstructorComment(String instructorComment) {
+        this.instructorComment = instructorComment;
+    }
+
+    public Integer getAnswerID() {
+        return answerID;
+    }
+
+    public void setAnswerID(Integer answerID) {
+        this.answerID = answerID;
+    }
+
+    public Integer getWorksheetID() {
+        return worksheetID;
+    }
+
+    public void setWorksheetID(Integer worksheetID) {
+        this.worksheetID = worksheetID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<Etappi> getWaypoints() {
+        return waypoints;
+    }
+
+    public void setWaypoints(List<Etappi> waypoints) {
+        this.waypoints = waypoints;
     }
 
     public String getPlanningText() {
@@ -31,19 +77,14 @@ public class Vastaus {
         this.planningText = planningText;
     }
 
-    public ArrayList<String> getSelectedOptionID() {
-        return selectedOptionID;
+    @Override
+    public String toString() {
+        return "Vastaus{" +
+                "answerWorksheetID=" + answerID +
+                ", worksheetID=" + worksheetID +
+                ", username='" + username + '\'' +
+                ", planningText='" + planningText + '\'' +
+                ", waypoints=" + waypoints +
+                '}';
     }
-
-    public void setSelectedOptionID(ArrayList<String> selectedOptionID) {
-        this.selectedOptionID = selectedOptionID;
-    }
-
-//    public ArrayList<File> getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(ArrayList<File> image) {
-//        this.image = image;
-//    }
 }

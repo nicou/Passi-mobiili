@@ -7,16 +7,26 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+
+import org.springframework.http.ContentCodingType;
+import org.springframework.http.HttpBasicAuthentication;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by villeaaltonen on 15/09/16.
@@ -24,9 +34,7 @@ import java.util.ArrayList;
 public class KirjautumisActivity extends Activity {
     // Constants
     // The authority for the sync adapter's content provider
-    public static final String AUTHORITY = "com.example.android.datasync.provider";
     public static final String ACCOUNT_TYPE = "fi.softala.passi";
-    // An account type, in the form of a domain name
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,90 +83,10 @@ public class KirjautumisActivity extends Activity {
         return password.length() > 4;
     }
 
-    public void doLogin(String username, final String password) {
-        final ProgressDialog progressDialog = new ProgressDialog(KirjautumisActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Kirjaudutaan...");
-        progressDialog.show();
-        Context context = getApplicationContext();
+    public void doLogin(String username, String password) {
 
-        // Get an instance of the Android account manager
-        final AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        ACCOUNT_SERVICE);
-        Log.d("Passi", username + " username " + password + " password");
-        // TODO: Implement your own authentication logic here.
-
-        ArrayList tunnukset = new ArrayList();
-
-        tunnukset.add("Oppilas1");
-        tunnukset.add("Oppilas2");
-        tunnukset.add("Oppilas3");
-        tunnukset.add("Oppilas4");
-        tunnukset.add("Oppilas5");
-        tunnukset.add("Oppilas6");
-        tunnukset.add("Oppilas7");
-        tunnukset.add("Oppilas8");
-        tunnukset.add("Oppilas9");
-        tunnukset.add("Oppilas10");
-        tunnukset.add("Oppilas11");
-        tunnukset.add("Oppilas12");
-        tunnukset.add("Oppilas13");
-        tunnukset.add("Oppilas14");
-        tunnukset.add("Oppilas15");
-
-        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mySharedPreferences.edit();
-
-
-        String tunnus = "";
-        Boolean oikein = false;
-        String pohja = "";
-        String base ="";
-        for(int i = 0; tunnukset.size() > i; i++){
-
-            tunnus = (String) tunnukset.get(i);
-            if(username.equals(tunnus) && password.equals("salakala") || username.equals("admin") && password.equals("admin")){
-                oikein = true;
-      if(username != null && password != null){
-            pohja = "jaapa" + ":" + "jaapa";
-            base =Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
-            System.out.println(base + " Väliaikainen token");
-
-            }
-
-        }
-        if (oikein == true) {
-            Account account = new Account(username, ACCOUNT_TYPE);
-            accountManager.addAccountExplicitly(account, password, null);
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            // On complete call either onLoginSuccess or onLoginFailed
-                            onLoginSuccess();
-                            // onLoginFailed();
-                            progressDialog.dismiss();
-                        }
-                    }, 3000);
-
-            editor.putString("tunnus", tunnus);
-            editor.commit();
-            editor.putString("token", base);
-            editor.commit();
-        } else {
-
-
-            progressDialog.dismiss();
-            int duration = Toast.LENGTH_LONG;
-            String text = "Salasana tai käyttäjänimi väärin";
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-
-        }
-
-
-    }}
+        new tarkistaKirjautuminen().execute(new String[]{username, password});
+    }
 
     public void onBackPressed() {
         super.onBackPressed();
@@ -169,17 +97,16 @@ public class KirjautumisActivity extends Activity {
 
 
     public void onLoginSuccess() {
-        // btn.setEnabled(true);
-// Create the dummy account
-        // mAccount = CreateSyncAccount(this);
         Intent valikko = new Intent(KirjautumisActivity.this, ValikkoActivity.class);
         startActivity(valikko);
     }
 
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
-        // btn.setEnabled(true);
+    public void onLoginFailed(String virheViesti) {
+        Context context = getApplicationContext();
+        Toast toast;
+        int duration = Toast.LENGTH_LONG;
+        toast = Toast.makeText(context, virheViesti, duration);
+        toast.show();
     }
 
     private void hideKeyboard() {
@@ -190,5 +117,91 @@ public class KirjautumisActivity extends Activity {
         }
     }
 
+    private class tarkistaKirjautuminen extends AsyncTask<String, Void, Integer>{
 
-}
+        Context context = getApplicationContext();
+        final ProgressDialog progressDialog = new ProgressDialog(KirjautumisActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        // Get an instance of the Android account manager
+        final AccountManager accountManager =
+                (AccountManager) context.getSystemService(
+                        ACCOUNT_SERVICE);
+
+        Integer paluukoodi = 0;
+        String username;
+        String password;
+        String base;
+        final int RESULT_OK = 200;
+        final int RESULT_NOT_FOUND = 401;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Kirjaudutaan...");
+            progressDialog.show();
+        }
+
+        @Override
+            protected Integer doInBackground(String... params)  {
+                username = params[0];
+                password = params[1];
+                String pohja = username + ":" + password;
+                base = Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
+
+                String url = "http://proto384.haaga-helia.fi/passi-rest/user/"+username;
+
+                // aseta headeriin tiedot
+                HttpHeaders requestHeaders = new HttpHeaders();
+                requestHeaders.setAcceptEncoding(ContentCodingType.GZIP);
+                requestHeaders.setContentEncoding(ContentCodingType.GZIP);
+                requestHeaders.setContentType(new MediaType("application", "json"));
+                requestHeaders.setAuthorization(new HttpBasicAuthentication(username, password));
+                HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
+
+
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                try {
+                    // pyydä serveriltä checkaus
+                    ResponseEntity<Kayttaja> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Kayttaja.class);
+
+                    paluukoodi = responseEntity.getStatusCode().value();
+                } catch (HttpClientErrorException e) {
+                    paluukoodi = e.getStatusCode().value();
+                }
+
+                return paluukoodi;
+            }
+
+            @Override
+             protected void onPostExecute(Integer result){
+                super.onPostExecute(result);
+                progressDialog.dismiss();
+                String text;
+                SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
+                // Haku onnistui
+                if(result == RESULT_OK){
+                    Account account = new Account(username, ACCOUNT_TYPE);
+                    accountManager.addAccountExplicitly(account, password, null);
+                    SharedPreferences.Editor editor = mySharedPreferences.edit();
+                    editor.putString("tunnus", username);
+                    editor.apply();
+                    editor.putString("token", base);
+                    editor.apply();
+
+                    onLoginSuccess();
+
+                // Väärät tunnukset
+                } else if(result == RESULT_NOT_FOUND ){
+                    text = "Salasana tai käyttäjänimi väärin";
+                    onLoginFailed(text);
+
+                // Jokin muu virhe
+                } else {
+                    text = "Virhe tietojen haussa";
+                    onLoginFailed(text);
+                }
+        }
+}}
