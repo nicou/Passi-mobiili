@@ -35,7 +35,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -44,10 +43,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
+public class Tehtavakortti extends AppCompatActivity {
 
     TabHost tabHost;
     File file;
@@ -68,7 +66,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_turvallisuuskavely_johdanto);
+        setContentView(R.layout.activity_tehtavakortti);
 
 
         final TabHost host = (TabHost) findViewById(R.id.tabHost);
@@ -153,17 +151,17 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         }
 
         Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        file = new File(Turvallisuuskavely_johdantoActivity.this.getExternalCacheDir(),
+        file = new File(Tehtavakortti.this.getExternalCacheDir(),
                 String.valueOf(System.currentTimeMillis() + ".jpg"));
         fileUri = Uri.fromFile(file);
         kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        Turvallisuuskavely_johdantoActivity.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
+        Tehtavakortti.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Turvallisuuskavely_johdantoActivity.super.onActivityResult(requestCode, resultCode, data);
+        Tehtavakortti.super.onActivityResult(requestCode, resultCode, data);
         ImageButton kameraButton1 = (ImageButton) findViewById(R.id.kameraButton1);
         ImageButton kameraButton2 = (ImageButton) findViewById(R.id.kameraButton2);
         ImageButton kameraButton3 = (ImageButton) findViewById(R.id.kameraButton3);
@@ -319,9 +317,9 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
     private void rakennaNotifikaatio() {
 
         mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(Turvallisuuskavely_johdantoActivity.this);
+        mBuilder = new NotificationCompat.Builder(Tehtavakortti.this);
 
-        Intent valikkoNakyma = new Intent(Turvallisuuskavely_johdantoActivity.this, ValikkoActivity.class);
+        Intent valikkoNakyma = new Intent(Tehtavakortti.this, ValikkoActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 valikkoNakyma, 0);
@@ -335,8 +333,8 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
     }
 
-    //väliaikainen ghetto
-    private class PoistaVastaus extends AsyncTask<String, Integer, Integer> {
+    //väliaikainen ghetto poistamaan edellinen vastaus
+    private class PoisaVastaus extends AsyncTask<String, Integer, Integer> {
         @Override
         protected Integer doInBackground(String... path) {
             Integer paluukoodi = 1;
@@ -380,24 +378,14 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
 
-            if (result == 204) {
-                new UploadVastaus().execute("1");
+            new UploadVastaus().execute("1");
 
-            }else if(result == 404 ){
-                new UploadVastaus().execute("1");
-            }
-            else if (result == 417){
-                new UploadVastaus().execute("1");
-            }
-            else {
-                new UploadVastaus().execute("1");
-            }
         }
     }
 
     private class UploadVastaus extends AsyncTask<String, Integer, Integer> {
 
-        final ProgressDialog progressDialog = new ProgressDialog(Turvallisuuskavely_johdantoActivity.this,
+        final ProgressDialog progressDialog = new ProgressDialog(Tehtavakortti.this,
                 R.style.AppTheme_Dark_Dialog);
 
         @Override
@@ -539,13 +527,13 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Vastaus tallennettu!", Toast.LENGTH_LONG);
 
                 }else if(result == 409){
-                    //new Turvallisuuskavely_johdantoActivity.UploadVastaus().execute(new String[]{Integer.toString(result)});
+                    // do smthing
                 }
                 else {
                     mBuilder.setContentText("Tallennus epäonnistui");
                     Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG);
                 }
-                Intent intent = new Intent(Turvallisuuskavely_johdantoActivity.this, ValikkoActivity.class);
+                Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
                 startActivity(intent);
                 // Removes the progress bar
                 mBuilder.setProgress(0, 0, false);
@@ -660,7 +648,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         super.onBackPressed();
-        Intent intent = new Intent(Turvallisuuskavely_johdantoActivity.this, TehtavakortinValintaActivity.class);
+        Intent intent = new Intent(Tehtavakortti.this, TehtavakortinValintaActivity.class);
         startActivity(intent);
 
     }

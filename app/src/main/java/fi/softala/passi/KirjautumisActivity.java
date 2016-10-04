@@ -151,7 +151,6 @@ public class KirjautumisActivity extends Activity {
                 Response response = call.execute();
                 Log.d("passi", response.raw().toString());
                 if (response.isSuccessful()) {
-
                     paluukoodi = 200;
                 }
 

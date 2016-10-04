@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fi.softala.passi.Turvallisuuskavely_johdantoActivity"
+    tools:context="fi.softala.passi.Tehtavakortti"
     android:background="@drawable/background">
 
 
@@ -46,7 +46,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Jokainen ammattilainen huolehtii työturvallisuudesta työpaikalla. On tärkeää tunnistaa ja torjua työhön liittyviä vaaroja. Turvallisuuskävelyssä kierretään työympäristön kannalta tärkeitä paikkoja ja arvioidaan turvallisuustasoa. Toteuta yksin tai ryhmässä turvallisuuskävely oppilaitoksessa. Suunnitelkaa etukäteen reitti ja toteutusajankohta. Esittäkää suunnitelma opettajalle ennen toteuttamista."
+                        android:text="Jokainen ammattilainen huolehtii työturvallisuudesta työpaikalla. On tärkeää tunnistaa ja torjua työhön liittyviä vaaroja.\n\nTurvallisuuskävelyssä kierretään työympäristön kannalta tärkeitä paikkoja ja arvioidaan turvallisuustasoa.\n\nToteuta yksin tai ryhmässä turvallisuuskävely oppilaitoksessa.\n\nSuunnitelkaa etukäteen reitti ja toteutusajankohta. Esittäkää suunnitelma opettajalle ennen toteuttamista."
                         android:textSize="20sp"
                         android:id="@+id/textView1"
                         android:scrollbars="vertical"
@@ -54,6 +54,7 @@
                         android:paddingLeft="15dp"
                         android:paddingBottom="15dp"
                         android:paddingTop="15dp"
+                        android:maxLines="10"
                         />
 
                 </LinearLayout>
