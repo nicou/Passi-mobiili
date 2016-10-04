@@ -11,22 +11,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.IOException;
 
-import org.springframework.http.ContentCodingType;
-import org.springframework.http.HttpBasicAuthentication;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by villeaaltonen on 15/09/16.
@@ -85,7 +79,7 @@ public class KirjautumisActivity extends Activity {
 
     public void doLogin(String username, String password) {
 
-        new tarkistaKirjautuminen().execute(new String[]{username, password});
+        new tarkistaKirjautuminen().execute(username, password);
     }
 
     public void onBackPressed() {
@@ -117,7 +111,7 @@ public class KirjautumisActivity extends Activity {
         }
     }
 
-    private class tarkistaKirjautuminen extends AsyncTask<String, Void, Integer>{
+    private class tarkistaKirjautuminen extends AsyncTask<String, Void, Integer> {
 
         Context context = getApplicationContext();
         final ProgressDialog progressDialog = new ProgressDialog(KirjautumisActivity.this,
@@ -143,65 +137,61 @@ public class KirjautumisActivity extends Activity {
         }
 
         @Override
-            protected Integer doInBackground(String... params)  {
-                username = params[0];
-                password = params[1];
-                String pohja = username + ":" + password;
-                base = Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
+        protected Integer doInBackground(String... params) {
+            username = params[0];
+            password = params[1];
+            String pohja = username + ":" + password;
+            base = Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
 
-                String url = "http://proto384.haaga-helia.fi/passi-rest/student/"+username;
+            LoginService loginService =
+                    ServiceGenerator.createService(LoginService.class, username, password);
+            Call<Kayttaja> call = loginService.kayttaja(username);
 
-                // aseta headeriin tiedot
-                HttpHeaders requestHeaders = new HttpHeaders();
-                requestHeaders.setAcceptEncoding(ContentCodingType.GZIP);
-                requestHeaders.setContentEncoding(ContentCodingType.GZIP);
-                requestHeaders.setContentType(new MediaType("application", "json"));
-                requestHeaders.setAuthorization(new HttpBasicAuthentication(username, password));
-                HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
+            try {
+                Response response = call.execute();
+                Log.d("passi", response.raw().toString());
+                if (response.isSuccessful()) {
 
-
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                try {
-                    // pyydä serveriltä checkaus
-                    ResponseEntity<Kayttaja> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Kayttaja.class);
-
-                    paluukoodi = responseEntity.getStatusCode().value();
-                } catch (HttpClientErrorException e) {
-                    paluukoodi = e.getStatusCode().value();
+                    paluukoodi = 200;
                 }
 
-                return paluukoodi;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            @Override
-             protected void onPostExecute(Integer result){
-                super.onPostExecute(result);
-                progressDialog.dismiss();
-                String text;
-                SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
-                // Haku onnistui
-                if(result == RESULT_OK){
-                    Account account = new Account(username, ACCOUNT_TYPE);
-                    accountManager.addAccountExplicitly(account, password, null);
-                    SharedPreferences.Editor editor = mySharedPreferences.edit();
-                    editor.putString("tunnus", username);
-                    editor.apply();
-                    editor.putString("token", base);
-                    editor.apply();
+            return paluukoodi;
+        }
 
-                    onLoginSuccess();
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            String text;
+            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
+            // Haku onnistui
+            if (result == RESULT_OK) {
+                Account account = new Account(username, ACCOUNT_TYPE);
+                accountManager.addAccountExplicitly(account, password, null);
+                SharedPreferences.Editor editor = mySharedPreferences.edit();
+                editor.putString("tunnus", username);
+                editor.apply();
+                editor.putString("token", base);
+                editor.apply();
+
+                onLoginSuccess();
 
                 // Väärät tunnukset
-                } else if(result == RESULT_NOT_FOUND ){
-                    text = "Salasana tai käyttäjänimi väärin";
-                    onLoginFailed(text);
+            } else if (result == RESULT_NOT_FOUND) {
+                text = "Salasana tai käyttäjänimi väärin";
+                onLoginFailed(text);
 
                 // Jokin muu virhe
-                } else {
-                    text = "Virhe tietojen haussa";
-                    onLoginFailed(text);
-                }
+            } else {
+                text = "Virhe tietojen haussa";
+                onLoginFailed(text);
+            }
         }
-}}
+    }
+}

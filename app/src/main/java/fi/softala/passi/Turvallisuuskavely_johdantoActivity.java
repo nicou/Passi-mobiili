@@ -30,7 +30,12 @@ import android.widget.Toast;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -38,7 +43,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
@@ -106,8 +113,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundColor(Color.TRANSPARENT);
 
         ImageButton lahetaNappula = (ImageButton) findViewById(R.id.lahetaNappula);
-        final ProgressDialog progressDialog = new ProgressDialog(Turvallisuuskavely_johdantoActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+
         lahetaNappula.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -201,17 +207,13 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
     }
 
-    private void errorLuokka() {
-        Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_LONG).show();
-    }
-
     private int haeRadioVastaus(int kysymysnumero, String valinta){
         final String ok = "Kaikki ok";
         final String puutteita ="Vaarallinen tai selkeitä puuteitaValinta";
         final String korjattavaa ="Korjattavaa löytyy";
         int laskuNumero = 0;
 
-        Integer laskettuVastaus =0;
+        Integer laskettuVastaus = 0;
         // Laskee radiobutton id. Vaihtoehtoinen tapa on "valintanumero + (kysymysnumero -1) * 3"
         // Molemmat vaativat kysymysnumeron lähtevän 1.
         if(valinta.equals(ok)){
@@ -231,6 +233,10 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         }
 
         return laskettuVastaus;
+    }
+
+    private void errorLuokka() {
+        Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_LONG).show();
     }
 
     private void keraaTiedot() throws JsonProcessingException {
@@ -307,41 +313,30 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         selostus = (EditText) findViewById(R.id.selostusKentta5);
         selostus5 = selostus.getText().toString();
 
-        Log.e("Passi", "Valinta1 = " + valinta1
-        + "Valinta2 = " + valinta2
-        + "Valinta3 = " + valinta3
-        + "Valinta4 = " + valinta4
-        + "Valinta5 = " + valinta5
-        + "Selostus1 = " + selostus1
-        + "Selostus2 = " + selostus2
-        + "Selostus3 = " + selostus3
-        + "Selostus4 = "  + selostus4
-        + "Selostus5 = " + selostus5
-        + "Suunnitelma =  " + suunnitelmaString
-        + "kuva1" + kuva1
-        + "kuva2 " + kuva2
-                + "kuva1" + kuva3
-                + "kuva1" + kuva4
-                + "kuva1" + kuva5);
-
-        startUpload();
+        rakennaNotifikaatio();
 
     }
-    private void startUpload() {
+    private void rakennaNotifikaatio() {
 
         mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(Turvallisuuskavely_johdantoActivity.this);
-        Intent untent = new Intent(Turvallisuuskavely_johdantoActivity.this, ValikkoActivity.class);
+
+        Intent valikkoNakyma = new Intent(Turvallisuuskavely_johdantoActivity.this, ValikkoActivity.class);
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                untent, 0);
+                valikkoNakyma, 0);
+
         mBuilder.setContentTitle("Vastaus")
                 .setContentText("Tallennetaan...")
                 .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
                 .setContentIntent(pendingIntent);
 
-        new Turvallisuuskavely_johdantoActivity.PoisaVastaus().execute("1");
-          }
-    private class PoisaVastaus extends AsyncTask<String, Integer, Integer> {
+        new PoistaVastaus().execute("1");
+
+    }
+
+    //väliaikainen ghetto
+    private class PoistaVastaus extends AsyncTask<String, Integer, Integer> {
         @Override
         protected Integer doInBackground(String... path) {
             Integer paluukoodi = 1;
@@ -386,21 +381,22 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
 
 
             if (result == 204) {
-                new Turvallisuuskavely_johdantoActivity.UploadImage().execute("1");
+                new UploadVastaus().execute("1");
 
             }else if(result == 404 ){
-                new Turvallisuuskavely_johdantoActivity.UploadImage().execute("1");
+                new UploadVastaus().execute("1");
             }
             else if (result == 417){
-                new Turvallisuuskavely_johdantoActivity.UploadImage().execute("1");
+                new UploadVastaus().execute("1");
             }
             else {
-                new Turvallisuuskavely_johdantoActivity.UploadImage().execute("1");
+                new UploadVastaus().execute("1");
             }
         }
     }
 
-    private class UploadImage extends AsyncTask<String, Integer, Integer> {
+    private class UploadVastaus extends AsyncTask<String, Integer, Integer> {
+
         final ProgressDialog progressDialog = new ProgressDialog(Turvallisuuskavely_johdantoActivity.this,
                 R.style.AppTheme_Dark_Dialog);
 
@@ -411,6 +407,7 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             // Displays the progress bar for the first time.
             mBuilder.setProgress(100, 0, false);
             mNotifyManager.notify(id, mBuilder.build());
+
             progressDialog.setIndeterminate(true);
             progressDialog.setTitle("Vastauksen lähetys");
             progressDialog.setMessage("Lähetetään...");
@@ -418,32 +415,19 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values) {
-            // Update progress
-            mBuilder.setProgress(100, values[0], false);
-            mNotifyManager.notify(id, mBuilder.build());
-            super.onProgressUpdate(values);
-        }
-
-        @Override
         protected Integer doInBackground(String... path) {
 
-            String resultVanha = path[0];
-
+            final String resultVanha = path[0];
             Integer paluukoodi = 1;
-
             String url = " http://proto384.haaga-helia.fi/passi-rest/answer/";
 
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-
             String username = mySharedPreferences.getString("tunnus", "");
 
-
-
-            OkHttpClient client = new OkHttpClient();
             ObjectMapper mapper = new ObjectMapper();
 
             List<Etappi> etappiLista = new ArrayList<>();
+
             Etappi etappi = new Etappi();
 
             Vastaus vastaus = new Vastaus();
@@ -521,99 +505,41 @@ public class Turvallisuuskavely_johdantoActivity extends AppCompatActivity {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-            String pohja;
-            String urlIlmantunnusta = "http://proto384.haaga-helia.fi/passi-rest/answer/";
+
+
             String base = mySharedPreferences.getString("token", "");
-            String basicAuth = "Basic " + base;
-            Integer rv = Integer.parseInt(resultVanha);
-            Log.e("Tässä on: ", resultVanha);
 
 
+
+                KayttajaService kayttajaService = ServiceGenerator.createService(KayttajaService.class, base);
+                Call<Vastaus> call = kayttajaService.tallenna(vastaus);
             try {
-                URL urli = new URL(urlIlmantunnusta);
 
-                HttpURLConnection clientti = (HttpURLConnection) urli.openConnection();
-                clientti.setRequestMethod("POST");
-                clientti.setRequestProperty("Authorization", basicAuth);
-                clientti.setRequestProperty("Content-Type", "application/json");
-                clientti.setDoOutput(true);
-                clientti.setDoInput(true);
-
-
-                OutputStreamWriter wr = new OutputStreamWriter(clientti.getOutputStream());
-                if (JSONjeesus.length() > 1){
-                    wr.write(JSONjeesus);
-                }
-                wr.flush();
-                wr.close();
-
-                paluukoodi = clientti.getResponseCode();
-                String paluukoodiString = Integer.toString(clientti.getResponseCode());
-
-                Log.e("Paluukoodi lähety: ", paluukoodiString);
-
-                if (clientti != null) {
-                    clientti.disconnect();
-                }
-/*
-            RequestBody formBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM).addFormDataPart("file", "image.png",
-                            RequestBody.create(MediaType.parse("image/png"), kuva1))
-                    .build();
-
-            Request request = new Request.Builder().url(url).post(formBody).build();
-
-
-            Response response = null;
-
-            try {
-                response = client.newCall(request).execute();
-            } catch (IOException e) {
-
-                e.printStackTrace();
-            }
-
-            int kahvi = 0;
-
-            Log.d("Passi", "Jee " + response);
-
-            if (response != null) {
+                Response response = call.execute();
                 if (response.isSuccessful()) {
-                    kahvi = 1;
+                    paluukoodi = 200;
                 }
-            }
-
-            response.close();
-            for (i = 0; i <= 100; i += 5) {
-                // Sets the progress indicator completion percentage
-                publishProgress(Math.min(i, 100));
-
-            }*/
-
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (IOException e){
                 e.printStackTrace();
             }
+
+
             return paluukoodi;
         }
 
 
             @Override
             protected void onPostExecute (Integer result){
-                Log.d("Passi", "Jee jöö " + result);
-
                 super.onPostExecute(result);
 
                 progressDialog.dismiss();
+
                 if (result == 201) {
                     mBuilder.setContentText("Vastaus tallennettu");
                     Toast.makeText(getApplicationContext(), "Vastaus tallennettu!", Toast.LENGTH_LONG);
 
                 }else if(result == 409){
-                    //new Turvallisuuskavely_johdantoActivity.UploadImage().execute(new String[]{Integer.toString(result)});
+                    //new Turvallisuuskavely_johdantoActivity.UploadVastaus().execute(new String[]{Integer.toString(result)});
                 }
                 else {
                     mBuilder.setContentText("Tallennus epäonnistui");

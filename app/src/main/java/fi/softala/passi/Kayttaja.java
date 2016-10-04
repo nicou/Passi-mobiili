@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * Created by vllle on 1.10.2016.
  */
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Kayttaja {
     private String username;
