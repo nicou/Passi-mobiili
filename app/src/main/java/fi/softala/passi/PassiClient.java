@@ -1,9 +1,9 @@
 package fi.softala.passi;
 
-import java.util.List;
-
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /**
@@ -12,10 +12,13 @@ import retrofit2.http.Path;
 
 public interface PassiClient {
 
-    @GET("/user/{username}")
-    Call<Kayttaja> kayttaja(
+    @GET("user/{username}")
+    Call<Kayttaja> haeKayttaja(
             @Path("username") String username
     );
+
+    @POST("answer")
+    Call<Vastaus> tallennaVastaus(@Body Vastaus vastaus);
 
 
 }

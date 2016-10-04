@@ -47,7 +47,6 @@ import retrofit2.Response;
 
 public class Tehtavakortti extends AppCompatActivity {
 
-    TabHost tabHost;
     File file;
     Uri fileUri;
     File kuva1, kuva2, kuva3, kuva4, kuva5;
@@ -132,7 +131,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
     // kun painetaan kameranappia
     public void onButtonClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.kameraButton1:
                 kameraButtonPressed = 1;
                 break;
@@ -205,28 +204,28 @@ public class Tehtavakortti extends AppCompatActivity {
 
     }
 
-    private int haeRadioVastaus(int kysymysnumero, String valinta){
+    private int haeRadioVastaus(int kysymysnumero, String valinta) {
         final String ok = "Kaikki ok";
-        final String puutteita ="Vaarallinen tai selkeitä puuteitaValinta";
-        final String korjattavaa ="Korjattavaa löytyy";
+        final String puutteita = "Vaarallinen tai selkeitä puuteitaValinta";
+        final String korjattavaa = "Korjattavaa löytyy";
         int laskuNumero = 0;
 
         Integer laskettuVastaus = 0;
         // Laskee radiobutton id. Vaihtoehtoinen tapa on "valintanumero + (kysymysnumero -1) * 3"
         // Molemmat vaativat kysymysnumeron lähtevän 1.
-        if(valinta.equals(ok)){
+        if (valinta.equals(ok)) {
             laskuNumero = -2;
-            laskettuVastaus = kysymysnumero*3-laskuNumero;
+            laskettuVastaus = kysymysnumero * 3 - laskuNumero;
 
         }
-        if(valinta.equals(puutteita)){
+        if (valinta.equals(puutteita)) {
             laskuNumero = -1;
-            laskettuVastaus = kysymysnumero*3-laskuNumero;
+            laskettuVastaus = kysymysnumero * 3 - laskuNumero;
 
         }
-        if(valinta.equals(korjattavaa)){
+        if (valinta.equals(korjattavaa)) {
             laskuNumero = 0;
-            laskettuVastaus = kysymysnumero*3-laskuNumero;
+            laskettuVastaus = kysymysnumero * 3 - laskuNumero;
 
         }
 
@@ -239,13 +238,13 @@ public class Tehtavakortti extends AppCompatActivity {
 
     private void keraaTiedot() throws JsonProcessingException {
         EditText selostus;
-        RadioGroup radioGroup1 = (RadioGroup)findViewById(R.id.radio1);
-        RadioGroup radioGroup2 = (RadioGroup)findViewById(R.id.radio2);
-        RadioGroup radioGroup3 = (RadioGroup)findViewById(R.id.radio3);
-        RadioGroup radioGroup4 = (RadioGroup)findViewById(R.id.radio4);
-        RadioGroup radioGroup5 = (RadioGroup)findViewById(R.id.radio5);
+        RadioGroup radioGroup1 = (RadioGroup) findViewById(R.id.radio1);
+        RadioGroup radioGroup2 = (RadioGroup) findViewById(R.id.radio2);
+        RadioGroup radioGroup3 = (RadioGroup) findViewById(R.id.radio3);
+        RadioGroup radioGroup4 = (RadioGroup) findViewById(R.id.radio4);
+        RadioGroup radioGroup5 = (RadioGroup) findViewById(R.id.radio5);
 
-        if (radioGroup1.getCheckedRadioButtonId() == -1 ) {
+        if (radioGroup1.getCheckedRadioButtonId() == -1) {
             errorLuokka();
         } else {
             selectedId = radioGroup1.getCheckedRadioButtonId();
@@ -256,7 +255,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
         }
 
-        if (radioGroup2.getCheckedRadioButtonId() == -1 ) {
+        if (radioGroup2.getCheckedRadioButtonId() == -1) {
             errorLuokka();
         } else {
             selectedId = radioGroup2.getCheckedRadioButtonId();
@@ -266,29 +265,29 @@ public class Tehtavakortti extends AppCompatActivity {
             selectedOptionID2 = haeRadioVastaus(2, valinta2);
         }
 
-        if (radioGroup3.getCheckedRadioButtonId() == -1 ) {
+        if (radioGroup3.getCheckedRadioButtonId() == -1) {
             errorLuokka();
         } else {
-        selectedId = radioGroup3.getCheckedRadioButtonId();
-        radioButton = (RadioButton) findViewById(selectedId);
+            selectedId = radioGroup3.getCheckedRadioButtonId();
+            radioButton = (RadioButton) findViewById(selectedId);
             valinta3 = radioButton.getText().toString();
             selectedOptionID3 = haeRadioVastaus(3, valinta3);
         }
 
-        if (radioGroup4.getCheckedRadioButtonId() == -1 ) {
+        if (radioGroup4.getCheckedRadioButtonId() == -1) {
             errorLuokka();
         } else {
-        selectedId = radioGroup4.getCheckedRadioButtonId();
-        radioButton = (RadioButton) findViewById(selectedId);
+            selectedId = radioGroup4.getCheckedRadioButtonId();
+            radioButton = (RadioButton) findViewById(selectedId);
             valinta4 = radioButton.getText().toString();
             selectedOptionID4 = haeRadioVastaus(4, valinta4);
         }
 
-        if (radioGroup5.getCheckedRadioButtonId() == -1 ) {
+        if (radioGroup5.getCheckedRadioButtonId() == -1) {
             errorLuokka();
         } else {
-        selectedId = radioGroup5.getCheckedRadioButtonId();
-        radioButton = (RadioButton) findViewById(selectedId);
+            selectedId = radioGroup5.getCheckedRadioButtonId();
+            radioButton = (RadioButton) findViewById(selectedId);
             valinta5 = radioButton.getText().toString();
             selectedOptionID5 = haeRadioVastaus(5, valinta5);
         }
@@ -314,6 +313,7 @@ public class Tehtavakortti extends AppCompatActivity {
         rakennaNotifikaatio();
 
     }
+
     private void rakennaNotifikaatio() {
 
         mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -345,14 +345,13 @@ public class Tehtavakortti extends AppCompatActivity {
                 String basicAuth = "Basic " + base;
 
                 // http://proto384.haaga-helia.fi/passi-rest/answer/ { worksheetID } / { username }
-                String urlPoistoTunnuksella = "http://proto384.haaga-helia.fi/passi-rest/answer/1/"+username;
+                String urlPoistoTunnuksella = "http://proto384.haaga-helia.fi/passi-rest/answer/1/" + username;
                 URL urli = new URL(urlPoistoTunnuksella);
 
                 HttpURLConnection clientti = (HttpURLConnection) urli.openConnection();
                 clientti.setRequestMethod("DELETE");
                 clientti.setRequestProperty("Authorization", basicAuth);
                 clientti.setRequestProperty("Content-Type", "application/json");
-
                 paluukoodi = clientti.getResponseCode();
                 String paluukoodiString = Integer.toString(clientti.getResponseCode());
 
@@ -372,7 +371,7 @@ public class Tehtavakortti extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute (Integer result){
+        protected void onPostExecute(Integer result) {
             Log.d("Passi", "Poisto " + result);
 
             super.onPostExecute(result);
@@ -405,9 +404,7 @@ public class Tehtavakortti extends AppCompatActivity {
         @Override
         protected Integer doInBackground(String... path) {
 
-            final String resultVanha = path[0];
             Integer paluukoodi = 1;
-            String url = " http://proto384.haaga-helia.fi/passi-rest/answer/";
 
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
             String username = mySharedPreferences.getString("tunnus", "");
@@ -485,29 +482,18 @@ public class Tehtavakortti extends AppCompatActivity {
             vastaus.setWaypoints(etappiLista);
             vastaus.setInstructorComment("moi");
 
-            String JSONjeesus = "";
-
-            try {
-                JSONjeesus = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(vastaus);
-                Log.d("Passi", JSONjeesus);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-
-
             String base = mySharedPreferences.getString("token", "");
 
+            PassiClient kayttajaService = ServiceGenerator.createService(PassiClient.class, base);
+            Call<Vastaus> call = kayttajaService.tallennaVastaus(vastaus);
 
-
-                KayttajaService kayttajaService = ServiceGenerator.createService(KayttajaService.class, base);
-                Call<Vastaus> call = kayttajaService.tallenna(vastaus);
             try {
-
                 Response response = call.execute();
                 if (response.isSuccessful()) {
                     paluukoodi = 200;
                 }
-            } catch (IOException e){
+
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -516,46 +502,48 @@ public class Tehtavakortti extends AppCompatActivity {
         }
 
 
-            @Override
-            protected void onPostExecute (Integer result){
-                super.onPostExecute(result);
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
 
-                progressDialog.dismiss();
+            progressDialog.dismiss();
 
-                if (result == 201) {
-                    mBuilder.setContentText("Vastaus tallennettu");
-                    Toast.makeText(getApplicationContext(), "Vastaus tallennettu!", Toast.LENGTH_LONG);
+            if (result == 201) {
+                mBuilder.setContentText("Vastaus tallennettu");
+                Toast.makeText(getApplicationContext(), "Vastaus tallennettu!", Toast.LENGTH_LONG).show();
 
-                }else if(result == 409){
-                    // do smthing
-                }
-                else {
-                    mBuilder.setContentText("Tallennus epäonnistui");
-                    Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG);
-                }
-                Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-                startActivity(intent);
-                // Removes the progress bar
-                mBuilder.setProgress(0, 0, false);
-                mNotifyManager.notify(id, mBuilder.build());
+            } else if (result == 409) {
+                // do smthing
+            } else {
+                mBuilder.setContentText("Tallennus epäonnistui");
+                Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG).show();
             }
+
+            //siirry valikkosivulle kun uploadattu servulle
+            Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
+            startActivity(intent);
+
+            mBuilder.setProgress(0, 0, false);
+            mNotifyManager.notify(id, mBuilder.build());
         }
+    }
 
     private class UploadKuva extends AsyncTask<String, Integer, Integer> {
-        Integer paluukoodi=null;
+        Integer paluukoodi = null;
+
         protected Integer doInBackground(String... path) {
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
             try {
                 List<File> kuvat = new ArrayList<>();
 
-                kuvat.add(0,kuva1);
-                kuvat.add(2,kuva2);
-                kuvat.add(3,kuva3);
-                kuvat.add(4,kuva4);
-                kuvat.add(5,kuva5);
+                kuvat.add(0, kuva1);
+                kuvat.add(2, kuva2);
+                kuvat.add(3, kuva3);
+                kuvat.add(4, kuva4);
+                kuvat.add(5, kuva5);
 
-                for (int i = 0; kuvat.size() > i; i++){
+                for (int i = 0; kuvat.size() > i; i++) {
 
 
                     String pohja;
@@ -598,7 +586,6 @@ public class Tehtavakortti extends AppCompatActivity {
             return null;
         }
     }
-
 
 
     public File saveBitmapToFile(File file) {
