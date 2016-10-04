@@ -30,7 +30,7 @@
             android:label="Kirjautuminen"/>
         <activity android:name=".ValikkoActivity" />
         <activity android:name=".TehtavakortinValintaActivity" />
-        <activity android:name=".Turvallisuuskavely_johdantoActivity" />
+        <activity android:name=".Tehtavakortti" />
 
         <service
             android:name="fi.softala.passi.AuthenticatorService"

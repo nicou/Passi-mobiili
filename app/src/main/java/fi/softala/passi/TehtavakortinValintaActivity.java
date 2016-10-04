@@ -92,7 +92,7 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
         button11.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, Turvallisuuskavely_johdantoActivity.class);
+                Intent intent = new Intent(TehtavakortinValintaActivity.this, Tehtavakortti.class);
                 startActivity(intent);
             }
         });
