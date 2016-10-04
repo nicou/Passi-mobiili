@@ -334,7 +334,7 @@ public class Tehtavakortti extends AppCompatActivity {
     }
 
     //väliaikainen ghetto poistamaan edellinen vastaus
-    private class PoisaVastaus extends AsyncTask<String, Integer, Integer> {
+    private class PoistaVastaus extends AsyncTask<String, Integer, Integer> {
         @Override
         protected Integer doInBackground(String... path) {
             Integer paluukoodi = 1;
