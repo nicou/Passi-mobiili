@@ -149,7 +149,7 @@ public class KirjautumisActivity extends Activity {
                 String pohja = username + ":" + password;
                 base = Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
 
-                String url = "http://proto384.haaga-helia.fi/passi-rest/student/"+username;
+                String url = "http://proto384.haaga-helia.fi/passi-rest/user/"+username;
 
                 // aseta headeriin tiedot
                 HttpHeaders requestHeaders = new HttpHeaders();
