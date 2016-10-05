@@ -130,7 +130,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
     }
 
-    // kun painetaan kameranappia
+    // kun painetaan kameranappia riippuen mikä nappi
     public void onButtonClick(View view) {
         switch (view.getId()) {
             case R.id.kameraButton1:
@@ -159,6 +159,10 @@ public class Tehtavakortti extends AppCompatActivity {
 
     }
 
+    /*
+        asettaa kuvan ottamisen jälkeen URIn mistä kuva löytyy stringiin
+        riippuen mitä nappia on painettu ja vaihtaa painetun napin kuvan
+    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Tehtavakortti.super.onActivityResult(requestCode, resultCode, data);
@@ -321,7 +325,6 @@ public class Tehtavakortti extends AppCompatActivity {
         mBuilder = new NotificationCompat.Builder(Tehtavakortti.this);
 
         Intent valikkoNakyma = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 valikkoNakyma, 0);
 
@@ -346,6 +349,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, base);
             Call<ResponseBody> call = passiClient.poistaVastaus(5);
+
             try {
                 Response response = call.execute();
                 paluukoodi = response.code();
@@ -359,11 +363,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            Log.d("Passi", "Poisto " + result);
-
             super.onPostExecute(result);
-
-
             new UploadVastaus().execute();
 
         }
@@ -455,12 +455,10 @@ public class Tehtavakortti extends AppCompatActivity {
 
             try {
                 Response response = call.execute();
-                Log.d("Passi", "Saatiin" + response.code());
                 paluukoodi = response.code();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
 
             return paluukoodi;
         }
@@ -469,13 +467,14 @@ public class Tehtavakortti extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
-            Log.d("Passi", "Tuli " + result);
             progressDialog.dismiss();
 
             if (result == 201) {
                 mBuilder.setContentText("Vastaus tallennettu");
                 Toast.makeText(getApplicationContext(), "Vastaus tallennettu!", Toast.LENGTH_LONG).show();
-
+                //siirry valikkosivulle kun uploadattu servulle
+                Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
+                startActivity(intent);
             } else if (result == 409) {
                 // do smthing
             } else {
@@ -483,9 +482,7 @@ public class Tehtavakortti extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG).show();
             }
 
-            //siirry valikkosivulle kun uploadattu servulle
-            Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-            startActivity(intent);
+
 
             mBuilder.setProgress(0, 0, false);
             mNotifyManager.notify(id, mBuilder.build());
@@ -583,8 +580,6 @@ public class Tehtavakortti extends AppCompatActivity {
             Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
             inputStream.close();
 
-            // here i override the original image file
-            file.createNewFile();
             FileOutputStream outputStream = new FileOutputStream(file);
 
             selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
