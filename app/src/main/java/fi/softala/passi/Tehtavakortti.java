@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -42,6 +41,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -119,6 +119,7 @@ public class Tehtavakortti extends AppCompatActivity {
                     keraaTiedot();
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Tietojen keräys epäonnistui", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -329,44 +330,30 @@ public class Tehtavakortti extends AppCompatActivity {
                 .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
                 .setContentIntent(pendingIntent);
 
-        new PoistaVastaus().execute("1");
+        new PoistaVastaus().execute();
 
     }
 
     //väliaikainen ghetto poistamaan edellinen vastaus
     private class PoistaVastaus extends AsyncTask<String, Integer, Integer> {
+        Integer paluukoodi = 0;
+
         @Override
         protected Integer doInBackground(String... path) {
-            Integer paluukoodi = 1;
+
+            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+            String base = mySharedPreferences.getString("token", "");
+
+            PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, base);
+            Call<ResponseBody> call = passiClient.poistaVastaus(5);
             try {
-                SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-                String username = mySharedPreferences.getString("tunnus", "");
-                String base = mySharedPreferences.getString("token", "");
-                String basicAuth = "Basic " + base;
+                Response response = call.execute();
+                paluukoodi = response.code();
 
-                // http://proto384.haaga-helia.fi/passi-rest/answer/ { worksheetID } / { username }
-                String urlPoistoTunnuksella = "http://proto384.haaga-helia.fi/passi-rest/answer/1/" + username;
-                URL urli = new URL(urlPoistoTunnuksella);
-
-                HttpURLConnection clientti = (HttpURLConnection) urli.openConnection();
-                clientti.setRequestMethod("DELETE");
-                clientti.setRequestProperty("Authorization", basicAuth);
-                clientti.setRequestProperty("Content-Type", "application/json");
-                paluukoodi = clientti.getResponseCode();
-                String paluukoodiString = Integer.toString(clientti.getResponseCode());
-
-                Log.e("Paluukoodi poisto: ", paluukoodiString);
-
-                if (clientti != null) {
-                    clientti.disconnect();
-                }
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             return paluukoodi;
         }
 
@@ -377,13 +364,13 @@ public class Tehtavakortti extends AppCompatActivity {
             super.onPostExecute(result);
 
 
-            new UploadVastaus().execute("1");
+            new UploadVastaus().execute();
 
         }
     }
 
     private class UploadVastaus extends AsyncTask<String, Integer, Integer> {
-
+        Integer paluukoodi = 0;
         final ProgressDialog progressDialog = new ProgressDialog(Tehtavakortti.this,
                 R.style.AppTheme_Dark_Dialog);
 
@@ -404,95 +391,72 @@ public class Tehtavakortti extends AppCompatActivity {
         @Override
         protected Integer doInBackground(String... path) {
 
-            Integer paluukoodi = 1;
-
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-            String username = mySharedPreferences.getString("tunnus", "");
-
-            ObjectMapper mapper = new ObjectMapper();
 
             List<Etappi> etappiLista = new ArrayList<>();
 
             Etappi etappi = new Etappi();
 
+            etappi.setWaypointID(1);
+            etappi.setSelectedOptionID(2);
+            etappi.setImageURL("/images/pic1.jpg");
+            etappi.setAnswerText(selostus1);
+
+            etappiLista.add(etappi);
+
+            etappi = new Etappi();
+
+            etappi.setWaypointID(2);
+            etappi.setSelectedOptionID(6);
+            etappi.setImageURL("/images/pic2.jpg");
+            etappi.setAnswerText(selostus2);
+
+            etappiLista.add(etappi);
+
+            etappi = new Etappi();
+
+            etappi.setWaypointID(3);
+            etappi.setSelectedOptionID(7);
+            etappi.setImageURL("/images/pic3.jpg");
+            etappi.setAnswerText(selostus3);
+
+            etappiLista.add(etappi);
+
+            etappi = new Etappi();
+
+            etappi.setWaypointID(4);
+            etappi.setSelectedOptionID(11);
+            etappi.setImageURL("/images/pic4.jpg");
+            etappi.setAnswerText(selostus4);
+
+            etappiLista.add(etappi);
+
+            etappi = new Etappi();
+
+            etappi.setWaypointID(5);
+            etappi.setSelectedOptionID(15);
+            etappi.setImageURL("/images/pic5.jpg");
+            etappi.setAnswerText(selostus5);
+
+            etappiLista.add(etappi);
+
             Vastaus vastaus = new Vastaus();
 
-            etappi.setAnsweWaypointID(0);
-            etappi.setAnswerID(0);
-            etappi.setWaypointID(1);
-            etappi.setSelectedOptionID(selectedOptionID1);
-            etappi.setImageURL("ukko");
-            etappi.setAnswerText(selostus1);
-            etappi.setInstructorComment("moi");
-
-            etappiLista.add(etappi);
-
-            etappi = new Etappi();
-
-            etappi.setAnsweWaypointID(0);
-            etappi.setAnswerID(0);
-            etappi.setWaypointID(2);
-            etappi.setSelectedOptionID(selectedOptionID2);
-            etappi.setImageURL("ukko");
-            etappi.setAnswerText(selostus2);
-            etappi.setInstructorComment("moi");
-
-            etappiLista.add(etappi);
-
-            etappi = new Etappi();
-
-            etappi.setAnsweWaypointID(0);
-            etappi.setAnswerID(0);
-            etappi.setWaypointID(3);
-            etappi.setSelectedOptionID(selectedOptionID3);
-            etappi.setImageURL("ukko");
-            etappi.setAnswerText(selostus3);
-            etappi.setInstructorComment("moi");
-
-            etappiLista.add(etappi);
-
-            etappi = new Etappi();
-
-            etappi.setAnsweWaypointID(0);
-            etappi.setAnswerID(0);
-            etappi.setWaypointID(4);
-            etappi.setSelectedOptionID(selectedOptionID4);
-            etappi.setImageURL("ukko");
-            etappi.setAnswerText(selostus4);
-            etappi.setInstructorComment("moi");
-
-            etappiLista.add(etappi);
-
-            etappi = new Etappi();
-
-            etappi.setAnsweWaypointID(0);
-            etappi.setAnswerID(0);
-            etappi.setWaypointID(5);
-            etappi.setSelectedOptionID(selectedOptionID5);
-            etappi.setImageURL("ukko");
-            etappi.setAnswerText(selostus5);
-            etappi.setInstructorComment("moi");
-
-            etappiLista.add(etappi);
-
-            vastaus.setAnswerID(0);
-            vastaus.setWorksheetID(1);
-            vastaus.setUsername(username);
             vastaus.setPlanningText(suunnitelmaString);
-            vastaus.setWaypoints(etappiLista);
-            vastaus.setInstructorComment("moi");
+            vastaus.setWorksheetID(1);
+            vastaus.setGroupID(1);
+            vastaus.setUserID(5);
+            vastaus.setAnswerpoints(etappiLista);
 
             String base = mySharedPreferences.getString("token", "");
 
             PassiClient kayttajaService = ServiceGenerator.createService(PassiClient.class, base);
-            Call<Vastaus> call = kayttajaService.tallennaVastaus(vastaus);
+            Call<ResponseBody> call = kayttajaService.tallennaVastaus(vastaus);
 
             try {
                 Response response = call.execute();
-                if (response.isSuccessful()) {
-                    paluukoodi = 200;
-                }
-
+                Log.d("Passi", "Saatiin" + response.code());
+                paluukoodi = response.code();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -505,7 +469,7 @@ public class Tehtavakortti extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
-
+            Log.d("Passi", "Tuli " + result);
             progressDialog.dismiss();
 
             if (result == 201) {

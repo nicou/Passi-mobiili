@@ -1,7 +1,9 @@
 package fi.softala.passi;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -12,13 +14,14 @@ import retrofit2.http.Path;
 
 public interface PassiClient {
 
-    @GET("user/{username}")
+    @GET("user/{userID}")
     Call<Kayttaja> haeKayttaja(
-            @Path("username") String username
+            @Path("userID") String username
     );
 
-    @POST("answer")
-    Call<Vastaus> tallennaVastaus(@Body Vastaus vastaus);
+    @POST("answer/")
+    Call<ResponseBody> tallennaVastaus(@Body Vastaus vastaus);
 
-
+    @DELETE("answer/1/{userID}")
+    Call<ResponseBody> poistaVastaus(@Path("userID") Integer userID);
 }
