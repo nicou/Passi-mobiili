@@ -12,42 +12,42 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tehtavakortin_valinta);
-        Button button1 = (Button) findViewById(R.id.button1);
+        Button button1 = (Button) findViewById(R.id.btnPaihteet1);
         button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
             }
         });
 
-        Button button2 = (Button) findViewById(R.id.button2);
+        Button button2 = (Button) findViewById(R.id.btnPaihteet2);
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
             }
         });
 
-        Button button3 = (Button) findViewById(R.id.button3);
+        Button button3 = (Button) findViewById(R.id.btnPaihteet);
         button3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
             }
         });
 
-        Button button4 = (Button) findViewById(R.id.button4);
+        Button button4 = (Button) findViewById(R.id.btnRavitsemus);
         button4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
             }
         });
 
-        Button button5 = (Button) findViewById(R.id.button5);
+        Button button5 = (Button) findViewById(R.id.btnMitaOnTerveys);
         button5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
             }
         });
 
-        Button button6 = (Button) findViewById(R.id.button6);
+        Button button6 = (Button) findViewById(R.id.btnMielenHyvinvointi);
         button6.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -55,7 +55,7 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
             }
         });
 
-        Button button7 = (Button) findViewById(R.id.button7);
+        Button button7 = (Button) findViewById(R.id.btnVaarakartta);
         button7.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -63,7 +63,7 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
             }
         });
 
-        Button button8 = (Button) findViewById(R.id.button8);
+        Button button8 = (Button) findViewById(R.id.btnKulttuuriPassi);
         button8.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -71,7 +71,7 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
             }
         });
 
-        Button button9 = (Button) findViewById(R.id.button9);
+        Button button9 = (Button) findViewById(R.id.btnLaadiTyoohjeet);
         button9.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -79,7 +79,7 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
             }
         });
 
-        Button button10 = (Button) findViewById(R.id.button10);
+        Button button10 = (Button) findViewById(R.id.btnOmaTapaLiikkua);
         button10.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -88,7 +88,7 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
         });
 
 //          Turvallisuuskävely
-        Button button11 = (Button) findViewById(R.id.button11);
+        Button button11 = (Button) findViewById(R.id.btnTurvallisuuskavely);
         button11.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -97,7 +97,7 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
             }
         });
 
-        Button button12 = (Button) findViewById(R.id.button12);
+        Button button12 = (Button) findViewById(R.id.btnTyotaHakemassa);
         button12.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
