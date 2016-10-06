@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -55,7 +56,6 @@ public class Tehtavakortti extends AppCompatActivity {
     String suunnitelmaString;
     String selostus1, selostus2, selostus3, selostus4, selostus5;
     Integer selectedOptionID1, selectedOptionID2, selectedOptionID3, selectedOptionID4, selectedOptionID5;
-    SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -392,7 +392,7 @@ public class Tehtavakortti extends AppCompatActivity {
         @Override
         protected Integer doInBackground(String... path) {
 
-            mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
             List<Etappi> etappiLista = new ArrayList<>();
 
@@ -492,13 +492,14 @@ public class Tehtavakortti extends AppCompatActivity {
         }
 
         protected Integer doInBackground(String... path) {
+            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
             String base = mySharedPreferences.getString("token", "");
             PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, 120, base);
             File kuva;
-            File pieniKuva;
             String kuvaNimi;
             ArrayList<File> kuvat = new ArrayList<>();
-
+            byte[] byteKuva;
             kuvat.add(kuva1);
             kuvat.add(kuva2);
             kuvat.add(kuva3);
@@ -506,15 +507,13 @@ public class Tehtavakortti extends AppCompatActivity {
             kuvat.add(kuva5);
 
             for (int i = 0; kuvat.size() > i; i++) {
-
                 kuva = kuvat.get(i);
-                pieniKuva = saveBitmapToFile(kuva);
                 kuvaNimi = kuva.getName().split("\\.")[0];
                 Integer kuvaLkm = 1 + i;
                 mBuilder.setContentText("Tallennetaan kuvaa " + kuvaLkm + "/5");
                 try {
-                    byte[] bKuva = fullyReadFileToBytes(pieniKuva);
-                    Call<ResponseBody> call = passiClient.tallennaKuva("image/jpeg", kuvaNimi, bKuva);
+                    byteKuva = kuvastaByteksi(kuva);
+                    Call<ResponseBody> call = passiClient.tallennaKuva("image/jpeg", kuvaNimi, byteKuva);
                     Response response = call.execute();
                     paluukoodi = response.code();
                 } catch (IOException e) {
@@ -536,71 +535,11 @@ public class Tehtavakortti extends AppCompatActivity {
         }
     }
 
-    byte[] fullyReadFileToBytes(File f) throws IOException {
-        int size = (int) f.length();
-        byte bytes[] = new byte[size];
-        byte tmpBuff[] = new byte[size];
-        FileInputStream fis = new FileInputStream(f);
-
-        try {
-
-            int read = fis.read(bytes, 0, size);
-            if (read < size) {
-                int remain = size - read;
-                while (remain > 0) {
-                    read = fis.read(tmpBuff, 0, remain);
-                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
-                    remain -= read;
-                }
-            }
-        } catch (IOException e) {
-            throw e;
-        } finally {
-            fis.close();
-        }
-
-        return bytes;
-    }
-
-    public File saveBitmapToFile(File file) {
-        try {
-
-            // BitmapFactory options to downsize the image
-            BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inJustDecodeBounds = true;
-            o.inSampleSize = 6;
-            // factor of downsizing the image
-
-            FileInputStream inputStream = new FileInputStream(file);
-            //Bitmap selectedBitmap = null;
-            BitmapFactory.decodeStream(inputStream, null, o);
-            inputStream.close();
-
-            // The new size we want to scale to
-            final int REQUIRED_SIZE = 75;
-
-            // Find the correct scale value. It should be the power of 2.
-            int scale = 1;
-            while (o.outWidth / scale / 2 >= REQUIRED_SIZE &&
-                    o.outHeight / scale / 2 >= REQUIRED_SIZE) {
-                scale *= 2;
-            }
-
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize = scale;
-            inputStream = new FileInputStream(file);
-
-            Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
-            inputStream.close();
-
-            FileOutputStream outputStream = new FileOutputStream(file);
-
-            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-
-            return file;
-        } catch (Exception e) {
-            return null;
-        }
+    public byte[] kuvastaByteksi(File file) {
+        Bitmap bitmapKuva = BitmapFactory.decodeFile(file.getAbsolutePath());
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmapKuva.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+        return stream.toByteArray();
     }
 
 
