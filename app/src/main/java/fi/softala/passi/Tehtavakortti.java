@@ -210,8 +210,8 @@ public class Tehtavakortti extends AppCompatActivity {
     }
 
     private int haeRadioVastaus(int kysymysnumero, String valinta) {
-        final String ok = "Kaikki ok";
-        final String puutteita = "Vaarallinen tai selkeitä puuteitaValinta";
+        final String ok = "Kaikki OK";
+        final String puutteita = "Vaarallinen tai selkeitä puuteita";
         final String korjattavaa = "Korjattavaa löytyy";
         int laskuNumero = 0;
 
@@ -219,18 +219,18 @@ public class Tehtavakortti extends AppCompatActivity {
         // Laskee radiobutton id. Vaihtoehtoinen tapa on "valintanumero + (kysymysnumero -1) * 3"
         // Molemmat vaativat kysymysnumeron lähtevän 1.
         if (valinta.equals(ok)) {
-            laskuNumero = -2;
-            laskettuVastaus = kysymysnumero * 3 - laskuNumero;
-
-        }
-        if (valinta.equals(puutteita)) {
-            laskuNumero = -1;
-            laskettuVastaus = kysymysnumero * 3 - laskuNumero;
+            laskuNumero = 1;
+            laskettuVastaus = laskuNumero + (kysymysnumero -1) * 3;
 
         }
         if (valinta.equals(korjattavaa)) {
-            laskuNumero = 0;
-            laskettuVastaus = kysymysnumero * 3 - laskuNumero;
+            laskuNumero = 2;
+            laskettuVastaus = laskuNumero + (kysymysnumero -1) * 3;
+
+        }
+        if (valinta.equals(puutteita)) {
+            laskuNumero = 3;
+            laskettuVastaus = laskuNumero + (kysymysnumero -1) * 3;
 
         }
 
@@ -398,7 +398,7 @@ public class Tehtavakortti extends AppCompatActivity {
             Etappi etappi = new Etappi();
 
             etappi.setWaypointID(1);
-            etappi.setSelectedOptionID(2);
+            etappi.setSelectedOptionID(selectedOptionID1);
             etappi.setImageURL("/images/pic1.jpg");
             etappi.setAnswerText(selostus1);
 
@@ -407,7 +407,7 @@ public class Tehtavakortti extends AppCompatActivity {
             etappi = new Etappi();
 
             etappi.setWaypointID(2);
-            etappi.setSelectedOptionID(6);
+            etappi.setSelectedOptionID(selectedOptionID2);
             etappi.setImageURL("/images/pic2.jpg");
             etappi.setAnswerText(selostus2);
 
@@ -416,7 +416,7 @@ public class Tehtavakortti extends AppCompatActivity {
             etappi = new Etappi();
 
             etappi.setWaypointID(3);
-            etappi.setSelectedOptionID(7);
+            etappi.setSelectedOptionID(selectedOptionID3);
             etappi.setImageURL("/images/pic3.jpg");
             etappi.setAnswerText(selostus3);
 
@@ -425,7 +425,7 @@ public class Tehtavakortti extends AppCompatActivity {
             etappi = new Etappi();
 
             etappi.setWaypointID(4);
-            etappi.setSelectedOptionID(11);
+            etappi.setSelectedOptionID(selectedOptionID4);
             etappi.setImageURL("/images/pic4.jpg");
             etappi.setAnswerText(selostus4);
 
@@ -434,7 +434,7 @@ public class Tehtavakortti extends AppCompatActivity {
             etappi = new Etappi();
 
             etappi.setWaypointID(5);
-            etappi.setSelectedOptionID(15);
+            etappi.setSelectedOptionID(selectedOptionID5);
             etappi.setImageURL("/images/pic5.jpg");
             etappi.setAnswerText(selostus5);
 

@@ -558,8 +558,8 @@
                 
                 android:background="@drawable/tallenna_v2"
                 android:id="@+id/imageButton3"
-                android:layout_marginLeft="70dp"
-                android:layout_marginStart="73dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -575,8 +575,8 @@
                 android:layout_alignTop="@+id/imageButton3"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="54dp"
-                android:layout_marginEnd="54dp" />
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp" />
 
 
         </RelativeLayout>
