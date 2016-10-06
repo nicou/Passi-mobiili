@@ -125,6 +125,17 @@
             </RadioGroup>
 
         </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/katkoviiva"
+            android:id="@+id/imageView"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_above="@+id/radio2"
+            android:layout_toLeftOf="@+id/kameraButton2"
+            android:layout_toStartOf="@+id/kameraButton2"
+            />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -228,6 +239,17 @@
                 />
 
         </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/katkoviiva"
+            android:id="@+id/imageView1"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_above="@+id/radio2"
+            android:layout_toLeftOf="@+id/kameraButton2"
+            android:layout_toStartOf="@+id/kameraButton2"
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="352dp"
@@ -333,6 +355,17 @@
                 />
 
         </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/katkoviiva"
+            android:id="@+id/imageView3"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_above="@+id/radio2"
+            android:layout_toLeftOf="@+id/kameraButton2"
+            android:layout_toStartOf="@+id/kameraButton2"
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="352dp"
@@ -442,6 +475,17 @@
                 />
 
         </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/katkoviiva"
+            android:id="@+id/imageView4"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_above="@+id/radio2"
+            android:layout_toLeftOf="@+id/kameraButton2"
+            android:layout_toStartOf="@+id/kameraButton2"
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="352dp"
@@ -548,7 +592,17 @@
                 />
 
         </RelativeLayout>
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/katkoviiva"
+            android:id="@+id/imageView5"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_above="@+id/radio2"
+            android:layout_toLeftOf="@+id/kameraButton2"
+            android:layout_toStartOf="@+id/kameraButton2"
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="77dp"
