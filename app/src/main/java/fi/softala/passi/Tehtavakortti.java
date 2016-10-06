@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -35,6 +36,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -351,7 +354,6 @@ public class Tehtavakortti extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Vastausta tallennetaan", Toast.LENGTH_LONG).show();
 
         new PoistaVastaus().execute();
-
     }
 
     //väliaikainen ghetto poistamaan edellinen vastaus
@@ -388,7 +390,6 @@ public class Tehtavakortti extends AppCompatActivity {
 
     private class UploadVastaus extends AsyncTask<String, Integer, Integer> {
         Integer paluukoodi = 0;
-
 
         @Override
         protected void onPreExecute() {
@@ -486,6 +487,7 @@ public class Tehtavakortti extends AppCompatActivity {
                 // do smthing
             } else {
                 mBuilder.setContentText("Tallennus epäonnistui");
+                mNotifyManager.notify(id, mBuilder.build());
                 Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG).show();
             }
 
@@ -493,12 +495,10 @@ public class Tehtavakortti extends AppCompatActivity {
     }
 
     private class uploadKuvat extends AsyncTask<String, Integer, Integer> {
-        Integer paluukoodi = null;
-
+        Integer paluukoodi = 200;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mBuilder.setContentText("Tallennetaan kuvia...");
 
         }
 
@@ -506,7 +506,7 @@ public class Tehtavakortti extends AppCompatActivity {
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
             String base = mySharedPreferences.getString("token", "");
-            PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, 120, base);
+            PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, 300, base);
             File kuva;
             String kuvaNimi;
             ArrayList<File> kuvat = new ArrayList<>();
@@ -522,11 +522,17 @@ public class Tehtavakortti extends AppCompatActivity {
                 kuvaNimi = kuva.getName().split("\\.")[0];
                 Integer kuvaLkm = 1 + i;
                 mBuilder.setContentText("Tallennetaan kuvaa " + kuvaLkm + "/5");
+                mNotifyManager.notify(id, mBuilder.build());
                 try {
                     byteKuva = kuvastaByteksi(kuva);
-                    Call<ResponseBody> call = passiClient.tallennaKuva("image/jpeg", kuvaNimi, byteKuva);
+                    RequestBody responseBody = RequestBody.create(MediaType.parse("image/jpeg"), byteKuva);
+                    Call<ResponseBody> call = passiClient.tallennaKuva(kuvaNimi, responseBody);
                     Response response = call.execute();
-                    paluukoodi = response.code();
+                    if (response.isSuccessful()) {
+                        kuvat.remove(i);
+                    } else {
+                        paluukoodi = 400;
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -538,24 +544,26 @@ public class Tehtavakortti extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
-            mBuilder.setContentText("Vastaus tallennettu");
+            if (result == 200) {
+                mBuilder.setContentText("Vastaus tallennettu");
+                Toast.makeText(getApplicationContext(), "Vastaus tallennettu", Toast.LENGTH_LONG).show();
+            } else {
+                mBuilder.setContentText("Tallennus epäonnistui");
+            }
             mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload_done);
             mBuilder.setProgress(0, 0, false);
             mNotifyManager.notify(id, mBuilder.build());
-            Toast.makeText(getApplicationContext(), "Vastaus tallennettu", Toast.LENGTH_LONG).show();
         }
     }
 
     public byte[] kuvastaByteksi(File file) {
         Bitmap bitmapKuva = BitmapFactory.decodeFile(file.getAbsolutePath());
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmapKuva.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+        bitmapKuva.compress(Bitmap.CompressFormat.JPEG, 80, stream);
         return stream.toByteArray();
     }
 
-
     public void onBackPressed() {
-
         super.onBackPressed();
         Intent intent = new Intent(Tehtavakortti.this, TehtavakortinValintaActivity.class);
         startActivity(intent);

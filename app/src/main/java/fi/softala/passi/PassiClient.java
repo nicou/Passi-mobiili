@@ -2,6 +2,7 @@ package fi.softala.passi;
 
 import java.util.List;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,9 +28,8 @@ public interface PassiClient {
 
     @POST("upload/{filename_without_extension}")
     Call<ResponseBody> tallennaKuva(
-            @Header("Content-Type") String tyyppi,
             @Path("filename_without_extension") String nimi,
-            @Body byte[] byteKuva
+            @Body RequestBody byteKuva
     );
 
     @DELETE("answer/1/{userID}")
