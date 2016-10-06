@@ -11,13 +11,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -115,7 +114,7 @@ public class KirjautumisActivity extends Activity {
         }
     }
 
-    private class tarkistaKirjautuminen extends AsyncTask<String, Void, Integer>  {
+    private class tarkistaKirjautuminen extends AsyncTask<String, Void, Integer> {
 
         Context context = getApplicationContext();
         final ProgressDialog progressDialog = new ProgressDialog(KirjautumisActivity.this,
@@ -156,7 +155,7 @@ public class KirjautumisActivity extends Activity {
 
                 if (response.isSuccessful()) {
                     paluukoodi = 200;
-                } else if (response.code() == 401)  {
+                } else if (response.code() == 401) {
                     paluukoodi = 401;
                 }
 
@@ -207,7 +206,7 @@ public class KirjautumisActivity extends Activity {
         SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
         final int RESULT_OK = 200;
 
-        Integer paluukoodi= 0;
+        Integer paluukoodi = 0;
         String json;
 
         @Override
@@ -221,7 +220,7 @@ public class KirjautumisActivity extends Activity {
         @Override
         protected Integer doInBackground(String... params) {
 
-            String base = mySharedPreferences.getString("token","");
+            String base = mySharedPreferences.getString("token", "");
             PassiClient loginService =
                     ServiceGenerator.createService(PassiClient.class, base);
             Integer gID = 1;
@@ -233,8 +232,8 @@ public class KirjautumisActivity extends Activity {
                 if (response.isSuccessful()) {
                     paluukoodi = 200;
                     List<Worksheet> worksheets = (List<Worksheet>) response.body();
-                    Gson gson = new Gson();
-                    json = gson.toJson(worksheets);
+                    ObjectMapper mapper = new ObjectMapper();
+                    json = mapper.writeValueAsString(worksheets);
                 } else {
                     paluukoodi = 0;
                 }
@@ -248,11 +247,11 @@ public class KirjautumisActivity extends Activity {
         }
 
         protected void onPostExecute(Integer result) {
-            if (result == RESULT_OK){
+            if (result == RESULT_OK) {
                 SharedPreferences.Editor editor = mySharedPreferences.edit();
                 editor.putString("kortitJson", json);
             }
         }
     }
 
-    }
+}

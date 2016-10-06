@@ -3,6 +3,7 @@ package fi.softala.passi;
 import android.util.Base64;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -85,6 +86,39 @@ public class ServiceGenerator {
         OkHttpClient client = httpClient.addInterceptor(logger).build();
         Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
+    }
+
+    public static <S> S createService(Class<S> serviceClass, final int timeout, final String authToken) {
+
+            if (timeout != 0 && authToken != null) {
+
+                final String basic = "Basic " + authToken;
+                httpClient
+                        .connectTimeout(timeout, TimeUnit.SECONDS)
+                        .writeTimeout(timeout, TimeUnit.SECONDS)
+                        .readTimeout(timeout, TimeUnit.SECONDS)
+                        .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Interceptor.Chain chain) throws IOException {
+                        Request original = chain.request();
+                        // Request customization: add request headers
+                        Request.Builder requestBuilder = original.newBuilder()
+                                .header("Authorization", basic )
+                                .method(original.method(), original.body());
+
+                        Request request = requestBuilder.build();
+                        return chain.proceed(request);
+                    }
+                });
+            }
+
+            // Loggaamiseen logging interceptor
+            HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
+            logger.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            OkHttpClient client = httpClient.addInterceptor(logger).build();
+            Retrofit retrofit = builder.client(client).build();
+            return retrofit.create(serviceClass);
     }
 
 }
