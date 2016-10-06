@@ -42,7 +42,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
-            android:layout_below="@id/usernameWrapper"
             android:layout_marginTop="4dp">
 
             <EditText

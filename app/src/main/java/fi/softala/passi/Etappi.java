@@ -1,48 +1,30 @@
 package fi.softala.passi;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by joakimkajan on 29/09/16.
  */
 
 public class Etappi {
 
-    Integer answeWaypointID;
-    Integer answerID;
+
     Integer waypointID;
     Integer selectedOptionID;
 
     String imageURL;
     String answerText;
-    String instructorComment;
 
-    public Etappi(Integer answeWaypointID, Integer answerID, Integer waypointID, String imageURL, Integer selectedOptionID, String answerText, String instructorComment) {
-        this.answeWaypointID = answeWaypointID;
+    public Etappi(Integer waypointID, String imageURL, Integer selectedOptionID, String answerText) {
         this.waypointID = waypointID;
         this.imageURL = imageURL;
         this.selectedOptionID = selectedOptionID;
         this.answerText = answerText;
-        this.instructorComment = instructorComment;
-        this.answerID = answerID;
+
     }
 
     public Etappi() {
 
-    }
-
-    public Integer getAnswerID() {
-        return answerID;
-    }
-
-    public void setAnswerID(Integer answerID) {
-        this.answerID = answerID;
-    }
-
-    public Integer getAnsweWaypointID() {
-        return answeWaypointID;
-    }
-
-    public void setAnsweWaypointID(Integer answeWaypointID) {
-        this.answeWaypointID = answeWaypointID;
     }
 
     public Integer getWaypointID() {
@@ -53,6 +35,7 @@ public class Etappi {
         this.waypointID = waypointID;
     }
 
+    @JsonProperty("optionID")
     public Integer getSelectedOptionID() {
         return selectedOptionID;
     }
@@ -69,14 +52,6 @@ public class Etappi {
         this.imageURL = imageURL;
     }
 
-    public String getInstructorComment() {
-        return instructorComment;
-    }
-
-    public void setInstructorComment(String instructorComment) {
-        this.instructorComment = instructorComment;
-    }
-
     public String getAnswerText() {
         return answerText;
     }
@@ -88,12 +63,10 @@ public class Etappi {
     @Override
     public String toString() {
         return "Etappi{" +
-                "answeWaypointID=" + answeWaypointID +
                 ", waypointID=" + waypointID +
                 ", selectedOptionID=" + selectedOptionID +
                 ", imageURL='" + imageURL + '\'' +
                 ", answerText='" + answerText + '\'' +
-                ", instructorComment='" + instructorComment + '\'' +
                 '}';
     }
 }

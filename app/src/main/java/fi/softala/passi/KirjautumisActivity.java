@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -143,15 +142,17 @@ public class KirjautumisActivity extends Activity {
             String pohja = username + ":" + password;
             base = Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
 
-            LoginService loginService =
-                    ServiceGenerator.createService(LoginService.class, username, password);
-            Call<Kayttaja> call = loginService.kayttaja(username);
+            PassiClient loginService =
+                    ServiceGenerator.createService(PassiClient.class, username, password);
+            Call<Kayttaja> call = loginService.haeKayttaja(username);
 
             try {
                 Response response = call.execute();
-                Log.d("passi", response.raw().toString());
+
                 if (response.isSuccessful()) {
                     paluukoodi = 200;
+                } else if (response.code() == 401)  {
+                    paluukoodi = 401;
                 }
 
             } catch (IOException e) {

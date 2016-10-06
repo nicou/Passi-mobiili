@@ -1,48 +1,44 @@
 package fi.softala.passi;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.util.List;
 
 /**
  * Created by joakimkajan on 29/09/16.
  */
 
+
+@JsonPropertyOrder({"planning", "worksheetID", "groupID", "userID", "answerpoints"})
 public class Vastaus {
 
-    Integer answerID;
+
     Integer worksheetID;
-
-    String username;
+    Integer groupID;
+    Integer userID;
     String planningText;
-    List<Etappi> waypoints;
-    String instructorComment;
+    List<Etappi> answerpoints;
 
-    public Vastaus(Integer answerID, Integer worksheetID, String username, String planningText, List<Etappi> waypoints, String instructorComment) {
-        this.answerID = answerID;
+    public Vastaus(Integer worksheetID, Integer groupId, Integer userId, String planningText, List<Etappi> answerpoints) {
         this.worksheetID = worksheetID;
-        this.username = username;
+        this.groupID = groupId;
+        this.userID = userId;
         this.planningText = planningText;
-        this.waypoints = waypoints;
-        this.instructorComment = instructorComment;
+        this.answerpoints = answerpoints;
     }
 
     public Vastaus() {
 
     }
 
-    public String getInstructorComment() {
-        return instructorComment;
+
+    public Integer getGroupID() {
+        return groupID;
     }
 
-    public void setInstructorComment(String instructorComment) {
-        this.instructorComment = instructorComment;
-    }
-
-    public Integer getAnswerID() {
-        return answerID;
-    }
-
-    public void setAnswerID(Integer answerID) {
-        this.answerID = answerID;
+    public void setGroupID(Integer groupID) {
+        this.groupID = groupID;
     }
 
     public Integer getWorksheetID() {
@@ -53,22 +49,23 @@ public class Vastaus {
         this.worksheetID = worksheetID;
     }
 
-    public String getUsername() {
-        return username;
+    public Integer getUserID() {
+        return userID;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
 
-    public List<Etappi> getWaypoints() {
-        return waypoints;
+    public List<Etappi> getAnswerpoints() {
+        return answerpoints;
     }
 
-    public void setWaypoints(List<Etappi> waypoints) {
-        this.waypoints = waypoints;
+    public void setAnswerpoints(List<Etappi> answerpoints) {
+        this.answerpoints = answerpoints;
     }
 
+    @JsonProperty("planning")
     public String getPlanningText() {
         return planningText;
     }
@@ -80,11 +77,10 @@ public class Vastaus {
     @Override
     public String toString() {
         return "Vastaus{" +
-                "answerWorksheetID=" + answerID +
                 ", worksheetID=" + worksheetID +
-                ", username='" + username + '\'' +
+                ", userID='" + userID + '\'' +
                 ", planningText='" + planningText + '\'' +
-                ", waypoints=" + waypoints +
+                ", answerpoints=" + answerpoints +
                 '}';
     }
 }

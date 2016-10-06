@@ -8,6 +8,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -20,6 +21,7 @@ public class ServiceGenerator {
     public static final String API_BASE_URL = "http://proto384.haaga-helia.fi/passi-rest/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
@@ -60,14 +62,14 @@ public class ServiceGenerator {
 
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
         if (authToken != null) {
+            final String basic = "Basic " + authToken;
             httpClient.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
                     Request original = chain.request();
-
                     // Request customization: add request headers
                     Request.Builder requestBuilder = original.newBuilder()
-                            .header("Authorization", authToken)
+                            .header("Authorization", basic )
                             .method(original.method(), original.body());
 
                     Request request = requestBuilder.build();
@@ -76,7 +78,11 @@ public class ServiceGenerator {
             });
         }
 
-        OkHttpClient client = httpClient.build();
+        // Loggaamiseen logging interceptor
+        HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
+        logger.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = httpClient.addInterceptor(logger).build();
         Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
     }
