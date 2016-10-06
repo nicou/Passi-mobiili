@@ -179,27 +179,27 @@ public class Tehtavakortti extends AppCompatActivity {
             if (kameraButtonPressed == 1) {
                 // vaihetaan nappulan taustakuva
                 kuva1 = stringUri;
-                kameraButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                kameraButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
                 );
                 kameraButton1.setEnabled(false);
             } else if (kameraButtonPressed == 2) {
                 kuva2 = stringUri;
-                kameraButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                kameraButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
                 );
                 kameraButton2.setEnabled(false);
             } else if (kameraButtonPressed == 3) {
                 kuva3 = stringUri;
-                kameraButton3.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                kameraButton3.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
                 );
                 kameraButton3.setEnabled(false);
             } else if (kameraButtonPressed == 4) {
                 kuva4 = stringUri;
-                kameraButton4.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                kameraButton4.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
                 );
                 kameraButton4.setEnabled(false);
             } else if (kameraButtonPressed == 5) {
                 kuva5 = stringUri;
-                kameraButton5.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                kameraButton5.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
                 );
                 kameraButton5.setEnabled(false);
             }
