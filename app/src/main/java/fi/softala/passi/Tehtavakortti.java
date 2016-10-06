@@ -221,7 +221,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
     private int haeRadioVastaus(int kysymysnumero, String valinta) {
         final String ok = "Kaikki OK";
-        final String puutteita = "Vaarallinen tai selkeitä puuteita";
+        final String puutteita = "Vaarallinen tai selkeitä puutteita";
         final String korjattavaa = "Korjattavaa löytyy";
         int laskuNumero = 0;
 

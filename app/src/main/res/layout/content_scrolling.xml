@@ -112,7 +112,7 @@
 
 
                 <RadioButton
-                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:text="Vaarallinen tai selkeitä puutteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton40"
@@ -203,7 +203,7 @@
 
 
                 <RadioButton
-                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:text="Vaarallinen tai selkeitä puutteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton41"
@@ -320,7 +320,7 @@
 
 
                 <RadioButton
-                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:text="Vaarallinen tai selkeitä puutteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton42"
@@ -435,7 +435,7 @@
 
 
                 <RadioButton
-                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:text="Vaarallinen tai selkeitä puutteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton43"
@@ -555,7 +555,7 @@
 
 
                 <RadioButton
-                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:text="Vaarallinen tai selkeitä puutteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton44"
