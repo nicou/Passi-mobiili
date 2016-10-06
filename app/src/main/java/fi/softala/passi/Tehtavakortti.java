@@ -66,6 +66,7 @@ public class Tehtavakortti extends AppCompatActivity {
         final TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
 
+
         host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
@@ -97,6 +98,15 @@ public class Tehtavakortti extends AppCompatActivity {
         spec.setContent(R.id.Toteutus);
         spec.setIndicator("Toteutus");
         host.addTab(spec);
+
+
+        //Sets all tab titles to singleline
+        int c = host.getTabWidget().getChildCount();
+        for(int i = 0; c > i;i++){
+
+            TextView title = (TextView) host.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            title.setSingleLine(true);
+        }
 
         for (int i = 0; i < host.getTabWidget().getChildCount(); i++) {
             host.getTabWidget().getChildAt(i).setBackgroundResource(R.drawable.valilehti_nappula);
@@ -183,27 +193,27 @@ public class Tehtavakortti extends AppCompatActivity {
             if (kameraButtonPressed == 1) {
                 // vaihetaan nappulan taustakuva
                 kuva1 = stringUri;
-                kameraButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                kameraButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
                 );
                 kameraButton1.setEnabled(false);
             } else if (kameraButtonPressed == 2) {
                 kuva2 = stringUri;
-                kameraButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                kameraButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
                 );
                 kameraButton2.setEnabled(false);
             } else if (kameraButtonPressed == 3) {
                 kuva3 = stringUri;
-                kameraButton3.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                kameraButton3.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
                 );
                 kameraButton3.setEnabled(false);
             } else if (kameraButtonPressed == 4) {
                 kuva4 = stringUri;
-                kameraButton4.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                kameraButton4.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
                 );
                 kameraButton4.setEnabled(false);
             } else if (kameraButtonPressed == 5) {
                 kuva5 = stringUri;
-                kameraButton5.setBackground(ContextCompat.getDrawable(context, R.drawable.red_face_pressed)
+                kameraButton5.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
                 );
                 kameraButton5.setEnabled(false);
             }
@@ -215,7 +225,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
     private int haeRadioVastaus(int kysymysnumero, String valinta) {
         final String ok = "Kaikki OK";
-        final String puutteita = "Vaarallinen tai selkeitä puuteita";
+        final String puutteita = "Vaarallinen tai selkeitä puutteita";
         final String korjattavaa = "Korjattavaa löytyy";
         int laskuNumero = 0;
 

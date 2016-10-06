@@ -112,7 +112,7 @@
 
 
                 <RadioButton
-                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:text="Vaarallinen tai selkeitä puutteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton40"
@@ -125,6 +125,17 @@
             </RadioGroup>
 
         </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/katkoviiva"
+            android:id="@+id/imageView"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_above="@+id/radio2"
+            android:layout_toLeftOf="@+id/kameraButton2"
+            android:layout_toStartOf="@+id/kameraButton2"
+            />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -192,7 +203,7 @@
 
 
                 <RadioButton
-                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:text="Vaarallinen tai selkeitä puutteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton41"
@@ -228,6 +239,17 @@
                 />
 
         </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/katkoviiva"
+            android:id="@+id/imageView1"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_above="@+id/radio2"
+            android:layout_toLeftOf="@+id/kameraButton2"
+            android:layout_toStartOf="@+id/kameraButton2"
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="352dp"
@@ -298,7 +320,7 @@
 
 
                 <RadioButton
-                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:text="Vaarallinen tai selkeitä puutteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton42"
@@ -333,6 +355,17 @@
                 />
 
         </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/katkoviiva"
+            android:id="@+id/imageView3"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_above="@+id/radio2"
+            android:layout_toLeftOf="@+id/kameraButton2"
+            android:layout_toStartOf="@+id/kameraButton2"
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="352dp"
@@ -402,7 +435,7 @@
 
 
                 <RadioButton
-                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:text="Vaarallinen tai selkeitä puutteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton43"
@@ -442,6 +475,17 @@
                 />
 
         </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/katkoviiva"
+            android:id="@+id/imageView4"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_above="@+id/radio2"
+            android:layout_toLeftOf="@+id/kameraButton2"
+            android:layout_toStartOf="@+id/kameraButton2"
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="352dp"
@@ -511,7 +555,7 @@
 
 
                 <RadioButton
-                    android:text="Vaarallinen tai selkeitä puuteita"
+                    android:text="Vaarallinen tai selkeitä puutteita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButton44"
@@ -548,7 +592,17 @@
                 />
 
         </RelativeLayout>
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/katkoviiva"
+            android:id="@+id/imageView5"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_above="@+id/radio2"
+            android:layout_toLeftOf="@+id/kameraButton2"
+            android:layout_toStartOf="@+id/kameraButton2"
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="77dp"

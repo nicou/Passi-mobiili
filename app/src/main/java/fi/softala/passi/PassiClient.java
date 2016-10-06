@@ -1,5 +1,7 @@
 package fi.softala.passi;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -33,5 +35,6 @@ public interface PassiClient {
     @DELETE("answer/1/{userID}")
     Call<ResponseBody> poistaVastaus(@Path("userID") Integer userID);
 
-
+    @GET("worksheet/{group_id}")
+    Call<List<Worksheet>> haeTehtavakortit(@Path("group_id") Integer groupID);
 }
