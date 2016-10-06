@@ -71,6 +71,7 @@ public class Tehtavakortti extends AppCompatActivity {
         final TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
 
+
         host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
@@ -102,6 +103,15 @@ public class Tehtavakortti extends AppCompatActivity {
         spec.setContent(R.id.Toteutus);
         spec.setIndicator("Toteutus");
         host.addTab(spec);
+
+
+        //Sets all tab titles to singleline
+        int c = host.getTabWidget().getChildCount();
+        for(int i = 0; c > i;i++){
+
+            TextView title = (TextView) host.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            title.setSingleLine(true);
+        }
 
         for (int i = 0; i < host.getTabWidget().getChildCount(); i++) {
             host.getTabWidget().getChildAt(i).setBackgroundResource(R.drawable.valilehti_nappula);
