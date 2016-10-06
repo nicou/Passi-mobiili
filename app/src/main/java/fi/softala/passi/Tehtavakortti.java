@@ -2,7 +2,6 @@ package fi.softala.passi;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,7 +16,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,15 +27,10 @@ import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +47,7 @@ public class Tehtavakortti extends AppCompatActivity {
     private NotificationCompat.Builder mBuilder;
     int id = 1;
     int kameraButtonPressed = 0;
+    final int userID = 12;
     final int RC_TAKE_PHOTO = 1;
     int selectedId;
     RadioButton radioButton;
@@ -61,12 +55,13 @@ public class Tehtavakortti extends AppCompatActivity {
     String suunnitelmaString;
     String selostus1, selostus2, selostus3, selostus4, selostus5;
     Integer selectedOptionID1, selectedOptionID2, selectedOptionID3, selectedOptionID4, selectedOptionID5;
+    SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tehtavakortti);
 
+        setContentView(R.layout.activity_tehtavakortti);
 
         final TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
@@ -117,6 +112,13 @@ public class Tehtavakortti extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     keraaTiedot();
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
+                                    startActivity(intent);
+                                }
+                            }, 1000);
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Tietojen keräys epäonnistui", Toast.LENGTH_LONG).show();
@@ -151,8 +153,10 @@ public class Tehtavakortti extends AppCompatActivity {
         }
 
         Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String kuvaNimi = kameraButtonPressed + "-" + userID + ".jpg";
+
         file = new File(Tehtavakortti.this.getExternalCacheDir(),
-                String.valueOf(System.currentTimeMillis() + ".jpg"));
+                String.valueOf(kuvaNimi));
         fileUri = Uri.fromFile(file);
         kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         Tehtavakortti.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
@@ -220,17 +224,17 @@ public class Tehtavakortti extends AppCompatActivity {
         // Molemmat vaativat kysymysnumeron lähtevän 1.
         if (valinta.equals(ok)) {
             laskuNumero = 1;
-            laskettuVastaus = laskuNumero + (kysymysnumero -1) * 3;
+            laskettuVastaus = laskuNumero + (kysymysnumero - 1) * 3;
 
         }
         if (valinta.equals(korjattavaa)) {
             laskuNumero = 2;
-            laskettuVastaus = laskuNumero + (kysymysnumero -1) * 3;
+            laskettuVastaus = laskuNumero + (kysymysnumero - 1) * 3;
 
         }
         if (valinta.equals(puutteita)) {
             laskuNumero = 3;
-            laskettuVastaus = laskuNumero + (kysymysnumero -1) * 3;
+            laskettuVastaus = laskuNumero + (kysymysnumero - 1) * 3;
 
         }
 
@@ -328,10 +332,12 @@ public class Tehtavakortti extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 valikkoNakyma, 0);
 
-        mBuilder.setContentTitle("Vastaus")
-                .setContentText("Tallennetaan...")
-                .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
+        mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload)
+                .setContentTitle("Tehtäväkortti")
+                .setContentText("Vastausta tallennetaan...")
                 .setContentIntent(pendingIntent);
+
+        Toast.makeText(getApplicationContext(), "Vastausta tallennetaan", Toast.LENGTH_LONG).show();
 
         new PoistaVastaus().execute();
 
@@ -348,7 +354,7 @@ public class Tehtavakortti extends AppCompatActivity {
             String base = mySharedPreferences.getString("token", "");
 
             PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, base);
-            Call<ResponseBody> call = passiClient.poistaVastaus(5);
+            Call<ResponseBody> call = passiClient.poistaVastaus(12);
 
             try {
                 Response response = call.execute();
@@ -371,27 +377,22 @@ public class Tehtavakortti extends AppCompatActivity {
 
     private class UploadVastaus extends AsyncTask<String, Integer, Integer> {
         Integer paluukoodi = 0;
-        final ProgressDialog progressDialog = new ProgressDialog(Tehtavakortti.this,
-                R.style.AppTheme_Dark_Dialog);
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
             // Displays the progress bar for the first time.
-            mBuilder.setProgress(100, 0, false);
+            mBuilder.setProgress(0, 0, true);
             mNotifyManager.notify(id, mBuilder.build());
 
-            progressDialog.setIndeterminate(true);
-            progressDialog.setTitle("Vastauksen lähetys");
-            progressDialog.setMessage("Lähetetään...");
-            progressDialog.show();
         }
 
         @Override
         protected Integer doInBackground(String... path) {
 
-            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+            mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
             List<Etappi> etappiLista = new ArrayList<>();
 
@@ -399,7 +400,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             etappi.setWaypointID(1);
             etappi.setSelectedOptionID(selectedOptionID1);
-            etappi.setImageURL("/images/pic1.jpg");
+            etappi.setImageURL(kuva1.getName());
             etappi.setAnswerText(selostus1);
 
             etappiLista.add(etappi);
@@ -408,7 +409,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             etappi.setWaypointID(2);
             etappi.setSelectedOptionID(selectedOptionID2);
-            etappi.setImageURL("/images/pic2.jpg");
+            etappi.setImageURL(kuva2.getName());
             etappi.setAnswerText(selostus2);
 
             etappiLista.add(etappi);
@@ -417,7 +418,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             etappi.setWaypointID(3);
             etappi.setSelectedOptionID(selectedOptionID3);
-            etappi.setImageURL("/images/pic3.jpg");
+            etappi.setImageURL(kuva3.getName());
             etappi.setAnswerText(selostus3);
 
             etappiLista.add(etappi);
@@ -426,7 +427,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             etappi.setWaypointID(4);
             etappi.setSelectedOptionID(selectedOptionID4);
-            etappi.setImageURL("/images/pic4.jpg");
+            etappi.setImageURL(kuva4.getName());
             etappi.setAnswerText(selostus4);
 
             etappiLista.add(etappi);
@@ -435,7 +436,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             etappi.setWaypointID(5);
             etappi.setSelectedOptionID(selectedOptionID5);
-            etappi.setImageURL("/images/pic5.jpg");
+            etappi.setImageURL(kuva5.getName());
             etappi.setAnswerText(selostus5);
 
             etappiLista.add(etappi);
@@ -444,14 +445,14 @@ public class Tehtavakortti extends AppCompatActivity {
 
             vastaus.setPlanningText(suunnitelmaString);
             vastaus.setWorksheetID(1);
-            vastaus.setGroupID(1);
-            vastaus.setUserID(5);
+            vastaus.setGroupID(3);
+            vastaus.setUserID(12);
             vastaus.setAnswerpoints(etappiLista);
 
             String base = mySharedPreferences.getString("token", "");
 
-            PassiClient kayttajaService = ServiceGenerator.createService(PassiClient.class, base);
-            Call<ResponseBody> call = kayttajaService.tallennaVastaus(vastaus);
+            PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, base);
+            Call<ResponseBody> call = passiClient.tallennaVastaus(vastaus);
 
             try {
                 Response response = call.execute();
@@ -467,14 +468,9 @@ public class Tehtavakortti extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
-            progressDialog.dismiss();
 
             if (result == 201) {
-                mBuilder.setContentText("Vastaus tallennettu");
-                Toast.makeText(getApplicationContext(), "Vastaus tallennettu!", Toast.LENGTH_LONG).show();
-                //siirry valikkosivulle kun uploadattu servulle
-                Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-                startActivity(intent);
+                new uploadKuvat().execute();
             } else if (result == 409) {
                 // do smthing
             } else {
@@ -482,72 +478,89 @@ public class Tehtavakortti extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG).show();
             }
 
-
-
-            mBuilder.setProgress(0, 0, false);
-            mNotifyManager.notify(id, mBuilder.build());
         }
     }
 
-    private class UploadKuva extends AsyncTask<String, Integer, Integer> {
+    private class uploadKuvat extends AsyncTask<String, Integer, Integer> {
         Integer paluukoodi = null;
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mBuilder.setContentText("Tallennetaan kuvia...");
+
+        }
+
         protected Integer doInBackground(String... path) {
-            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+            String base = mySharedPreferences.getString("token", "");
+            PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, 120, base);
+            File kuva;
+            File pieniKuva;
+            String kuvaNimi;
+            ArrayList<File> kuvat = new ArrayList<>();
 
-            try {
-                List<File> kuvat = new ArrayList<>();
+            kuvat.add(kuva1);
+            kuvat.add(kuva2);
+            kuvat.add(kuva3);
+            kuvat.add(kuva4);
+            kuvat.add(kuva5);
 
-                kuvat.add(0, kuva1);
-                kuvat.add(2, kuva2);
-                kuvat.add(3, kuva3);
-                kuvat.add(4, kuva4);
-                kuvat.add(5, kuva5);
+            for (int i = 0; kuvat.size() > i; i++) {
 
-                for (int i = 0; kuvat.size() > i; i++) {
-
-
-                    String pohja;
-                    String urlIlmantunnusta = "http://proto384.haaga-helia.fi/passi-rest/answer/";
-                    String base = mySharedPreferences.getString("token", "");
-                    String basicAuth = "Basic " + base;
-                    URL urli = new URL(urlIlmantunnusta);
-                    HttpURLConnection clientti = (HttpURLConnection) urli.openConnection();
-                    clientti.setRequestMethod("POST");
-                    clientti.setRequestProperty("Authorization", basicAuth);
-                    clientti.setRequestProperty("Content-Type", "image/jpeg");
-                    clientti.setDoOutput(true);
-                    clientti.setDoInput(true);
-
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-                    File kuva = kuvat.get(i);
-
-                    File ukko = saveBitmapToFile(kuva);
-
-                    baos.flush();
-                    baos.close();
-
-                    paluukoodi = clientti.getResponseCode();
-                    String paluukoodiString = Integer.toString(clientti.getResponseCode());
-
-                    Log.e("Paluukoodi lähety: ", paluukoodiString);
-
-                    if (clientti != null) {
-                        clientti.disconnect();
-                    }
+                kuva = kuvat.get(i);
+                pieniKuva = saveBitmapToFile(kuva);
+                kuvaNimi = kuva.getName().split("\\.")[0];
+                Integer kuvaLkm = 1 + i;
+                mBuilder.setContentText("Tallennetaan kuvaa " + kuvaLkm + "/5");
+                try {
+                    byte[] bKuva = fullyReadFileToBytes(pieniKuva);
+                    Call<ResponseBody> call = passiClient.tallennaKuva("image/jpeg", kuvaNimi, bKuva);
+                    Response response = call.execute();
+                    paluukoodi = response.code();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-            return null;
+
+            return paluukoodi;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            mBuilder.setContentText("Vastaus tallennettu");
+            mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload_done);
+            mBuilder.setProgress(0, 0, false);
+            mNotifyManager.notify(id, mBuilder.build());
+            Toast.makeText(getApplicationContext(), "Vastaus tallennettu", Toast.LENGTH_LONG).show();
         }
     }
 
+    byte[] fullyReadFileToBytes(File f) throws IOException {
+        int size = (int) f.length();
+        byte bytes[] = new byte[size];
+        byte tmpBuff[] = new byte[size];
+        FileInputStream fis = new FileInputStream(f);
+
+        try {
+
+            int read = fis.read(bytes, 0, size);
+            if (read < size) {
+                int remain = size - read;
+                while (remain > 0) {
+                    read = fis.read(tmpBuff, 0, remain);
+                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
+                    remain -= read;
+                }
+            }
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            fis.close();
+        }
+
+        return bytes;
+    }
 
     public File saveBitmapToFile(File file) {
         try {
