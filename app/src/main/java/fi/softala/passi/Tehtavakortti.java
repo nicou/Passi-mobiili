@@ -61,11 +61,13 @@ public class Tehtavakortti extends AppCompatActivity {
     String suunnitelmaString;
     String selostus1, selostus2, selostus3, selostus4, selostus5;
     Integer selectedOptionID1, selectedOptionID2, selectedOptionID3, selectedOptionID4, selectedOptionID5;
+    int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tehtavakortti);
+        Log.e("passi",  " apiversio=" +currentapiVersion);
 
 
         final TabHost host = (TabHost) findViewById(R.id.tabHost);
