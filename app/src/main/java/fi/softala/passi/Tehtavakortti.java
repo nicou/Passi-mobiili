@@ -11,12 +11,13 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -36,7 +37,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -106,7 +106,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
         //Sets all tab titles to singleline
         int c = host.getTabWidget().getChildCount();
-        for(int i = 0; c > i;i++){
+        for (int i = 0; c > i; i++) {
 
             TextView title = (TextView) host.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             title.setSingleLine(true);
@@ -172,6 +172,7 @@ public class Tehtavakortti extends AppCompatActivity {
         file = new File(Tehtavakortti.this.getExternalCacheDir(),
                 String.valueOf(kuvaNimi));
         fileUri = Uri.fromFile(file);
+        Log.d("Passi", "Kuva otettu " + fileUri);
         kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         Tehtavakortti.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
 
@@ -350,6 +351,7 @@ public class Tehtavakortti extends AppCompatActivity {
                 .setContentTitle("Tehtäväkortti")
                 .setContentText("Vastausta tallennetaan...")
                 .setContentIntent(pendingIntent);
+        mNotifyManager.notify(id, mBuilder.build());
 
         Toast.makeText(getApplicationContext(), "Vastausta tallennetaan", Toast.LENGTH_LONG).show();
 
@@ -395,9 +397,6 @@ public class Tehtavakortti extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            // Displays the progress bar for the first time.
-            mBuilder.setProgress(0, 0, true);
-            mNotifyManager.notify(id, mBuilder.build());
 
         }
 
@@ -496,6 +495,11 @@ public class Tehtavakortti extends AppCompatActivity {
 
     private class uploadKuvat extends AsyncTask<String, Integer, Integer> {
         Integer paluukoodi = 200;
+        long totalSize;
+        int progressValue;
+        Integer kuvaLkm;
+        private final Handler handler = new Handler();
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -509,27 +513,42 @@ public class Tehtavakortti extends AppCompatActivity {
             PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, 300, base);
             File kuva;
             String kuvaNimi;
-            ArrayList<File> kuvat = new ArrayList<>();
-            byte[] byteKuva;
+            List<File> kuvat = new ArrayList<>();
             kuvat.add(kuva1);
             kuvat.add(kuva2);
             kuvat.add(kuva3);
             kuvat.add(kuva4);
             kuvat.add(kuva5);
 
-            for (int i = 0; kuvat.size() > i; i++) {
-                kuva = kuvat.get(i);
-                kuvaNimi = kuva.getName().split("\\.")[0];
-                Integer kuvaLkm = 1 + i;
-                mBuilder.setContentText("Tallennetaan kuvaa " + kuvaLkm + "/5");
+            for (int i = 0; i < kuvat.size(); i++) {
+                kuvaLkm = 1 + i;
+                mBuilder.setProgress(100, 0, false);
+                mBuilder.setContentText("Tallennetaan kuvaa " + kuvaLkm + "/" + kuvat.size());
                 mNotifyManager.notify(id, mBuilder.build());
+                kuva = kuvat.get(i);
+                kuva = saveBitmapToFile(kuva);
+                kuvaNimi = kuva.getName().split("\\.")[0];
+                progressValue = 0;
                 try {
-                    byteKuva = kuvastaByteksi(kuva);
-                    RequestBody responseBody = RequestBody.create(MediaType.parse("image/jpeg"), byteKuva);
+                    totalSize = kuva.length();
+                    RequestBody responseBody = new CountingFileRequestBody(kuva, "image/jpeg", new CountingFileRequestBody.ProgressListener() {
+                        @Override
+                        public void transferred(long num) {
+                            float progress = (num / (float) totalSize) * 100;
+                            progressValue = (int) progress;
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mBuilder.setProgress(100, progressValue, false);
+                                    mNotifyManager.notify(id, mBuilder.build());
+                                }
+                            });
+                        }
+                    });
                     Call<ResponseBody> call = passiClient.tallennaKuva(kuvaNimi, responseBody);
                     Response response = call.execute();
                     if (response.isSuccessful()) {
-                        kuvat.remove(i);
+                        paluukoodi = response.code();
                     } else {
                         paluukoodi = 400;
                     }
@@ -556,11 +575,24 @@ public class Tehtavakortti extends AppCompatActivity {
         }
     }
 
-    public byte[] kuvastaByteksi(File file) {
-        Bitmap bitmapKuva = BitmapFactory.decodeFile(file.getAbsolutePath());
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmapKuva.compress(Bitmap.CompressFormat.JPEG, 80, stream);
-        return stream.toByteArray();
+    public File saveBitmapToFile(final File file) {
+        try {
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = 1;
+            FileInputStream inputStream = new FileInputStream(file);
+
+            Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
+            inputStream.close();
+
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream);
+
+            return file;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void onBackPressed() {
