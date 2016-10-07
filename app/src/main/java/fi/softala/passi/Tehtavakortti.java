@@ -588,6 +588,8 @@ public class Tehtavakortti extends AppCompatActivity {
 
             selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream);
 
+            outputStream.flush();
+            outputStream.close();
             return file;
         } catch (Exception e) {
             e.printStackTrace();
