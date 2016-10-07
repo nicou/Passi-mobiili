@@ -118,17 +118,23 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
 
     private void hankiLuvat() {
         if (ActivityCompat.checkSelfPermission(TehtavakortinValintaActivity.this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED ) {
+                != PackageManager.PERMISSION_GRANTED) {
+
             ActivityCompat.requestPermissions(TehtavakortinValintaActivity.this,
-                    new String[] {Manifest.permission.CAMERA},
+                    new String[]{Manifest.permission.CAMERA},
                     MY_PERMISSION_USE_CAMERA);
+
         } else if (ActivityCompat.checkSelfPermission(TehtavakortinValintaActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED ){
+                != PackageManager.PERMISSION_GRANTED) {
+
             ActivityCompat.requestPermissions(TehtavakortinValintaActivity.this,
-                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     MY_PERMISSION_WRITE_EXTERNAL);
+
         } else {
+
             tehtavaKorttiin();
+            
         }
     }
 
@@ -137,14 +143,16 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         switch (requestCode) {
-            case MY_PERMISSION_USE_CAMERA :
+            case MY_PERMISSION_USE_CAMERA:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
                     hankiLuvat();
+
                 } else {
 
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(this,
-                            Manifest.permission.GET_ACCOUNTS)) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.CAMERA)) {
                         new AlertDialog.Builder(this).
                                 setTitle("Camera permission ").
                                 setMessage("Sovellus tarvitsee luvan käyttää kameraa kuvien ottamiseen").show();
@@ -163,11 +171,13 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
             case MY_PERMISSION_WRITE_EXTERNAL:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
                     hankiLuvat();
+
                 } else {
 
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(this,
-                            Manifest.permission.GET_ACCOUNTS)) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         new AlertDialog.Builder(this).
                                 setTitle("Kirjoitus lupa ").
                                 setMessage("Sovellus tarvitsee luvan kirjoittamiseen jotta kuvat voidaan tallentaa").show();
