@@ -29,7 +29,6 @@ import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -334,33 +333,31 @@ public class Tehtavakortti extends AppCompatActivity {
         selostus = (EditText) findViewById(R.id.selostusKentta5);
         selostus5 = selostus.getText().toString();
 
-        rakennaNotifikaatio();
-
-    }
-
-    private void rakennaNotifikaatio() {
-
-        mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(Tehtavakortti.this);
-
-        Intent valikkoNakyma = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                valikkoNakyma, 0);
-
-        mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload)
-                .setContentTitle("Tehtäväkortti")
-                .setContentText("Vastausta tallennetaan...")
-                .setContentIntent(pendingIntent);
-        mNotifyManager.notify(id, mBuilder.build());
-
-        Toast.makeText(getApplicationContext(), "Vastausta tallennetaan", Toast.LENGTH_LONG).show();
-
         new PoistaVastaus().execute();
+
     }
 
-    //väliaikainen ghetto poistamaan edellinen vastaus
+    //atm vastaus pitää poistaa enne uuden lisäämistä samaan vastaukseen
     private class PoistaVastaus extends AsyncTask<String, Integer, Integer> {
         Integer paluukoodi = 0;
+
+        @Override
+        protected void onPreExecute() {
+            mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mBuilder = new NotificationCompat.Builder(Tehtavakortti.this);
+
+            Intent valikkoNakyma = new Intent(Tehtavakortti.this, ValikkoActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(Tehtavakortti.this, 0,
+                    valikkoNakyma, 0);
+
+            mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload)
+                    .setContentTitle("Tehtäväkortti")
+                    .setContentText("Vastausta tallennetaan...")
+                    .setContentIntent(pendingIntent);
+            mNotifyManager.notify(id, mBuilder.build());
+
+            Toast.makeText(getApplicationContext(), "Vastausta tallennetaan", Toast.LENGTH_LONG).show();
+        }
 
         @Override
         protected Integer doInBackground(String... path) {
@@ -392,13 +389,6 @@ public class Tehtavakortti extends AppCompatActivity {
 
     private class UploadVastaus extends AsyncTask<String, Integer, Integer> {
         Integer paluukoodi = 0;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-
-        }
 
         @Override
         protected Integer doInBackground(String... path) {
@@ -498,12 +488,18 @@ public class Tehtavakortti extends AppCompatActivity {
         long totalSize;
         int progressValue;
         Integer kuvaLkm;
+        List<File> kuvat = new ArrayList<>();
+        final Integer MAX_PROGRESS = 100;
         private final Handler handler = new Handler();
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
+            kuvat.add(kuva1);
+            kuvat.add(kuva2);
+            kuvat.add(kuva3);
+            kuvat.add(kuva4);
+            kuvat.add(kuva5);
         }
 
         protected Integer doInBackground(String... path) {
@@ -513,20 +509,16 @@ public class Tehtavakortti extends AppCompatActivity {
             PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, 300, base);
             File kuva;
             String kuvaNimi;
-            List<File> kuvat = new ArrayList<>();
-            kuvat.add(kuva1);
-            kuvat.add(kuva2);
-            kuvat.add(kuva3);
-            kuvat.add(kuva4);
-            kuvat.add(kuva5);
+
+            for (File kuvaEnnenMuutosta : kuvat) {
+                pienennaKuvaa(kuvaEnnenMuutosta);
+            }
 
             for (int i = 0; i < kuvat.size(); i++) {
                 kuvaLkm = 1 + i;
                 mBuilder.setProgress(100, 0, false);
-                mBuilder.setContentText("Tallennetaan kuvaa " + kuvaLkm + "/" + kuvat.size());
-                mNotifyManager.notify(id, mBuilder.build());
                 kuva = kuvat.get(i);
-                kuva = saveBitmapToFile(kuva);
+                //kuva = pienennaKuvaa(kuva);
                 kuvaNimi = kuva.getName().split("\\.")[0];
                 progressValue = 0;
                 try {
@@ -536,13 +528,9 @@ public class Tehtavakortti extends AppCompatActivity {
                         public void transferred(long num) {
                             float progress = (num / (float) totalSize) * 100;
                             progressValue = (int) progress;
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mBuilder.setProgress(100, progressValue, false);
-                                    mNotifyManager.notify(id, mBuilder.build());
-                                }
-                            });
+                            if (progressValue % ( MAX_PROGRESS / 10 ) == 0) {
+                                publishProgress(progressValue, kuvaLkm);
+                            }
                         }
                     });
                     Call<ResponseBody> call = passiClient.tallennaKuva(kuvaNimi, responseBody);
@@ -555,9 +543,17 @@ public class Tehtavakortti extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
 
             return paluukoodi;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
+            mBuilder.setContentText("Tallennetaan kuvaa " + progress[1] + "/" + kuvat.size());
+            mBuilder.setProgress(MAX_PROGRESS, progress[0], false);
+            mNotifyManager.notify(id, mBuilder.build());
         }
 
         @Override
@@ -575,7 +571,7 @@ public class Tehtavakortti extends AppCompatActivity {
         }
     }
 
-    public File saveBitmapToFile(final File file) {
+    public File pienennaKuvaa(final File file) {
         try {
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = 1;
