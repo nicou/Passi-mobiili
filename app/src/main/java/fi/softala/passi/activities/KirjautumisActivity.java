@@ -250,6 +250,7 @@ public class KirjautumisActivity extends Activity {
             if (result == RESULT_OK) {
                 SharedPreferences.Editor editor = mySharedPreferences.edit();
                 editor.putString("kortitJson", json);
+                editor.apply();
             }
         }
     }
