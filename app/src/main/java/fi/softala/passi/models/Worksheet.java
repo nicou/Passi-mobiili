@@ -1,6 +1,5 @@
 package fi.softala.passi.models;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.List;
 
@@ -9,7 +8,6 @@ import fi.softala.passi.models.WorksheetWaypoints;
 /**
  * Created by 1 on 06/10/16.
  */
-@JsonPropertyOrder({"planning", "worksheetID", "groupID", "userID", "answerpoints"})
 
 public class Worksheet {
 

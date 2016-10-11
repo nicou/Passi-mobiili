@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import fi.softala.passi.R;
@@ -24,6 +26,40 @@ public class ValikkoActivity extends AppCompatActivity {
         Button kauppaButton = (Button) findViewById(R.id.btnKauppa);
         Button ryhmaButton = (Button) findViewById(R.id.btnProfiili);
 
+        Button profiiliButton = (Button)findViewById(R.id.btnProfiili);
+
+
+        ImageButton imHome = (ImageButton)findViewById(R.id.home);
+        imHome.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ValikkoActivity.this, fi.softala.passi.activities.ValikkoActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        //Anna palautetta toolbar-kohta. Toiminnallisuus toistaiseksi puuttuu
+        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
+        imFeedback.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.i("feedback","klikattu");
+
+            }
+        });
+
+        //Kirjaudu ulos toolbarista
+        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
+        imLogout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                kirjauduUlos();
+            }
+        });
 
         ryhmaButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +86,17 @@ public class ValikkoActivity extends AppCompatActivity {
                 kirjauduUlos();
             }
         });
+
+        profiiliButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(ValikkoActivity.this, PalauteActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     private void kirjauduUlos() {

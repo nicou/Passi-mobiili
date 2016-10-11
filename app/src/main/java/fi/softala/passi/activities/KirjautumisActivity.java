@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -233,8 +232,7 @@ public class KirjautumisActivity extends Activity {
                 if (response.isSuccessful()) {
                     paluukoodi = 200;
                     List<Worksheet> worksheets = (List<Worksheet>) response.body();
-                    ObjectMapper mapper = new ObjectMapper();
-                    json = mapper.writeValueAsString(worksheets);
+
                 } else {
                     paluukoodi = 0;
                 }
@@ -251,6 +249,7 @@ public class KirjautumisActivity extends Activity {
             if (result == RESULT_OK) {
                 SharedPreferences.Editor editor = mySharedPreferences.edit();
                 editor.putString("kortitJson", json);
+                editor.apply();
             }
         }
     }

@@ -52,7 +52,7 @@ public class ryhmatActivity extends AppCompatActivity {
             public void onResponse(Call<Kayttaja> call, Response<Kayttaja> response) {
                 List<Ryhma> ryhmat = response.body().getRyhmat();
                 recyclerView.setAdapter(new GroupAdapter(getApplicationContext(),ryhmat, R.layout.button_layout ));
-                
+
                 progressDialog.dismiss();
             }
 
