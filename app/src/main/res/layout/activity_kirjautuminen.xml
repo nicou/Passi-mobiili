@@ -3,7 +3,7 @@
     android:background="@drawable/background_and_combo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".KirjautumisActivity"
+    tools:context=".activities.KirjautumisActivity"
     android:orientation="vertical">
 
     <LinearLayout

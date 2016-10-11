@@ -5,7 +5,7 @@
     android:id="@+id/activity_vahvistus"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fi.softala.passi.VahvistusActivity"
+    tools:context="fi.softala.passi.activities.VahvistusActivity"
     android:background="@drawable/background_and_title">
 
     <ImageView

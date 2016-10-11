@@ -1,4 +1,4 @@
-package fi.softala.passi;
+package fi.softala.passi.network;
 
 import android.util.Base64;
 

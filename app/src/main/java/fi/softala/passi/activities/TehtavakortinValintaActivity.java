@@ -1,4 +1,4 @@
-package fi.softala.passi;
+package fi.softala.passi.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -11,6 +11,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import fi.softala.passi.R;
 
 public class TehtavakortinValintaActivity extends AppCompatActivity {
 
@@ -134,7 +136,7 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
         } else {
 
             tehtavaKorttiin();
-            
+
         }
     }
 

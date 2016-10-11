@@ -1,4 +1,4 @@
-package fi.softala.passi;
+package fi.softala.passi.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -21,6 +21,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
+import fi.softala.passi.network.PassiClient;
+import fi.softala.passi.R;
+import fi.softala.passi.network.ServiceGenerator;
+import fi.softala.passi.models.Kayttaja;
+import fi.softala.passi.models.Worksheet;
 import retrofit2.Call;
 import retrofit2.Response;
 

@@ -1,10 +1,11 @@
-package fi.softala.passi;
+package fi.softala.passi.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.List;
+
+import fi.softala.passi.models.Etappi;
 
 /**
  * Created by joakimkajan on 29/09/16.

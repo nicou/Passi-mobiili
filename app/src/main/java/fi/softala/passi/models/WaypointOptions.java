@@ -1,4 +1,4 @@
-package fi.softala.passi;
+package fi.softala.passi.models;
 
 /**
  * Created by 1 on 06/10/16.

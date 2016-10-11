@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fi.softala.passi.Tehtavakortti"
+    tools:context="fi.softala.passi.activities.Tehtavakortti"
     android:background="@drawable/background"
     android:paddingBottom="10dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"

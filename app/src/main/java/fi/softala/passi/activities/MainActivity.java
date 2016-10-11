@@ -1,4 +1,4 @@
-package fi.softala.passi;
+package fi.softala.passi.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import fi.softala.passi.R;
 
 public class MainActivity extends Activity {
 

@@ -1,4 +1,4 @@
-package fi.softala.passi;
+package fi.softala.passi.network;
 
 import java.io.File;
 import java.io.IOException;

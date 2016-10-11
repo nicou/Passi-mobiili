@@ -1,4 +1,4 @@
-package fi.softala.passi;
+package fi.softala.passi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
