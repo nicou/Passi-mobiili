@@ -19,10 +19,24 @@ public class PalauteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_palaute);
 
+        ImageButton imHome = (ImageButton)findViewById(R.id.home);
         imHome.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(PalauteActivity.this, fi.softala.passi.activities.ValikkoActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
+        imFeedback.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PalauteActivity.this, PalauteActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -36,6 +50,7 @@ public class PalauteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 kirjauduUlos();
             }
+        });
     }
 
     private void kirjauduUlos() {
