@@ -68,6 +68,37 @@ public class Tehtavakortti extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tehtavakortti);
 
+        // Palaa home-valikkoon toolbarista
+        ImageButton imHome = (ImageButton)findViewById(R.id.home);
+        imHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        //Anna palautetta toolbar-kohta. Toiminnallisuus toistaiseksi puuttuu
+        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
+        imFeedback.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.i("feedback","klikattu");
+
+            }
+        });
+        //Kirjaudu ulos toolbar-kohta. Toiminnallisuus toistaiseksi puuttuu
+        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
+        imLogout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.i("logout","klikattu");
+
+            }
+        });
+
 
         final TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();

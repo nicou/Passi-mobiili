@@ -6,7 +6,10 @@
     tools:context="fi.softala.passi.Tehtavakortti"
     android:background="@drawable/background">
 
-
+    <include
+        layout="@layout/tool_bar"
+        android:id="@+id/toolbar">
+    </include>
 
     <TabHost
         android:layout_width="match_parent"

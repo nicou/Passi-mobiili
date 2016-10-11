@@ -8,48 +8,10 @@
     tools:context="fi.softala.passi.VahvistusActivity"
     android:background="@drawable/background_and_title">
 
-
-    <ImageView
-        android:background="@drawable/yellow_top_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="80dp"
-        android:scaleType="fitXY" />
-
-    <ImageView
-        android:id="@+id/btnHome"
-        android:background="@drawable/homeicon"
-        android:layout_width="38dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="260dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginEnd="70dp"
-        />
-
-    <ImageView
-        android:id="@+id/btnFeedBack"
-        android:background="@drawable/feedbackicon"
-        android:layout_width="37dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginStart="260dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginEnd="70dp"
-        />
-
-    <ImageView
-        android:id="@+id/btnLogout"
-        android:background="@drawable/logouticon"
-        android:layout_width="40dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginStart="320dp"
-        android:layout_marginLeft="320dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginEnd="70dp"
-        />
+    <include
+        layout="@layout/tool_bar"
+        android:id="@+id/toolbar">
+    </include>
 
     <ImageView
         android:id="@+id/tehtavaPalautettu"

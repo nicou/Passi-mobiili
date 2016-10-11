@@ -9,13 +9,17 @@
     android:orientation="horizontal"
     tools:context="fi.softala.passi.TehtavakortinValintaActivity">
 
-    <EditText
+
+
+   <EditText
         android:layout_width="400dp"
         android:textSize="30dip"
         android:layout_row="0"
         android:layout_column="0"
         android:layout_columnSpan="3"
         android:background="#ffd874" />
+
+
 
     <TextView
         android:text=""
