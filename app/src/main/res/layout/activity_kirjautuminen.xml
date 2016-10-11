@@ -3,7 +3,7 @@
     android:background="@drawable/background_and_combo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".KirjautumisActivity"
+    tools:context=".activities.KirjautumisActivity"
     android:orientation="vertical">
 
     <LinearLayout
@@ -42,7 +42,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
-            android:layout_below="@id/usernameWrapper"
             android:layout_marginTop="4dp">
 
             <EditText

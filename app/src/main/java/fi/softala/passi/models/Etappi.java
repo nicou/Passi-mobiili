@@ -1,0 +1,72 @@
+package fi.softala.passi.models;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * Created by joakimkajan on 29/09/16.
+ */
+
+public class Etappi {
+
+
+    Integer waypointID;
+    Integer selectedOptionID;
+
+    String imageURL;
+    String answerText;
+
+    public Etappi(Integer waypointID, String imageURL, Integer selectedOptionID, String answerText) {
+        this.waypointID = waypointID;
+        this.imageURL = imageURL;
+        this.selectedOptionID = selectedOptionID;
+        this.answerText = answerText;
+
+    }
+
+    public Etappi() {
+
+    }
+
+    public Integer getWaypointID() {
+        return waypointID;
+    }
+
+    public void setWaypointID(Integer waypointID) {
+        this.waypointID = waypointID;
+    }
+
+    @JsonProperty("optionID")
+    public Integer getSelectedOptionID() {
+        return selectedOptionID;
+    }
+
+    public void setSelectedOptionID(Integer selectedOptionID) {
+        this.selectedOptionID = selectedOptionID;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public String getAnswerText() {
+        return answerText;
+    }
+
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
+    }
+
+    @Override
+    public String toString() {
+        return "Etappi{" +
+                ", waypointID=" + waypointID +
+                ", selectedOptionID=" + selectedOptionID +
+                ", imageURL='" + imageURL + '\'' +
+                ", answerText='" + answerText + '\'' +
+                '}';
+    }
+}

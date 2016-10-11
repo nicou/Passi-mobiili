@@ -41,7 +41,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="100dip"
         android:src="@drawable/profiili_pohja"
-    />
+        />
 
 
     <Button
@@ -61,7 +61,7 @@
         android:textStyle="bold"
         android:background="@drawable/nappi"
 
-    />
+        />
 
     <ImageView
         android:layout_width="280dp"
@@ -88,7 +88,7 @@
         android:textStyle="bold"
         android:textColor="#3498db"
         android:background="@drawable/nappi"
-    />
+        />
 
     <ImageView
         android:layout_width="280dp"
@@ -100,6 +100,7 @@
         />
 
     <Button
+        android:id="@+id/btnKauppa"
         android:layout_marginTop="380dp"
         android:layout_marginStart="260dp"
         android:layout_marginLeft="140dp"
@@ -138,6 +139,6 @@
         android:src="@drawable/etenemispalkkiv2_varipalkki"
         />
 
-       </FrameLayout>
+</FrameLayout>
 
 
