@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import fi.softala.passi.R;
 
@@ -23,6 +25,37 @@ public class TehtavakortinValintaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tehtavakortin_valinta);
         Context context = getApplicationContext();
+
+        // Palaa home-valikkoon toolbarista
+        ImageButton imHome = (ImageButton)findViewById(R.id.home);
+        imHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TehtavakortinValintaActivity.this, ValikkoActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        //Anna palautetta toolbar-kohta. Toiminnallisuus toistaiseksi puuttuu
+        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
+        imFeedback.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.i("feedback","klikattu");
+
+            }
+        });
+        //Kirjaudu ulos toolbar-kohta. Toiminnallisuus toistaiseksi puuttuu
+        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
+        imLogout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.i("logout","klikattu");
+
+            }
+        });
 
         Button button1 = (Button) findViewById(R.id.btnPaihteet1);
         button1.setOnClickListener(new View.OnClickListener() {
