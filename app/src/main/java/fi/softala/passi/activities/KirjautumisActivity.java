@@ -33,9 +33,6 @@ import retrofit2.Response;
  * Created by villeaaltonen on 15/09/16.
  */
 public class KirjautumisActivity extends Activity {
-    // Constants
-    // The authority for the sync adapter's content provider
-    public static final String ACCOUNT_TYPE = "fi.softala.passi";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,8 +178,6 @@ public class KirjautumisActivity extends Activity {
 
             // Haku onnistui
             if (result == RESULT_OK) {
-                Account account = new Account(username, ACCOUNT_TYPE);
-                accountManager.addAccountExplicitly(account, password, null);
                 SharedPreferences.Editor editor = mySharedPreferences.edit();
                 editor.putString("tunnus", username);
                 editor.apply();
