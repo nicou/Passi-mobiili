@@ -85,26 +85,29 @@ public class Tehtavakortti extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tehtavakortti);
 
-        // Palaa home-valikkoon toolbarista
         ImageButton imHome = (ImageButton)findViewById(R.id.home);
         imHome.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
+                Intent intent = new Intent(Tehtavakortti.this, fi.softala.passi.activities.ValikkoActivity.class);
                 startActivity(intent);
 
             }
         });
-        //Anna palautetta toolbar-kohta. Toiminnallisuus toistaiseksi puuttuu
+
         ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
         imFeedback.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Log.i("feedback","klikattu");
+                Intent intent = new Intent(Tehtavakortti.this, PalauteActivity.class);
+                startActivity(intent);
 
             }
         });
+
+
         //Kirjaudu ulos toolbarista
         ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
         imLogout.setOnClickListener(new View.OnClickListener() {

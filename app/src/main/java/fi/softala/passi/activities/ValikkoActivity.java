@@ -23,9 +23,9 @@ public class ValikkoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valikko);
         Button button = (Button) findViewById(R.id.btnTyokykypassi);
-        Button kauppaButton = (Button) findViewById(R.id.btnKauppa);
+       // Button kauppaButton = (Button) findViewById(R.id.btnKauppa);
 
-        Button profiiliButton = (Button)findViewById(R.id.btnProfiili);
+       Button profiiliButton = (Button)findViewById(R.id.btnProfiili);
 
 
         ImageButton imHome = (ImageButton)findViewById(R.id.home);
@@ -39,16 +39,17 @@ public class ValikkoActivity extends AppCompatActivity {
             }
         });
 
-        //Anna palautetta toolbar-kohta. Toiminnallisuus toistaiseksi puuttuu
         ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
         imFeedback.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Log.i("feedback","klikattu");
+                Intent intent = new Intent(ValikkoActivity.this, PalauteActivity.class);
+                startActivity(intent);
 
             }
         });
+
 
         //Kirjaudu ulos toolbarista
         ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
@@ -69,21 +70,12 @@ public class ValikkoActivity extends AppCompatActivity {
 
             }
         });
-        //väliaikanen uloskirjautumisnappula
-        kauppaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                kirjauduUlos();
-            }
-        });
 
         profiiliButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
 
-                Intent intent = new Intent(ValikkoActivity.this, PalauteActivity.class);
-                startActivity(intent);
+                Log.d("Namiska","painettu");
 
             }
         });

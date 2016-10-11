@@ -41,28 +41,28 @@ public class VahvistusActivity extends AppCompatActivity {
             }
         });
 
-        // Palaa home-valikkoon toolbarista
         ImageButton imHome = (ImageButton)findViewById(R.id.home);
         imHome.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(VahvistusActivity.this, ValikkoActivity.class);
+                Intent intent = new Intent(VahvistusActivity.this, fi.softala.passi.activities.ValikkoActivity.class);
                 startActivity(intent);
 
             }
         });
 
-        //Anna palautetta toolbar-kohta. Toiminnallisuus toistaiseksi puuttuu
         ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
         imFeedback.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Log.i("feedback","klikattu");
+                Intent intent = new Intent(VahvistusActivity.this, PalauteActivity.class);
+                startActivity(intent);
 
             }
         });
+
 
         //Kirjaudu ulos toolbarista
         ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
@@ -71,7 +71,6 @@ public class VahvistusActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 kirjauduUlos();
-
             }
         });
 
