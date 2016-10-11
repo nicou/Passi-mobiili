@@ -213,7 +213,7 @@ public class KirjautumisActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Haetaan tehäväkortteja...");
+            progressDialog.setMessage("Haetaan tehtäväkortteja...");
             progressDialog.show();
         }
 

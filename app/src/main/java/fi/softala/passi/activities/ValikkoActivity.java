@@ -9,11 +9,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import fi.softala.passi.R;
 
 public class ValikkoActivity extends AppCompatActivity {
 
+    int backButtonCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +63,12 @@ public class ValikkoActivity extends AppCompatActivity {
                 }).show();
     }
 
+    @Override
     public void onBackPressed() {
-
-        super.onBackPressed();
-        Intent intent = new Intent(ValikkoActivity.this, ValikkoActivity.class);
-        startActivity(intent);
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
     }
 
 
