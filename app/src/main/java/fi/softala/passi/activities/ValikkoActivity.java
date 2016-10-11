@@ -46,8 +46,10 @@ public class ValikkoActivity extends AppCompatActivity {
                 .setPositiveButton("Kyllä", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-                        mySharedPreferences.edit().remove("token").commit();
-                        mySharedPreferences.edit().remove("username").commit();
+                        mySharedPreferences.edit()
+                                .remove("tunnus")
+                                .remove("token")
+                                .apply();
                         Intent sisaanKirjautuminen = new Intent(getApplicationContext(), KirjautumisActivity.class);
                         startActivity(sisaanKirjautuminen);
                     }
