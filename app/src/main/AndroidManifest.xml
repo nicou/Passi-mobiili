@@ -21,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.ToolbarActivity" />
         <activity
             android:name=".activities.KirjautumisActivity"
             android:label="Kirjautuminen"
@@ -34,7 +35,9 @@
         <activity
             android:name=".activities.Tehtavakortti"
             android:screenOrientation="portrait" />
+
         <activity android:name=".activities.PalauteActivity"></activity>
+
     </application>
 
 </manifest>
