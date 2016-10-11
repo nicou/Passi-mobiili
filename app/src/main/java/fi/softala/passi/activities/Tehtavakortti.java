@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -98,14 +99,13 @@ public class Tehtavakortti extends AppCompatActivity {
 
             }
         });
-        //Kirjaudu ulos toolbar-kohta. Toiminnallisuus toistaiseksi puuttuu
+        //Kirjaudu ulos toolbarista
         ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
         imLogout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Log.i("logout","klikattu");
-
+                kirjauduUlos();
             }
         });
 
@@ -728,5 +728,24 @@ public class Tehtavakortti extends AppCompatActivity {
         }
     }
 
+    private void kirjauduUlos() {
+        new android.support.v7.app.AlertDialog.Builder(Tehtavakortti.this).setMessage("Kirjaudu ulos?")
+                .setPositiveButton("Kyllä", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+                        mySharedPreferences.edit()
+                                .remove("tunnus")
+                                .remove("token")
+                                .apply();
+                        Intent sisaanKirjautuminen = new Intent(getApplicationContext(), KirjautumisActivity.class);
+                        startActivity(sisaanKirjautuminen);
+                    }
+                })
+                .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                }).show();
+    }
 
 }

@@ -48,14 +48,13 @@ public class ValikkoActivity extends AppCompatActivity {
             }
         });
 
-        //Kirjaudu ulos toolbar-kohta. Toiminnallisuus toistaiseksi puuttuu
+        //Kirjaudu ulos toolbarista
         ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
         imLogout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Log.i("logout","klikattu");
-
+                kirjauduUlos();
             }
         });
 
