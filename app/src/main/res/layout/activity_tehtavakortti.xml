@@ -82,7 +82,8 @@
                         android:paddingLeft="15dp"
                         android:paddingBottom="15dp"
                         android:paddingTop="15dp"
-                        android:layout_gravity="top"/>
+                        android:layout_gravity="top"
+                        android:id="@+id/suunitelmaTeksti"/>
 
 
                     <EditText

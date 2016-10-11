@@ -27,13 +27,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,6 +49,8 @@ import java.util.List;
 import fi.softala.passi.R;
 import fi.softala.passi.models.Etappi;
 import fi.softala.passi.models.Vastaus;
+import fi.softala.passi.models.Worksheet;
+import fi.softala.passi.models.WorksheetWaypoints;
 import fi.softala.passi.network.CountingFileRequestBody;
 import fi.softala.passi.network.PassiClient;
 import fi.softala.passi.network.ServiceGenerator;
@@ -145,7 +151,7 @@ public class Tehtavakortti extends AppCompatActivity {
         spec.setIndicator("Toteutus");
         host.addTab(spec);
 
-
+        taytaTiedotTehtavakorteista();
         //Sets all tab titles to singleline
         int c = host.getTabWidget().getChildCount();
         for (int i = 0; c > i; i++) {
@@ -747,5 +753,53 @@ public class Tehtavakortti extends AppCompatActivity {
                     }
                 }).show();
     }
+
+    private void taytaTiedotTehtavakorteista() {
+
+
+        SharedPreferences sp = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
+        String json = sp.getString("kortitJson", "");
+
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<Worksheet> wss = new ArrayList<>();
+        try {
+            wss = mapper.readValue(json, TypeFactory.defaultInstance().constructCollectionType(List.class, Worksheet.class));
+        } catch (IOException e) {
+            //Vituiks meni
+        }
+
+        String johdantoString = null;
+        String suunitelmaString = null;
+         LinearLayout linear = (LinearLayout) findViewById(R.id.Toteutus);
+         RelativeLayout  ll = new RelativeLayout(this);
+        for (Worksheet ws : wss) {
+            johdantoString = ws.getWorksheetPreface();
+            suunitelmaString = ws.getWorksheetPlanning();
+
+            List<WorksheetWaypoints> waypoint = ws.getWorksheetWaypoints();
+            for(WorksheetWaypoints wp : waypoint){
+
+            }
+        }
+
+        //Johdanto teksti
+        TextView textViewJohdanto = (TextView) findViewById(R.id.textView1);
+        textViewJohdanto.setText(johdantoString);
+
+        //Suunitelma teksti
+        TextView textViewSuunitelma = (TextView) findViewById(R.id.suunitelmaTeksti);
+        textViewSuunitelma.setText(suunitelmaString);
+
+
+
+
+
+    }
+
+
+
 
 }
