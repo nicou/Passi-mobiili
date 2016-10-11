@@ -22,6 +22,7 @@ public class ValikkoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_valikko);
         Button button = (Button) findViewById(R.id.btnTyokykypassi);
         Button kauppaButton = (Button) findViewById(R.id.btnKauppa);
+        Button profiiliButton = (Button)findViewById(R.id.btnProfiili);
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -41,6 +42,17 @@ public class ValikkoActivity extends AppCompatActivity {
                 kirjauduUlos();
             }
         });
+
+        profiiliButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(ValikkoActivity.this, PalauteActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     private void kirjauduUlos() {
