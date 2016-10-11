@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
         final SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
         String base = mySharedPreferences.getString("token", "");
-        
+
         if (base.length() > 0) {
             Intent intent = new Intent(MainActivity.this, ValikkoActivity.class);
             startActivity(intent);

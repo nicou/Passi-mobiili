@@ -1,10 +1,13 @@
 package fi.softala.passi.activities;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -13,6 +16,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +70,8 @@ public class Tehtavakortti extends AppCompatActivity {
     String selostus1, selostus2, selostus3, selostus4, selostus5;
     Integer selectedOptionID1, selectedOptionID2, selectedOptionID3, selectedOptionID4, selectedOptionID5;
     int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+    private static final int MY_PERMISSION_USE_CAMERA = 10;
+    private static final int MY_PERMISSION_WRITE_EXTERNAL = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +160,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
     // kun painetaan kameranappia riippuen mikä nappi
     public void onButtonClick(View view) {
+
         switch (view.getId()) {
             case R.id.kameraButton1:
                 kameraButtonPressed = 1;
@@ -171,15 +179,7 @@ public class Tehtavakortti extends AppCompatActivity {
                 break;
         }
 
-        Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        String kuvaNimi = kameraButtonPressed + "-" + userID + ".jpg";
-
-        file = new File(Tehtavakortti.this.getExternalCacheDir(),
-                String.valueOf(kuvaNimi));
-        fileUri = Uri.fromFile(file);
-        Log.d("Passi", "Kuva otettu " + fileUri);
-        kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        Tehtavakortti.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
+        hankiLuvat();
 
     }
 
@@ -604,6 +604,98 @@ public class Tehtavakortti extends AppCompatActivity {
         Intent intent = new Intent(Tehtavakortti.this, TehtavakortinValintaActivity.class);
         startActivity(intent);
 
+    }
+
+    private void hankiLuvat() {
+        if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(Tehtavakortti.this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSION_USE_CAMERA);
+
+        } else if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(Tehtavakortti.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSION_WRITE_EXTERNAL);
+
+        } else {
+
+            kuvanOtto();
+
+        }
+    }
+
+    public void kuvanOtto() {
+        Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String kuvaNimi = kameraButtonPressed + "-" + userID + ".jpg";
+
+        file = new File(Tehtavakortti.this.getExternalCacheDir(),
+                String.valueOf(kuvaNimi));
+        fileUri = Uri.fromFile(file);
+        Log.d("Passi", "Kuva otettu " + fileUri);
+        kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        Tehtavakortti.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode) {
+            case MY_PERMISSION_USE_CAMERA:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    hankiLuvat();
+
+                } else {
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.CAMERA)) {
+                        new AlertDialog.Builder(this).
+                                setTitle("Camera permission ").
+                                setMessage("Sovellus tarvitsee luvan käyttää kameraa kuvien ottamiseen").show();
+                    } else {
+                        new AlertDialog.Builder(this).
+                                setTitle("Camera permision denied").
+                                setMessage("Et antanut lupaa joten et voi täyttää tehtäväkorttia." +
+                                        " To enable it" +
+                                        ", go on settings and " +
+                                        "grant read contacts for the application").show();
+                    }
+
+                }
+
+                break;
+            case MY_PERMISSION_WRITE_EXTERNAL:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    hankiLuvat();
+
+                } else {
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        new AlertDialog.Builder(this).
+                                setTitle("Kirjoitus lupa ").
+                                setMessage("Sovellus tarvitsee luvan kirjoittamiseen jotta kuvat voidaan tallentaa").show();
+                    } else {
+                        new AlertDialog.Builder(this).
+                                setTitle("Kirjoitus lupa kielletty").
+                                setMessage("Et antanut lupaa joten et voi täyttää tehtäväkorttia." +
+                                        " To enable it" +
+                                        ", go on settings and " +
+                                        "grant storage for the application").show();
+                    }
+
+                }
+
+                break;
+        }
     }
 
 
