@@ -41,12 +41,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.softala.passi.network.CountingFileRequestBody;
-import fi.softala.passi.network.PassiClient;
 import fi.softala.passi.R;
-import fi.softala.passi.network.ServiceGenerator;
 import fi.softala.passi.models.Etappi;
 import fi.softala.passi.models.Vastaus;
+import fi.softala.passi.network.CountingFileRequestBody;
+import fi.softala.passi.network.PassiClient;
+import fi.softala.passi.network.ServiceGenerator;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
