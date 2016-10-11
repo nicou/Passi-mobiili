@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -138,19 +137,19 @@ public class KirjautumisActivity extends Activity {
             super.onPreExecute();
             progressDialog.setIndeterminate(true);
             progressDialog.setMessage("Kirjaudutaan...");
+            progressDialog.setCancelable(false);
             progressDialog.show();
         }
 
         @Override
         protected Integer doInBackground(String... params) {
-            username = params[0];
-            password = params[1];
-            String pohja = username + ":" + password;
-            base = Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
+            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
-            PassiClient loginService =
-                    ServiceGenerator.createService(PassiClient.class, username, password);
-            Call<Kayttaja> call = loginService.haeKayttaja(username);
+            String base = mySharedPreferences.getString("token", "");
+
+            PassiClient service =
+                    ServiceGenerator.createService(PassiClient.class, base);
+            Call<Kayttaja> call = service.haeKayttaja(username);
 
             try {
                 Response response = call.execute();
@@ -214,6 +213,7 @@ public class KirjautumisActivity extends Activity {
             super.onPreExecute();
             progressDialog.setIndeterminate(true);
             progressDialog.setMessage("Haetaan tehtäväkortteja...");
+            progressDialog.setCancelable(false);
             progressDialog.show();
         }
 
@@ -232,8 +232,7 @@ public class KirjautumisActivity extends Activity {
                 if (response.isSuccessful()) {
                     paluukoodi = 200;
                     List<Worksheet> worksheets = (List<Worksheet>) response.body();
-                    ObjectMapper mapper = new ObjectMapper();
-                    json = mapper.writeValueAsString(worksheets);
+
                 } else {
                     paluukoodi = 0;
                 }

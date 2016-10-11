@@ -23,7 +23,12 @@ public class ValikkoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valikko);
         Button button = (Button) findViewById(R.id.btnTyokykypassi);
+
        // Button kauppaButton = (Button) findViewById(R.id.btnKauppa);
+
+        
+        Button ryhmaButton = (Button) findViewById(R.id.btnProfiili);
+
 
        Button profiiliButton = (Button)findViewById(R.id.btnProfiili);
 
@@ -58,6 +63,14 @@ public class ValikkoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 kirjauduUlos();
+            }
+        });
+
+        ryhmaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ValikkoActivity.this, ryhmatActivity.class);
+                startActivity(intent);
             }
         });
 

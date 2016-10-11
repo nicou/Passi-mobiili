@@ -1,19 +1,55 @@
 package fi.softala.passi.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 /**
  * Created by vllle on 1.10.2016.
  */
 
-@JsonIgnoreProperties(ignoreUnknown=true)
 public class Kayttaja {
+
+    @SerializedName("userID")
+    private String userID;
+    @SerializedName("username")
     private String username;
-    private String password;
+    @SerializedName("firstname")
     private String firstname;
+    @SerializedName("lastname")
     private String lastname;
-    private String school;
+    @SerializedName("email")
     private String email;
+    @SerializedName("phone")
+    private String phone;
+    @SerializedName("groups")
+    private List<Ryhma> ryhmat;
+
+    public Kayttaja(String userID, String username, String firstname, String lastname, String email, String phone, List<Ryhma> ryhmat) {
+        this.userID = userID;
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phone = phone;
+        this.ryhmat = ryhmat;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getFirstname() {
         return firstname;
@@ -31,14 +67,6 @@ public class Kayttaja {
         this.lastname = lastname;
     }
 
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -47,19 +75,19 @@ public class Kayttaja {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getPassword() {
-        return password;
+    public List<Ryhma> getRyhmat() {
+        return ryhmat;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRyhmat(List<Ryhma> ryhmat) {
+        this.ryhmat = ryhmat;
     }
 }

@@ -35,9 +35,6 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -175,7 +172,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                try {
+
                     keraaTiedot();
                     new android.os.Handler().postDelayed(
                             new Runnable() {
@@ -184,10 +181,7 @@ public class Tehtavakortti extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                             }, 1000);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Tietojen keräys epäonnistui", Toast.LENGTH_LONG).show();
-                }
+
             }
         });
 
@@ -304,7 +298,7 @@ public class Tehtavakortti extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_LONG).show();
     }
 
-    private void keraaTiedot() throws JsonProcessingException {
+    private void keraaTiedot()  {
         EditText selostus;
         RadioGroup radioGroup1 = (RadioGroup) findViewById(R.id.radio1);
         RadioGroup radioGroup2 = (RadioGroup) findViewById(R.id.radio2);
@@ -764,7 +758,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
         String json = sp.getString("kortitJson", "");
 
-
+        /*
         ObjectMapper mapper = new ObjectMapper();
 
         List<Worksheet> wss = new ArrayList<>();
@@ -772,13 +766,13 @@ public class Tehtavakortti extends AppCompatActivity {
             wss = mapper.readValue(json, TypeFactory.defaultInstance().constructCollectionType(List.class, Worksheet.class));
         } catch (IOException e) {
             //Vituiks meni
-        }
+        } */
 
         String johdantoString = null;
         String suunitelmaString = null;
          LinearLayout linear = (LinearLayout) findViewById(R.id.Toteutus);
          RelativeLayout  ll = new RelativeLayout(this);
-        for (Worksheet ws : wss) {
+        /*for (Worksheet ws : wss) {
             johdantoString = ws.getWorksheetPreface();
             suunitelmaString = ws.getWorksheetPlanning();
 
@@ -786,7 +780,7 @@ public class Tehtavakortti extends AppCompatActivity {
             for(WorksheetWaypoints wp : waypoint){
 
             }
-        }
+        } */
 
         //Johdanto teksti
         TextView textViewJohdanto = (TextView) findViewById(R.id.textView1);
