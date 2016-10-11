@@ -22,7 +22,16 @@ public class ValikkoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_valikko);
         Button button = (Button) findViewById(R.id.btnTyokykypassi);
         Button kauppaButton = (Button) findViewById(R.id.btnKauppa);
+        Button ryhmaButton = (Button) findViewById(R.id.btnProfiili);
 
+
+        ryhmaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ValikkoActivity.this, ryhmatActivity.class);
+                startActivity(intent);
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

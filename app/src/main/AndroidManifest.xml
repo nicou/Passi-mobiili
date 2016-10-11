@@ -22,10 +22,11 @@
         </activity>
         <activity
             android:name=".activities.KirjautumisActivity"
-            android:label="Kirjautuminen"/>
+            android:label="Kirjautuminen" />
         <activity android:name=".activities.ValikkoActivity" />
         <activity android:name=".activities.TehtavakortinValintaActivity" />
         <activity android:name=".activities.Tehtavakortti" />
+        <activity android:name=".activities.ryhmatActivity"></activity>
     </application>
 
 </manifest>
