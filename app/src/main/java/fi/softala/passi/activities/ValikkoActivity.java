@@ -27,11 +27,7 @@ public class ValikkoActivity extends AppCompatActivity {
        // Button kauppaButton = (Button) findViewById(R.id.btnKauppa);
 
         
-        Button ryhmaButton = (Button) findViewById(R.id.btnProfiili);
-
-
-       Button profiiliButton = (Button)findViewById(R.id.btnProfiili);
-
+        Button ryhmaButton = (Button) findViewById(R.id.btnProfiiliNappi);
 
         ImageButton imHome = (ImageButton)findViewById(R.id.home);
         imHome.setOnClickListener(new View.OnClickListener() {
@@ -84,14 +80,6 @@ public class ValikkoActivity extends AppCompatActivity {
             }
         });
 
-        profiiliButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-
-                Log.d("Namiska","painettu");
-
-            }
-        });
 
     }
 

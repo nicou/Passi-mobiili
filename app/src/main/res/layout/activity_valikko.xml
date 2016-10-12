@@ -45,7 +45,7 @@
 
 
     <Button
-        android:id="@+id/btnProfiili"
+        android:id="@+id/btnProfiiliNappi"
         android:layout_marginTop="160dp"
         android:layout_marginStart="260dp"
         android:layout_marginLeft="140dp"

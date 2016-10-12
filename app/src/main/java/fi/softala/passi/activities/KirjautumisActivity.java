@@ -120,10 +120,6 @@ public class KirjautumisActivity extends Activity {
         Context context = getApplicationContext();
         final ProgressDialog progressDialog = new ProgressDialog(KirjautumisActivity.this,
                 R.style.AppTheme_Dark_Dialog);
-        // Get an instance of the Android account manager
-        final AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        ACCOUNT_SERVICE);
 
         Integer paluukoodi = 0;
         String username;
@@ -143,12 +139,15 @@ public class KirjautumisActivity extends Activity {
 
         @Override
         protected Integer doInBackground(String... params) {
-            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
-            String base = mySharedPreferences.getString("token", "");
+            username = params[0];
+            password = params[1];
+
+            String authToken = username + ":" + password;
+            base = Base64.encodeToString(authToken.getBytes(), Base64.NO_WRAP);
 
             PassiClient service =
-                    ServiceGenerator.createService(PassiClient.class, base);
+                    ServiceGenerator.createService(PassiClient.class, username, password);
             Call<Kayttaja> call = service.haeKayttaja(username);
 
             try {
