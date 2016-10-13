@@ -13,6 +13,17 @@
         android:id="@+id/toolbar">
     </include>
 
+    <TextView
+        android:text="TURVALLISUUSKÄVELY"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#3498db"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:gravity="center"
+        android:layout_marginTop="70dp"
+        />
+
     <ImageView
         android:id="@+id/tehtavaPalautettu"
         android:src="@drawable/tehtava_palautettu_pohja"
