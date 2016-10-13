@@ -18,6 +18,8 @@
         android:scaleType="fitXY"
         />
 
+    <include layout="@layout/content_scrolling_palaute" />
+
 
 
     <include
