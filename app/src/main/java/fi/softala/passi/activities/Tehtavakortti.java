@@ -36,10 +36,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -755,23 +759,20 @@ public class Tehtavakortti extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
-        String json = sp.getString("kortitJson", "");
+        String json = sp.getString("kortitJson","");
 
-        /*
-        ObjectMapper mapper = new ObjectMapper();
 
-        List<Worksheet> wss = new ArrayList<>();
-        try {
-            wss = mapper.readValue(json, TypeFactory.defaultInstance().constructCollectionType(List.class, Worksheet.class));
-        } catch (IOException e) {
-            //Vituiks meni
-        } */
+        Gson gson = new Gson();
+
+        Type type = new TypeToken<List<Worksheet>>(){}.getType();
+        List<Worksheet> wss = gson.fromJson(json, type);
 
         String johdantoString = null;
         String suunitelmaString = null;
-         LinearLayout linear = (LinearLayout) findViewById(R.id.Toteutus);
-         RelativeLayout  ll = new RelativeLayout(this);
-        /*for (Worksheet ws : wss) {
+        if(!json.isEmpty()){
+
+
+        for (Worksheet ws : wss) {
             johdantoString = ws.getWorksheetPreface();
             suunitelmaString = ws.getWorksheetPlanning();
 
@@ -779,7 +780,7 @@ public class Tehtavakortti extends AppCompatActivity {
             for(WorksheetWaypoints wp : waypoint){
 
             }
-        } */
+        }
 
         //Johdanto teksti
         TextView textViewJohdanto = (TextView) findViewById(R.id.textView1);
@@ -796,6 +797,6 @@ public class Tehtavakortti extends AppCompatActivity {
     }
 
 
-
+    }
 
 }
