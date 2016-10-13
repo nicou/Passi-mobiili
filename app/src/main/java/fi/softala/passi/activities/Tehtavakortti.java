@@ -200,20 +200,6 @@ public class Tehtavakortti extends AppCompatActivity {
 
         tv.setMovementMethod(new ScrollingMovementMethod());
 
-        /*
-        EditText e = (EditText) findViewById(R.id.editText20);
-
-        e.setText(kortti.getWorksheetWaypoints().get(0).getWaypointTask());
-        e = (EditText) findViewById(R.id.editText21);
-        e.setText(kortti.getWorksheetWaypoints().get(1).getWaypointTask());
-        e = (EditText) findViewById(R.id.editText22);
-        e.setText(kortti.getWorksheetWaypoints().get(2).getWaypointTask());
-        e = (EditText) findViewById(R.id.editText23);
-        e.setText(kortti.getWorksheetWaypoints().get(3).getWaypointTask());
-        e = (EditText) findViewById(R.id.editText24);
-        e.setText(kortti.getWorksheetWaypoints().get(4).getWaypointTask());
-
- */
         tv.setText(kortti.getWorksheetPreface());
     }
 
@@ -265,27 +251,7 @@ public class Tehtavakortti extends AppCompatActivity {
                 kameraButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
                 );
                 kameraButton1.setEnabled(false);
-//            } else if (kameraButtonPressed == 2) {
-//                kuva2 = stringUri;
-//                kameraButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
-//                );
-//                kameraButton2.setEnabled(false);
-//            } else if (kameraButtonPressed == 3) {
-//                kuva3 = stringUri;
-//                kameraButton3.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
-//                );
-//                kameraButton3.setEnabled(false);
-//            } else if (kameraButtonPressed == 4) {
-//                kuva4 = stringUri;
-//                kameraButton4.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
-//                );
-//                kameraButton4.setEnabled(false);
-//            } else if (kameraButtonPressed == 5) {
-//                kuva5 = stringUri;
-//                kameraButton5.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
-//                );
-//                kameraButton5.setEnabled(false);
-//            }
+
             kameraButtonPressed = 0;
 
         }
@@ -327,10 +293,6 @@ public class Tehtavakortti extends AppCompatActivity {
     private void keraaTiedot()  {
         EditText selostus;
         RadioGroup radioGroup1 = (RadioGroup) findViewById(R.id.radio1);
-//        RadioGroup radioGroup2 = (RadioGroup) findViewById(R.id.radio2);
-//        RadioGroup radioGroup3 = (RadioGroup) findViewById(R.id.radio3);
-//        RadioGroup radioGroup4 = (RadioGroup) findViewById(R.id.radio4);
-//        RadioGroup radioGroup5 = (RadioGroup) findViewById(R.id.radio5);
 
         if (radioGroup1.getCheckedRadioButtonId() == -1) {
             errorLuokka();
@@ -342,61 +304,12 @@ public class Tehtavakortti extends AppCompatActivity {
             selectedOptionID1 = haeRadioVastaus(1, valinta1);
 
         }
-//
-//        if (radioGroup2.getCheckedRadioButtonId() == -1) {
-//            errorLuokka();
-//        } else {
-//            selectedId = radioGroup2.getCheckedRadioButtonId();
-//            radioButton = (RadioButton) findViewById(selectedId);
-//            valinta2 = radioButton.getText().toString();
-//
-//            selectedOptionID2 = haeRadioVastaus(2, valinta2);
-//        }
-//
-//        if (radioGroup3.getCheckedRadioButtonId() == -1) {
-//            errorLuokka();
-//        } else {
-//            selectedId = radioGroup3.getCheckedRadioButtonId();
-//            radioButton = (RadioButton) findViewById(selectedId);
-//            valinta3 = radioButton.getText().toString();
-//            selectedOptionID3 = haeRadioVastaus(3, valinta3);
-//        }
-//
-//        if (radioGroup4.getCheckedRadioButtonId() == -1) {
-//            errorLuokka();
-//        } else {
-//            selectedId = radioGroup4.getCheckedRadioButtonId();
-//            radioButton = (RadioButton) findViewById(selectedId);
-//            valinta4 = radioButton.getText().toString();
-//            selectedOptionID4 = haeRadioVastaus(4, valinta4);
-//        }
-//
-//        if (radioGroup5.getCheckedRadioButtonId() == -1) {
-//            errorLuokka();
-//        } else {
-//            selectedId = radioGroup5.getCheckedRadioButtonId();
-//            radioButton = (RadioButton) findViewById(selectedId);
-//            valinta5 = radioButton.getText().toString();
-//            selectedOptionID5 = haeRadioVastaus(5, valinta5);
-//        }
 
         EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
         suunnitelmaString = suunnitelma.getText().toString();
 
         selostus = (EditText) findViewById(R.id.selostusKentta1);
         selostus1 = selostus.getText().toString();
-
-//        selostus = (EditText) findViewById(R.id.selostusKentta2);
-//        selostus2 = selostus.getText().toString();
-//
-//        selostus = (EditText) findViewById(R.id.selostusKentta3);
-//        selostus3 = selostus.getText().toString();
-//
-//        selostus = (EditText) findViewById(R.id.selostusKentta4);
-//        selostus4 = selostus.getText().toString();
-//
-//        selostus = (EditText) findViewById(R.id.selostusKentta5);
-//        selostus5 = selostus.getText().toString();
 
         new PoistaVastaus().execute();
 
@@ -818,11 +731,7 @@ public class Tehtavakortti extends AppCompatActivity {
         //Suunitelma teksti
         TextView textViewSuunitelma = (TextView) findViewById(R.id.suunitelmaTeksti);
         textViewSuunitelma.setText(suunitelmaString);
-
-
-
-
-
+            
     }
 
 
