@@ -36,6 +36,7 @@
             android:name=".activities.Tehtavakortti"
             android:screenOrientation="portrait" />
         <activity android:name=".activities.ryhmatActivity"></activity>
+        <activity android:name=".activities.VahvistusActivity"></activity>
         <activity android:name=".activities.PalauteActivity"></activity>
 
     </application>
