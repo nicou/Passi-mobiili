@@ -29,30 +29,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import fi.softala.passi.R;
 import fi.softala.passi.adapters.KorttiAdapter;
 import fi.softala.passi.models.Etappi;
-import fi.softala.passi.models.Ryhma;
 import fi.softala.passi.models.Vastaus;
 import fi.softala.passi.models.Worksheet;
 import fi.softala.passi.models.WorksheetWaypoints;
@@ -89,11 +83,8 @@ public class Tehtavakortti extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tehtavakortti);
-        Gson gson = new Gson();
-        String korttiJSON = getIntent().getStringExtra("Tehtavakortti");
-        final Worksheet kortti = gson.fromJson(korttiJSON, Worksheet.class);
 
-        ImageButton imHome = (ImageButton)findViewById(R.id.home);
+        ImageButton imHome = (ImageButton) findViewById(R.id.home);
         imHome.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -104,7 +95,7 @@ public class Tehtavakortti extends AppCompatActivity {
             }
         });
 
-        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
+        ImageButton imFeedback = (ImageButton) findViewById(R.id.feedback);
         imFeedback.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -117,7 +108,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
 
         //Kirjaudu ulos toolbarista
-        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
+        ImageButton imLogout = (ImageButton) findViewById(R.id.logout);
         imLogout.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -162,7 +153,6 @@ public class Tehtavakortti extends AppCompatActivity {
         spec.setIndicator("Toteutus");
         host.addTab(spec);
 
-        taytaTiedotTehtavakorteista();
         //Sets all tab titles to singleline
         int c = host.getTabWidget().getChildCount();
         for (int i = 0; c > i; i++) {
@@ -184,14 +174,14 @@ public class Tehtavakortti extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                    keraaTiedot();
-                    new android.os.Handler().postDelayed(
-                            new Runnable() {
-                                public void run() {
-                                    Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-                                    startActivity(intent);
-                                }
-                            }, 1000);
+                keraaTiedot();
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
+                                startActivity(intent);
+                            }
+                        }, 1000);
 
             }
         });
@@ -200,7 +190,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
         tv.setMovementMethod(new ScrollingMovementMethod());
 
-        tv.setText(kortti.getWorksheetPreface());
+        taytaTiedotTehtavakorteista();
     }
 
     // kun painetaan kameranappia riippuen mikä nappi
@@ -252,11 +242,12 @@ public class Tehtavakortti extends AppCompatActivity {
                 );
                 kameraButton1.setEnabled(false);
 
-            kameraButtonPressed = 0;
+                kameraButtonPressed = 0;
+
+            }
 
         }
-
-    }}
+    }
 
     private int haeRadioVastaus(int kysymysnumero, String valinta) {
         final String ok = "Kaikki OK";
@@ -290,7 +281,7 @@ public class Tehtavakortti extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_LONG).show();
     }
 
-    private void keraaTiedot()  {
+    private void keraaTiedot() {
         EditText selostus;
         RadioGroup radioGroup1 = (RadioGroup) findViewById(R.id.radio1);
 
@@ -506,7 +497,7 @@ public class Tehtavakortti extends AppCompatActivity {
                         public void transferred(long num) {
                             float progress = (num / (float) totalSize) * 100;
                             progressValue = (int) progress;
-                            if (progressValue % ( MAX_PROGRESS / 10 ) == 0) {
+                            if (progressValue % (MAX_PROGRESS / 10) == 0) {
                                 publishProgress(progressValue, kuvaLkm);
                             }
                         }
@@ -685,44 +676,23 @@ public class Tehtavakortti extends AppCompatActivity {
 
     private void taytaTiedotTehtavakorteista() {
 
-
-        SharedPreferences sp = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-
-        String json = sp.getString("kortitJson","");
-
-
         Gson gson = new Gson();
+        String korttiJSON = getIntent().getStringExtra("Tehtavakortti");
+        final Worksheet kortti = gson.fromJson(korttiJSON, Worksheet.class);
 
-        Type type = new TypeToken<List<Worksheet>>(){}.getType();
-        List<Worksheet> wss = gson.fromJson(json, type);
-
-        String johdantoString = null;
-        String suunitelmaString = null;
-        if(!json.isEmpty()){
-
-            RecyclerView recyclerview = (RecyclerView) findViewById(R.id.my_recycler_view);
-            recyclerview.setLayoutManager(new LinearLayoutManager(this));
-            RecyclerView.LayoutManager RecyclerViewLayoutManager;
-            RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
-
-            recyclerview.setLayoutManager(RecyclerViewLayoutManager);
+        RecyclerView recyclerview = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.LayoutManager RecyclerViewLayoutManager;
+        RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerview.setLayoutManager(RecyclerViewLayoutManager);
 
 
+        String johdantoString = kortti.getWorksheetPreface();
+        String suunitelmaString = kortti.getWorksheetPlanning();
 
-
-
-            for (Worksheet ws : wss) {
-                johdantoString = ws.getWorksheetPreface();
-                suunitelmaString = ws.getWorksheetPlanning();
-
-                List<WorksheetWaypoints> waypoint = ws.getWorksheetWaypoints();
-                RecyclerView.Adapter adapter = new KorttiAdapter(waypoint);
-                recyclerview.setAdapter(adapter);
-            for(WorksheetWaypoints wp : waypoint){
-
-
-            }
-        }
+        List<WorksheetWaypoints> waypoint = kortti.getWorksheetWaypoints();
+        RecyclerView.Adapter adapter = new KorttiAdapter(waypoint);
+        recyclerview.setAdapter(adapter);
 
         //Johdanto teksti
         TextView textViewJohdanto = (TextView) findViewById(R.id.textView1);
@@ -731,10 +701,14 @@ public class Tehtavakortti extends AppCompatActivity {
         //Suunitelma teksti
         TextView textViewSuunitelma = (TextView) findViewById(R.id.suunitelmaTeksti);
         textViewSuunitelma.setText(suunitelmaString);
-            
+
     }
 
 
-    }
 
 }
+
+
+
+
+

@@ -46,7 +46,6 @@ public class KorttiAdapter extends RecyclerView.Adapter<KorttiAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         EditText editText;
-
         public ViewHolder(View view) {
             super(view);
             editText = (EditText) view.findViewById(R.id.editTextEtappi);

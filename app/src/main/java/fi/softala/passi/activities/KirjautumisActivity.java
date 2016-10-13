@@ -1,7 +1,5 @@
 package fi.softala.passi.activities;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,17 +14,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-
-import com.google.gson.Gson;
-
 import java.io.IOException;
-import java.util.List;
 
-import fi.softala.passi.network.PassiClient;
 import fi.softala.passi.R;
-import fi.softala.passi.network.ServiceGenerator;
 import fi.softala.passi.models.Kayttaja;
-import fi.softala.passi.models.Worksheet;
+import fi.softala.passi.network.PassiClient;
+import fi.softala.passi.network.ServiceGenerator;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -97,7 +90,6 @@ public class KirjautumisActivity extends Activity {
 
     public void onLoginSuccess() {
         Intent valikko = new Intent(KirjautumisActivity.this, ValikkoActivity.class);
-        new haeTehtäväkortit().execute();
         startActivity(valikko);
     }
 
@@ -199,62 +191,5 @@ public class KirjautumisActivity extends Activity {
         }
     }
 
-    private class haeTehtäväkortit extends AsyncTask<String, Void, Integer> {
-        final ProgressDialog progressDialog = new ProgressDialog(KirjautumisActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-
-        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-        final int RESULT_OK = 200;
-
-        Integer paluukoodi = 0;
-        String json;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Haetaan tehtäväkortteja...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
-
-        @Override
-        protected Integer doInBackground(String... params) {
-
-            String base = mySharedPreferences.getString("token", "");
-            PassiClient loginService =
-                    ServiceGenerator.createService(PassiClient.class, base);
-            Integer gID = 1;
-            Call<List<Worksheet>> call = loginService.haeTehtavakortit(gID);
-
-            try {
-                Response response = call.execute();
-
-                if (response.isSuccessful()) {
-                    paluukoodi = 200;
-                    Gson gson = new Gson();
-                    List<Worksheet> worksheets = (List<Worksheet>) response.body();
-                    json = gson.toJson(worksheets);
-
-                } else {
-                    paluukoodi = 0;
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return paluukoodi;
-        }
-
-        protected void onPostExecute(Integer result) {
-            if (result == RESULT_OK) {
-                SharedPreferences.Editor editor = mySharedPreferences.edit();
-                editor.putString("kortitJson", json);
-                editor.apply();
-            }
-        }
-    }
 
 }
