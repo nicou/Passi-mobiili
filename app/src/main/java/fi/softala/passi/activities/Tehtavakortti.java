@@ -696,6 +696,7 @@ public class Tehtavakortti extends AppCompatActivity {
                                 setTitle("Oikeudet evätty").
                                 setMessage(" Hyväksyäksesi luvan käyttää kameraa" +
                                         ", mene puhelimen asetuksiin ja " +
+                                        "salli kameran käyttäminen sovelluksessa").show();
                     }
 
                 }
