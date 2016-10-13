@@ -709,7 +709,7 @@ public class Tehtavakortti extends AppCompatActivity {
                     } else {
                         new AlertDialog.Builder(this).
                                 setTitle("Oikeudet evätty").
-                                setMessage(" Hyväksyäksesi luvan käyttää kameraa" +
+                                setMessage("Hyväksyäksesi luvan käyttää kameraa" +
                                         ", mene puhelimen asetuksiin ja " +
                                         "salli kameran käyttäminen sovelluksessa").show();
                     }
@@ -728,15 +728,15 @@ public class Tehtavakortti extends AppCompatActivity {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         new AlertDialog.Builder(this).
-                                setTitle("Kirjoitus lupa ").
-                                setMessage("Sovellus tarvitsee luvan kirjoittamiseen jotta kuvat voidaan tallentaa").show();
+                                setTitle("Oikeudet kuvien käyttöön").
+                                setMessage("Sovellus tarvitsee toimiakseen luvan tallentaa kuvat väliaikaisesti puhelimen muistiin").show();
                     } else {
                         new AlertDialog.Builder(this).
-                                setTitle("Kirjoitus lupa kielletty").
-                                setMessage("Et antanut lupaa joten et voi täyttää tehtäväkorttia." +
-                                        " To enable it" +
-                                        ", go on settings and " +
-                                        "grant storage for the application").show();
+                                setTitle("Oikeudet evätty").
+                                setMessage("Et antanut lupaa, joten et voi täyttää tehtäväkorttia." +
+                                        "Hyväksyäksesi luvan" +
+                                        ", mene puhelimen asetuksiin ja " +
+                                        "anna oikeudet sovellukselle").show();
                     }
 
                 }
