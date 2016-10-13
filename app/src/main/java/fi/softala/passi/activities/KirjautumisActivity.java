@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -230,7 +232,9 @@ public class KirjautumisActivity extends Activity {
 
                 if (response.isSuccessful()) {
                     paluukoodi = 200;
+                    Gson gson = new Gson();
                     List<Worksheet> worksheets = (List<Worksheet>) response.body();
+                    json = gson.toJson(worksheets);
 
                 } else {
                     paluukoodi = 0;

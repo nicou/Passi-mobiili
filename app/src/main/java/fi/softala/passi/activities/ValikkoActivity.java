@@ -24,6 +24,17 @@ public class ValikkoActivity extends AppCompatActivity {
 
        // Button kauppaButton = (Button) findViewById(R.id.btnKauppa);
 
+
+        // VÄLIAIKAINEN LINKKAUS VAHVISTUSSIVULLE
+        Button vahvistusButton = (Button) findViewById(R.id.btnKauppa);
+        vahvistusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ValikkoActivity.this, fi.softala.passi.activities.VahvistusActivity.class);
+                startActivity(intent);
+            }
+        });
+
         
         Button ryhmaButton = (Button) findViewById(R.id.btnProfiiliNappi);
 

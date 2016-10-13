@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Passi</string>
     <string name="title_activity_toolbar2">Toolbar2Activity</string>
+<<<<<<< HEAD
     <string name="title_activity_tehtavakortit">TehtavakortitActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -93,4 +94,7 @@
     </string>
     <string name="action_settings">Settings</string>
 
+=======
+    <string name="title_activity_test">TestActivity</string>
+>>>>>>> 5f74e767574de41b59d7cd926fa75215bcbbf583
 </resources>

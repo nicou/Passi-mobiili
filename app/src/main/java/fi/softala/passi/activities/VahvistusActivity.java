@@ -20,20 +20,20 @@ public class VahvistusActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vahvistus);
+
         Button button = (Button) findViewById(R.id.btnPalaaKortteihin);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
 
                 Intent intent = new Intent(VahvistusActivity.this, TehtavakortinValintaActivity.class);
                 startActivity(intent);
 
             }
         });
-        Button button2 = (Button) findViewById(R.id.btnTakaisinEtusivulle);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
 
+        Button button2 = (Button) findViewById(R.id.btnTakaisinEtusivulle);
+        button2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
                 Intent intent = new Intent(VahvistusActivity.this, ValikkoActivity.class);
                 startActivity(intent);
