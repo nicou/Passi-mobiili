@@ -35,9 +35,13 @@
         <activity
             android:name=".activities.Tehtavakortti"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.ryhmatActivity"></activity>
+        <activity android:name=".activities.RyhmatActivity" />
+        <activity android:name=".activities.PalauteActivity" />
+        <activity
+            android:name=".activities.TehtavakortitActivity"
+            android:label="@string/title_activity_tehtavakortit"
+            android:theme="@style/AppTheme"></activity>
         <activity android:name=".activities.VahvistusActivity"></activity>
-        <activity android:name=".activities.PalauteActivity"></activity>
 
     </application>
 

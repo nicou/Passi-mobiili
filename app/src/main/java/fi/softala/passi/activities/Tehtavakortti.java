@@ -52,6 +52,7 @@ import java.util.List;
 import fi.softala.passi.R;
 import fi.softala.passi.adapters.KorttiAdapter;
 import fi.softala.passi.models.Etappi;
+import fi.softala.passi.models.Ryhma;
 import fi.softala.passi.models.Vastaus;
 import fi.softala.passi.models.Worksheet;
 import fi.softala.passi.models.WorksheetWaypoints;
@@ -88,6 +89,9 @@ public class Tehtavakortti extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tehtavakortti);
+        Gson gson = new Gson();
+        String korttiJSON = getIntent().getStringExtra("Tehtavakortti");
+        final Worksheet kortti = gson.fromJson(korttiJSON, Worksheet.class);
 
         ImageButton imHome = (ImageButton)findViewById(R.id.home);
         imHome.setOnClickListener(new View.OnClickListener() {
@@ -193,9 +197,22 @@ public class Tehtavakortti extends AppCompatActivity {
         });
 
         TextView tv = (TextView) findViewById(R.id.textView1);
+
         tv.setMovementMethod(new ScrollingMovementMethod());
 
+        EditText e = (EditText) findViewById(R.id.editText20);
+        e.setText(kortti.getWorksheetWaypoints().get(0).getWaypointTask());
+        e = (EditText) findViewById(R.id.editText21);
+        e.setText(kortti.getWorksheetWaypoints().get(1).getWaypointTask());
+        e = (EditText) findViewById(R.id.editText22);
+        e.setText(kortti.getWorksheetWaypoints().get(2).getWaypointTask());
+        e = (EditText) findViewById(R.id.editText23);
+        e.setText(kortti.getWorksheetWaypoints().get(3).getWaypointTask());
+        e = (EditText) findViewById(R.id.editText24);
+        e.setText(kortti.getWorksheetWaypoints().get(4).getWaypointTask());
 
+
+        tv.setText(kortti.getWorksheetPreface());
     }
 
     // kun painetaan kameranappia riippuen mikä nappi
@@ -639,12 +656,6 @@ public class Tehtavakortti extends AppCompatActivity {
         }
     }
 
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(Tehtavakortti.this, TehtavakortinValintaActivity.class);
-        startActivity(intent);
-
-    }
 
     private void hankiLuvat() {
         if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.CAMERA)
@@ -701,7 +712,7 @@ public class Tehtavakortti extends AppCompatActivity {
                     } else {
                         new AlertDialog.Builder(this).
                                 setTitle("Oikeudet evätty").
-                                setMessage(" Hyväksyäksesi luvan käyttää kameraa" +
+                                setMessage("Hyväksyäksesi luvan käyttää kameraa" +
                                         ", mene puhelimen asetuksiin ja " +
                                         "salli kameran käyttäminen sovelluksessa").show();
                     }
@@ -720,15 +731,15 @@ public class Tehtavakortti extends AppCompatActivity {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         new AlertDialog.Builder(this).
-                                setTitle("Kirjoitus lupa ").
-                                setMessage("Sovellus tarvitsee luvan kirjoittamiseen jotta kuvat voidaan tallentaa").show();
+                                setTitle("Oikeudet kuvien käyttöön").
+                                setMessage("Sovellus tarvitsee toimiakseen luvan tallentaa kuvat väliaikaisesti puhelimen muistiin").show();
                     } else {
                         new AlertDialog.Builder(this).
-                                setTitle("Kirjoitus lupa kielletty").
-                                setMessage("Et antanut lupaa joten et voi täyttää tehtäväkorttia." +
-                                        " To enable it" +
-                                        ", go on settings and " +
-                                        "grant storage for the application").show();
+                                setTitle("Oikeudet evätty").
+                                setMessage("Et antanut lupaa, joten et voi täyttää tehtäväkorttia." +
+                                        "Hyväksyäksesi luvan" +
+                                        ", mene puhelimen asetuksiin ja " +
+                                        "anna oikeudet sovellukselle").show();
                     }
 
                 }
