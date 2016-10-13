@@ -142,7 +142,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/kameranappi"
                 android:id="@+id/kameraButton1"
-                android:onClick="onButtonClick"
                 android:layout_marginRight="40dp"
                 android:layout_marginEnd="40dp"
                 android:layout_above="@+id/imageView6"

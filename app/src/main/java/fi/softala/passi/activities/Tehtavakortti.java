@@ -62,11 +62,10 @@ public class Tehtavakortti extends AppCompatActivity {
 
     File file;
     Uri fileUri;
-    File kuva1, kuva2, kuva3, kuva4, kuva5;
+    List<Uri> otetutKuvat = new ArrayList<>();
     private NotificationManager mNotifyManager;
     private NotificationCompat.Builder mBuilder;
     int id = 1;
-    int kameraButtonPressed = 0;
     final int userID = 12;
     final int RC_TAKE_PHOTO = 1;
     int selectedId;
@@ -78,6 +77,8 @@ public class Tehtavakortti extends AppCompatActivity {
     int currentapiVersion = android.os.Build.VERSION.SDK_INT;
     private static final int MY_PERMISSION_USE_CAMERA = 10;
     private static final int MY_PERMISSION_WRITE_EXTERNAL = 20;
+    private Context mContext;
+    private ImageButton mCamera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,58 +194,18 @@ public class Tehtavakortti extends AppCompatActivity {
         taytaTiedotTehtavakorteista();
     }
 
-    // kun painetaan kameranappia riippuen mikä nappi
-    public void onButtonClick(View view) {
-
-        switch (view.getId()) {
-            case R.id.kameraButton1:
-                kameraButtonPressed = 1;
-                break;
-//            case R.id.kameraButton2:
-//                kameraButtonPressed = 2;
-//                break;
-//            case R.id.kameraButton3:
-//                kameraButtonPressed = 3;
-//                break;
-//            case R.id.kameraButton4:
-//                kameraButtonPressed = 4;
-//                break;
-//            case R.id.kameraButton5:
-//                kameraButtonPressed = 5;
-//                break;
-        }
-
-        hankiLuvat();
-
-    }
-
     /*
-        asettaa kuvan ottamisen jälkeen URIn mistä kuva löytyy stringiin
-        riippuen mitä nappia on painettu ja vaihtaa painetun napin kuvan
+        asettaa otetun kuvan
     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Tehtavakortti.super.onActivityResult(requestCode, resultCode, data);
-        ImageButton kameraButton1 = (ImageButton) findViewById(R.id.kameraButton1);
-//        ImageButton kameraButton2 = (ImageButton) findViewById(R.id.kameraButton2);
-//        ImageButton kameraButton3 = (ImageButton) findViewById(R.id.kameraButton3);
-//        ImageButton kameraButton4 = (ImageButton) findViewById(R.id.kameraButton4);
-//        ImageButton kameraButton5 = (ImageButton) findViewById(R.id.kameraButton5);
 
         if (requestCode == RC_TAKE_PHOTO && resultCode == RESULT_OK) {
-
-            File stringUri = new File(file.toString());
-            Context context = getApplicationContext();
-            if (kameraButtonPressed == 1) {
-                // vaihetaan nappulan taustakuva
-                kuva1 = stringUri;
-                kameraButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.thumb_up)
-                );
-                kameraButton1.setEnabled(false);
-
-                kameraButtonPressed = 0;
-
-            }
+            otetutKuvat.add(fileUri);
+            mCamera.setBackground(ContextCompat.getDrawable(mContext, R.drawable.thumb_up)
+            );
+            mCamera.setEnabled(false);
 
         }
     }
@@ -370,7 +331,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             etappi.setWaypointID(1);
             etappi.setSelectedOptionID(selectedOptionID1);
-            etappi.setImageURL(kuva1.getName());
+            //etappi.setImageURL(kuva1.getName());
             etappi.setAnswerText(selostus1);
 
             etappiLista.add(etappi);
@@ -379,7 +340,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             etappi.setWaypointID(2);
             etappi.setSelectedOptionID(selectedOptionID2);
-            etappi.setImageURL(kuva2.getName());
+            //etappi.setImageURL(kuva2.getName());
             etappi.setAnswerText(selostus2);
 
             etappiLista.add(etappi);
@@ -388,7 +349,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             etappi.setWaypointID(3);
             etappi.setSelectedOptionID(selectedOptionID3);
-            etappi.setImageURL(kuva3.getName());
+            //etappi.setImageURL(kuva3.getName());
             etappi.setAnswerText(selostus3);
 
             etappiLista.add(etappi);
@@ -397,7 +358,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             etappi.setWaypointID(4);
             etappi.setSelectedOptionID(selectedOptionID4);
-            etappi.setImageURL(kuva4.getName());
+            //etappi.setImageURL(kuva4.getName());
             etappi.setAnswerText(selostus4);
 
             etappiLista.add(etappi);
@@ -406,7 +367,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             etappi.setWaypointID(5);
             etappi.setSelectedOptionID(selectedOptionID5);
-            etappi.setImageURL(kuva5.getName());
+            //etappi.setImageURL(kuva5.getName());
             etappi.setAnswerText(selostus5);
 
             etappiLista.add(etappi);
@@ -464,11 +425,7 @@ public class Tehtavakortti extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            kuvat.add(kuva1);
-            kuvat.add(kuva2);
-            kuvat.add(kuva3);
-            kuvat.add(kuva4);
-            kuvat.add(kuva5);
+
         }
 
         protected Integer doInBackground(String... path) {
@@ -563,7 +520,7 @@ public class Tehtavakortti extends AppCompatActivity {
     }
 
 
-    private void hankiLuvat() {
+    private boolean hankiLuvat() {
         if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -580,15 +537,16 @@ public class Tehtavakortti extends AppCompatActivity {
 
         } else {
 
-            kuvanOtto();
+            return true;
 
         }
+        return false;
     }
 
-    public void kuvanOtto() {
+    public void kuvanOtto(int waypointID, Context context) {
         Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        String kuvaNimi = kameraButtonPressed + "-" + userID + ".jpg";
-
+        String kuvaNimi = waypointID + "-" + userID + ".jpg";
+        mContext = context;
         file = new File(Tehtavakortti.this.getExternalCacheDir(),
                 String.valueOf(kuvaNimi));
         fileUri = Uri.fromFile(file);
@@ -690,8 +648,20 @@ public class Tehtavakortti extends AppCompatActivity {
         String johdantoString = kortti.getWorksheetPreface();
         String suunitelmaString = kortti.getWorksheetPlanning();
 
-        List<WorksheetWaypoints> waypoint = kortti.getWorksheetWaypoints();
-        RecyclerView.Adapter adapter = new KorttiAdapter(waypoint);
+        final List<WorksheetWaypoints> waypoint = kortti.getWorksheetWaypoints();
+        RecyclerView.Adapter adapter = new KorttiAdapter(waypoint, new KorttiAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(WorksheetWaypoints points, Context context, ImageButton camera) {
+
+                boolean hankittuLuvat = hankiLuvat();
+                if (hankittuLuvat) {
+                    int waypointID = points.getWaypointID();
+                    mCamera = camera;
+                    kuvanOtto(waypointID, context);
+                }
+
+            }
+        });
         recyclerview.setAdapter(adapter);
 
         //Johdanto teksti
@@ -703,7 +673,6 @@ public class Tehtavakortti extends AppCompatActivity {
         textViewSuunitelma.setText(suunitelmaString);
 
     }
-
 
 
 }
