@@ -36,6 +36,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -45,6 +47,7 @@ import java.util.List;
 
 import fi.softala.passi.R;
 import fi.softala.passi.models.Etappi;
+import fi.softala.passi.models.Ryhma;
 import fi.softala.passi.models.Vastaus;
 import fi.softala.passi.models.Worksheet;
 import fi.softala.passi.models.WorksheetWaypoints;
@@ -81,6 +84,9 @@ public class Tehtavakortti extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tehtavakortti);
+        Gson gson = new Gson();
+        String korttiJSON = getIntent().getStringExtra("Tehtavakortti");
+        final Worksheet kortti = gson.fromJson(korttiJSON, Worksheet.class);
 
         ImageButton imHome = (ImageButton)findViewById(R.id.home);
         imHome.setOnClickListener(new View.OnClickListener() {
@@ -186,9 +192,22 @@ public class Tehtavakortti extends AppCompatActivity {
         });
 
         TextView tv = (TextView) findViewById(R.id.textView1);
+
         tv.setMovementMethod(new ScrollingMovementMethod());
 
+        EditText e = (EditText) findViewById(R.id.editText20);
+        e.setText(kortti.getWorksheetWaypoints().get(0).getWaypointTask());
+        e = (EditText) findViewById(R.id.editText21);
+        e.setText(kortti.getWorksheetWaypoints().get(1).getWaypointTask());
+        e = (EditText) findViewById(R.id.editText22);
+        e.setText(kortti.getWorksheetWaypoints().get(2).getWaypointTask());
+        e = (EditText) findViewById(R.id.editText23);
+        e.setText(kortti.getWorksheetWaypoints().get(3).getWaypointTask());
+        e = (EditText) findViewById(R.id.editText24);
+        e.setText(kortti.getWorksheetWaypoints().get(4).getWaypointTask());
 
+
+        tv.setText(kortti.getWorksheetPreface());
     }
 
     // kun painetaan kameranappia riippuen mikä nappi
@@ -632,12 +651,6 @@ public class Tehtavakortti extends AppCompatActivity {
         }
     }
 
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(Tehtavakortti.this, TehtavakortinValintaActivity.class);
-        startActivity(intent);
-
-    }
 
     private void hankiLuvat() {
         if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.CAMERA)
