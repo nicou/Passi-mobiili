@@ -1,40 +1,61 @@
-package fi.softala.passi;
+package fi.softala.passi.activities;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 
-import java.io.ByteArrayOutputStream;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import fi.softala.passi.R;
+import fi.softala.passi.models.Etappi;
+import fi.softala.passi.models.Vastaus;
+import fi.softala.passi.models.Worksheet;
+import fi.softala.passi.models.WorksheetWaypoints;
+import fi.softala.passi.network.CountingFileRequestBody;
+import fi.softala.passi.network.PassiClient;
+import fi.softala.passi.network.ServiceGenerator;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -57,12 +78,46 @@ public class Tehtavakortti extends AppCompatActivity {
     String selostus1, selostus2, selostus3, selostus4, selostus5;
     Integer selectedOptionID1, selectedOptionID2, selectedOptionID3, selectedOptionID4, selectedOptionID5;
     int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+    private static final int MY_PERMISSION_USE_CAMERA = 10;
+    private static final int MY_PERMISSION_WRITE_EXTERNAL = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_tehtavakortti);
+
+        ImageButton imHome = (ImageButton)findViewById(R.id.home);
+        imHome.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Tehtavakortti.this, fi.softala.passi.activities.ValikkoActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
+        imFeedback.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Tehtavakortti.this, PalauteActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+        //Kirjaudu ulos toolbarista
+        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
+        imLogout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                kirjauduUlos();
+            }
+        });
 
         final TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
@@ -100,10 +155,10 @@ public class Tehtavakortti extends AppCompatActivity {
         spec.setIndicator("Toteutus");
         host.addTab(spec);
 
-
+        taytaTiedotTehtavakorteista();
         //Sets all tab titles to singleline
         int c = host.getTabWidget().getChildCount();
-        for(int i = 0; c > i;i++){
+        for (int i = 0; c > i; i++) {
 
             TextView title = (TextView) host.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             title.setSingleLine(true);
@@ -121,7 +176,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                try {
+
                     keraaTiedot();
                     new android.os.Handler().postDelayed(
                             new Runnable() {
@@ -130,10 +185,7 @@ public class Tehtavakortti extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                             }, 1000);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Tietojen keräys epäonnistui", Toast.LENGTH_LONG).show();
-                }
+
             }
         });
 
@@ -145,6 +197,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
     // kun painetaan kameranappia riippuen mikä nappi
     public void onButtonClick(View view) {
+
         switch (view.getId()) {
             case R.id.kameraButton1:
                 kameraButtonPressed = 1;
@@ -163,14 +216,7 @@ public class Tehtavakortti extends AppCompatActivity {
                 break;
         }
 
-        Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        String kuvaNimi = kameraButtonPressed + "-" + userID + ".jpg";
-
-        file = new File(Tehtavakortti.this.getExternalCacheDir(),
-                String.valueOf(kuvaNimi));
-        fileUri = Uri.fromFile(file);
-        kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        Tehtavakortti.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
+        hankiLuvat();
 
     }
 
@@ -256,7 +302,7 @@ public class Tehtavakortti extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_LONG).show();
     }
 
-    private void keraaTiedot() throws JsonProcessingException {
+    private void keraaTiedot()  {
         EditText selostus;
         RadioGroup radioGroup1 = (RadioGroup) findViewById(R.id.radio1);
         RadioGroup radioGroup2 = (RadioGroup) findViewById(R.id.radio2);
@@ -330,33 +376,31 @@ public class Tehtavakortti extends AppCompatActivity {
         selostus = (EditText) findViewById(R.id.selostusKentta5);
         selostus5 = selostus.getText().toString();
 
-        rakennaNotifikaatio();
-
-    }
-
-    private void rakennaNotifikaatio() {
-
-        mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(Tehtavakortti.this);
-
-        Intent valikkoNakyma = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                valikkoNakyma, 0);
-
-        mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload)
-                .setContentTitle("Tehtäväkortti")
-                .setContentText("Vastausta tallennetaan...")
-                .setContentIntent(pendingIntent);
-
-        Toast.makeText(getApplicationContext(), "Vastausta tallennetaan", Toast.LENGTH_LONG).show();
-
         new PoistaVastaus().execute();
 
     }
 
-    //väliaikainen ghetto poistamaan edellinen vastaus
+    //atm vastaus pitää poistaa enne uuden lisäämistä samaan vastaukseen
     private class PoistaVastaus extends AsyncTask<String, Integer, Integer> {
         Integer paluukoodi = 0;
+
+        @Override
+        protected void onPreExecute() {
+            mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mBuilder = new NotificationCompat.Builder(Tehtavakortti.this);
+
+            Intent valikkoNakyma = new Intent(Tehtavakortti.this, ValikkoActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(Tehtavakortti.this, 0,
+                    valikkoNakyma, 0);
+
+            mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload)
+                    .setContentTitle("Tehtäväkortti")
+                    .setContentText("Vastausta tallennetaan...")
+                    .setContentIntent(pendingIntent);
+            mNotifyManager.notify(id, mBuilder.build());
+
+            Toast.makeText(getApplicationContext(), "Vastausta tallennetaan", Toast.LENGTH_LONG).show();
+        }
 
         @Override
         protected Integer doInBackground(String... path) {
@@ -388,17 +432,6 @@ public class Tehtavakortti extends AppCompatActivity {
 
     private class UploadVastaus extends AsyncTask<String, Integer, Integer> {
         Integer paluukoodi = 0;
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            // Displays the progress bar for the first time.
-            mBuilder.setProgress(0, 0, true);
-            mNotifyManager.notify(id, mBuilder.build());
-
-        }
 
         @Override
         protected Integer doInBackground(String... path) {
@@ -486,6 +519,7 @@ public class Tehtavakortti extends AppCompatActivity {
                 // do smthing
             } else {
                 mBuilder.setContentText("Tallennus epäonnistui");
+                mNotifyManager.notify(id, mBuilder.build());
                 Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG).show();
             }
 
@@ -493,74 +527,276 @@ public class Tehtavakortti extends AppCompatActivity {
     }
 
     private class uploadKuvat extends AsyncTask<String, Integer, Integer> {
-        Integer paluukoodi = null;
+        Integer paluukoodi = 200;
+        long totalSize;
+        int progressValue;
+        Integer kuvaLkm;
+        List<File> kuvat = new ArrayList<>();
+        final Integer MAX_PROGRESS = 100;
+        private final Handler handler = new Handler();
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mBuilder.setContentText("Tallennetaan kuvia...");
-
+            kuvat.add(kuva1);
+            kuvat.add(kuva2);
+            kuvat.add(kuva3);
+            kuvat.add(kuva4);
+            kuvat.add(kuva5);
         }
 
         protected Integer doInBackground(String... path) {
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
             String base = mySharedPreferences.getString("token", "");
-            PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, 120, base);
+            PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, 300, base);
             File kuva;
             String kuvaNimi;
-            ArrayList<File> kuvat = new ArrayList<>();
-            byte[] byteKuva;
-            kuvat.add(kuva1);
-            kuvat.add(kuva2);
-            kuvat.add(kuva3);
-            kuvat.add(kuva4);
-            kuvat.add(kuva5);
 
-            for (int i = 0; kuvat.size() > i; i++) {
+            for (File kuvaEnnenMuutosta : kuvat) {
+                pienennaKuvaa(kuvaEnnenMuutosta);
+            }
+
+            for (int i = 0; i < kuvat.size(); i++) {
+                kuvaLkm = 1 + i;
+                mBuilder.setProgress(100, 0, false);
                 kuva = kuvat.get(i);
+                //kuva = pienennaKuvaa(kuva);
                 kuvaNimi = kuva.getName().split("\\.")[0];
-                Integer kuvaLkm = 1 + i;
-                mBuilder.setContentText("Tallennetaan kuvaa " + kuvaLkm + "/5");
+                progressValue = 0;
                 try {
-                    byteKuva = kuvastaByteksi(kuva);
-                    Call<ResponseBody> call = passiClient.tallennaKuva("image/jpeg", kuvaNimi, byteKuva);
+                    totalSize = kuva.length();
+                    RequestBody responseBody = new CountingFileRequestBody(kuva, "image/jpeg", new CountingFileRequestBody.ProgressListener() {
+                        @Override
+                        public void transferred(long num) {
+                            float progress = (num / (float) totalSize) * 100;
+                            progressValue = (int) progress;
+                            if (progressValue % ( MAX_PROGRESS / 10 ) == 0) {
+                                publishProgress(progressValue, kuvaLkm);
+                            }
+                        }
+                    });
+                    Call<ResponseBody> call = passiClient.tallennaKuva(kuvaNimi, responseBody);
                     Response response = call.execute();
-                    paluukoodi = response.code();
+                    if (response.isSuccessful()) {
+                        paluukoodi = response.code();
+                    } else {
+                        paluukoodi = 400;
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
 
             return paluukoodi;
         }
 
         @Override
+        protected void onProgressUpdate(Integer... progress) {
+            mBuilder.setContentText("Tallennetaan kuvaa " + progress[1] + "/" + kuvat.size());
+            mBuilder.setProgress(MAX_PROGRESS, progress[0], false);
+            mNotifyManager.notify(id, mBuilder.build());
+        }
+
+        @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
-            mBuilder.setContentText("Vastaus tallennettu");
+            if (result == 200) {
+                mBuilder.setContentText("Vastaus tallennettu");
+                Toast.makeText(getApplicationContext(), "Vastaus tallennettu", Toast.LENGTH_LONG).show();
+            } else {
+                mBuilder.setContentText("Tallennus epäonnistui");
+            }
             mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload_done);
             mBuilder.setProgress(0, 0, false);
             mNotifyManager.notify(id, mBuilder.build());
-            Toast.makeText(getApplicationContext(), "Vastaus tallennettu", Toast.LENGTH_LONG).show();
         }
     }
 
-    public byte[] kuvastaByteksi(File file) {
-        Bitmap bitmapKuva = BitmapFactory.decodeFile(file.getAbsolutePath());
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmapKuva.compress(Bitmap.CompressFormat.JPEG, 70, stream);
-        return stream.toByteArray();
+    public File pienennaKuvaa(final File file) {
+        try {
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = 1;
+            FileInputStream inputStream = new FileInputStream(file);
+
+            Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
+            inputStream.close();
+
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream);
+
+            outputStream.flush();
+            outputStream.close();
+            return file;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-
     public void onBackPressed() {
-
         super.onBackPressed();
         Intent intent = new Intent(Tehtavakortti.this, TehtavakortinValintaActivity.class);
         startActivity(intent);
 
     }
 
+    private void hankiLuvat() {
+        if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(Tehtavakortti.this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSION_USE_CAMERA);
+
+        } else if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(Tehtavakortti.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSION_WRITE_EXTERNAL);
+
+        } else {
+
+            kuvanOtto();
+
+        }
+    }
+
+    public void kuvanOtto() {
+        Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String kuvaNimi = kameraButtonPressed + "-" + userID + ".jpg";
+
+        file = new File(Tehtavakortti.this.getExternalCacheDir(),
+                String.valueOf(kuvaNimi));
+        fileUri = Uri.fromFile(file);
+        Log.d("Passi", "Kuva otettu " + fileUri);
+        kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        Tehtavakortti.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode) {
+            case MY_PERMISSION_USE_CAMERA:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    hankiLuvat();
+
+                } else {
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.CAMERA)) {
+                        new AlertDialog.Builder(this).
+                                setTitle("Oikeudet kameraan").
+                                setMessage("Sovellus tarvitsee luvan käyttää kameraa").show();
+                    } else {
+                        new AlertDialog.Builder(this).
+                                setTitle("Oikeudet evätty").
+                                setMessage(" Hyväksyäksesi luvan käyttää kameraa" +
+                                        ", mene puhelimen asetuksiin ja " +
+                                        "salli kameran käyttäminen sovelluksessa").show();
+                    }
+
+                }
+
+                break;
+            case MY_PERMISSION_WRITE_EXTERNAL:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    hankiLuvat();
+
+                } else {
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        new AlertDialog.Builder(this).
+                                setTitle("Kirjoitus lupa ").
+                                setMessage("Sovellus tarvitsee luvan kirjoittamiseen jotta kuvat voidaan tallentaa").show();
+                    } else {
+                        new AlertDialog.Builder(this).
+                                setTitle("Kirjoitus lupa kielletty").
+                                setMessage("Et antanut lupaa joten et voi täyttää tehtäväkorttia." +
+                                        " To enable it" +
+                                        ", go on settings and " +
+                                        "grant storage for the application").show();
+                    }
+
+                }
+
+                break;
+        }
+    }
+
+    private void kirjauduUlos() {
+        new android.support.v7.app.AlertDialog.Builder(Tehtavakortti.this).setMessage("Kirjaudu ulos?")
+                .setPositiveButton("Kyllä", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+                        mySharedPreferences.edit()
+                                .remove("tunnus")
+                                .remove("token")
+                                .apply();
+                        Intent sisaanKirjautuminen = new Intent(getApplicationContext(), KirjautumisActivity.class);
+                        startActivity(sisaanKirjautuminen);
+                    }
+                })
+                .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                }).show();
+    }
+
+    private void taytaTiedotTehtavakorteista() {
+
+
+        SharedPreferences sp = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
+        String json = sp.getString("kortitJson","");
+
+
+        Gson gson = new Gson();
+
+        Type type = new TypeToken<List<Worksheet>>(){}.getType();
+        List<Worksheet> wss = gson.fromJson(json, type);
+
+        String johdantoString = null;
+        String suunitelmaString = null;
+        if(!json.isEmpty()){
+
+
+        for (Worksheet ws : wss) {
+            johdantoString = ws.getWorksheetPreface();
+            suunitelmaString = ws.getWorksheetPlanning();
+
+            List<WorksheetWaypoints> waypoint = ws.getWorksheetWaypoints();
+            for(WorksheetWaypoints wp : waypoint){
+
+            }
+        }
+
+        //Johdanto teksti
+        TextView textViewJohdanto = (TextView) findViewById(R.id.textView1);
+        textViewJohdanto.setText(johdantoString);
+
+        //Suunitelma teksti
+        TextView textViewSuunitelma = (TextView) findViewById(R.id.suunitelmaTeksti);
+        textViewSuunitelma.setText(suunitelmaString);
+
+
+
+
+
+    }
+
+
+    }
 
 }

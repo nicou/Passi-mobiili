@@ -1,4 +1,4 @@
-package fi.softala.passi;
+package fi.softala.passi.models;
 
 import java.util.List;
 

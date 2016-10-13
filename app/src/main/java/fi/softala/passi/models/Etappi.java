@@ -1,6 +1,7 @@
-package fi.softala.passi;
+package fi.softala.passi.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by joakimkajan on 29/09/16.
@@ -8,11 +9,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Etappi {
 
-
+    @SerializedName("waypointID")
     Integer waypointID;
+    @SerializedName("optionID")
     Integer selectedOptionID;
-
+    @SerializedName("imageURL")
     String imageURL;
+    @SerializedName("answerText")
     String answerText;
 
     public Etappi(Integer waypointID, String imageURL, Integer selectedOptionID, String answerText) {
@@ -35,7 +38,6 @@ public class Etappi {
         this.waypointID = waypointID;
     }
 
-    @JsonProperty("optionID")
     public Integer getSelectedOptionID() {
         return selectedOptionID;
     }

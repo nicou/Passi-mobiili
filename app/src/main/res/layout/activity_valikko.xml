@@ -7,6 +7,11 @@
     android:background="@drawable/background"
     >
 
+
+    <include
+        layout="@layout/tool_bar"
+        android:id="@+id/toolbar">
+    </include>
     <TextView
         android:text="EDISTYMINEN"
         android:textSize="22sp"
@@ -16,48 +21,7 @@
         android:layout_width="fill_parent"
         android:gravity="center"
         android:layout_marginTop="528dp"
-        />
-
-
-
-    <ImageView
-
-        android:background="@drawable/yellow_top_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="70dp"
-        android:scaleType="fitXY" />
-
-    <ImageView
-        android:background="@drawable/homeicon"
-        android:layout_width="35dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="260dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginEnd="70dp"
-        />
-
-    <ImageView
-        android:background="@drawable/feedbackicon"
-        android:layout_width="34dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginStart="260dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginEnd="70dp"
-        />
-
-    <ImageView
-        android:background="@drawable/logouticon"
-        android:layout_width="37dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginStart="320dp"
-        android:layout_marginLeft="320dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginEnd="70dp"
+        android:layout_below="@id/toolbar"
         />
 
     <ImageView
@@ -81,6 +45,7 @@
 
 
     <Button
+        android:id="@+id/btnProfiiliNappi"
         android:layout_marginTop="160dp"
         android:layout_marginStart="260dp"
         android:layout_marginLeft="140dp"
@@ -136,6 +101,7 @@
         />
 
     <Button
+        android:id="@+id/btnKauppa"
         android:layout_marginTop="380dp"
         android:layout_marginStart="260dp"
         android:layout_marginLeft="140dp"

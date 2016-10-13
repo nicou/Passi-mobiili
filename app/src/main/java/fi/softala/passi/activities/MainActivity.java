@@ -1,14 +1,17 @@
-package fi.softala.passi;
+package fi.softala.passi.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import fi.softala.passi.R;
 
 public class MainActivity extends Activity {
 
@@ -17,19 +20,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         Context context = getApplicationContext();
-        AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        ACCOUNT_SERVICE);
 
-        Account[] tilit = accountManager.getAccountsByType("fi.softala.passi");
+        final SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
-        for (Account account : tilit) {
-            Log.e("Passi", account.name);
-        }
-        if (tilit.length > 0){
+        String base = mySharedPreferences.getString("token", "");
+        Log.d("Passi", "tokeni" + base );
+        if (base.length() > 0) {
             Intent intent = new Intent(MainActivity.this, ValikkoActivity.class);
             startActivity(intent);
         }
+
         Button button = (Button) findViewById(R.id.btnLogin);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

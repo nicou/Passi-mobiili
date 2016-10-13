@@ -1,24 +1,27 @@
-package fi.softala.passi;
+package fi.softala.passi.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
+import fi.softala.passi.models.Etappi;
 
 /**
  * Created by joakimkajan on 29/09/16.
  */
 
 
-@JsonPropertyOrder({"planning", "worksheetID", "groupID", "userID", "answerpoints"})
 public class Vastaus {
 
-
+    @SerializedName("worksheetID")
     Integer worksheetID;
+    @SerializedName("groupID")
     Integer groupID;
+    @SerializedName("userID")
     Integer userID;
+    @SerializedName("planning")
     String planningText;
+    @SerializedName("answerpoints")
     List<Etappi> answerpoints;
 
     public Vastaus(Integer worksheetID, Integer groupId, Integer userId, String planningText, List<Etappi> answerpoints) {
@@ -66,7 +69,6 @@ public class Vastaus {
         this.answerpoints = answerpoints;
     }
 
-    @JsonProperty("planning")
     public String getPlanningText() {
         return planningText;
     }

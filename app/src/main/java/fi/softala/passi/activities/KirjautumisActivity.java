@@ -1,4 +1,4 @@
-package fi.softala.passi;
+package fi.softala.passi.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -16,11 +16,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.List;
 
+import fi.softala.passi.network.PassiClient;
+import fi.softala.passi.R;
+import fi.softala.passi.network.ServiceGenerator;
+import fi.softala.passi.models.Kayttaja;
+import fi.softala.passi.models.Worksheet;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -28,9 +34,6 @@ import retrofit2.Response;
  * Created by villeaaltonen on 15/09/16.
  */
 public class KirjautumisActivity extends Activity {
-    // Constants
-    // The authority for the sync adapter's content provider
-    public static final String ACCOUNT_TYPE = "fi.softala.passi";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,10 +122,6 @@ public class KirjautumisActivity extends Activity {
         Context context = getApplicationContext();
         final ProgressDialog progressDialog = new ProgressDialog(KirjautumisActivity.this,
                 R.style.AppTheme_Dark_Dialog);
-        // Get an instance of the Android account manager
-        final AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        ACCOUNT_SERVICE);
 
         Integer paluukoodi = 0;
         String username;
@@ -136,19 +135,22 @@ public class KirjautumisActivity extends Activity {
             super.onPreExecute();
             progressDialog.setIndeterminate(true);
             progressDialog.setMessage("Kirjaudutaan...");
+            progressDialog.setCancelable(false);
             progressDialog.show();
         }
 
         @Override
         protected Integer doInBackground(String... params) {
+
             username = params[0];
             password = params[1];
-            String pohja = username + ":" + password;
-            base = Base64.encodeToString(pohja.getBytes(), Base64.NO_WRAP);
 
-            PassiClient loginService =
+            String authToken = username + ":" + password;
+            base = Base64.encodeToString(authToken.getBytes(), Base64.NO_WRAP);
+
+            PassiClient service =
                     ServiceGenerator.createService(PassiClient.class, username, password);
-            Call<Kayttaja> call = loginService.haeKayttaja(username);
+            Call<Kayttaja> call = service.haeKayttaja(username);
 
             try {
                 Response response = call.execute();
@@ -176,8 +178,6 @@ public class KirjautumisActivity extends Activity {
 
             // Haku onnistui
             if (result == RESULT_OK) {
-                Account account = new Account(username, ACCOUNT_TYPE);
-                accountManager.addAccountExplicitly(account, password, null);
                 SharedPreferences.Editor editor = mySharedPreferences.edit();
                 editor.putString("tunnus", username);
                 editor.apply();
@@ -213,7 +213,8 @@ public class KirjautumisActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Haetaan tehäväkortteja...");
+            progressDialog.setMessage("Haetaan tehtäväkortteja...");
+            progressDialog.setCancelable(false);
             progressDialog.show();
         }
 
@@ -231,9 +232,10 @@ public class KirjautumisActivity extends Activity {
 
                 if (response.isSuccessful()) {
                     paluukoodi = 200;
+                    Gson gson = new Gson();
                     List<Worksheet> worksheets = (List<Worksheet>) response.body();
-                    ObjectMapper mapper = new ObjectMapper();
-                    json = mapper.writeValueAsString(worksheets);
+                    json = gson.toJson(worksheets);
+
                 } else {
                     paluukoodi = 0;
                 }
@@ -250,6 +252,7 @@ public class KirjautumisActivity extends Activity {
             if (result == RESULT_OK) {
                 SharedPreferences.Editor editor = mySharedPreferences.edit();
                 editor.putString("kortitJson", json);
+                editor.apply();
             }
         }
     }

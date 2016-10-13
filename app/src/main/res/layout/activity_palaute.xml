@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/background"
+    >
+
+
+
+    <ImageView
+        android:id="@+id/tehtavaPalautettu"
+        android:src="@drawable/tehtava_palautettu_pohja"
+        android:layout_width="300dp"
+        android:layout_height="530dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        />
+
+
+
+    <include
+        layout="@layout/tool_bar"
+        android:id="@+id/toolbar">
+    </include>
+
+</RelativeLayout>
