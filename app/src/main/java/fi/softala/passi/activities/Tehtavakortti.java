@@ -200,7 +200,9 @@ public class Tehtavakortti extends AppCompatActivity {
 
         tv.setMovementMethod(new ScrollingMovementMethod());
 
+        /*
         EditText e = (EditText) findViewById(R.id.editText20);
+
         e.setText(kortti.getWorksheetWaypoints().get(0).getWaypointTask());
         e = (EditText) findViewById(R.id.editText21);
         e.setText(kortti.getWorksheetWaypoints().get(1).getWaypointTask());
@@ -211,7 +213,7 @@ public class Tehtavakortti extends AppCompatActivity {
         e = (EditText) findViewById(R.id.editText24);
         e.setText(kortti.getWorksheetWaypoints().get(4).getWaypointTask());
 
-
+ */
         tv.setText(kortti.getWorksheetPreface());
     }
 

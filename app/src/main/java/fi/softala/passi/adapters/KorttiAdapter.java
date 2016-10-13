@@ -8,6 +8,7 @@ package fi.softala.passi.adapters;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
+        import android.widget.EditText;
         import android.widget.TextView;
         import java.util.ArrayList;
         import java.util.List;
@@ -36,22 +37,21 @@ public class KorttiAdapter extends RecyclerView.Adapter<KorttiAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(KorttiAdapter.ViewHolder Viewholder, int i) {
-
+        int id = SubjectNames.get(i).getWaypointID();
+        Viewholder.editText.setText(id + " " + SubjectNames.get(i).getWaypointTask());
     }
 
     @Override
     public int getItemCount() {
-
         return SubjectNames.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        EditText editText;
 
-        TextView SubjectTextView;
         public ViewHolder(View view) {
-
             super(view);
-
+            editText = (EditText) view.findViewById(R.id.editTextEtappi);
         }
     }
 
