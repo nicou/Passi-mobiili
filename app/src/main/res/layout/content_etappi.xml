@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/etappi"
             android:paddingTop="20dp">
-            <!--OTA TOSTA RELATIVE LAYOUTISTA PADDING TOP POIS!!!!-->
 
             <EditText
 
