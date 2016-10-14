@@ -53,6 +53,7 @@ import fi.softala.passi.models.WorksheetWaypoints;
 import fi.softala.passi.network.CountingFileRequestBody;
 import fi.softala.passi.network.PassiClient;
 import fi.softala.passi.network.ServiceGenerator;
+import fi.softala.passi.utilities.ImageManipulation;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -61,8 +62,7 @@ import retrofit2.Response;
 public class Tehtavakortti extends AppCompatActivity {
 
     File file;
-    Uri fileUri;
-    List<Uri> otetutKuvat = new ArrayList<>();
+    List<File> otetutKuvat = new ArrayList<>();
     private NotificationManager mNotifyManager;
     private NotificationCompat.Builder mBuilder;
     int id = 1;
@@ -74,7 +74,6 @@ public class Tehtavakortti extends AppCompatActivity {
     String suunnitelmaString;
     String selostus1, selostus2, selostus3, selostus4, selostus5;
     Integer selectedOptionID1, selectedOptionID2, selectedOptionID3, selectedOptionID4, selectedOptionID5;
-    int currentapiVersion = android.os.Build.VERSION.SDK_INT;
     private static final int MY_PERMISSION_USE_CAMERA = 10;
     private static final int MY_PERMISSION_WRITE_EXTERNAL = 20;
     private Context mContext;
@@ -202,7 +201,7 @@ public class Tehtavakortti extends AppCompatActivity {
         Tehtavakortti.super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_TAKE_PHOTO && resultCode == RESULT_OK) {
-            otetutKuvat.add(fileUri);
+            otetutKuvat.add(file);
             mCamera.setBackground(ContextCompat.getDrawable(mContext, R.drawable.thumb_up)
             );
             mCamera.setEnabled(false);
@@ -418,9 +417,8 @@ public class Tehtavakortti extends AppCompatActivity {
         long totalSize;
         int progressValue;
         Integer kuvaLkm;
-        List<File> kuvat = new ArrayList<>();
+        List<File> kuvat = otetutKuvat;
         final Integer MAX_PROGRESS = 100;
-        private final Handler handler = new Handler();
 
         @Override
         protected void onPreExecute() {
@@ -437,7 +435,7 @@ public class Tehtavakortti extends AppCompatActivity {
             String kuvaNimi;
 
             for (File kuvaEnnenMuutosta : kuvat) {
-                pienennaKuvaa(kuvaEnnenMuutosta);
+                ImageManipulation.pienennaKuvaa(kuvaEnnenMuutosta);
             }
 
             for (int i = 0; i < kuvat.size(); i++) {
@@ -497,29 +495,6 @@ public class Tehtavakortti extends AppCompatActivity {
         }
     }
 
-    public File pienennaKuvaa(final File file) {
-        try {
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize = 1;
-            FileInputStream inputStream = new FileInputStream(file);
-
-            Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
-            inputStream.close();
-
-            FileOutputStream outputStream = new FileOutputStream(file);
-
-            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream);
-
-            outputStream.flush();
-            outputStream.close();
-            return file;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
     private boolean hankiLuvat() {
         if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -544,6 +519,7 @@ public class Tehtavakortti extends AppCompatActivity {
     }
 
     public void kuvanOtto(int waypointID, Context context) {
+        Uri fileUri;
         Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         String kuvaNimi = waypointID + "-" + userID + ".jpg";
         mContext = context;
