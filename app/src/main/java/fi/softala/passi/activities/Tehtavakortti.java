@@ -23,7 +23,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -72,6 +71,7 @@ public class Tehtavakortti extends AppCompatActivity {
     int groupID, userID;
     private ImageButton mCamera;
     HashMap<Integer, Etappi> etappiList = new HashMap<>();
+    int waypointListLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,14 +169,16 @@ public class Tehtavakortti extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 lisaaKuvaUri();
+                boolean ok = kentatOk();
+                if (ok) {
+                    new PoistaVastaus().execute();
+                    Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
+                    startActivity(intent);
 
-                new android.os.Handler().postDelayed(
-                        new Runnable() {
-                            public void run() {
-                                Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-                                startActivity(intent);
-                            }
-                        }, 1000);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -255,6 +257,34 @@ public class Tehtavakortti extends AppCompatActivity {
 
         }
     }
+    public boolean kentatOk() {
+
+        boolean fail = false;
+        EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
+        if (suunnitelma.getText().length() == 0) {
+            Log.d("Passi", "Suunnitelma on liian lyhyt");
+            return false;
+        }
+        if (etappiList.size() < waypointListLength) {
+            Log.d("Passi", "Etappilista on " + etappiList.size() +" kun pitäisi olla " + waypointListLength);
+            return false;
+        }
+        for (Etappi e:
+             etappiList.values()) {
+            if (e.getAnswerText() == null
+                    || e.getImageURL() == null
+                    || e.getSelectedOptionID() == null
+                    || e.getWaypointID() == null ) {
+                return false;
+            } else {
+                if (e.getAnswerText().length() == 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
     /*
         Ota kuvasta esim 5-12 ensin id 5, jotta tietää oikean
         kohdan etappilistasta johon laittaa kuvan nimi
@@ -266,7 +296,6 @@ public class Tehtavakortti extends AppCompatActivity {
             int etappiID = Integer.parseInt(nimi[0]);
             etappiList.get(etappiID).setImageURL(kuva.getName());
         }
-        new PoistaVastaus().execute();
     }
 
     private class UploadVastaus extends AsyncTask<String, Integer, Integer> {
@@ -291,6 +320,8 @@ public class Tehtavakortti extends AppCompatActivity {
                  ) {
                 etappiArrayList.add(e);
             }
+
+
             Log.d("Passi", "Etappi sorted arraylist " + etappiArrayList.toString());
 
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
@@ -555,7 +586,7 @@ public class Tehtavakortti extends AppCompatActivity {
 
         final List<WorksheetWaypoints> waypoint = kortti.getWorksheetWaypoints();
 
-        final int waypointListLength = waypoint.size();
+        waypointListLength = waypoint.size();
         Log.d("Passi", "Etappilistan pituus " + waypointListLength);
 
         kAdapter = new KorttiAdapter(waypoint, new KorttiAdapter.OnItemClickListener() {
