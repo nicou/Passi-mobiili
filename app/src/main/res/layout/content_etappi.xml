@@ -132,7 +132,7 @@
                 android:id="@+id/selostusKentta1"
                 android:background="@drawable/tekstikentta"
                 android:hint="Kirjoita selostus tähän"
-
+                android:imeOptions="actionDone"
                 android:lines="4"
                 android:gravity="top|left"
                 android:paddingRight="5dp"

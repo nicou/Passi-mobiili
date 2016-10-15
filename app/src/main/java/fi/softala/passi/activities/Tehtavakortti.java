@@ -9,13 +9,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -29,8 +26,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,10 +33,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import fi.softala.passi.R;
@@ -60,29 +54,27 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class Tehtavakortti extends AppCompatActivity {
-
+    KorttiAdapter kAdapter;
     File file;
     List<File> otetutKuvat = new ArrayList<>();
     private NotificationManager mNotifyManager;
     private NotificationCompat.Builder mBuilder;
     int id = 1;
-    final int userID = 12;
+    int vastausID;
     final int RC_TAKE_PHOTO = 1;
-    int selectedId;
-    RadioButton radioButton;
-    String valinta1, valinta2, valinta3, valinta4, valinta5;
     String suunnitelmaString;
-    String selostus1, selostus2, selostus3, selostus4, selostus5;
-    Integer selectedOptionID1, selectedOptionID2, selectedOptionID3, selectedOptionID4, selectedOptionID5;
     private static final int MY_PERMISSION_USE_CAMERA = 10;
     private static final int MY_PERMISSION_WRITE_EXTERNAL = 20;
     private Context mContext;
+    int groupID, userID;
     private ImageButton mCamera;
+    HashMap<Integer, Etappi> etappiList = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tehtavakortti);
+        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
         ImageButton imHome = (ImageButton) findViewById(R.id.home);
         imHome.setOnClickListener(new View.OnClickListener() {
@@ -173,8 +165,8 @@ public class Tehtavakortti extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                lisaaKuvaUri();
 
-                keraaTiedot();
                 new android.os.Handler().postDelayed(
                         new Runnable() {
                             public void run() {
@@ -187,9 +179,10 @@ public class Tehtavakortti extends AppCompatActivity {
         });
 
         TextView tv = (TextView) findViewById(R.id.textView1);
-
+        groupID = Integer.parseInt(getIntent().getStringExtra("ryhmaID"));
+        userID = Integer.parseInt(mySharedPreferences.getString("userID", ""));
         tv.setMovementMethod(new ScrollingMovementMethod());
-
+        Log.d("Passi", "ryhma " + groupID + " user " + userID);
         taytaTiedotTehtavakorteista();
     }
 
@@ -207,63 +200,6 @@ public class Tehtavakortti extends AppCompatActivity {
             mCamera.setEnabled(false);
 
         }
-    }
-
-    private int haeRadioVastaus(int kysymysnumero, String valinta) {
-        final String ok = "Kaikki OK";
-        final String puutteita = "Vaarallinen tai selkeitä puutteita";
-        final String korjattavaa = "Korjattavaa löytyy";
-        int laskuNumero = 0;
-
-        Integer laskettuVastaus = 0;
-        // Laskee radiobutton id. Vaihtoehtoinen tapa on "valintanumero + (kysymysnumero -1) * 3"
-        // Molemmat vaativat kysymysnumeron lähtevän 1.
-        if (valinta.equals(ok)) {
-            laskuNumero = 1;
-            laskettuVastaus = laskuNumero + (kysymysnumero - 1) * 3;
-
-        }
-        if (valinta.equals(korjattavaa)) {
-            laskuNumero = 2;
-            laskettuVastaus = laskuNumero + (kysymysnumero - 1) * 3;
-
-        }
-        if (valinta.equals(puutteita)) {
-            laskuNumero = 3;
-            laskettuVastaus = laskuNumero + (kysymysnumero - 1) * 3;
-
-        }
-
-        return laskettuVastaus;
-    }
-
-    private void errorLuokka() {
-        Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_LONG).show();
-    }
-
-    private void keraaTiedot() {
-        EditText selostus;
-        RadioGroup radioGroup1 = (RadioGroup) findViewById(R.id.radio1);
-
-        if (radioGroup1.getCheckedRadioButtonId() == -1) {
-            errorLuokka();
-        } else {
-            selectedId = radioGroup1.getCheckedRadioButtonId();
-            radioButton = (RadioButton) findViewById(selectedId);
-            valinta1 = radioButton.getText().toString();
-
-            selectedOptionID1 = haeRadioVastaus(1, valinta1);
-
-        }
-
-        EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
-        suunnitelmaString = suunnitelma.getText().toString();
-
-        selostus = (EditText) findViewById(R.id.selostusKentta1);
-        selostus1 = selostus.getText().toString();
-
-        new PoistaVastaus().execute();
-
     }
 
     //atm vastaus pitää poistaa enne uuden lisäämistä samaan vastaukseen
@@ -295,7 +231,8 @@ public class Tehtavakortti extends AppCompatActivity {
             String base = mySharedPreferences.getString("token", "");
 
             PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, base);
-            Call<ResponseBody> call = passiClient.poistaVastaus(12);
+
+            Call<ResponseBody> call = passiClient.poistaVastaus(userID);
 
             try {
                 Response response = call.execute();
@@ -315,69 +252,46 @@ public class Tehtavakortti extends AppCompatActivity {
 
         }
     }
+    /*
+        Ota kuvasta esim 5-12 ensin id 5, jotta tietää oikean
+        kohdan etappilistasta johon laittaa kuvan nimi
+     */
+    public  void lisaaKuvaUri() {
+        for (File kuva:
+             otetutKuvat) {
+            String[] nimi = kuva.getName().split("-");
+            int etappiID = Integer.parseInt(nimi[0]);
+            etappiList.get(etappiID).setImageURL(kuva.getName());
+        }
+        new PoistaVastaus().execute();
+    }
 
     private class UploadVastaus extends AsyncTask<String, Integer, Integer> {
         Integer paluukoodi = 0;
+        @Override
+        protected void onPreExecute() {
+            EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
+            suunnitelmaString = suunnitelma.getText().toString();
+        }
 
         @Override
         protected Integer doInBackground(String... path) {
 
+            List<Etappi> eList = new ArrayList<>();
+            for (Etappi e :
+                    etappiList.values()) {
+                eList.add(e);
+            }
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
-            List<Etappi> etappiLista = new ArrayList<>();
-
-            Etappi etappi = new Etappi();
-
-            etappi.setWaypointID(1);
-            etappi.setSelectedOptionID(selectedOptionID1);
-            //etappi.setImageURL(kuva1.getName());
-            etappi.setAnswerText(selostus1);
-
-            etappiLista.add(etappi);
-
-            etappi = new Etappi();
-
-            etappi.setWaypointID(2);
-            etappi.setSelectedOptionID(selectedOptionID2);
-            //etappi.setImageURL(kuva2.getName());
-            etappi.setAnswerText(selostus2);
-
-            etappiLista.add(etappi);
-
-            etappi = new Etappi();
-
-            etappi.setWaypointID(3);
-            etappi.setSelectedOptionID(selectedOptionID3);
-            //etappi.setImageURL(kuva3.getName());
-            etappi.setAnswerText(selostus3);
-
-            etappiLista.add(etappi);
-
-            etappi = new Etappi();
-
-            etappi.setWaypointID(4);
-            etappi.setSelectedOptionID(selectedOptionID4);
-            //etappi.setImageURL(kuva4.getName());
-            etappi.setAnswerText(selostus4);
-
-            etappiLista.add(etappi);
-
-            etappi = new Etappi();
-
-            etappi.setWaypointID(5);
-            etappi.setSelectedOptionID(selectedOptionID5);
-            //etappi.setImageURL(kuva5.getName());
-            etappi.setAnswerText(selostus5);
-
-            etappiLista.add(etappi);
 
             Vastaus vastaus = new Vastaus();
-
+            Log.d("Passi", "Lähetetään ryhmään " + groupID + " käyttäjänä " + userID);
+            vastaus.setAnswerpoints(eList);
             vastaus.setPlanningText(suunnitelmaString);
-            vastaus.setWorksheetID(1);
-            vastaus.setGroupID(3);
-            vastaus.setUserID(12);
-            vastaus.setAnswerpoints(etappiLista);
+            vastaus.setWorksheetID(vastausID);
+            vastaus.setGroupID(groupID);
+            vastaus.setUserID(userID);
 
             String base = mySharedPreferences.getString("token", "");
 
@@ -442,7 +356,6 @@ public class Tehtavakortti extends AppCompatActivity {
                 kuvaLkm = 1 + i;
                 mBuilder.setProgress(100, 0, false);
                 kuva = kuvat.get(i);
-                //kuva = pienennaKuvaa(kuva);
                 kuvaNimi = kuva.getName().split("\\.")[0];
                 progressValue = 0;
                 try {
@@ -495,6 +408,9 @@ public class Tehtavakortti extends AppCompatActivity {
         }
     }
 
+    /*
+        Kysy lupia kunnes käyttäjä hyväksyy
+     */
     private boolean hankiLuvat() {
         if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -517,7 +433,9 @@ public class Tehtavakortti extends AppCompatActivity {
         }
         return false;
     }
-
+    /*
+        Tallenna kuva nimellä "etappiID-käyttäjäID.jpg"
+     */
     public void kuvanOtto(int waypointID, Context context) {
         Uri fileUri;
         Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -613,7 +531,7 @@ public class Tehtavakortti extends AppCompatActivity {
         Gson gson = new Gson();
         String korttiJSON = getIntent().getStringExtra("Tehtavakortti");
         final Worksheet kortti = gson.fromJson(korttiJSON, Worksheet.class);
-
+        vastausID = kortti.getWorksheetID();
         RecyclerView recyclerview = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.LayoutManager RecyclerViewLayoutManager;
@@ -625,7 +543,11 @@ public class Tehtavakortti extends AppCompatActivity {
         String suunitelmaString = kortti.getWorksheetPlanning();
 
         final List<WorksheetWaypoints> waypoint = kortti.getWorksheetWaypoints();
-        RecyclerView.Adapter adapter = new KorttiAdapter(waypoint, new KorttiAdapter.OnItemClickListener() {
+
+        final int waypointListLength = waypoint.size();
+        Log.d("Passi", "Etappilistan pituus " + waypointListLength);
+
+        kAdapter = new KorttiAdapter(waypoint, new KorttiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(WorksheetWaypoints points, Context context, ImageButton camera) {
 
@@ -637,8 +559,35 @@ public class Tehtavakortti extends AppCompatActivity {
                 }
 
             }
+        }, new KorttiAdapter.onRadioButtonCheckChange() {
+            @Override
+            public void onCheck(int waypointID, int radioID) {
+                Etappi e = etappiList.get(waypointID);
+                if (e == null) {
+                    e = new Etappi();
+                }
+                e.setWaypointID(waypointID);
+                e.setSelectedOptionID(radioID);
+                etappiList.put(waypointID, e);
+
+                Log.d("Passi", "Listana " + etappiList.toString());
+            }
+        }, new KorttiAdapter.OnTextChangeListener() {
+            @Override
+            public void onTextChange(int waypointID, String answerText) {
+                Etappi e = etappiList.get(waypointID);
+                if (e == null) {
+                    e = new Etappi();
+                }
+                e.setAnswerText(answerText);
+                etappiList.put(waypointID, e);
+
+                Log.d("Passi", "Listana " + etappiList.toString());
+            }
         });
-        recyclerview.setAdapter(adapter);
+
+        recyclerview.setAdapter(kAdapter);
+        recyclerview.setHasFixedSize(true);
 
         //Johdanto teksti
         TextView textViewJohdanto = (TextView) findViewById(R.id.textView1);

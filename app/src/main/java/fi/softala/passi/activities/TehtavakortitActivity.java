@@ -37,7 +37,7 @@ public class TehtavakortitActivity extends AppCompatActivity {
 
         String ryhmaJSON = getIntent().getStringExtra("Group");
         Ryhma ryhma = gson.fromJson(ryhmaJSON, Ryhma.class);
-        int ryhmaID = ryhma.getGroupID();
+        final int ryhmaID = ryhma.getGroupID();
         SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.tehtavakortit_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -65,6 +65,7 @@ public class TehtavakortitActivity extends AppCompatActivity {
                         String korttiJSON = gson.toJson(kortti);
                         Intent intent = new Intent(getApplicationContext(), Tehtavakortti.class);
                         intent.putExtra("Tehtavakortti", korttiJSON);
+                        intent.putExtra("ryhmaID", String.valueOf(ryhmaID));
                         startActivity(intent);
 
                     }

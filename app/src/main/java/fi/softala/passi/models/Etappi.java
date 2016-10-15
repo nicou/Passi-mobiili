@@ -10,9 +10,9 @@ import com.google.gson.annotations.SerializedName;
 public class Etappi {
 
     @SerializedName("waypointID")
-    Integer waypointID;
+    int waypointID;
     @SerializedName("optionID")
-    Integer selectedOptionID;
+    int selectedOptionID;
     @SerializedName("imageURL")
     String imageURL;
     @SerializedName("answerText")

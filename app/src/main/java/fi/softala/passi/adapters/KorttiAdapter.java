@@ -5,14 +5,20 @@ package fi.softala.passi.adapters;
  */
 
 import android.content.Context;
-import android.media.Image;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -23,25 +29,61 @@ public class KorttiAdapter extends RecyclerView.Adapter<KorttiAdapter.ViewHolder
 
     List<WorksheetWaypoints> SubjectNames;
 
-    View view1;
     private KorttiAdapter.OnItemClickListener mListener;
-
-    public KorttiAdapter(List<WorksheetWaypoints> SubjectNames, KorttiAdapter.OnItemClickListener listener) {
+    private onRadioButtonCheckChange mChangeListener;
+    private KorttiAdapter.OnTextChangeListener mTextListener;
+    public KorttiAdapter(List<WorksheetWaypoints> SubjectNames, KorttiAdapter.OnItemClickListener listener, onRadioButtonCheckChange mlgListener, KorttiAdapter.OnTextChangeListener textChangeListener) {
         this.SubjectNames = SubjectNames;
         this.mListener = listener;
+        this.mChangeListener = mlgListener;
+        this.mTextListener = textChangeListener;
     }
+
 
     @Override
     public KorttiAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        view1 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.content_etappi, viewGroup, false);
-        return new ViewHolder(view1);
+        final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.content_etappi, viewGroup, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(KorttiAdapter.ViewHolder Viewholder, int i) {
-        WorksheetWaypoints waypoints = SubjectNames.get(i);
-        int id = SubjectNames.get(i).getWaypointID();
-        Viewholder.editText.setText(id + ". " + SubjectNames.get(i).getWaypointTask());
+    public void onBindViewHolder(final KorttiAdapter.ViewHolder Viewholder, final int i) {
+        final WorksheetWaypoints waypoints = SubjectNames.get(i);
+        final int id = waypoints.getWaypointID();
+
+        Viewholder.editText.setText(id + ". " + waypoints.getWaypointTask());
+
+        Viewholder.selotus.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mTextListener.onTextChange(id, Viewholder.selotus.getText().toString());
+                Log.v("Passi", "Text changed its= " + Viewholder.selotus.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        Viewholder.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == -1) {
+                    Log.v("Passi", "Android bug");
+                }
+                else {
+                    Log.v("Passi", "Painettu! waypointid = " + id + " radiobutton id " + checkedId);
+                    mChangeListener.onCheck(id, checkedId);
+                }
+            }
+        });
+
         Viewholder.bind(waypoints, mListener);
     }
 
@@ -54,28 +96,48 @@ public class KorttiAdapter extends RecyclerView.Adapter<KorttiAdapter.ViewHolder
         void onItemClick(WorksheetWaypoints points, Context context, ImageButton camera);
     }
 
+    public interface onRadioButtonCheckChange {
+        void onCheck(int points, int radioID);
+    }
+
+    public interface OnTextChangeListener {
+        void onTextChange(int points, String radioID);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         EditText editText;
         ImageButton camera;
         Context context;
-
+        RadioGroup radioGroup;
+        RadioButton button1;
+        RadioButton button2;
+        RadioButton button3;
+        EditText selotus;
         public ViewHolder(View view) {
             super(view);
             context = view.getContext();
             editText = (EditText) view.findViewById(R.id.editTextEtappi);
             camera = (ImageButton) view.findViewById(R.id.kameraButton1);
+            radioGroup = (RadioGroup) view.findViewById(R.id.radio1);
+            button1 = (RadioButton) view.findViewById(R.id.radioButton1);
+            button2 = (RadioButton) view.findViewById(R.id.radioButton2);
+            button3 = (RadioButton) view.findViewById(R.id.radioButton3);
+            selotus = (EditText) view.findViewById(R.id.selostusKentta1);
         }
 
         public void bind(final WorksheetWaypoints waypoints, final KorttiAdapter.OnItemClickListener mListener) {
+            button1.setId(waypoints.getWaypointOptions().get(0).getOptionID());
+            button2.setId(waypoints.getWaypointOptions().get(1).getOptionID());
+            button3.setId(waypoints.getWaypointOptions().get(2).getOptionID());
 
             camera.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     mListener.onItemClick(waypoints, context, camera);
                 }
             });
         }
+
     }
 
 }

@@ -21,6 +21,7 @@ import fi.softala.passi.models.Kayttaja;
 import fi.softala.passi.network.PassiClient;
 import fi.softala.passi.network.ServiceGenerator;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -143,7 +144,52 @@ public class KirjautumisActivity extends Activity {
             PassiClient service =
                     ServiceGenerator.createService(PassiClient.class, username, password);
             Call<Kayttaja> call = service.haeKayttaja(username);
+            call.enqueue(new Callback<Kayttaja>() {
+                @Override
+                public void onResponse(Call<Kayttaja> call, Response<Kayttaja> response) {
+                    progressDialog.dismiss();
+                    Kayttaja k = response.body();
+                    String text;
+                    SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
+                    // Haku onnistui
+                    if (response.code() == RESULT_OK) {
+                        SharedPreferences.Editor editor = mySharedPreferences.edit();
+                        editor.putString("tunnus", k.getUsername());
+                        editor.apply();
+                        editor.putString("token", base);
+                        editor.apply();
+                        editor.putString("userID", k.getUserID());
+                        editor.apply();
+
+                        onLoginSuccess();
+
+                        // Väärät tunnukset
+                    } else if (response.code() == RESULT_NOT_FOUND) {
+                        text = "Salasana tai käyttäjänimi väärin";
+                        onLoginFailed(text);
+
+                        // Jokin muu virhe
+                    } else {
+                        text = "Virhe tietojen haussa";
+                        onLoginFailed(text);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Kayttaja> call, Throwable t) {
+
+                }
+            });
+            return 2;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+
+        }
+            /*
             try {
                 Response response = call.execute();
 
@@ -188,7 +234,7 @@ public class KirjautumisActivity extends Activity {
                 text = "Virhe tietojen haussa";
                 onLoginFailed(text);
             }
-        }
+        } */
     }
 
 
