@@ -554,6 +554,11 @@ public class Tehtavakortti extends AppCompatActivity {
                 boolean hankittuLuvat = hankiLuvat();
                 if (hankittuLuvat) {
                     int waypointID = points.getWaypointID();
+                    Etappi e = etappiList.get(waypointID);
+                    if (e == null) {
+                        e = new Etappi();
+                    }
+                    e.setWaypointID(waypointID);
                     mCamera = camera;
                     kuvanOtto(waypointID, context);
                 }
