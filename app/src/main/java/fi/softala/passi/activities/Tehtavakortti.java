@@ -23,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,6 +38,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import fi.softala.passi.R;
 import fi.softala.passi.adapters.KorttiAdapter;
@@ -277,17 +280,25 @@ public class Tehtavakortti extends AppCompatActivity {
         @Override
         protected Integer doInBackground(String... path) {
 
-            List<Etappi> eList = new ArrayList<>();
-            for (Etappi e :
-                    etappiList.values()) {
-                eList.add(e);
+            // treelist järjestää oikeaan muotoon
+            Map<Integer, Etappi> eList = new TreeMap<>(etappiList);
+            eList.putAll(etappiList);
+            Log.d("Passi", "Etappi treelist " + eList.toString());
+
+            // tästä haluttu arraylist muoto oikeassa järjestyksessä
+            ArrayList<Etappi> etappiArrayList = new ArrayList<>();
+            for (Etappi e: eList.values()
+                 ) {
+                etappiArrayList.add(e);
             }
+            Log.d("Passi", "Etappi sorted arraylist " + etappiArrayList.toString());
+            
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
 
             Vastaus vastaus = new Vastaus();
             Log.d("Passi", "Lähetetään ryhmään " + groupID + " käyttäjänä " + userID);
-            vastaus.setAnswerpoints(eList);
+            vastaus.setAnswerpoints(etappiArrayList);
             vastaus.setPlanningText(suunnitelmaString);
             vastaus.setWorksheetID(vastausID);
             vastaus.setGroupID(groupID);
