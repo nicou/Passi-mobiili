@@ -292,7 +292,7 @@ public class Tehtavakortti extends AppCompatActivity {
                 etappiArrayList.add(e);
             }
             Log.d("Passi", "Etappi sorted arraylist " + etappiArrayList.toString());
-            
+
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
 
@@ -570,6 +570,7 @@ public class Tehtavakortti extends AppCompatActivity {
                         e = new Etappi();
                     }
                     e.setWaypointID(waypointID);
+                    etappiList.put(waypointID, e);
                     mCamera = camera;
                     kuvanOtto(waypointID, context);
                 }
