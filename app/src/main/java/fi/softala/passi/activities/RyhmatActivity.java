@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -30,19 +32,14 @@ public class RyhmatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ryhmat);
-        final ProgressDialog progressDialog = new ProgressDialog(RyhmatActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Ladataan...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
+        final ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         final Gson gson = new Gson();
+
+        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
         String base = mySharedPreferences.getString("token", "");
         String tunnus = mySharedPreferences.getString("tunnus", "");
@@ -66,11 +63,14 @@ public class RyhmatActivity extends AppCompatActivity {
                     }
                 });
                 recyclerView.setAdapter(adapter);
-                progressDialog.dismiss();
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Kayttaja> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Ryhmien haku epäonnistui" + t.toString(), Toast.LENGTH_LONG).show();
 
             }
         });

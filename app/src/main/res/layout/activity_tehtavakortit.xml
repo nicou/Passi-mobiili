@@ -5,12 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:animateLayoutChanges="true"
     tools:context="fi.softala.passi.activities.TehtavakortitActivity">
-
+    <include layout="@layout/progress_bar" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tehtavakortit_recycleview"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:padding="@dimen/item_offset"/>
 
 </android.support.design.widget.CoordinatorLayout>
