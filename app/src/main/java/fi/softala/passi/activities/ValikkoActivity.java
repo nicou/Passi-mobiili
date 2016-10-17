@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -36,7 +37,7 @@ public class ValikkoActivity extends AppCompatActivity {
         });
 
         
-        Button ryhmaButton = (Button) findViewById(R.id.btnProfiiliNappi);
+        final Button ryhmaButton = (Button) findViewById(R.id.btnProfiiliNappi);
 
         ImageButton imHome = (ImageButton)findViewById(R.id.home);
         imHome.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +76,12 @@ public class ValikkoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ValikkoActivity.this, RyhmatActivity.class);
-                startActivity(intent);
+                View sharedView = ryhmaButton;
+                String transition = getString(R.string.profile);
+                ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        ValikkoActivity.this, sharedView, transition
+                );
+                startActivity(intent, transitionActivityOptions.toBundle());
             }
         });
 

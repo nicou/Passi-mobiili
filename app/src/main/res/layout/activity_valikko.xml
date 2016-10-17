@@ -61,7 +61,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:background="@drawable/nappi"
-
+        android:transitionName="@string/profile"
         />
 
     <ImageView
