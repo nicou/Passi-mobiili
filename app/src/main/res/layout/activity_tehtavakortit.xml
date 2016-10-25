@@ -9,6 +9,7 @@
     tools:context="fi.softala.passi.activities.TehtavakortitActivity"
     android:background="@drawable/background">
     <include layout="@layout/progress_bar" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tehtavakortit_recycleview"
         android:scrollbars="vertical"

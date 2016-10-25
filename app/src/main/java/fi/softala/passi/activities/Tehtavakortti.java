@@ -24,6 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TabHost;
@@ -55,7 +56,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class Tehtavakortti extends AppCompatActivity {
+public class Tehtavakortti extends ValikkoActivity {
     KorttiAdapter kAdapter;
     File file;
     List<File> otetutKuvat = new ArrayList<>();
@@ -79,38 +80,14 @@ public class Tehtavakortti extends AppCompatActivity {
         setContentView(R.layout.activity_tehtavakortti);
         SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
-        ImageButton imHome = (ImageButton) findViewById(R.id.home);
-        imHome.setOnClickListener(new View.OnClickListener() {
+        //Luo iconeille listenerit ja lähettää valikkoActivityyn, jossa id:n perusteella toiminnot
+        ImageButton imHome = (ImageButton)findViewById(R.id.home);
+        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
+        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Tehtavakortti.this, fi.softala.passi.activities.ValikkoActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-        ImageButton imFeedback = (ImageButton) findViewById(R.id.feedback);
-        imFeedback.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Tehtavakortti.this, PalauteActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-
-        //Kirjaudu ulos toolbarista
-        ImageButton imLogout = (ImageButton) findViewById(R.id.logout);
-        imLogout.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                kirjauduUlos();
-            }
-        });
+        imHome.setOnClickListener(this);
+        imFeedback.setOnClickListener(this);
+        imLogout.setOnClickListener(this);
 
         final TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
@@ -125,6 +102,10 @@ public class Tehtavakortti extends AppCompatActivity {
                 }
 
                 host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundColor(Color.TRANSPARENT);
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                View focus = getCurrentFocus();
+                imm.hideSoftInputFromWindow(host.getApplicationWindowToken(), 0);
             }
 
         });
@@ -548,25 +529,6 @@ public class Tehtavakortti extends AppCompatActivity {
         }
     }
 
-    private void kirjauduUlos() {
-        new android.support.v7.app.AlertDialog.Builder(Tehtavakortti.this).setMessage("Kirjaudu ulos?")
-                .setPositiveButton("Kyllä", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-                        mySharedPreferences.edit()
-                                .remove("tunnus")
-                                .remove("token")
-                                .apply();
-                        Intent sisaanKirjautuminen = new Intent(getApplicationContext(), KirjautumisActivity.class);
-                        startActivity(sisaanKirjautuminen);
-                    }
-                })
-                .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                }).show();
-    }
 
     private void taytaTiedotTehtavakorteista() {
 
@@ -583,6 +545,10 @@ public class Tehtavakortti extends AppCompatActivity {
 
         String johdantoString = kortti.getWorksheetPreface();
         String suunitelmaString = kortti.getWorksheetPlanning();
+        String tehtavakorttiOtsikkoString = kortti.getWorksheetHeader();
+
+        TextView textViewOtsikko = (TextView) findViewById(R.id.otsikko);
+        textViewOtsikko.setText(tehtavakorttiOtsikkoString);
 
         final List<WorksheetWaypoints> waypoint = kortti.getWorksheetWaypoints();
 

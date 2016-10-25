@@ -14,16 +14,48 @@ import android.widget.ImageButton;
 
 import fi.softala.passi.R;
 
-public class ValikkoActivity extends AppCompatActivity {
+public class ValikkoActivity extends AppCompatActivity implements View.OnClickListener {
 
     int backButtonCount = 0;
+
+    //Hoitaa toolbarin iconien klikkauksen
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.home :
+                Intent intent = new Intent(getApplicationContext(), fi.softala.passi.activities.ValikkoActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.logout :
+                kirjauduUlos();
+                break;
+
+            case R.id.feedback :
+                intent = new Intent(getApplicationContext(), PalauteActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valikko);
         Button button = (Button) findViewById(R.id.btnTyokykypassi);
+       // Context context = getApplicationContext();
 
-       // Button kauppaButton = (Button) findViewById(R.id.btnKauppa);
+        ImageButton imHome = (ImageButton)findViewById(R.id.home);
+        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
+        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
+
+        imHome.setOnClickListener(this);
+        imFeedback.setOnClickListener(this);
+        imLogout.setOnClickListener(this);
+
+
+
+        // Button kauppaButton = (Button) findViewById(R.id.btnKauppa);
 
 
         // VÄLIAIKAINEN LINKKAUS VAHVISTUSSIVULLE
@@ -39,38 +71,38 @@ public class ValikkoActivity extends AppCompatActivity {
         
         final Button ryhmaButton = (Button) findViewById(R.id.btnProfiiliNappi);
 
-        ImageButton imHome = (ImageButton)findViewById(R.id.home);
-        imHome.setOnClickListener(new View.OnClickListener() {
+        //ImageButton imHome = (ImageButton)findViewById(R.id.home);
+        //imHome.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ValikkoActivity.this, fi.softala.passi.activities.ValikkoActivity.class);
-                startActivity(intent);
+//            @Override
+  //          public void onClick(View v) {
+    //            Intent intent = new Intent(ValikkoActivity.this, fi.softala.passi.activities.ValikkoActivity.class);
+      //          startActivity(intent);
 
-            }
-        });
+//            }
+  //      });
 
-        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
-        imFeedback.setOnClickListener(new View.OnClickListener() {
+  //      ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
+//        imFeedback.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ValikkoActivity.this, PalauteActivity.class);
-                startActivity(intent);
+        //    @Override
+      //      public void onClick(View v) {
+    //            Intent intent = new Intent(ValikkoActivity.this, PalauteActivity.class);
+  //              startActivity(intent);
 
-            }
-        });
+      //      }
+//        });
 
 
         //Kirjaudu ulos toolbarista
-        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
-        imLogout.setOnClickListener(new View.OnClickListener() {
+       // ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
+        //imLogout.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                kirjauduUlos();
-            }
-        });
+         //   @Override
+           // public void onClick(View v) {
+             //   kirjauduUlos();
+            //}
+        //});
 
         ryhmaButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +130,7 @@ public class ValikkoActivity extends AppCompatActivity {
 
     }
 
-    private void kirjauduUlos() {
+    public void kirjauduUlos() {
         new AlertDialog.Builder(ValikkoActivity.this).setMessage("Kirjaudu ulos?")
                 .setPositiveButton("Kyllä", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -125,6 +157,7 @@ public class ValikkoActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
     }
+
 
 
 }
