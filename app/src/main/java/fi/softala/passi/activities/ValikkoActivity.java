@@ -121,7 +121,7 @@ public class ValikkoActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
 
 
-                Intent intent = new Intent(ValikkoActivity.this, TehtavakortinValintaActivity.class);
+                Intent intent = new Intent(ValikkoActivity.this, RyhmatActivity.class);
                 startActivity(intent);
 
             }

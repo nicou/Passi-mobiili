@@ -62,21 +62,12 @@ public class Tehtavakortit extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View test =   inflater.inflate(R.layout.fragment_ryhmat, container, false);
-        recyclerView = (RecyclerView) test.findViewById(R.id.my_recycler_view);
-        mProgressBar = (ProgressBar) test.findViewById(R.id.include);
+        View v =   inflater.inflate(R.layout.fragment_ryhmat, container, false);
+        recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
+        mProgressBar = (ProgressBar) v.findViewById(R.id.include);
 
-        return test;
+        return v;
     }
-
-    /*
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-    */
 
     @Override
     public void onAttach(Context context) {
