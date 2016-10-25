@@ -8,6 +8,7 @@
     android:animateLayoutChanges="true"
     tools:context="fi.softala.passi.activities.TehtavakortitActivity">
     <include layout="@layout/progress_bar" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tehtavakortit_recycleview"
         android:scrollbars="vertical"

@@ -14,12 +14,21 @@ import android.widget.ImageButton;
 
 import fi.softala.passi.R;
 
-public class VahvistusActivity extends AppCompatActivity {
+public class VahvistusActivity extends ValikkoActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vahvistus);
+
+        //Luo iconeille listenerit ja lähettää valikkoActivityyn, jossa id:n perusteella toiminnot
+        ImageButton imHome = (ImageButton)findViewById(R.id.home);
+        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
+        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
+
+        imHome.setOnClickListener(this);
+        imFeedback.setOnClickListener(this);
+        imLogout.setOnClickListener(this);
 
         Button button = (Button) findViewById(R.id.btnPalaaKortteihin);
         button.setOnClickListener(new View.OnClickListener() {
@@ -41,61 +50,7 @@ public class VahvistusActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton imHome = (ImageButton)findViewById(R.id.home);
-        imHome.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(VahvistusActivity.this, fi.softala.passi.activities.ValikkoActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
-        imFeedback.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(VahvistusActivity.this, PalauteActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-
-        //Kirjaudu ulos toolbarista
-        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
-        imLogout.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                kirjauduUlos();
-            }
-        });
-
     }
-
-    private void kirjauduUlos() {
-        new AlertDialog.Builder(VahvistusActivity.this).setMessage("Kirjaudu ulos?")
-                .setPositiveButton("Kyllä", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-                        mySharedPreferences.edit()
-                                .remove("tunnus")
-                                .remove("token")
-                                .apply();
-                        Intent sisaanKirjautuminen = new Intent(getApplicationContext(), KirjautumisActivity.class);
-                        startActivity(sisaanKirjautuminen);
-                    }
-                })
-                .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                }).show();
-    }
-
 
 
 }
