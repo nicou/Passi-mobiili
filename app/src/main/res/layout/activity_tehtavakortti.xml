@@ -60,6 +60,28 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
+                    android:id="@+id/Johdanto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:showDividers="none"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="20sp"
+                        android:id="@+id/textView1"
+                        android:scrollbars="vertical"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:maxLines="12"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/Suunnitelma"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -115,27 +137,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/Johdanto"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:showDividers="none"
-                    android:orientation="horizontal"
-                    >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="20sp"
-                        android:id="@+id/textView1"
-                        android:scrollbars="vertical"
-                        android:paddingRight="15dp"
-                        android:paddingLeft="15dp"
-                        android:paddingTop="15dp"
-                        android:maxLines="12"
-                        />
-
-                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
         
