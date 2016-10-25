@@ -1,13 +1,13 @@
 package fi.softala.passi.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +17,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import fi.softala.passi.R;
-import fi.softala.passi.activities.Tehtavakortti;
 import fi.softala.passi.adapters.TehtavakorttiAdapter;
 import fi.softala.passi.models.Ryhma;
 import fi.softala.passi.models.Worksheet;
@@ -62,10 +63,10 @@ public class Tehtavakortit extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =   inflater.inflate(R.layout.fragment_ryhmat, container, false);
+        View v = inflater.inflate(R.layout.fragment_ryhmat, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
         mProgressBar = (ProgressBar) v.findViewById(R.id.include);
-
+        recyclerView.setAdapter(adapter);
         return v;
     }
 
@@ -109,13 +110,18 @@ public class Tehtavakortit extends Fragment {
         call.enqueue(new Callback<List<Worksheet>>() {
             @Override
             public void onResponse(Call<List<Worksheet>> call, Response<List<Worksheet>> response) {
-                List<Worksheet> tehtavaKortit = response.body();
-                asetaData(tehtavaKortit);
+
+                if (response.isSuccessful()) {
+                    List<Worksheet> tehtavaKortit = response.body();
+                    asetaData(tehtavaKortit);
+                } else {
+                    Toast.makeText(getActivity(), "Korttien haku epäonnistui", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onFailure(Call<List<Worksheet>> call, Throwable t) {
-                Toast.makeText(getActivity(), "Korttien haku epäonnistui" + t.toString(), Toast.LENGTH_LONG).show();
+                Log.e("Passi", "Tehtäväkorttien haku epäonnistui " + t.toString());
             }
         });
     }
@@ -136,6 +142,7 @@ public class Tehtavakortit extends Fragment {
 
             }
         });
+
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setVisibility(View.VISIBLE);

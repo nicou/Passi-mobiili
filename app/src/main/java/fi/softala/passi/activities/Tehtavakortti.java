@@ -420,6 +420,10 @@ public class Tehtavakortti extends ValikkoActivity {
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             if (result == 200) {
+                Intent vahvistusNakyma = new Intent(Tehtavakortti.this, VahvistusActivity.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(Tehtavakortti.this, 0,
+                        vahvistusNakyma, 0);
+                mBuilder.setContentIntent(pendingIntent);
                 mBuilder.setContentText("Vastaus tallennettu");
                 Toast.makeText(getApplicationContext(), "Vastaus tallennettu", Toast.LENGTH_LONG).show();
             } else {

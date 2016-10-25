@@ -3,7 +3,6 @@ package fi.softala.passi.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -28,21 +25,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Ryhmat.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Ryhmat#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Ryhmat extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    RecyclerView recyclerView;
-    ProgressBar mProgressBar;
-    RecyclerView.Adapter adapter;
+public class Ryhmat extends Fragment {
+
+    private RecyclerView recyclerView;
+    private ProgressBar mProgressBar;
+    private RecyclerView.Adapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,7 +51,7 @@ public class Ryhmat extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =   inflater.inflate(R.layout.fragment_ryhmat, container, false);
+        View v = inflater.inflate(R.layout.fragment_ryhmat, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
         mProgressBar = (ProgressBar) v.findViewById(R.id.include);
 
@@ -106,25 +94,31 @@ public class Ryhmat extends Fragment {
         SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
         String base = mySharedPreferences.getString("token", null);
         String tunnus = mySharedPreferences.getString("tunnus", null);
+
         PassiClient service = ServiceGenerator.createService(PassiClient.class, base);
+
         Call<Kayttaja> call = service.haeKayttaja(tunnus);
+
         call.enqueue(new Callback<Kayttaja>() {
             @Override
             public void onResponse(Call<Kayttaja> call, Response<Kayttaja> response) {
-                List<Ryhma> ryhmat = response.body().getRyhmat();
-                Log.d("Passi", "Asetetaan dataa");
-                asetaData(ryhmat);
+                if (response.isSuccessful()) {
+                    List<Ryhma> ryhmat = response.body().getRyhmat();
+                    asetaData(ryhmat);
+                } else {
+                    Toast.makeText(getActivity(), "Haku epäonnistui koodi: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<Kayttaja> call, Throwable t) {
-
+                Log.e("Passi", "Ryhmien haku epäonnistui " + t.toString());
             }
         });
     }
 
     public void asetaData(List<Ryhma> ryhmat) {
-        final Gson gson = new Gson();
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new GroupAdapter(
                 getActivity(),
@@ -133,7 +127,6 @@ public class Ryhmat extends Fragment {
                 new GroupAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Ryhma ryhma) {
-                        String ryhmaJSON = gson.toJson(ryhma);
                         Toast.makeText(getActivity(), "Ryhmaid " + ryhma.getGroupID(), Toast.LENGTH_SHORT).show();
                         mListener.onFragmentInteraction(ryhma);
                     }
@@ -144,6 +137,5 @@ public class Ryhmat extends Fragment {
         recyclerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
 
-        Log.d("Passi", "Asetettu");
     }
 }
