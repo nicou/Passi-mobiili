@@ -16,21 +16,28 @@
     </include>
 
 
-    <ImageView
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/otsikkopalkki"
+        android:background="@drawable/otsikkopalkki"
         android:scaleType="centerInside"
-        android:layout_below="@+id/toolbar" />
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/otsikko"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="Tekstiä ei löydy"
+        android:gravity="center"
+        android:fontFamily="sans-serif"
+        android:textSize="20dp"
+        />
 
     <TabHost
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/tabHost"
         android:background="@drawable/pohja3"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="233dp"
+        android:layout_below="@+id/otsikko"
         android:layout_marginRight="20dp"
         >
 
@@ -133,4 +140,5 @@
         </LinearLayout>
         
     </TabHost>
+
 </RelativeLayout>

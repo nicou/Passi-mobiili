@@ -588,6 +588,10 @@ public class Tehtavakortti extends AppCompatActivity {
 
         String johdantoString = kortti.getWorksheetPreface();
         String suunitelmaString = kortti.getWorksheetPlanning();
+        String tehtavakorttiOtsikkoString = kortti.getWorksheetHeader();
+
+        TextView textViewOtsikko = (TextView) findViewById(R.id.otsikko);
+        textViewOtsikko.setText(tehtavakorttiOtsikkoString);
 
         final List<WorksheetWaypoints> waypoint = kortti.getWorksheetWaypoints();
 
