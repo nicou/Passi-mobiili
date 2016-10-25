@@ -143,26 +143,9 @@ public class Tehtavakortti extends ValikkoActivity {
 
         host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundColor(Color.TRANSPARENT);
 
-        ImageButton lahetaNappula = (ImageButton) findViewById(R.id.lahetaNappula);
-
-        lahetaNappula.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                lisaaKuvaUri();
-                boolean ok = kentatOk();
-                if (ok) {
-                    new PoistaVastaus().execute();
-                    Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-                    startActivity(intent);
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_SHORT).show();
-                }
 
 
-            }
-        });
+
 
         TextView tv = (TextView) findViewById(R.id.textView1);
         groupID = Integer.parseInt(getIntent().getStringExtra("ryhmaID"));
@@ -172,6 +155,18 @@ public class Tehtavakortti extends ValikkoActivity {
         taytaTiedotTehtavakorteista();
     }
 
+    public void laheta() {
+        lisaaKuvaUri();
+        boolean ok = kentatOk();
+        if (ok) {
+            new PoistaVastaus().execute();
+            Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
+            startActivity(intent);
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_SHORT).show();
+        }
+    }
     /*
         asettaa otetun kuvan
     */
@@ -243,11 +238,11 @@ public class Tehtavakortti extends ValikkoActivity {
         boolean fail = false;
         EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
         if (suunnitelma.getText().length() == 0) {
-            Log.d("Passi", "Suunnitelma on liian lyhyt");
+            Log.e("Passi", "Suunnitelma on liian lyhyt");
             return false;
         }
         if (etappiList.size() < waypointListLength) {
-            Log.d("Passi", "Etappilista on " + etappiList.size() +" kun pitäisi olla " + waypointListLength);
+            Log.e("Passi", "Etappilista on " + etappiList.size() +" kun pitäisi olla " + waypointListLength);
             return false;
         }
         for (Etappi e:
@@ -256,9 +251,11 @@ public class Tehtavakortti extends ValikkoActivity {
                     || e.getImageURL() == null
                     || e.getSelectedOptionID() == null
                     || e.getWaypointID() == null ) {
+                Log.e("Passi", "Etappilista sai nullin " + e.toString());
                 return false;
             } else {
                 if (e.getAnswerText().length() == 0) {
+                    Log.e("Passi", "Etappilista vastaus on " + e.getAnswerText());
                     return false;
                 }
             }
@@ -601,6 +598,11 @@ public class Tehtavakortti extends ValikkoActivity {
                 etappiList.put(waypointID, e);
 
                 Log.d("Passi", "Listana " + etappiList.toString());
+            }
+        }, new KorttiAdapter.OnClickListener() {
+            @Override
+            public void onClick() {
+                laheta();
             }
         });
 

@@ -1,59 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Toteutus"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="vertical"
     android:paddingBottom="10dp">
 
-    <LinearLayout
-        android:id="@+id/Toteutus"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <!--Kommentoi tämä ulos ja muut auki jos haluat käyttää vanhaa versiota -->
-        
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            />
+        android:scrollbars="vertical" />
 
+</LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="77dp"
-            android:paddingTop="10dp">
-
-            <ImageButton
-                
-                android:background="@drawable/tallenna_v2"
-                android:id="@+id/imageButton3"
-                android:layout_marginStart="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <ImageButton
-
-                android:background="@drawable/laheta_v2"
-                android:id="@+id/lahetaNappula"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/imageButton3"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="30dp"
-                android:layout_marginEnd="30dp" />
-
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
