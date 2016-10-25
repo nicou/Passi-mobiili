@@ -24,6 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TabHost;
@@ -125,6 +126,10 @@ public class Tehtavakortti extends AppCompatActivity {
                 }
 
                 host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundColor(Color.TRANSPARENT);
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                View focus = getCurrentFocus();
+                imm.hideSoftInputFromWindow(host.getApplicationWindowToken(), 0);
             }
 
         });
