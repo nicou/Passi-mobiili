@@ -142,10 +142,17 @@ public class Tehtavakortit extends Fragment {
 
             }
         });
+        // lisätty 100ms viive muuten bugaa välillä ja ei näytä mitään
+        // TODO älä käytä tätä häksiä
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+                }, 100);
 
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
     }
 }
