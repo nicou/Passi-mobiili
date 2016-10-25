@@ -81,7 +81,7 @@ public class ValikkoActivity extends AppCompatActivity {
                 ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         ValikkoActivity.this, sharedView, transition
                 );
-                startActivity(intent, transitionActivityOptions.toBundle());
+                startActivity(intent);
             }
         });
 

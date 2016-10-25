@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:animateLayoutChanges="true"
-    tools:context="fi.softala.passi.activities.TehtavakortitActivity">
+    tools:context="fi.softala.passi.activities.TehtavakortitActivity"
+    android:background="@drawable/background">
     <include layout="@layout/progress_bar" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tehtavakortit_recycleview"
