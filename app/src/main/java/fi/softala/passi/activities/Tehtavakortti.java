@@ -2,6 +2,7 @@ package fi.softala.passi.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -56,7 +57,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class Tehtavakortti extends ValikkoActivity {
+public class Tehtavakortti extends AppCompatActivity {
     KorttiAdapter kAdapter;
     File file;
     List<File> otetutKuvat = new ArrayList<>();
@@ -85,9 +86,7 @@ public class Tehtavakortti extends ValikkoActivity {
         ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
         ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
 
-        imHome.setOnClickListener(this);
-        imFeedback.setOnClickListener(this);
-        imLogout.setOnClickListener(this);
+
 
         final TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
