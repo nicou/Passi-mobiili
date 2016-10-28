@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/background"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/pisteet"
+        android:layout_marginTop="11dp"
+        android:id="@+id/imageView8"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/profiili_pohja"
+        android:layout_marginTop="10dp"
+        android:id="@+id/imageView9"
+        android:layout_below="@+id/imageView8"
+        android:layout_centerHorizontal="true"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/tyokykypassiin_pohja"
+        android:layout_marginTop="14dp"
+        android:id="@+id/imageView10"
+        android:layout_below="@+id/imageView9"
+        android:layout_alignRight="@+id/imageView9"
+        android:layout_alignEnd="@+id/imageView9" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/valinekauppa_pohja"
+        android:layout_marginTop="17dp"
+        android:id="@+id/imageView11"
+        android:layout_below="@+id/imageView10"
+        android:layout_alignLeft="@+id/imageView10"
+        android:layout_alignStart="@+id/imageView10" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/etenemispalkkiv2_pohja"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="55dp"
+        android:id="@+id/imageView12" />
+
+    <TextView
+        android:text="EDISTYMINEN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textSize="22sp"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="47dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"/>
+
+    <Button
+        android:text="PROFIILI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/nappi"
+        android:layout_alignTop="@+id/imageView9"
+        android:layout_alignRight="@+id/imageView9"
+        android:layout_alignEnd="@+id/imageView9"
+        android:layout_marginRight="15dp"
+        android:id="@+id/btnProfiiliNappi"/>
+
+    <Button
+        android:text="Työkykypassiin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnTyokykypassi"
+        android:background="@drawable/nappi"
+        android:layout_alignTop="@+id/imageView10"
+        android:layout_alignRight="@+id/imageView10"
+        android:layout_alignEnd="@+id/imageView10"
+        android:layout_marginTop="7dp"
+        android:transitionName="@string/profile"
+        android:layout_marginRight="15dp" />
+
+    <Button
+        android:text="Välinekauppa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/btnKauppa"
+        android:background="@drawable/nappi"
+        android:layout_alignTop="@+id/imageView11"
+        android:layout_alignRight="@+id/imageView11"
+        android:layout_alignEnd="@+id/imageView11"
+        android:layout_marginRight="15dp" />
+
+</RelativeLayout>
+
+

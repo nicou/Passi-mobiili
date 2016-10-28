@@ -34,7 +34,7 @@ public class VahvistusActivity extends ValikkoActivity{
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(VahvistusActivity.this, RyhmatActivity.class);
+                Intent intent = new Intent(VahvistusActivity.this, ValikkoActivity.class);
                 startActivity(intent);
 
             }

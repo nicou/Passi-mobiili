@@ -51,8 +51,12 @@ public class Ryhmat extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =   inflater.inflate(R.layout.fragment_ryhmat, container, false);
+        View v = inflater.inflate(R.layout.fragment_ryhmat, container, false);
+
         recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
         mProgressBar = (ProgressBar) v.findViewById(R.id.include);
 
         return v;
@@ -119,7 +123,7 @@ public class Ryhmat extends Fragment {
 
     public void asetaData(List<Ryhma> ryhmat) {
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         adapter = new GroupAdapter(
                 getActivity(),
                 ryhmat,
@@ -132,17 +136,10 @@ public class Ryhmat extends Fragment {
                     }
                 }
         );
-        // lisätty 100ms viive muuten bugaa välillä ja ei näytä mitään
-        // TODO älä käytä tätä häksiä
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setHasFixedSize(true);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        mProgressBar.setVisibility(View.GONE);
-                    }
-                }, 100);
+
+        recyclerView.setAdapter(adapter);
+        mProgressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
 
     }
 }
