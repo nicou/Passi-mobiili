@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@drawable/background"
-    android:fitsSystemWindows="true"
-    tools:context="fi.softala.passi.activities.RyhmatActivity">
+    android:fitsSystemWindows="true">
 
     <include layout="@layout/progress_bar" />
 
