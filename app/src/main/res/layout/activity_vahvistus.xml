@@ -44,7 +44,7 @@
         android:layout_marginBottom="10dp"
         android:gravity="center"
         android:text="TEHTÄVÄ PALAUTETTU ONNISTUNEESTI!"
-        android:textSize="23sp"
+        android:textSize="22sp"
         android:padding="10dp"
         android:textStyle="bold"
         android:textColor="#3498db"
@@ -90,10 +90,9 @@
         android:background="@drawable/combo_hahmo_ei_alavarjoa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="73dp"
-        android:layout_marginLeft="85dp"
-        android:layout_marginRight="75dp"
-        android:layout_alignTop="@+id/btnTakaisinEtusivulle"
+        android:layout_marginLeft="105dp"
+        android:layout_marginRight="25dp"
+        android:layout_alignParentBottom="true"
         />
 
 
