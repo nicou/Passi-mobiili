@@ -53,7 +53,7 @@ public class Ryhmat extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_ryhmat, container, false);
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
+        recyclerView = (RecyclerView) v.findViewById(R.id.ryhma_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);

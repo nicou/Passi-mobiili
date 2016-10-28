@@ -17,8 +17,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 import fi.softala.passi.R;
 import fi.softala.passi.adapters.TehtavakorttiAdapter;
@@ -64,7 +62,7 @@ public class Tehtavakortit extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_ryhmat, container, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
+        recyclerView = (RecyclerView) v.findViewById(R.id.ryhma_recycler_view);
         mProgressBar = (ProgressBar) v.findViewById(R.id.include);
         recyclerView.setAdapter(adapter);
         return v;
@@ -142,11 +140,9 @@ public class Tehtavakortit extends Fragment {
 
             }
         });
-        // lisätty 100ms viive muuten bugaa välillä ja ei näytä mitään
-        // TODO älä käytä tätä häksiä
+
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(adapter);
-
         mProgressBar.setVisibility(View.GONE);
 
 
