@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import java.util.List;
 
 import fi.softala.passi.R;
-import fi.softala.passi.activities.Tehtavakortti;
 import fi.softala.passi.models.Worksheet;
 
 /**

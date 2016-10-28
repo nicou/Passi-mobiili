@@ -1,18 +1,11 @@
 package fi.softala.passi.activities;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 
 import fi.softala.passi.R;
 
-public class PalauteActivity extends ValikkoActivity {
+public class PalauteActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,11 +2,9 @@ package fi.softala.passi.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -57,7 +55,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class Tehtavakortti extends AppCompatActivity {
+public class TehtavakorttiActivity extends AppCompatActivity {
     KorttiAdapter kAdapter;
     File file;
     List<File> otetutKuvat = new ArrayList<>();
@@ -159,7 +157,7 @@ public class Tehtavakortti extends AppCompatActivity {
         boolean ok = kentatOk();
         if (ok) {
             new PoistaVastaus().execute();
-            Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
+            Intent intent = new Intent(TehtavakorttiActivity.this, MainActivity.class);
             startActivity(intent);
 
         } else {
@@ -171,7 +169,7 @@ public class Tehtavakortti extends AppCompatActivity {
     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Tehtavakortti.super.onActivityResult(requestCode, resultCode, data);
+        TehtavakorttiActivity.super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_TAKE_PHOTO && resultCode == RESULT_OK) {
             otetutKuvat.add(file);
@@ -189,10 +187,10 @@ public class Tehtavakortti extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(Tehtavakortti.this);
+            mBuilder = new NotificationCompat.Builder(TehtavakorttiActivity.this);
 
-            Intent valikkoNakyma = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(Tehtavakortti.this, 0,
+            Intent valikkoNakyma = new Intent(TehtavakorttiActivity.this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(TehtavakorttiActivity.this, 0,
                     valikkoNakyma, 0);
 
             mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload)
@@ -416,8 +414,8 @@ public class Tehtavakortti extends AppCompatActivity {
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             if (result == 200) {
-                Intent vahvistusNakyma = new Intent(Tehtavakortti.this, VahvistusActivity.class);
-                PendingIntent pendingIntent = PendingIntent.getActivity(Tehtavakortti.this, 0,
+                Intent vahvistusNakyma = new Intent(TehtavakorttiActivity.this, VahvistusActivity.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(TehtavakorttiActivity.this, 0,
                         vahvistusNakyma, 0);
                 mBuilder.setContentIntent(pendingIntent);
                 mBuilder.setContentText("Vastaus tallennettu");
@@ -435,17 +433,17 @@ public class Tehtavakortti extends AppCompatActivity {
         Kysy lupia kunnes käyttäjä hyväksyy
      */
     private boolean hankiLuvat() {
-        if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.CAMERA)
+        if (ActivityCompat.checkSelfPermission(TehtavakorttiActivity.this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(Tehtavakortti.this,
+            ActivityCompat.requestPermissions(TehtavakorttiActivity.this,
                     new String[]{Manifest.permission.CAMERA},
                     MY_PERMISSION_USE_CAMERA);
 
-        } else if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        } else if (ActivityCompat.checkSelfPermission(TehtavakorttiActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(Tehtavakortti.this,
+            ActivityCompat.requestPermissions(TehtavakorttiActivity.this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     MY_PERMISSION_WRITE_EXTERNAL);
 
@@ -464,12 +462,12 @@ public class Tehtavakortti extends AppCompatActivity {
         Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         String kuvaNimi = waypointID + "-" + userID + ".jpg";
         mContext = context;
-        file = new File(Tehtavakortti.this.getExternalCacheDir(),
+        file = new File(TehtavakorttiActivity.this.getExternalCacheDir(),
                 String.valueOf(kuvaNimi));
         fileUri = Uri.fromFile(file);
         Log.d("Passi", "Kuva otettu " + fileUri);
         kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        Tehtavakortti.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
+        TehtavakorttiActivity.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
     }
 
     @Override
@@ -533,7 +531,7 @@ public class Tehtavakortti extends AppCompatActivity {
     private void taytaTiedotTehtavakorteista() {
 
         Gson gson = new Gson();
-        String korttiJSON = getIntent().getStringExtra("Tehtavakortti");
+        String korttiJSON = getIntent().getStringExtra("TehtavakorttiActivity");
         final Worksheet kortti = gson.fromJson(korttiJSON, Worksheet.class);
         vastausID = kortti.getWorksheetID();
         RecyclerView recyclerview = (RecyclerView) findViewById(R.id.my_recycler_view);
