@@ -1,14 +1,14 @@
 package fi.softala.passi.activities;
 
-import android.app.Activity;
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.widget.ImageButton;
 
 import fi.softala.passi.R;
 
 
-public class PalauteActivity extends ValikkoActivity  {
+public class PalauteActivity extends ToolbarActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +25,13 @@ public class PalauteActivity extends ValikkoActivity  {
         imLogout.setOnClickListener(this);
 
     }
-    @Override
-    public void onBackPressed() {
-        int fragments = getFragmentManager().getBackStackEntryCount();
-        if (fragments == 1) {
-            finish();
-        }
-        super.onBackPressed();
-    }
+    //@Override
+    //public void onBackPressed() {
+      //  int fragments = getFragmentManager().getBackStackEntryCount();
+        //if (fragments == 1) {
+          //  finish();
+        //}
+        //super.onBackPressed();
+    //}
 
 }

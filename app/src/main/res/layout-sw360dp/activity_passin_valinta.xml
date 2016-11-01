@@ -4,51 +4,29 @@
     android:layout_height="fill_parent"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
-    android:background="@drawable/background_and_title"
+    android:background="@drawable/background"
     >
 
+    <include
+        layout="@layout/tool_bar"
+        android:id="@+id/toolbar"
+        >
 
-    <ImageView
+    </include>
 
-        android:background="@drawable/yellow_top_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="70dp"
-        android:scaleType="fitXY" />
 
     <TextView
+        android:background="@drawable/otsikkopalkki"
         android:text="TYÖKYKYPASSI"
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="#3498db"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_width="308dp"
         android:gravity="center"
         android:layout_marginTop="70dp"
-        />
+        android:layout_gravity="center_horizontal|top" />
 
-    <ImageView
-        android:id="@+id/btnHome"
-        android:background="@drawable/homeicon"
-        android:layout_width="35dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="260dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginEnd="70dp"
-        />
-
-    <ImageView
-        android:id="@+id/btnFeedBack"
-        android:background="@drawable/feedbackicon"
-        android:layout_width="34dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginStart="260dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginEnd="70dp"
-        />
 
 
     <Button
@@ -152,17 +130,6 @@
         android:layout_marginBottom="30dp"
         />
 
-    <ImageView
-        android:id="@+id/btnLogout"
-        android:background="@drawable/logouticon"
-        android:layout_width="37dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginStart="320dp"
-        android:layout_marginLeft="320dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginEnd="70dp"
-        android:layout_gravity="right|top" />
 
 
 </FrameLayout>

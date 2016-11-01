@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -56,7 +55,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class Tehtavakortti extends ValikkoActivity {
+public class TehtavakorttiActivity extends ToolbarActivity{
     KorttiAdapter kAdapter;
     File file;
     List<File> otetutKuvat = new ArrayList<>();
@@ -81,10 +80,9 @@ public class Tehtavakortti extends ValikkoActivity {
         SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
         //Luo iconeille listenerit ja lähettää valikkoActivityyn, jossa id:n perusteella toiminnot
-        ImageButton imHome = (ImageButton)findViewById(R.id.home);
-        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
-        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
-
+        ImageButton imHome = (ImageButton) findViewById(R.id.home);
+        ImageButton imFeedback = (ImageButton) findViewById(R.id.feedback);
+        ImageButton imLogout = (ImageButton) findViewById(R.id.logout);
         imHome.setOnClickListener(this);
         imFeedback.setOnClickListener(this);
         imLogout.setOnClickListener(this);
@@ -103,8 +101,7 @@ public class Tehtavakortti extends ValikkoActivity {
 
                 host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundColor(Color.TRANSPARENT);
 
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                View focus = getCurrentFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(host.getApplicationWindowToken(), 0);
             }
 
@@ -143,26 +140,6 @@ public class Tehtavakortti extends ValikkoActivity {
 
         host.getTabWidget().getChildAt(host.getCurrentTab()).setBackgroundColor(Color.TRANSPARENT);
 
-        ImageButton lahetaNappula = (ImageButton) findViewById(R.id.lahetaNappula);
-
-        lahetaNappula.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                lisaaKuvaUri();
-                boolean ok = kentatOk();
-                if (ok) {
-                    new PoistaVastaus().execute();
-                    Intent intent = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-                    startActivity(intent);
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_SHORT).show();
-                }
-
-
-            }
-        });
 
         TextView tv = (TextView) findViewById(R.id.textView1);
         groupID = Integer.parseInt(getIntent().getStringExtra("ryhmaID"));
@@ -172,12 +149,25 @@ public class Tehtavakortti extends ValikkoActivity {
         taytaTiedotTehtavakorteista();
     }
 
+    public void laheta() {
+        lisaaKuvaUri();
+        boolean ok = kentatOk();
+        if (ok) {
+            new PoistaVastaus().execute();
+            Intent intent = new Intent(TehtavakorttiActivity.this, MainActivity.class);
+            startActivity(intent);
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     /*
         asettaa otetun kuvan
     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Tehtavakortti.super.onActivityResult(requestCode, resultCode, data);
+        TehtavakorttiActivity.super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_TAKE_PHOTO && resultCode == RESULT_OK) {
             otetutKuvat.add(file);
@@ -195,10 +185,10 @@ public class Tehtavakortti extends ValikkoActivity {
         @Override
         protected void onPreExecute() {
             mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(Tehtavakortti.this);
+            mBuilder = new NotificationCompat.Builder(TehtavakorttiActivity.this);
 
-            Intent valikkoNakyma = new Intent(Tehtavakortti.this, ValikkoActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(Tehtavakortti.this, 0,
+            Intent valikkoNakyma = new Intent(TehtavakorttiActivity.this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(TehtavakorttiActivity.this, 0,
                     valikkoNakyma, 0);
 
             mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload)
@@ -238,27 +228,30 @@ public class Tehtavakortti extends ValikkoActivity {
 
         }
     }
+
     public boolean kentatOk() {
 
         boolean fail = false;
         EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
         if (suunnitelma.getText().length() == 0) {
-            Log.d("Passi", "Suunnitelma on liian lyhyt");
+            Log.e("Passi", "Suunnitelma on liian lyhyt");
             return false;
         }
         if (etappiList.size() < waypointListLength) {
-            Log.d("Passi", "Etappilista on " + etappiList.size() +" kun pitäisi olla " + waypointListLength);
+            Log.e("Passi", "Etappilista on " + etappiList.size() + " kun pitäisi olla " + waypointListLength);
             return false;
         }
-        for (Etappi e:
-             etappiList.values()) {
+        for (Etappi e :
+                etappiList.values()) {
             if (e.getAnswerText() == null
                     || e.getImageURL() == null
                     || e.getSelectedOptionID() == null
-                    || e.getWaypointID() == null ) {
+                    || e.getWaypointID() == null) {
+                Log.e("Passi", "Etappilista sai nullin " + e.toString());
                 return false;
             } else {
                 if (e.getAnswerText().length() == 0) {
+                    Log.e("Passi", "Etappilista vastaus on " + e.getAnswerText());
                     return false;
                 }
             }
@@ -266,13 +259,14 @@ public class Tehtavakortti extends ValikkoActivity {
         return true;
 
     }
+
     /*
         Ota kuvasta esim 5-12 ensin id 5, jotta tietää oikean
         kohdan etappilistasta johon laittaa kuvan nimi
      */
-    public  void lisaaKuvaUri() {
-        for (File kuva:
-             otetutKuvat) {
+    public void lisaaKuvaUri() {
+        for (File kuva :
+                otetutKuvat) {
             String[] nimi = kuva.getName().split("-");
             int etappiID = Integer.parseInt(nimi[0]);
             etappiList.get(etappiID).setImageURL(kuva.getName());
@@ -281,6 +275,7 @@ public class Tehtavakortti extends ValikkoActivity {
 
     private class UploadVastaus extends AsyncTask<String, Integer, Integer> {
         Integer paluukoodi = 0;
+
         @Override
         protected void onPreExecute() {
             EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
@@ -297,8 +292,8 @@ public class Tehtavakortti extends ValikkoActivity {
 
             // tästä haluttu arraylist muoto oikeassa järjestyksessä
             ArrayList<Etappi> etappiArrayList = new ArrayList<>();
-            for (Etappi e: eList.values()
-                 ) {
+            for (Etappi e : eList.values()
+                    ) {
                 etappiArrayList.add(e);
             }
 
@@ -420,6 +415,10 @@ public class Tehtavakortti extends ValikkoActivity {
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             if (result == 200) {
+                Intent vahvistusNakyma = new Intent(TehtavakorttiActivity.this, VahvistusActivity.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(TehtavakorttiActivity.this, 0,
+                        vahvistusNakyma, 0);
+                mBuilder.setContentIntent(pendingIntent);
                 mBuilder.setContentText("Vastaus tallennettu");
                 Toast.makeText(getApplicationContext(), "Vastaus tallennettu", Toast.LENGTH_LONG).show();
             } else {
@@ -435,17 +434,17 @@ public class Tehtavakortti extends ValikkoActivity {
         Kysy lupia kunnes käyttäjä hyväksyy
      */
     private boolean hankiLuvat() {
-        if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.CAMERA)
+        if (ActivityCompat.checkSelfPermission(TehtavakorttiActivity.this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(Tehtavakortti.this,
+            ActivityCompat.requestPermissions(TehtavakorttiActivity.this,
                     new String[]{Manifest.permission.CAMERA},
                     MY_PERMISSION_USE_CAMERA);
 
-        } else if (ActivityCompat.checkSelfPermission(Tehtavakortti.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        } else if (ActivityCompat.checkSelfPermission(TehtavakorttiActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(Tehtavakortti.this,
+            ActivityCompat.requestPermissions(TehtavakorttiActivity.this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     MY_PERMISSION_WRITE_EXTERNAL);
 
@@ -456,6 +455,7 @@ public class Tehtavakortti extends ValikkoActivity {
         }
         return false;
     }
+
     /*
         Tallenna kuva nimellä "etappiID-käyttäjäID.jpg"
      */
@@ -464,12 +464,12 @@ public class Tehtavakortti extends ValikkoActivity {
         Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         String kuvaNimi = waypointID + "-" + userID + ".jpg";
         mContext = context;
-        file = new File(Tehtavakortti.this.getExternalCacheDir(),
+        file = new File(TehtavakorttiActivity.this.getExternalCacheDir(),
                 String.valueOf(kuvaNimi));
         fileUri = Uri.fromFile(file);
         Log.d("Passi", "Kuva otettu " + fileUri);
         kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        Tehtavakortti.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
+        TehtavakorttiActivity.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
     }
 
     @Override
@@ -533,14 +533,12 @@ public class Tehtavakortti extends ValikkoActivity {
     private void taytaTiedotTehtavakorteista() {
 
         Gson gson = new Gson();
-        String korttiJSON = getIntent().getStringExtra("Tehtavakortti");
+        String korttiJSON = getIntent().getStringExtra("TehtavakorttiActivity");
         final Worksheet kortti = gson.fromJson(korttiJSON, Worksheet.class);
         vastausID = kortti.getWorksheetID();
-        RecyclerView recyclerview = (RecyclerView) findViewById(R.id.my_recycler_view);
+        RecyclerView recyclerview = (RecyclerView) findViewById(R.id.etappi_recycler_view);
+
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerView.LayoutManager RecyclerViewLayoutManager;
-        RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerview.setLayoutManager(RecyclerViewLayoutManager);
 
 
         String johdantoString = kortti.getWorksheetPreface();
@@ -575,32 +573,38 @@ public class Tehtavakortti extends ValikkoActivity {
             }
         }, new KorttiAdapter.onRadioButtonCheckChange() {
             @Override
-            public void onCheck(int waypointID, int radioID) {
-                Etappi e = etappiList.get(waypointID);
+            public void onCheck(int waypointId, int radioID) {
+                Etappi e = etappiList.get(waypointId);
                 if (e == null) {
                     e = new Etappi();
                 }
-                e.setWaypointID(waypointID);
+                e.setWaypointID(waypointId);
                 e.setSelectedOptionID(radioID);
-                etappiList.put(waypointID, e);
+                etappiList.put(waypointId, e);
 
                 Log.d("Passi", "Listana " + etappiList.toString());
             }
         }, new KorttiAdapter.OnTextChangeListener() {
             @Override
-            public void onTextChange(int waypointID, String answerText) {
-                Etappi e = etappiList.get(waypointID);
+            public void onTextChange(int waypointId, String text) {
+                Etappi e = etappiList.get(waypointId);
                 if (e == null) {
                     e = new Etappi();
                 }
-                e.setAnswerText(answerText);
-                etappiList.put(waypointID, e);
+                e.setAnswerText(text);
+                etappiList.put(waypointId, e);
 
                 Log.d("Passi", "Listana " + etappiList.toString());
+            }
+        }, new KorttiAdapter.OnClickListener() {
+            @Override
+            public void onClick() {
+                laheta();
             }
         });
 
         recyclerview.setAdapter(kAdapter);
+        recyclerview.setItemViewCacheSize(waypointListLength);
         recyclerview.setHasFixedSize(true);
 
         //Johdanto teksti

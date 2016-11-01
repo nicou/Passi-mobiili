@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 
 import fi.softala.passi.R;
 
-public class TehtavakortinValintaActivity extends ValikkoActivity {
+public class TehtavakortinValintaActivity extends MainActivity {
 
 
 
@@ -108,7 +108,7 @@ public class TehtavakortinValintaActivity extends ValikkoActivity {
         Button button11 = (Button) findViewById(R.id.btnTurvallisuuskavely);
         button11.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(TehtavakortinValintaActivity.this, Tehtavakortti.class);
+                Intent intent = new Intent(TehtavakortinValintaActivity.this, TehtavakorttiActivity.class);
                 startActivity(intent);
             }
         });

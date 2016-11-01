@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fi.softala.passi.activities.Tehtavakortti"
+    tools:context="fi.softala.passi.activities.TehtavakorttiActivity"
     android:background="@drawable/background"
     android:paddingBottom="10dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -58,6 +58,28 @@
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/Johdanto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:showDividers="none"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="20sp"
+                        android:id="@+id/textView1"
+                        android:scrollbars="vertical"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:maxLines="12"
+                        />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/Suunnitelma"
@@ -115,27 +137,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/Johdanto"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:showDividers="none"
-                    android:orientation="horizontal"
-                    >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="20sp"
-                        android:id="@+id/textView1"
-                        android:scrollbars="vertical"
-                        android:paddingRight="15dp"
-                        android:paddingLeft="15dp"
-                        android:paddingTop="15dp"
-                        android:maxLines="12"
-                        />
-
-                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
         

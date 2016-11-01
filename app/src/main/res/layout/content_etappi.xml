@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="fi.softala.passi.activities.Tehtavakortti"
+    tools:context="fi.softala.passi.activities.TehtavakorttiActivity"
     tools:showIn="@layout/activity_etappi"
     >
 
@@ -91,7 +91,7 @@
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radio1"
+                android:id="@+id/etappi_radiogroup"
                 android:layout_alignTop="@+id/imageView2"
                 android:layout_alignLeft="@+id/editTextEtappi"
                 android:layout_alignStart="@+id/editTextEtappi"
@@ -100,7 +100,7 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radioButton1"
+                    android:id="@+id/etappi_radiobutton_green"
                     android:text="Kaikki OK"
                     android:button="@drawable/greenfaceselector"
                     android:paddingLeft="10dp"
@@ -109,7 +109,7 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radioButton2"
+                    android:id="@+id/etappi_radiobutton_yellow"
                     android:text="Korjattavaa löytyy"
                     android:button="@drawable/yellowfaceselector"
                     android:paddingLeft="10dp"
@@ -119,7 +119,7 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radioButton3"
+                    android:id="@+id/etappi_radiobutton_red"
                     android:text="Vaarallinen tai selkeitä puutteita"
                     android:button="@drawable/redfaceselector"
                     android:paddingLeft="10dp"/>
@@ -140,7 +140,9 @@
                 android:layout_marginLeft="15dp"
                 android:layout_alignBottom="@+id/imageView2"
                 android:layout_alignLeft="@+id/imageView2"
-                android:layout_alignStart="@+id/imageView2" />
+                android:layout_alignStart="@+id/imageView2"
+
+                />
 
 
 

@@ -14,8 +14,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.io.IOException;
-
 import fi.softala.passi.R;
 import fi.softala.passi.models.Kayttaja;
 import fi.softala.passi.network.PassiClient;
@@ -83,14 +81,15 @@ public class KirjautumisActivity extends Activity {
 
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(KirjautumisActivity.this, MainActivity.class);
+        Intent intent = new Intent(KirjautumisActivity.this, UusiKayttajaActivity.class);
         startActivity(intent);
 
     }
 
 
     public void onLoginSuccess() {
-        Intent valikko = new Intent(KirjautumisActivity.this, ValikkoActivity.class);
+        Intent valikko = new Intent(KirjautumisActivity.this, MainActivity.class);
+        valikko.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(valikko);
     }
 
