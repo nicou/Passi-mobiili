@@ -5,15 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import fi.softala.passi.R;
 import fi.softala.passi.models.Answersheet;
-import fi.softala.passi.models.Worksheet;
 
 /**
  * Created by villeaaltonen on 01/11/2016.
@@ -22,6 +19,7 @@ import fi.softala.passi.models.Worksheet;
 public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteHolder> {
     private int rowLayout;
     List<Answersheet> vastaukset;
+    private OnClickListener mListener;
 
     public static class PalauteHolder extends RecyclerView.ViewHolder {
         TextView tehtavakorttiNimi;
@@ -33,14 +31,20 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             opeKommentti = (TextView) v.findViewById(R.id.opettaja_kommentti);
         }
 
-        public void bind(Answersheet vastaus) {
-            Log.d("Passi", "vastaus" + vastaus.toString());
+        public void bind(final Answersheet vastaus, final OnClickListener mListener) {
+
             tehtavakorttiNimi.setText(vastaus.getWorksheetName());
             String opeComment = vastaus.getInstructorComment();
-            if (opeComment.length() > 0 ) {
+            if (opeComment.length() > 0) {
                 opeKommentti.setText(opeComment);
+                opeKommentti.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.onClick(vastaus);
+                    }
+                });
             } else {
-                opeKommentti.setText("EI KOMMENTOITAVAA");
+                opeKommentti.setText("EI KOMMENTOITAVAA HJUVA");
             }
 
 
@@ -48,9 +52,14 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
 
     }
 
-    public PalauteAdapter(List<Answersheet> vastaukset, int rowLayout) {
+    public PalauteAdapter(List<Answersheet> vastaukset, int rowLayout, OnClickListener listener) {
         this.vastaukset = vastaukset;
         this.rowLayout = rowLayout;
+        this.mListener = listener;
+    }
+
+    public interface OnClickListener {
+        void onClick(Answersheet vastaus);
     }
 
     @Override
@@ -62,7 +71,7 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
     @Override
     public void onBindViewHolder(PalauteAdapter.PalauteHolder holder, int position) {
         Answersheet vastaus = vastaukset.get(position);
-        holder.bind(vastaus);
+        holder.bind(vastaus, mListener);
     }
 
     @Override

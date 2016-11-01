@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -143,7 +144,21 @@ public class PalauteActivity extends ToolbarActivity {
         @Override
         protected void onPostExecute(List<Answersheet> result) {
             super.onPostExecute(result);
-            adapter = new PalauteAdapter(result, R.layout.kuvaboksi2);
+            adapter = new PalauteAdapter(result, R.layout.kuvaboksi2, new PalauteAdapter.OnClickListener() {
+                @Override
+                public void onClick(Answersheet vastaus) {
+                    // 1. Instantiate an AlertDialog.Builder with its constructor
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PalauteActivity.this);
+
+                    // 2. Chain together various setter methods to set the dialog characteristics
+                    builder.setMessage(vastaus.getInstructorComment())
+                            .setTitle(vastaus.getWorksheetName());
+
+                    // 3. Get the AlertDialog from create()
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
             recyclerView.setAdapter(adapter);
         }
     }
