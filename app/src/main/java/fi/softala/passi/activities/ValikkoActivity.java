@@ -1,5 +1,7 @@
 package fi.softala.passi.activities;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -150,12 +152,21 @@ public class ValikkoActivity extends AppCompatActivity implements View.OnClickLi
                 }).show();
     }
 
+  //  @Override
+    //public void onBackPressed() {
+      //      Intent intent = new Intent(Intent.ACTION_MAIN);
+        //    intent.addCategory(Intent.CATEGORY_HOME);
+          //  intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //startActivity(intent);
+
+    //}
     @Override
     public void onBackPressed() {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+        int fragments = getFragmentManager().getBackStackEntryCount();
+        if (fragments == 1) {
+            finish();
+        }
+        super.onBackPressed();
     }
 
 

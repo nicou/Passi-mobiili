@@ -1,24 +1,19 @@
 package fi.softala.passi.activities;
 
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 
 import fi.softala.passi.R;
 
-public class PalauteActivity extends ValikkoActivity {
+
+public class PalauteActivity extends ValikkoActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_palaute);
-
 
         //Luo iconeille listenerit ja lähettää valikkoActivityyn, jossa id:n perusteella toiminnot
         ImageButton imHome = (ImageButton) findViewById(R.id.home);
@@ -28,6 +23,15 @@ public class PalauteActivity extends ValikkoActivity {
         imHome.setOnClickListener(this);
         imFeedback.setOnClickListener(this);
         imLogout.setOnClickListener(this);
+
+    }
+    @Override
+    public void onBackPressed() {
+        int fragments = getFragmentManager().getBackStackEntryCount();
+        if (fragments == 1) {
+            finish();
+        }
+        super.onBackPressed();
     }
 
 }

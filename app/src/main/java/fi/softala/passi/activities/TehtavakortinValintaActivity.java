@@ -1,17 +1,8 @@
 package fi.softala.passi.activities;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -131,12 +122,20 @@ public class TehtavakortinValintaActivity extends ValikkoActivity {
         });
 
     }
+    @Override
     public void onBackPressed() {
-
+        int fragments = getFragmentManager().getBackStackEntryCount();
+        if (fragments == 1) {
+            finish();
+        }
         super.onBackPressed();
-        Intent intent = new Intent(TehtavakortinValintaActivity.this, ValikkoActivity.class);
-        startActivity(intent);
-
     }
+ //   public void onBackPressed() {
+
+   //     super.onBackPressed();
+     //   Intent intent = new Intent(TehtavakortinValintaActivity.this, ValikkoActivity.class);
+       // startActivity(intent);
+
+   // }
 
 }
