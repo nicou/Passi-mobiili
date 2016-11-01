@@ -66,7 +66,7 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (holder instanceof KorttiAdapter.ViewHolder) {
             KorttiAdapter.ViewHolder viewHolder = (KorttiAdapter.ViewHolder) holder;
             WorksheetWaypoints waypoints = SubjectNames.get(position);
-            viewHolder.bind(waypoints, mListener, mChangeListener, mTextListener);
+            viewHolder.bind(position, waypoints, mListener, mChangeListener, mTextListener);
         }
     }
 
@@ -118,16 +118,22 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Bindaa tiettyihin nappuloihin tietyt tekstit, id:t ja kuuntelijat
             id:t ja tekstit löytyvät etapin tiedoista hakemalla
          */
-        public void bind(final WorksheetWaypoints waypoints,
-                         final KorttiAdapter.OnItemClickListener mListener,
-                         final KorttiAdapter.onRadioButtonCheckChange mChangeListener,
-                         final KorttiAdapter.OnTextChangeListener mTextListener) {
+        public void bind(int position, final WorksheetWaypoints waypoints,
+                         final OnItemClickListener mListener,
+                         final onRadioButtonCheckChange mChangeListener,
+                         final OnTextChangeListener mTextListener) {
             final int id = waypoints.getWaypointID();
 
             button1.setId(waypoints.getWaypointOptions().get(0).getOptionID());
             button2.setId(waypoints.getWaypointOptions().get(1).getOptionID());
             button3.setId(waypoints.getWaypointOptions().get(2).getOptionID());
-            editText.setText(id + ". " + waypoints.getWaypointTask());
+
+            button1.setText(waypoints.getWaypointOptions().get(0).getOptionText());
+            button2.setText(waypoints.getWaypointOptions().get(1).getOptionText());
+            button3.setText(waypoints.getWaypointOptions().get(2).getOptionText());
+
+            position = position+1;
+            editText.setText(position + ". " + waypoints.getWaypointTask());
 
             selostus.addTextChangedListener(new TextWatcher() {
                 @Override

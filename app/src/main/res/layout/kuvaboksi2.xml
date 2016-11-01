@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+<android.support.constraint.ConstraintLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/palaute_vihrea"
-        tools:layout_editor_absoluteY="129dp"
+        tools:layout_editor_absoluteY="179dp"
         tools:layout_editor_absoluteX="117dp"
         android:id="@+id/imageView" />
 
@@ -37,3 +41,4 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp" />
 </android.support.constraint.ConstraintLayout>
+</LinearLayout>
