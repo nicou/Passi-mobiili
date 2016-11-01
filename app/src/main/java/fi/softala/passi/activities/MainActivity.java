@@ -7,18 +7,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-
 import fi.softala.passi.R;
 import fi.softala.passi.fragments.Ryhmat;
 import fi.softala.passi.fragments.Tehtavakortit;
 import fi.softala.passi.fragments.Valikko;
 import fi.softala.passi.models.Ryhma;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, Ryhmat.OnFragmentInteractionListener, Tehtavakortit.OnFragmentInteractionListener, Valikko.OnFragmentInteractionListener {
+public class MainActivity extends ToolbarActivity implements Ryhmat.OnFragmentInteractionListener, Tehtavakortit.OnFragmentInteractionListener, Valikko.OnFragmentInteractionListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,5 +141,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 */
+
 
 }

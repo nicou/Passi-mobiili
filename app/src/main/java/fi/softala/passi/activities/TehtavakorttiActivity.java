@@ -55,7 +55,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class TehtavakorttiActivity extends AppCompatActivity {
+public class TehtavakorttiActivity extends ToolbarActivity{
     KorttiAdapter kAdapter;
     File file;
     List<File> otetutKuvat = new ArrayList<>();
@@ -80,10 +80,13 @@ public class TehtavakorttiActivity extends AppCompatActivity {
         SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
         //Luo iconeille listenerit ja lähettää valikkoActivityyn, jossa id:n perusteella toiminnot
-        ImageButton imHome = (ImageButton) findViewById(R.id.home);
-        ImageButton imFeedback = (ImageButton) findViewById(R.id.feedback);
-        ImageButton imLogout = (ImageButton) findViewById(R.id.logout);
+        ImageButton imHome = (ImageButton)findViewById(R.id.home);
+        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
+        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
 
+        imHome.setOnClickListener(this);
+        imFeedback.setOnClickListener(this);
+        imLogout.setOnClickListener(this);
 
         final TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();

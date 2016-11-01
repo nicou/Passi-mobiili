@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 
 import fi.softala.passi.R;
 
-public class VahvistusActivity extends MainActivity {
+public class VahvistusActivity extends ToolbarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
