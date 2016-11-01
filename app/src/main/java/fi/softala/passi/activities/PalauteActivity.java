@@ -1,11 +1,12 @@
 package fi.softala.passi.activities;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageButton;
 
 import fi.softala.passi.R;
 
-public class PalauteActivity extends MainActivity {
+public class PalauteActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +19,7 @@ public class PalauteActivity extends MainActivity {
         ImageButton imFeedback = (ImageButton) findViewById(R.id.feedback);
         ImageButton imLogout = (ImageButton) findViewById(R.id.logout);
 
-        imHome.setOnClickListener(this);
-        imFeedback.setOnClickListener(this);
-        imLogout.setOnClickListener(this);
+
     }
 
 }

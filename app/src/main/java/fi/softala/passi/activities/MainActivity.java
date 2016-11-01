@@ -94,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.feedback:
-                intent = new Intent(getApplicationContext(), PalauteActivity.class);
-                startActivity(intent);
+                Intent palaute = new Intent(getApplicationContext(), PalauteActivity.class);
+                startActivity(palaute);
                 break;
         }
     }
