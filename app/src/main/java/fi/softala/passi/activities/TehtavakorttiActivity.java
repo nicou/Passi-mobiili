@@ -70,6 +70,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
     private ImageButton mCamera;
     final HashMap<Integer, Etappi> etappiList = new HashMap<>();
     int waypointListLength;
+    List<WorksheetWaypoints> waypoint = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,10 +240,15 @@ public class TehtavakorttiActivity extends ToolbarActivity {
             Log.e("Passi", "Etappilista on " + etappiList.size() + " kun pitäisi olla " + waypointListLength);
             return false;
         }
+
+        for(WorksheetWaypoints w : waypoint){
+            Etappi e = etappiList.get(w.getWaypointID());
+            e.setPhotoEnabled( w.getWaypointPhotoEnabled());
+        }
         for (Etappi e :
                 etappiList.values()) {
             if (e.getAnswerText() == null
-                    || e.getImageURL() == null
+                    || e.getImageURL() == null && e.getPhotoEnabled()
                     || e.getSelectedOptionID() == null
                     || e.getWaypointID() == null) {
                 Log.e("Passi", "Etappilista sai nullin " + e.toString());
@@ -539,8 +545,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
         TextView textViewOtsikko = (TextView) findViewById(R.id.otsikko);
         textViewOtsikko.setText(tehtavakorttiOtsikkoString);
-
-        final List<WorksheetWaypoints> waypoint = kortti.getWorksheetWaypoints();
+        waypoint = kortti.getWorksheetWaypoints();
 
         waypointListLength = waypoint.size();
         Log.d("Passi", "Etappilistan pituus " + waypointListLength);
