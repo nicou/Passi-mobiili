@@ -4,7 +4,7 @@
     android:layout_height="77dp"
     android:paddingTop="10dp">
 
-    <ImageButton
+    <Button
 
         android:id="@+id/imageButton3"
         android:layout_width="wrap_content"
@@ -14,9 +14,10 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
-        android:background="@drawable/tallenna_v2" />
+        android:text="Tallenna"
+        android:background="@drawable/no_shadow_nappi" />
 
-    <ImageButton
+    <Button
 
         android:id="@+id/lahetaNappula"
         android:layout_width="wrap_content"
@@ -26,7 +27,8 @@
         android:layout_alignTop="@+id/imageButton3"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
-        android:background="@drawable/laheta_v2" />
+        android:text="Lähetä"
+        android:background="@drawable/no_shadow_nappi" />
 
 
 </RelativeLayout>

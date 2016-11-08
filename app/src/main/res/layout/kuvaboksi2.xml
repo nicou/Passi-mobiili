@@ -14,7 +14,9 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/palaute_vihrea"/>
+            app:srcCompat="@drawable/palaute_vihrea"
+            tools:layout_editor_absoluteY="25dp"
+            tools:layout_editor_absoluteX="0dp" />
 
         <TextView
             android:id="@+id/opettaja_kommentti"
