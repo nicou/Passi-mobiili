@@ -124,6 +124,11 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                          final OnTextChangeListener mTextListener) {
             final int id = waypoints.getWaypointID();
 
+            final boolean cameraValinta = waypoints.getWaypointPhotoEnabled();
+            if (cameraValinta == false){
+                camera.setVisibility(View.GONE);
+            }
+
             button1.setId(waypoints.getWaypointOptions().get(0).getOptionID());
             button2.setId(waypoints.getWaypointOptions().get(1).getOptionID());
             button3.setId(waypoints.getWaypointOptions().get(2).getOptionID());
