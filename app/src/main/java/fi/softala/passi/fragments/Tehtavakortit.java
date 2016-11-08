@@ -130,7 +130,6 @@ public class Tehtavakortit extends Fragment {
         adapter = new TehtavakorttiAdapter(worksheets, R.layout.button_layout, new TehtavakorttiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Worksheet kortti) {
-                Toast.makeText(getActivity(), "WorksheetID" + kortti.getWorksheetID(), Toast.LENGTH_SHORT).show();
                 String korttiJSON = gson.toJson(kortti);
                 int ryhmaID = ryhma.getGroupID();
                 mListener.onFragmentInteraction(ryhmaID, korttiJSON);

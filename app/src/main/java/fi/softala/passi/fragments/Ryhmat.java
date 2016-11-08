@@ -130,7 +130,6 @@ public class Ryhmat extends Fragment {
                 new GroupAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Ryhma ryhma) {
-                        Toast.makeText(getActivity(), "Ryhmaid " + ryhma.getGroupID(), Toast.LENGTH_SHORT).show();
                         mListener.onFragmentInteraction(ryhma);
                     }
                 }
