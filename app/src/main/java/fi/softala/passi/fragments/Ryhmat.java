@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -58,6 +59,8 @@ public class Ryhmat extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         mProgressBar = (ProgressBar) v.findViewById(R.id.include);
+        TextView otsikko = (TextView) v.findViewById(R.id.fragment_otsikko);
+        otsikko.setText("RYHMÄT");
 
         return v;
     }
