@@ -58,7 +58,7 @@ public class Palautetut extends Fragment {
                 dialog.show();
             }
         });
-        recyclerView.setAdapter(adapter);
+
     }
 
     @Override
@@ -69,6 +69,7 @@ public class Palautetut extends Fragment {
 
         recyclerView = (RecyclerView) v.findViewById(R.id.palautetut_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
         return v;
