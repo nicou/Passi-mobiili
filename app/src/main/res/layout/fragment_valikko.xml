@@ -76,7 +76,8 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/nappi"
-        android:text="PROFIILI" />
+        android:text="PROFIILI"
+        android:textColor="#3498db"/>
 
     <Button
         android:id="@+id/btnTyokykypassi"
@@ -88,7 +89,8 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="7dp"
         android:background="@drawable/nappi"
-        android:text="Työkykypassiin"
+        android:text="TYÖKYKYPASSI"
+        android:textColor="#3498db"
         android:transitionName="@string/profile" />
 
     <Button
@@ -100,7 +102,8 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/nappi"
-        android:text="Välinekauppa" />
+        android:text="VÄLINEKAUPPA"
+        android:textColor="#3498db"/>
 
 </RelativeLayout>
 

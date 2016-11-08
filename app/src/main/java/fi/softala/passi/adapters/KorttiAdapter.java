@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -123,6 +124,11 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                          final OnTextChangeListener mTextListener) {
             final int id = waypoints.getWaypointID();
 
+            final boolean cameraValinta = waypoints.getWaypointPhotoEnabled();
+            if (cameraValinta == false){
+                camera.setVisibility(View.GONE);
+            }
+
             button1.setId(waypoints.getWaypointOptions().get(0).getOptionID());
             button2.setId(waypoints.getWaypointOptions().get(1).getOptionID());
             button3.setId(waypoints.getWaypointOptions().get(2).getOptionID());
@@ -188,11 +194,11 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
      public static class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        final ImageButton lahetaNappula;
+        final Button lahetaNappula;
 
         public FooterViewHolder(View itemView) {
             super(itemView);
-            lahetaNappula = (ImageButton) itemView.findViewById(R.id.lahetaNappula);
+            lahetaNappula = (Button) itemView.findViewById(R.id.lahetaNappula);
         }
 
         public void bind(final KorttiAdapter.OnClickListener mClickListener) {

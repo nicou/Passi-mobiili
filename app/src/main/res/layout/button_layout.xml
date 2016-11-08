@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
+    android:gravity="center_horizontal"
     android:orientation="horizontal"
     android:id="@+id/group_layout"
     android:padding="10dp">
@@ -14,7 +14,7 @@
         android:padding="20dp"
         android:id="@+id/group_button"
         android:textSize="12sp"
-        android:textColor="#a6a6a6"
+        android:textColor="#3498db"
         android:background="@drawable/ammatin_tyokykyvalmiudet_small"/>
 
 </LinearLayout>

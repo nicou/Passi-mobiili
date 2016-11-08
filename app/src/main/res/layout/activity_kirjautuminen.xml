@@ -40,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="KÄYTTÄJÄTUNNUS"
+                android:textColorHint="#3498db"
                 android:ems="10"
                 android:maxLines="1"/>
 
@@ -74,7 +75,7 @@
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:textColor="#3498db"
-            android:text="Kirjaudu"
+            android:text="KIRJAUDU"
             android:textSize="14sp"
             android:background="@drawable/nappi" />
 

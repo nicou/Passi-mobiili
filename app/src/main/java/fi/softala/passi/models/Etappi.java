@@ -17,6 +17,15 @@ public class Etappi {
     String imageURL;
     @SerializedName("answerText")
     String answerText;
+    Boolean photoEnabled;
+
+    public Boolean getPhotoEnabled() {
+        return photoEnabled;
+    }
+
+    public void setPhotoEnabled(Boolean photoEnabled) {
+        this.photoEnabled = photoEnabled;
+    }
 
     public Etappi(Integer waypointID, String imageURL, Integer selectedOptionID, String answerText) {
         this.waypointID = waypointID;

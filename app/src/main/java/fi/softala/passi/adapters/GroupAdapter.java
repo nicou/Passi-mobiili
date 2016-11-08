@@ -35,7 +35,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
 
         public void bind(final Ryhma ryhma, final OnItemClickListener mListener) {
 
-            groupButton.setText("id=" + ryhma.getGroupID() + " " + ryhma.getGroupName());
+            groupButton.setText(ryhma.getGroupName());
             groupButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
