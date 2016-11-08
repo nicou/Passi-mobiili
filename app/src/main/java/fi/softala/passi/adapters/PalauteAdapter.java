@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import fi.softala.passi.R;
+import fi.softala.passi.models.Answerpoints;
 import fi.softala.passi.models.Answersheet;
 
 /**
@@ -33,9 +34,40 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
         public void bind(final Answersheet vastaus, final OnClickListener mListener) {
 
             tehtavakorttiNimi.setText(vastaus.getWorksheetName());
-            String opeComment = vastaus.getInstructorComment();
-            if (opeComment.length() > 0) {
-                opeKommentti.setText(opeComment);
+
+            List<Answerpoints> answ = vastaus.getAnswerpointsList();
+
+            final int maxPisteet = answ.size() * 3;
+
+            Boolean exist = false;
+            String comment = "";
+            int numero = 1;
+            int pisteet = 0;
+
+            for(Answerpoints ans : answ){
+                String kommentti = null;
+                kommentti = ans.getInstructorComment();
+
+                String pisteString = ans.getInstructorRating();
+
+                if(kommentti != null && kommentti.length()>0){
+                    comment = comment + "Etappi " + numero + ": "+kommentti + "\nPisteet: " +pisteString + "\n \n";
+                    pisteet = pisteet + Integer.valueOf(pisteString);
+                    exist = true;
+                }else{
+                    comment = comment + "Etappi " + numero + ": "+"Ei vielä arvioitu" + "\n \n";
+
+                }
+                numero++;
+
+            }
+
+            comment = comment + "Kokonaispisteet: " + pisteet +"/" +maxPisteet;
+
+            //Asetetaan ns. pääkommenttiin kaikkien etappien kommentti. Tämä säästää hieman refaktorointia.
+            vastaus.setInstructorComment(comment);
+            if (exist) {
+                opeKommentti.setText(comment);
                 opeKommentti.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -43,7 +75,7 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
                     }
                 });
             } else {
-                opeKommentti.setText("EI KOMMENTOITAVAA HJUVA");
+                opeKommentti.setText("EI KOMMENTTEJA");
             }
 
 
