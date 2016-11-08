@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -162,6 +165,10 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
         private void asetaData(List<Answersheet> result) {
             tehdytKortit = new ArrayList<>();
             tehdytKortit.addAll(result);
+            ProgressBar progressBar = (ProgressBar) findViewById(R.id.include);
+            FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_container_palaute);
+            progressBar.setVisibility(View.GONE);
+            frameLayout.setVisibility(View.VISIBLE);
         }
     }
 
