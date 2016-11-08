@@ -5,9 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.os.Parcelable;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -17,7 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fi.softala.passi.R;
-import fi.softala.passi.adapters.PalauteAdapter;
+import fi.softala.passi.fragments.Palaute;
+import fi.softala.passi.fragments.Palautetut;
+import fi.softala.passi.fragments.Valikko;
 import fi.softala.passi.models.Answersheet;
 import fi.softala.passi.models.Worksheet;
 import fi.softala.passi.network.PassiClient;
@@ -26,13 +27,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PalauteActivity extends ToolbarActivity {
+public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragmentInteractionListener {
 
     private PassiClient passiClient;
     int groupId;
     int userId;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private List<Worksheet> tekemattomatKortit;
+    private List<Answersheet> tehdytKortit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,16 @@ public class PalauteActivity extends ToolbarActivity {
         imFeedback.setOnClickListener(this);
         imLogout.setOnClickListener(this);
 
-        recyclerView = (RecyclerView) findViewById(R.id.palaute_recycle_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
+        if (findViewById(R.id.fragment_container_palaute) != null) {
+            if (savedInstanceState != null) {
+                return;
+            }
+            Palaute palaute = new Palaute();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_container_palaute, palaute)
+                    .commit();
+        }
 
         SharedPreferences mySharedPreferences = this.getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
@@ -87,21 +94,23 @@ public class PalauteActivity extends ToolbarActivity {
 
     }
 
-    public List<Answersheet> haeVastaukset(List<Worksheet> tehtavaKortit) throws IOException {
-        List<Answersheet> vastaukset = new ArrayList<>();
-        for (Worksheet tehtavakortti :
-                tehtavaKortit) {
-            int id = tehtavakortti.getWorksheetID();
-            Call<Answersheet> vastaus = passiClient.haeOpettajanKommentit(
-                    id,
-                    groupId,
-                    userId);
-
-            Answersheet yksVastaus = vastaus.execute().body();
-            vastaukset.add(yksVastaus);
+    @Override
+    public void onFragmentInteraction(int valinta) {
+        // palautetut tehtavakortit
+        if (valinta == 1) {
+            Palautetut palautetut = new Palautetut();
+            Bundle args = new Bundle();
+            args.putParcelableArrayList("kortit", (ArrayList<? extends Parcelable>) tehdytKortit);
+            palautetut.setArguments(args);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.fragment_container_palaute, palautetut);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else if (valinta == 2) {
+            Toast.makeText(this, "Ei tehty viela", Toast.LENGTH_SHORT).show();
         }
-        return vastaukset;
     }
+
 
     //atm vastaus pitää poistaa enne uuden lisäämistä samaan vastaukseen
     private class haeVastaukset extends AsyncTask<List<Worksheet>, Object, List<Answersheet>> {
@@ -117,7 +126,7 @@ public class PalauteActivity extends ToolbarActivity {
         @Override
         protected final List<Answersheet> doInBackground(List<Worksheet>... path) {
             List<Answersheet> vastaukset = new ArrayList<>();
-
+            tekemattomatKortit = new ArrayList<>();
             for (Worksheet tehtavakortti :
                     path[0]) {
                 int id = tehtavakortti.getWorksheetID();
@@ -135,6 +144,8 @@ public class PalauteActivity extends ToolbarActivity {
                 if ((yksVastaus != null ? yksVastaus.getAnswersheetId() : null) != null) {
                     yksVastaus.setWorksheetName(tehtavakortti.getWorksheetHeader());
                     vastaukset.add(yksVastaus);
+                } else {
+                    tekemattomatKortit.add(tehtavakortti);
                 }
 
 
@@ -145,22 +156,12 @@ public class PalauteActivity extends ToolbarActivity {
         @Override
         protected void onPostExecute(List<Answersheet> result) {
             super.onPostExecute(result);
-            adapter = new PalauteAdapter(result, R.layout.kuvaboksi2, new PalauteAdapter.OnClickListener() {
-                @Override
-                public void onClick(Answersheet vastaus) {
-                    // 1. Instantiate an AlertDialog.Builder with its constructor
-                    AlertDialog.Builder builder = new AlertDialog.Builder(PalauteActivity.this);
+            asetaData(result);
+        }
 
-                    // 2. Chain together various setter methods to set the dialog characteristics
-                    builder.setMessage(vastaus.getInstructorComment())
-                            .setTitle(vastaus.getWorksheetName());
-
-                    // 3. Get the AlertDialog from create()
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
-            });
-            recyclerView.setAdapter(adapter);
+        private void asetaData(List<Answersheet> result) {
+            tehdytKortit = new ArrayList<>();
+            tehdytKortit.addAll(result);
         }
     }
 

@@ -1,5 +1,8 @@
 package fi.softala.passi.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.List;
  * Created by villeaaltonen on 01/11/2016.
  */
 
-public class Answersheet {
+public class Answersheet implements Parcelable{
 
     @SerializedName("answersheetID")
     private String answersheetId;
@@ -115,5 +118,15 @@ public class Answersheet {
                 ", userId=" + userId +
                 ", answerpointsList=" + answerpointsList +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }
