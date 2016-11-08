@@ -125,7 +125,6 @@ public class Ryhmat extends Fragment {
 
 
         adapter = new GroupAdapter(
-                getActivity(),
                 ryhmat,
                 R.layout.button_layout,
                 new GroupAdapter.OnItemClickListener() {

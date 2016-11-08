@@ -79,7 +79,6 @@
             android:background="@drawable/nappi" />
 
         <ImageView
-            android:id="@+id/combo"
             android:background="@drawable/combo_hahmo_ei_alavarjoa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,7 +1,6 @@
 package fi.softala.passi.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,13 @@ import fi.softala.passi.models.Answersheet;
  */
 
 public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteHolder> {
-    private int rowLayout;
-    List<Answersheet> vastaukset;
-    private OnClickListener mListener;
+    private final int rowLayout;
+    final List<Answersheet> vastaukset;
+    private final OnClickListener mListener;
 
     public static class PalauteHolder extends RecyclerView.ViewHolder {
-        TextView tehtavakorttiNimi;
-        TextView opeKommentti;
+        final TextView tehtavakorttiNimi;
+        final TextView opeKommentti;
 
         public PalauteHolder(View v) {
             super(v);

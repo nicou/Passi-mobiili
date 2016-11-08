@@ -113,8 +113,9 @@ public class PalauteActivity extends ToolbarActivity {
             Toast.makeText(getApplicationContext(), "Haetaan vastauksia", Toast.LENGTH_LONG).show();
         }
 
+        @SafeVarargs
         @Override
-        protected List<Answersheet> doInBackground(List<Worksheet>... path) {
+        protected final List<Answersheet> doInBackground(List<Worksheet>... path) {
             List<Answersheet> vastaukset = new ArrayList<>();
 
             for (Worksheet tehtavakortti :

@@ -1,6 +1,5 @@
 package fi.softala.passi.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +16,15 @@ import fi.softala.passi.models.Ryhma;
  * Created by villeaaltonen on 11/10/2016.
  */
 
-public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHolder>  {
+public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHolder> {
 
-    private List<Ryhma> ryhmat;
-    private int rowLayout;
-    private Context context;
-    private OnItemClickListener mListener;
+    private final List<Ryhma> ryhmat;
+    private final int rowLayout;
+    private final OnItemClickListener mListener;
 
     public static class GroupViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout groupLayout;
-        Button groupButton;
+        final LinearLayout groupLayout;
+        final Button groupButton;
 
         public GroupViewHolder(View v) {
             super(v);
@@ -34,7 +32,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
             groupLayout = (LinearLayout) v.findViewById(R.id.group_layout);
             groupButton = (Button) v.findViewById(R.id.group_button);
         }
-        public void bind(final Ryhma ryhma, final OnItemClickListener mListener){
+
+        public void bind(final Ryhma ryhma, final OnItemClickListener mListener) {
 
             groupButton.setText("id=" + ryhma.getGroupID() + " " + ryhma.getGroupName());
             groupButton.setOnClickListener(new View.OnClickListener() {
@@ -52,8 +51,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
         void onItemClick(Ryhma ryhma);
     }
 
-    public GroupAdapter(Context context, List<Ryhma> ryhmat, int rowLayout, OnItemClickListener listener) {
-        this.context = context;
+    public GroupAdapter(List<Ryhma> ryhmat, int rowLayout, OnItemClickListener listener) {
         this.ryhmat = ryhmat;
         this.rowLayout = rowLayout;
         this.mListener = listener;
@@ -61,7 +59,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
 
     @Override
     public GroupAdapter.GroupViewHolder onCreateViewHolder(ViewGroup parent,
-                                                            int viewType) {
+                                                           int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(rowLayout, parent, false);
         return new GroupAdapter.GroupViewHolder(view);
     }

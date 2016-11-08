@@ -16,9 +16,9 @@ public class VahvistusActivity extends ToolbarActivity {
         setContentView(R.layout.activity_vahvistus);
 
         //Luo iconeille listenerit ja lähettää valikkoActivityyn, jossa id:n perusteella toiminnot
-        ImageButton imHome = (ImageButton)findViewById(R.id.home);
-        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
-        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
+        ImageButton imHome = (ImageButton) findViewById(R.id.home);
+        ImageButton imFeedback = (ImageButton) findViewById(R.id.feedback);
+        ImageButton imLogout = (ImageButton) findViewById(R.id.logout);
 
         imHome.setOnClickListener(this);
         imFeedback.setOnClickListener(this);

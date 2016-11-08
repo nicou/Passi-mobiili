@@ -17,12 +17,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -55,13 +53,13 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class TehtavakorttiActivity extends ToolbarActivity{
+public class TehtavakorttiActivity extends ToolbarActivity {
     KorttiAdapter kAdapter;
     File file;
-    List<File> otetutKuvat = new ArrayList<>();
+    final List<File> otetutKuvat = new ArrayList<>();
     private NotificationManager mNotifyManager;
     private NotificationCompat.Builder mBuilder;
-    int id = 1;
+    final int id = 1;
     int vastausID;
     final int RC_TAKE_PHOTO = 1;
     String suunnitelmaString;
@@ -70,7 +68,7 @@ public class TehtavakorttiActivity extends ToolbarActivity{
     private Context mContext;
     int groupID, userID;
     private ImageButton mCamera;
-    HashMap<Integer, Etappi> etappiList = new HashMap<>();
+    final HashMap<Integer, Etappi> etappiList = new HashMap<>();
     int waypointListLength;
 
     @Override
@@ -80,9 +78,9 @@ public class TehtavakorttiActivity extends ToolbarActivity{
         SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
         //Luo iconeille listenerit ja lähettää valikkoActivityyn, jossa id:n perusteella toiminnot
-        ImageButton imHome = (ImageButton)findViewById(R.id.home);
-        ImageButton imFeedback = (ImageButton)findViewById(R.id.feedback);
-        ImageButton imLogout = (ImageButton)findViewById(R.id.logout);
+        ImageButton imHome = (ImageButton) findViewById(R.id.home);
+        ImageButton imFeedback = (ImageButton) findViewById(R.id.feedback);
+        ImageButton imLogout = (ImageButton) findViewById(R.id.logout);
 
         imHome.setOnClickListener(this);
         imFeedback.setOnClickListener(this);
@@ -232,7 +230,6 @@ public class TehtavakorttiActivity extends ToolbarActivity{
 
     public boolean kentatOk() {
 
-        boolean fail = false;
         EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
         if (suunnitelma.getText().length() == 0) {
             Log.e("Passi", "Suunnitelma on liian lyhyt");
@@ -350,14 +347,8 @@ public class TehtavakorttiActivity extends ToolbarActivity{
         long totalSize;
         int progressValue;
         Integer kuvaLkm;
-        List<File> kuvat = otetutKuvat;
+        final List<File> kuvat = otetutKuvat;
         final Integer MAX_PROGRESS = 100;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
 
         protected Integer doInBackground(String... path) {
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);

@@ -13,7 +13,8 @@ import java.io.FileOutputStream;
 
 public class ImageManipulation {
 
-    public static File pienennaKuvaa(final File file) {
+    // pienentää kuvaa
+    public static void pienennaKuvaa(final File file) {
         try {
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = 1;
@@ -28,10 +29,9 @@ public class ImageManipulation {
 
             outputStream.flush();
             outputStream.close();
-            return file;
+
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
     }
 

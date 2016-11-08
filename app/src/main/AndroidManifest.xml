@@ -26,19 +26,18 @@
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait">
 
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
 
-        </intent-filter>
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.TehtavakorttiActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateUnspecified" />
         <activity android:name=".activities.PalauteActivity" />
-        <activity android:name=".activities.VahvistusActivity"></activity>
-
+        <activity android:name=".activities.VahvistusActivity" />
 
 
     </application>

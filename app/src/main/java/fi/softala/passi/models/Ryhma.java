@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import static java.lang.System.out;
-
 /**
  * Created by villeaaltonen on 11/10/2016.
  */
@@ -19,6 +17,23 @@ public class Ryhma implements Parcelable {
 
     public Ryhma() {
     }
+
+    protected Ryhma(Parcel in) {
+        groupID = in.readInt();
+        groupName = in.readString();
+    }
+
+    public static final Creator<Ryhma> CREATOR = new Creator<Ryhma>() {
+        @Override
+        public Ryhma createFromParcel(Parcel in) {
+            return new Ryhma(in);
+        }
+
+        @Override
+        public Ryhma[] newArray(int size) {
+            return new Ryhma[size];
+        }
+    };
 
     @Override
     public String toString() {
@@ -51,6 +66,7 @@ public class Ryhma implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeInt(groupID);
+        dest.writeString(groupName);
     }
 }

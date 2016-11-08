@@ -3,7 +3,6 @@ package fi.softala.passi.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,9 +32,7 @@ import retrofit2.Response;
  */
 
 public class Tehtavakortit extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
 
-    private ConstraintLayout constraintLayout;
     RecyclerView recyclerView;
     ProgressBar mProgressBar;
     RecyclerView.Adapter adapter;
@@ -130,7 +127,7 @@ public class Tehtavakortit extends Fragment {
                 new GridLayoutManager(getActivity(), 2);
 
         recyclerView.setLayoutManager(gridLayoutManager);
-        adapter = new TehtavakorttiAdapter(getActivity(), worksheets, R.layout.button_layout, new TehtavakorttiAdapter.OnItemClickListener() {
+        adapter = new TehtavakorttiAdapter(worksheets, R.layout.button_layout, new TehtavakorttiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Worksheet kortti) {
                 Toast.makeText(getActivity(), "WorksheetID" + kortti.getWorksheetID(), Toast.LENGTH_SHORT).show();

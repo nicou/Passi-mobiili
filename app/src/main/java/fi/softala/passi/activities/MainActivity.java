@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+
 import fi.softala.passi.R;
 import fi.softala.passi.fragments.Ryhmat;
 import fi.softala.passi.fragments.Tehtavakortit;
@@ -125,9 +126,9 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnFragmentIn
 
         String base = mySharedPreferences.getString("token", "");
 
-        Log.d("Passi", "Tokeni " + base );
+        Log.d("Passi", "Tokeni " + base);
         if (base.length() <= 0) {
-            Log.d("Passi", "Tokenia ei löytynyt " + base );
+            Log.d("Passi", "Tokenia ei löytynyt " + base);
             Intent intent = new Intent(MainActivity.this, UusiKayttajaActivity.class);
             startActivity(intent);
         }

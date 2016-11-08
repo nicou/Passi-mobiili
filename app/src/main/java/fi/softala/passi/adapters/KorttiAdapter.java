@@ -20,18 +20,17 @@ import android.widget.RadioGroup;
 import java.util.List;
 
 import fi.softala.passi.R;
-import fi.softala.passi.models.WaypointOptions;
 import fi.softala.passi.models.WorksheetWaypoints;
 
 public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    List<WorksheetWaypoints> SubjectNames;
+    final List<WorksheetWaypoints> SubjectNames;
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
-    private KorttiAdapter.OnItemClickListener mListener;
-    private onRadioButtonCheckChange mChangeListener;
-    private KorttiAdapter.OnTextChangeListener mTextListener;
-    private KorttiAdapter.OnClickListener mClickListener;
+    private final KorttiAdapter.OnItemClickListener mListener;
+    private final onRadioButtonCheckChange mChangeListener;
+    private final KorttiAdapter.OnTextChangeListener mTextListener;
+    private final KorttiAdapter.OnClickListener mClickListener;
 
     public KorttiAdapter(List<WorksheetWaypoints> SubjectNames,
                          KorttiAdapter.OnItemClickListener listener,
@@ -93,14 +92,14 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        EditText editText;
-        ImageButton camera;
-        Context context;
-        RadioGroup radioGroup;
-        RadioButton button1;
-        RadioButton button2;
-        RadioButton button3;
-        EditText selostus;
+        final EditText editText;
+        final ImageButton camera;
+        final Context context;
+        final RadioGroup radioGroup;
+        final RadioButton button1;
+        final RadioButton button2;
+        final RadioButton button3;
+        final EditText selostus;
 
         public ViewHolder(View view) {
             super(view);
@@ -189,7 +188,7 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
      public static class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        ImageButton lahetaNappula;
+        final ImageButton lahetaNappula;
 
         public FooterViewHolder(View itemView) {
             super(itemView);
