@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,11 +25,13 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
     public static class PalauteHolder extends RecyclerView.ViewHolder {
         final TextView tehtavakorttiNimi;
         final TextView opeKommentti;
+        final ImageView tahti;
 
         public PalauteHolder(View v) {
             super(v);
             tehtavakorttiNimi = (TextView) v.findViewById(R.id.tehtavakortti_nimi);
             opeKommentti = (TextView) v.findViewById(R.id.opettaja_kommentti);
+            tahti = (ImageView) v.findViewById(R.id.tahti_arvio);
         }
 
         public void bind(final Answersheet vastaus, final OnClickListener mListener) {
@@ -38,6 +41,8 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             List<Answerpoints> answ = vastaus.getAnswerpointsList();
 
             final int maxPisteet = answ.size() * 3;
+            final double ylin = 2.0/3.0;
+            final double alin = 1.0/3.0;
 
             Boolean exist = false;
             String comment = "";
@@ -63,6 +68,21 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             }
 
             comment = comment + "Kokonaispisteet: " + pisteet +"/" +maxPisteet;
+
+            Double dPisteet = (double) pisteet;
+            Double dMax = (double) maxPisteet;
+
+            double prosenttiPisteet = dPisteet/dMax;
+
+            if(prosenttiPisteet < alin){
+                tahti.setImageResource(R.drawable.tahti_pronssi);
+            }
+            if(prosenttiPisteet >= alin && prosenttiPisteet < ylin){
+                tahti.setImageResource(R.drawable.tahti_hopea);
+            }
+            if(prosenttiPisteet >= ylin){
+                tahti.setImageResource(R.drawable.tahti_kulta);
+            }
 
             //Asetetaan ns. pääkommenttiin kaikkien etappien kommentti. Tämä säästää hieman refaktorointia.
             vastaus.setInstructorComment(comment);
