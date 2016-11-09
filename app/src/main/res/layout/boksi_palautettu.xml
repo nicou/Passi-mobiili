@@ -9,10 +9,16 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteY="61dp"
-        tools:layout_editor_absoluteX="70dp"
         android:id="@+id/button_palaute"
-        android:background="@drawable/arvioidut_pohja" />
+        android:background="@drawable/arvioidut_pohja"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp" />
 
     <TextView
         android:text="tehtavakortti_nimi"
