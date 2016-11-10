@@ -56,6 +56,7 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             final double alin = 1.0/3.0;
 
             Boolean exist = false;
+            Boolean arvioitu = true;
             String opettajanKommentti = "";
             int numero = 1;
             int pisteet = 0;
@@ -71,6 +72,7 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
                     exist = true;
                 }else{
                     opettajanKommentti = opettajanKommentti + etappi + numero + kaksoispisteJaVali+eiArvioitu + tuplarivi;
+                    arvioitu = false;
 
                 }
                 numero++;
@@ -84,13 +86,16 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
 
             double prosenttiPisteet = dPisteet/dMax;
 
-            if(prosenttiPisteet < alin){
+            //defaulttina harmaa tähti jos ei arvioitu
+            tahti.setImageResource(R.drawable.tahti_eiarvioitu);
+
+            if(prosenttiPisteet < alin && arvioitu == true){
                 tahti.setImageResource(R.drawable.tahti_pronssi);
             }
-            if(prosenttiPisteet >= alin && prosenttiPisteet < ylin){
+            if(prosenttiPisteet >= alin && prosenttiPisteet < ylin && arvioitu == true){
                 tahti.setImageResource(R.drawable.tahti_hopea);
             }
-            if(prosenttiPisteet >= ylin){
+            if(prosenttiPisteet >= ylin && arvioitu == true){
                 tahti.setImageResource(R.drawable.tahti_kulta);
             }
 
