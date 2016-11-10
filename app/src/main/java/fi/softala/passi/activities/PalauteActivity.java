@@ -23,6 +23,7 @@ import fi.softala.passi.fragments.Palaute;
 import fi.softala.passi.fragments.Palautetut;
 import fi.softala.passi.fragments.Valikko;
 import fi.softala.passi.models.Answersheet;
+import fi.softala.passi.models.Category;
 import fi.softala.passi.models.Worksheet;
 import fi.softala.passi.network.PassiClient;
 import fi.softala.passi.network.ServiceGenerator;
@@ -73,14 +74,19 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
         passiClient = ServiceGenerator.createService(PassiClient.class, base);
 
 
-        Call<List<Worksheet>> call = passiClient.haeTehtavakortit(groupId);
-        call.enqueue(new Callback<List<Worksheet>>() {
+        Call<List<Category>> call = passiClient.haeTehtavakortit(groupId);
+        call.enqueue(new Callback<List<Category>>() {
             @Override
-            public void onResponse(Call<List<Worksheet>> call, Response<List<Worksheet>> response) {
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
 
                 if (response.isSuccessful()) {
-                    List<Worksheet> tehtavaKortit = response.body();
-
+                    List<Category> kategoriat = response.body();
+                    List<Worksheet> tehtavaKortit = new ArrayList<Worksheet>();
+                    for(Category cat :
+                    kategoriat
+                    ){
+                      tehtavaKortit.addAll(cat.getCategoryWorksheets());
+                    }
                     new haeVastaukset().execute(tehtavaKortit);
 
                 } else {
@@ -89,7 +95,7 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
             }
 
             @Override
-            public void onFailure(Call<List<Worksheet>> call, Throwable t) {
+            public void onFailure(Call<List<Category>> call, Throwable t) {
                 Log.e("Passi", "Tehtäväkorttien haku epäonnistui " + t.toString());
             }
         });

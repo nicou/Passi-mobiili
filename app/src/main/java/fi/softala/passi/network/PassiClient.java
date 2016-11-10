@@ -3,6 +3,7 @@ package fi.softala.passi.network;
 import java.util.List;
 
 import fi.softala.passi.models.Answersheet;
+import fi.softala.passi.models.Category;
 import fi.softala.passi.models.Kayttaja;
 import fi.softala.passi.models.Vastaus;
 import fi.softala.passi.models.Worksheet;
@@ -39,7 +40,7 @@ public interface PassiClient {
     Call<ResponseBody> poistaVastaus(@Path("userID") Integer userID);
 
     @GET("worksheet/{group_id}")
-    Call<List<Worksheet>> haeTehtavakortit(@Path("group_id") Integer groupID);
+    Call<List<Category>> haeTehtavakortit(@Path("group_id") Integer groupID);
 
     @GET("answer/{worksheet_id}/{group_id}/{user_id}")
     Call<Answersheet> haeOpettajanKommentit(@Path("worksheet_id") Integer worksheetId,
