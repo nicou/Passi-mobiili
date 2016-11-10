@@ -530,6 +530,9 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
     private void taytaTiedotTehtavakorteista() {
 
+        final int maxPituus = 27;
+        final int textSize = 15;
+
         Gson gson = new Gson();
         String korttiJSON = getIntent().getStringExtra("TehtavakorttiActivity");
         final Worksheet kortti = gson.fromJson(korttiJSON, Worksheet.class);
@@ -545,6 +548,10 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
         TextView textViewOtsikko = (TextView) findViewById(R.id.otsikko);
         textViewOtsikko.setText(tehtavakorttiOtsikkoString);
+
+        if(tehtavakorttiOtsikkoString.length() > maxPituus) {
+            textViewOtsikko.setTextSize(textSize);
+        }
         waypoint = kortti.getWorksheetWaypoints();
 
         waypointListLength = waypoint.size();
