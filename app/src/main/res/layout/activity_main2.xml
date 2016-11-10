@@ -1,4 +1,5 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/background2"
     android:layout_width="match_parent"
@@ -6,64 +7,75 @@
     tools:context=".activities.KirjautumisActivity">
 
         <ImageView
-            android:id="@+id/tehtavaPalautettu"
+            android:id="@+id/etusivuTitle"
             android:src="@drawable/otsikkopalkki"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
-
-            />
+            android:layout_marginStart="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            app:layout_constraintHorizontal_bias="1.0" />
 
         <Button
-            android:layout_marginTop="250dp"
-            android:layout_centerHorizontal="true"
             android:padding="20dp"
-            android:layout_width="170dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LUO TUNNUS"
             android:textSize="14sp"
             android:textColor="#a6a6a6"
-            android:background="@drawable/nappi" />
+            android:background="@drawable/nappi"
+            android:layout_marginTop="150dp"
+            app:layout_constraintTop_toBottomOf="@+id/etusivuTitle"
+            android:id="@+id/button2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Button
             android:id="@+id/btnLogin"
-            android:layout_marginTop="340dp"
-            android:layout_centerHorizontal="true"
             android:padding="20dp"
-            android:layout_width="170dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#3498db"
             android:text="KIRJAUDU SISÄÄN"
             android:textSize="14sp"
-            android:background="@drawable/nappi" />
+            android:background="@drawable/nappi"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@+id/button2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <ImageView
             android:background="@drawable/combo_hahmo_ei_alavarjoa"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="105dp"
-            android:layout_marginRight="25dp"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/imageView" />
+            android:id="@+id/comboUkkeli"
+            android:layout_marginStart="100dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="30dp" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="TERVETULOA TYÖKYKYPASSIIN"
+            android:text="TERVETULOA\nTYÖKYKYPASSIIN"
             android:textSize="22sp"
             android:textStyle="bold"
             android:padding="10dp"
             android:textColor="#3498db"
-            android:layout_alignParentTop="true"
             android:id="@+id/textView"
-            android:layout_alignBottom="@+id/tehtavaPalautettu"
-            android:layout_alignLeft="@+id/tehtavaPalautettu"
-            android:layout_alignStart="@+id/tehtavaPalautettu"
-            android:layout_alignRight="@+id/imageView"
-            android:layout_alignEnd="@+id/imageView"
-            />
+            app:layout_constraintLeft_toLeftOf="@+id/etusivuTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/etusivuTitle"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintRight_toRightOf="@+id/etusivuTitle" />
 
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

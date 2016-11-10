@@ -89,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/katkoviiva_vaaka"
-        android:id="@+id/imageView4"
+        android:id="@+id/comboUkkeli"
         android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="16dp"
@@ -112,7 +112,7 @@
         android:gravity="top|left"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintBottom_toTopOf="@+id/comboUkkeli"
         android:layout_marginBottom="16dp"
         app:layout_constraintLeft_toLeftOf="@+id/imageView3"
         android:layout_marginStart="16dp"
@@ -126,7 +126,7 @@
         app:layout_constraintRight_toLeftOf="@+id/imageView2"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintBottom_toTopOf="@+id/comboUkkeli"
         android:layout_marginBottom="16dp" />
 
     <RadioGroup
