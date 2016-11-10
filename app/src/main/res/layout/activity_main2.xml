@@ -10,7 +10,7 @@
             android:id="@+id/etusivuTitle"
             android:src="@drawable/otsikkopalkki"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:scaleType="fitXY"
             android:layout_marginStart="30dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -29,7 +29,7 @@
             android:textSize="14sp"
             android:textColor="#a6a6a6"
             android:background="@drawable/nappi"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="130dp"
             app:layout_constraintTop_toBottomOf="@+id/etusivuTitle"
             android:id="@+id/button2"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -74,8 +74,9 @@
             android:id="@+id/textView"
             app:layout_constraintLeft_toLeftOf="@+id/etusivuTitle"
             app:layout_constraintBottom_toBottomOf="@+id/etusivuTitle"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintRight_toRightOf="@+id/etusivuTitle" />
+            app:layout_constraintRight_toRightOf="@+id/etusivuTitle"
+            app:layout_constraintTop_toTopOf="@+id/etusivuTitle"
+            android:layout_marginBottom="15dp" />
 
 
 </android.support.constraint.ConstraintLayout>
