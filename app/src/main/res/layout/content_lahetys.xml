@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="3dp"
         android:layout_marginStart="3dp"
-        android:text="Tallenna"
+        android:text="TALLENNA"
         android:background="@drawable/no_shadow_nappi"
         android:textColor="#a6a6a6" />
 
@@ -28,7 +28,7 @@
         android:layout_alignTop="@+id/imageButton3"
         android:layout_marginEnd="3dp"
         android:layout_marginRight="3dp"
-        android:text="Lähetä"
+        android:text="LÄHETÄ"
         android:background="@drawable/no_shadow_nappi" />
 
 
