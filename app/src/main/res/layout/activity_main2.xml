@@ -14,11 +14,6 @@
             android:scaleType="fitXY"
             />
 
-        <include
-            layout="@layout/tool_bar"
-            android:id="@+id/toolbar">
-        </include>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
