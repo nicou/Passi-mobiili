@@ -23,6 +23,7 @@ import java.util.List;
 import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.fragments.Palaute;
 import fi.softala.tyokykypassi.fragments.Palautetut;
+import fi.softala.tyokykypassi.models.Answerpoints;
 import fi.softala.tyokykypassi.models.Answersheet;
 import fi.softala.tyokykypassi.models.Category;
 import fi.softala.tyokykypassi.models.Worksheet;
@@ -37,7 +38,7 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
     private PassiClient passiClient;
     int groupId;
     int userId;
-    private List<Worksheet> tekemattomatKortit;
+    private List<Answersheet> tekemattomatKortit;
     private List<Answersheet> tehdytKortit;
 
     @Override
@@ -83,10 +84,10 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
                 if (response.isSuccessful()) {
                     List<Category> kategoriat = response.body();
                     List<Worksheet> tehtavaKortit = new ArrayList<Worksheet>();
-                    for(Category cat :
-                    kategoriat
-                    ){
-                      tehtavaKortit.addAll(cat.getCategoryWorksheets());
+                    for (Category cat :
+                            kategoriat
+                            ) {
+                        tehtavaKortit.addAll(cat.getCategoryWorksheets());
                     }
                     new haeVastaukset().execute(tehtavaKortit);
 
@@ -107,18 +108,20 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
     @Override
     public void onFragmentInteraction(int valinta) {
         // palautetut tehtavakortit
+        Palautetut palautetut = new Palautetut();
+        Bundle args = new Bundle();
         if (valinta == 1) {
-            Palautetut palautetut = new Palautetut();
-            Bundle args = new Bundle();
             args.putParcelableArrayList("kortit", (ArrayList<? extends Parcelable>) tehdytKortit);
-            palautetut.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fragment_container_palaute, palautetut);
-            transaction.addToBackStack(null);
-            transaction.commit();
+
         } else if (valinta == 2) {
-            Toast.makeText(this, "Ei tehty viela", Toast.LENGTH_SHORT).show();
+            args.putParcelableArrayList("kortit", (ArrayList<? extends Parcelable>) tekemattomatKortit);
+
         }
+        palautetut.setArguments(args);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.fragment_container_palaute, palautetut);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 
@@ -151,11 +154,20 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if ((yksVastaus != null ? yksVastaus.getAnswersheetId() : null) != null) {
+
+                boolean tehty = true;
+                if (yksVastaus != null) {
                     yksVastaus.setWorksheetName(tehtavakortti.getWorksheetHeader());
-                    vastaukset.add(yksVastaus);
-                } else {
-                    tekemattomatKortit.add(tehtavakortti);
+                    for (Answerpoints aw : yksVastaus.getAnswerpointsList()) {
+                        if (Integer.parseInt(aw.getInstructorRating()) == 0) {
+                            tehty = false;
+                        }
+                    }
+                    if (!tehty) {
+                        tekemattomatKortit.add(yksVastaus);
+                    } else {
+                        vastaukset.add(yksVastaus);
+                    }
                 }
 
 
@@ -176,19 +188,15 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
             FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_container_palaute);
             ConstraintLayout palauteBoksi = (ConstraintLayout) frameLayout.findViewById(R.id.boksi_palautettu);
             TextView otsikko = (TextView) palauteBoksi.findViewById(R.id.palautettu_maara);
-            otsikko.setText("Arvioituja: " + result.size());
+            otsikko.setText("Arvioituja: " + tehdytKortit.size());
+            ConstraintLayout palauttamattomatBoksi = (ConstraintLayout) frameLayout.findViewById(R.id.boksi_palauttamatta);
+            TextView otsikkoPalauttamatta = (TextView) palauttamattomatBoksi.findViewById(R.id.palauttamatta_maara);
+            otsikkoPalauttamatta.setText("Odottaa palautetta: " + tekemattomatKortit.size());
+
             progressBar.setVisibility(View.GONE);
             frameLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    //@Override
-    //public void onBackPressed() {
-    //  int fragments = getFragmentManager().getBackStackEntryCount();
-    //if (fragments == 1) {
-    //  finish();
-    //}
-    //super.onBackPressed();
-    //}
 
 }

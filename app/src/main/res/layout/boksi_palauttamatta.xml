@@ -21,24 +21,23 @@
         android:layout_marginRight="16dp" />
 
     <TextView
-        android:text="tehtavakortti_nimi"
-        android:layout_width="215dp"
+        android:text="PALAUTETTU"
+        android:layout_width="189dp"
         android:layout_height="25dp"
         android:id="@+id/palautettu_nimi"
         app:layout_constraintLeft_toLeftOf="@+id/button_palauttamatta"
         app:layout_constraintTop_toTopOf="@+id/button_palauttamatta"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
         android:maxLines="1"
-        android:textAlignment="center"/>
+        app:layout_constraintRight_toRightOf="@+id/button_palauttamatta" />
 
     <TextView
         android:text="kuinka monta palautettu"
         android:layout_width="178dp"
         android:layout_height="20dp"
-        android:id="@+id/palautettu_maara"
+        android:id="@+id/palauttamatta_maara"
         android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@+id/palautettu_nimi"
         app:layout_constraintLeft_toLeftOf="@+id/button_palauttamatta"
         android:layout_marginStart="40dp"
