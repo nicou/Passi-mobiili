@@ -6,12 +6,14 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -173,6 +175,9 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
             tehdytKortit.addAll(result);
             ProgressBar progressBar = (ProgressBar) findViewById(R.id.include);
             FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_container_palaute);
+            ConstraintLayout palauteBoksi = (ConstraintLayout) frameLayout.findViewById(R.id.boksi_palautettu);
+            TextView otsikko = (TextView) palauteBoksi.findViewById(R.id.palautettu_maara);
+            otsikko.setText("Arvioituja: " + result.size());
             progressBar.setVisibility(View.GONE);
             frameLayout.setVisibility(View.VISIBLE);
         }

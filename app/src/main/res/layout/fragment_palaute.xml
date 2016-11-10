@@ -5,11 +5,13 @@
     android:orientation="vertical">
 
     <include
+        android:id="@+id/boksi_palautettu"
         layout="@layout/boksi_palautettu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <include
+        android:id="@+id/boksi_palauttamatta"
         layout="@layout/boksi_palauttamatta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
