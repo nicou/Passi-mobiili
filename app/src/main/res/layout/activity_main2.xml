@@ -7,31 +7,12 @@
 
         <ImageView
             android:id="@+id/tehtavaPalautettu"
-            android:src="@drawable/tehtava_palautettu_pohja"
+            android:src="@drawable/otsikkopalkki"
             android:layout_width="300dp"
-            android:layout_height="160dp"
+            android:layout_height="80dp"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
-            />
 
-        <include
-            layout="@layout/tool_bar"
-            android:id="@+id/toolbar">
-        </include>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="75dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="40dp"
-            android:gravity="center"
-            android:text="TERVETULOA TYÖKYKYPASSIIN"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:padding="10dp"
-            android:textColor="#3498db"
             />
 
         <Button
@@ -64,8 +45,25 @@
             android:layout_marginLeft="105dp"
             android:layout_marginRight="25dp"
             android:layout_alignParentBottom="true"
+            android:id="@+id/imageView" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="TERVETULOA TYÖKYKYPASSIIN"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:textColor="#3498db"
+            android:layout_alignParentTop="true"
+            android:id="@+id/textView"
+            android:layout_alignBottom="@+id/tehtavaPalautettu"
+            android:layout_alignLeft="@+id/tehtavaPalautettu"
+            android:layout_alignStart="@+id/tehtavaPalautettu"
+            android:layout_alignRight="@+id/imageView"
+            android:layout_alignEnd="@+id/imageView"
             />
 
 
-
-    </RelativeLayout>
+</RelativeLayout>
