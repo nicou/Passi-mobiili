@@ -59,8 +59,7 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             int pisteet = 0;
 
             for(Answerpoints ans : answ){
-                String kommentti = null;
-                kommentti = ans.getInstructorComment();
+                String kommentti = ans.getInstructorComment();
 
                 String pisteString = ans.getInstructorRating();
 
