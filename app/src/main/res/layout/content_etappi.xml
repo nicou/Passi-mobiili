@@ -1,169 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="fi.softala.passi.activities.TehtavakorttiActivity"
-    tools:showIn="@layout/activity_etappi"
-    >
+    tools:context="fi.softala.passi.activities.TehtavakorttiActivity">
 
-    <android.support.v7.widget.CardView
+
+    <EditText
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextEtappi"
+        android:background="@drawable/tehtavan_kuvaus_pohja"
+        android:text="Tekstin haku epäonnistui."
+        android:textStyle="bold"
+        android:clickable="false"
+        android:inputType="none"
+        android:enabled="false"
+        android:textSize="20sp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:paddingLeft="15dp"/>
+
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/imageView1"
+        android:src="@drawable/katkoviiva_vaaka"
+        tools:layout_conversion_absoluteX="91dp"
+        tools:layout_conversion_absoluteY="77dp"
+        tools:layout_conversion_absoluteWidth="228dp"
+        tools:layout_conversion_absoluteHeight="2dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEtappi" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/katkoviiva_pysty"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEtappi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp" />
+        <!--tools:layout_conversion_absoluteX="15dp"-->
+        <!--tools:layout_conversion_absoluteY="109dp"-->
+        <!--tools:layout_conversion_absoluteWidth="2dp"-->
+        <!--tools:layout_conversion_absoluteHeight="228dp"-->
+        <!--tools:layout_editor_absoluteX="15dp"-->
+        <!--android:layout_marginTop="32dp"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/editTextEtappi"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--android:layout_marginBottom="16dp" -->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView3"
+        android:src="@drawable/katkoviiva_pysty"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEtappi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/katkoviiva_vaaka"
+        android:id="@+id/imageView4"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp" />
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/selostusKentta1"
+        android:background="@drawable/tekstikentta"
+        android:hint="Kirjoita selostus tähän"
+        android:imeOptions="actionDone"
+        android:lines="4"
+        android:gravity="top|left"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView3"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/kameranappi"
+        android:id="@+id/kameraButton1"
+        app:layout_constraintRight_toLeftOf="@+id/imageView2"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        android:layout_marginBottom="16dp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etappi_radiogroup"
+        app:layout_constraintTop_toTopOf="@+id/imageView1"
+        android:layout_marginTop="32dp"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView3"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         >
 
-        <RelativeLayout
-
+        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:background="@color/korttiTaustavari">
-
-            <EditText
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTextEtappi"
-                android:background="@drawable/tehtavan_kuvaus_pohja"
-                android:text="Etappi 1. Arvioi ja kuvaile turvallisuus tasoa. Ota kuva kohteesta."
-                android:textStyle="bold"
-                android:paddingLeft="15dp"
-                android:clickable="false"
-                android:inputType="none"
-                android:enabled="false"
-                android:textSize="20sp"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginEnd="15dp"/>
+            android:id="@+id/etappi_radiobutton_green"
+            android:text="Kaikki OK"
+            android:button="@drawable/greenfaceselector"
+            android:padding="10dp"/>
 
 
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etappi_radiobutton_yellow"
+            android:text="Korjattavaa löytyy"
+            android:button="@drawable/yellowfaceselector"
+            android:padding="10dp"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView1"
-                android:src="@drawable/katkoviiva_vaaka"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/editTextEtappi"
-                android:layout_centerHorizontal="true"
-                 />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etappi_radiobutton_red"
+            android:text="Vaarallinen tai selkeitä puutteita"
+            android:button="@drawable/redfaceselector"
+            android:padding="10dp"/>
+
+    </RadioGroup>
 
 
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView2"
-                android:src="@drawable/katkoviiva_pysty"
-                android:layout_marginTop="30dp"
-                android:layout_below="@+id/imageView1"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView3"
-                android:src="@drawable/katkoviiva_pysty"
-                android:layout_alignRight="@+id/editTextEtappi"
-                android:layout_alignTop="@+id/imageView2"
-                 />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/katkoviiva_vaaka"
-                android:layout_below="@+id/imageView2"
-                android:layout_marginTop="20dp"
-                android:layout_alignLeft="@+id/imageView1"
-                android:layout_alignStart="@+id/imageView1"
-                android:layout_centerHorizontal="true"
-                />
-
-
-
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/etappi_radiogroup"
-                android:layout_alignTop="@+id/imageView2"
-                android:layout_alignLeft="@+id/editTextEtappi"
-                android:layout_alignStart="@+id/editTextEtappi"
-                android:layout_marginLeft="20dp" >
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/etappi_radiobutton_green"
-                    android:text="Kaikki OK"
-                    android:button="@drawable/greenfaceselector"
-                    android:paddingLeft="10dp"
-                    android:layout_marginBottom="10dp" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/etappi_radiobutton_yellow"
-                    android:text="Korjattavaa löytyy"
-                    android:button="@drawable/yellowfaceselector"
-                    android:paddingLeft="10dp"
-                    android:layout_marginBottom="10dp" />
-
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/etappi_radiobutton_red"
-                    android:text="Vaarallinen tai selkeitä puutteita"
-                    android:button="@drawable/redfaceselector"
-                    android:paddingLeft="10dp"/>
-
-            </RadioGroup>
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/selostusKentta1"
-                android:background="@drawable/tekstikentta"
-                android:hint="Kirjoita selostus tähän"
-                android:imeOptions="actionDone"
-                android:lines="4"
-                android:gravity="top|left"
-                android:paddingRight="5dp"
-                android:paddingLeft="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_alignBottom="@+id/imageView2"
-                android:layout_alignLeft="@+id/imageView2"
-                android:layout_alignStart="@+id/imageView2"
-
-                />
-
-
-
-
-
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/kameranappi"
-                android:id="@+id/kameraButton1"
-                android:layout_marginRight="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_toLeftOf="@+id/imageView3"
-                android:layout_toStartOf="@+id/imageView3"
-                android:layout_alignBottom="@id/selostusKentta1"/>
-
-
-
-
-        </RelativeLayout>
-
-    </android.support.v7.widget.CardView>
-
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
