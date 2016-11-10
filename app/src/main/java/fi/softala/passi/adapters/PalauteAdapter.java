@@ -40,12 +40,21 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
 
             List<Answerpoints> answ = vastaus.getAnswerpointsList();
 
+            //Arvioinnin tekstin tekstit
+            final String eiArvioitu = "Ei vielä arvioitu";
+            final String etappi = "Etappi ";
+            final String kokonaispisteet = "Kokonaispisteet ";
+            final String kautta = "/";
+            final String pisteetRivi = "\nPisteet: ";
+            final String kaksoispisteJaVali = ": ";
+            final String tuplarivi = "\n \n";
+
             final int maxPisteet = answ.size() * 3;
             final double ylin = 2.0/3.0;
             final double alin = 1.0/3.0;
 
             Boolean exist = false;
-            String comment = "";
+            String opettajanKommentti = "";
             int numero = 1;
             int pisteet = 0;
 
@@ -56,18 +65,18 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
                 String pisteString = ans.getInstructorRating();
 
                 if(kommentti != null && kommentti.length()>0){
-                    comment = comment + "Etappi " + numero + ": "+kommentti + "\nPisteet: " +pisteString + "\n \n";
+                    opettajanKommentti = opettajanKommentti + etappi + numero + kaksoispisteJaVali+kommentti + pisteetRivi +pisteString + tuplarivi;
                     pisteet = pisteet + Integer.valueOf(pisteString);
                     exist = true;
                 }else{
-                    comment = comment + "Etappi " + numero + ": "+"Ei vielä arvioitu" + "\n \n";
+                    opettajanKommentti = opettajanKommentti + etappi + numero + kaksoispisteJaVali+eiArvioitu + tuplarivi;
 
                 }
                 numero++;
 
             }
 
-            comment = comment + "Kokonaispisteet: " + pisteet +"/" +maxPisteet;
+            opettajanKommentti = opettajanKommentti + kokonaispisteet + pisteet +kautta +maxPisteet;
 
             Double dPisteet = (double) pisteet;
             Double dMax = (double) maxPisteet;
@@ -85,9 +94,9 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             }
 
             //Asetetaan ns. pääkommenttiin kaikkien etappien kommentti. Tämä säästää hieman refaktorointia.
-            vastaus.setInstructorComment(comment);
+            vastaus.setInstructorComment(opettajanKommentti);
             if (exist) {
-                opeKommentti.setText(comment);
+                opeKommentti.setText(opettajanKommentti);
                 opeKommentti.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -95,7 +104,7 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
                     }
                 });
             } else {
-                opeKommentti.setText("EI KOMMENTTEJA");
+                opeKommentti.setText(eiArvioitu);
             }
 
 
