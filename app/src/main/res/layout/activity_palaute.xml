@@ -39,7 +39,7 @@
         />
     <FrameLayout
         android:id="@+id/fragment_container_palaute"
-        tools:context="fi.softala.passi.activities.PalauteActivity"
+        tools:context="fi.softala.tyokykypassi.activities.PalauteActivity"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/tehtavaPalautettu"

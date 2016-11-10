@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fi.softala.passi">
+    package="fi.softala.tyokykypassi">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -12,20 +12,20 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.UusiKayttajaActivity"
+            android:name="fi.softala.tyokykypassi.activities.UusiKayttajaActivity"
             android:label="Työkykypassi"
             android:screenOrientation="portrait">
 
         </activity>
         <activity
-            android:name=".activities.ToolbarActivity"
+            android:name="fi.softala.tyokykypassi.activities.ToolbarActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.KirjautumisActivity"
+            android:name="fi.softala.tyokykypassi.activities.KirjautumisActivity"
             android:label="Kirjautuminen"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name="fi.softala.tyokykypassi.activities.MainActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -35,13 +35,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.TehtavakorttiActivity"
+            android:name="fi.softala.tyokykypassi.activities.TehtavakorttiActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateUnspecified" />
-        <activity android:name=".activities.PalauteActivity"
+        <activity android:name="fi.softala.tyokykypassi.activities.PalauteActivity"
             android:screenOrientation="portrait"
         />
-        <activity android:name=".activities.VahvistusActivity"
+        <activity android:name="fi.softala.tyokykypassi.activities.VahvistusActivity"
             android:screenOrientation="portrait"/>
 
 
