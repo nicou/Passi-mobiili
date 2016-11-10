@@ -36,7 +36,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/fragment_container_palaute"
         app:layout_constraintBottom_toBottomOf="@+id/tehtavaPalautettu"
         app:layout_constraintTop_toTopOf="@+id/fragment_container_palaute"
-        android:visibility="gone"/>
+        />
     <FrameLayout
         android:id="@+id/fragment_container_palaute"
         tools:context="fi.softala.passi.activities.PalauteActivity"
@@ -50,7 +50,8 @@
         android:layout_marginLeft="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginBottom="32dp" />
+        android:layout_marginBottom="32dp"
+        android:visibility="gone"/>
 
     <include
         layout="@layout/tool_bar"
