@@ -26,12 +26,14 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
         final TextView tehtavakorttiNimi;
         final TextView opeKommentti;
         final ImageView tahti;
+        final ImageView laatikko;
 
         public PalauteHolder(View v) {
             super(v);
             tehtavakorttiNimi = (TextView) v.findViewById(R.id.tehtavakortti_nimi);
             opeKommentti = (TextView) v.findViewById(R.id.opettaja_kommentti);
             tahti = (ImageView) v.findViewById(R.id.tahti_arvio);
+            laatikko = (ImageView) v.findViewById(R.id.palaute_kuva_laatikko);
         }
 
         public void bind(final Answersheet vastaus, final OnClickListener mListener) {
@@ -96,7 +98,7 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             vastaus.setInstructorComment(opettajanKommentti);
             if (exist) {
                 opeKommentti.setText(opettajanKommentti);
-                opeKommentti.setOnClickListener(new View.OnClickListener() {
+                laatikko.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mListener.onClick(vastaus);
@@ -104,6 +106,13 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
                 });
             } else {
                 opeKommentti.setText(eiArvioitu);
+                vastaus.setInstructorComment(eiArvioitu);
+                laatikko.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.onClick(vastaus);
+                    }
+                });
             }
 
 
