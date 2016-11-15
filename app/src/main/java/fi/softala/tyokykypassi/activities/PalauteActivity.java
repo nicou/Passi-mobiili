@@ -157,6 +157,7 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
                 }
 
                 boolean tehty = true;
+
                 if (yksVastaus != null) {
                     yksVastaus.setWorksheetName(tehtavakortti.getWorksheetHeader());
 

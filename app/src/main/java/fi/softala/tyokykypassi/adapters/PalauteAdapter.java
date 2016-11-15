@@ -131,10 +131,6 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
 
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return vastaukset.get(position).getTyyppi();
-    }
 
     public PalauteAdapter(List<Answersheet> vastaukset, int rowLayout, OnClickListener listener) {
         this.vastaukset = vastaukset;
