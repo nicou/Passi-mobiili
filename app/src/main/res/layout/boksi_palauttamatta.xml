@@ -25,6 +25,8 @@
         android:layout_width="189dp"
         android:layout_height="25dp"
         android:id="@+id/boksi_nimi"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintLeft_toLeftOf="@+id/button_palauttamatta"
         app:layout_constraintTop_toTopOf="@+id/button_palauttamatta"
         android:layout_marginTop="16dp"
