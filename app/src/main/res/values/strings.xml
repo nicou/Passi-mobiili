@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Passi</string>
     <string name="profile">profileTransition</string>
+    <string name="title_activity_saarinakyma">SaarinakymaActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

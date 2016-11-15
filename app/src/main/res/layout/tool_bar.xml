@@ -16,7 +16,7 @@
             toolbar:layout_constraintRight_toRightOf="parent"
             toolbar:layout_constraintLeft_toLeftOf="parent"
             toolbar:layout_constraintTop_toTopOf="parent"
-            android:layout_height="60dp" />
+            android:layout_height="56dp" />
 
         <ImageButton
             toolbar:srcCompat="@drawable/homeicon"
