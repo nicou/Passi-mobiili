@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public class Answersheet implements Parcelable{
-
+    private int tyyppi;
     @SerializedName("answersheetID")
     private String answersheetId;
     @SerializedName("planning")
@@ -104,6 +104,14 @@ public class Answersheet implements Parcelable{
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public int getTyyppi() {
+        return tyyppi;
+    }
+
+    public void setTyyppi(int tyyppi) {
+        this.tyyppi = tyyppi;
     }
 
     @Override

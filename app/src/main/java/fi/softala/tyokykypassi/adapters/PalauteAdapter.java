@@ -21,6 +21,8 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
     private final int rowLayout;
     final List<Answersheet> vastaukset;
     private final OnClickListener mListener;
+    public static final int VIEW_PALAUTTAMATTA = 1;
+    public static final int VIEW_PALAUTETTU = 0;
 
     public static class PalauteHolder extends RecyclerView.ViewHolder {
         final TextView tehtavakorttiNimi;
@@ -37,7 +39,11 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
         }
 
         public void bind(final Answersheet vastaus, final OnClickListener mListener) {
-
+            if (vastaus.getTyyppi() == VIEW_PALAUTETTU) {
+                laatikko.setImageResource(R.drawable.palaute_vihrea);
+            } else if (vastaus.getTyyppi() == VIEW_PALAUTTAMATTA) {
+                laatikko.setImageResource(R.drawable.odottaa_palautetta_pohja);
+            }
             tehtavakorttiNimi.setText(vastaus.getWorksheetName());
 
             List<Answerpoints> answ = vastaus.getAnswerpointsList();
@@ -52,8 +58,8 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             final String tuplarivi = "\n \n";
 
             final int maxPisteet = answ.size() * 3;
-            final double ylin = 2.0/3.0;
-            final double alin = 1.0/3.0;
+            final double ylin = 2.0 / 3.0;
+            final double alin = 1.0 / 3.0;
 
             Boolean exist = false;
             Boolean arvioitu = true;
@@ -61,17 +67,17 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             int numero = 1;
             int pisteet = 0;
 
-            for(Answerpoints ans : answ){
+            for (Answerpoints ans : answ) {
                 String kommentti = ans.getInstructorComment();
 
                 String pisteString = ans.getInstructorRating();
 
-                if(kommentti != null && kommentti.length()>0){
-                    opettajanKommentti = opettajanKommentti + etappi + numero + kaksoispisteJaVali+kommentti + pisteetRivi +pisteString + tuplarivi;
+                if (kommentti != null && kommentti.length() > 0) {
+                    opettajanKommentti = opettajanKommentti + etappi + numero + kaksoispisteJaVali + kommentti + pisteetRivi + pisteString + tuplarivi;
                     pisteet = pisteet + Integer.valueOf(pisteString);
                     exist = true;
-                }else{
-                    opettajanKommentti = opettajanKommentti + etappi + numero + kaksoispisteJaVali+eiArvioitu + tuplarivi;
+                } else {
+                    opettajanKommentti = opettajanKommentti + etappi + numero + kaksoispisteJaVali + eiArvioitu + tuplarivi;
                     arvioitu = false;
 
                 }
@@ -79,23 +85,23 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
 
             }
 
-            opettajanKommentti = opettajanKommentti + kokonaispisteet + pisteet +kautta +maxPisteet;
+            opettajanKommentti = opettajanKommentti + kokonaispisteet + pisteet + kautta + maxPisteet;
 
             Double dPisteet = (double) pisteet;
             Double dMax = (double) maxPisteet;
 
-            double prosenttiPisteet = dPisteet/dMax;
+            double prosenttiPisteet = dPisteet / dMax;
 
             //defaulttina harmaa tähti jos ei arvioitu
             tahti.setImageResource(R.drawable.tahti_eiarvioitu);
 
-            if(prosenttiPisteet < alin && arvioitu == true){
+            if (prosenttiPisteet < alin && arvioitu == true) {
                 tahti.setImageResource(R.drawable.tahti_pronssi);
             }
-            if(prosenttiPisteet >= alin && prosenttiPisteet < ylin && arvioitu == true){
+            if (prosenttiPisteet >= alin && prosenttiPisteet < ylin && arvioitu == true) {
                 tahti.setImageResource(R.drawable.tahti_hopea);
             }
-            if(prosenttiPisteet >= ylin && arvioitu == true){
+            if (prosenttiPisteet >= ylin && arvioitu == true) {
                 tahti.setImageResource(R.drawable.tahti_kulta);
             }
 
@@ -125,6 +131,11 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
 
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return vastaukset.get(position).getTyyppi();
+    }
+
     public PalauteAdapter(List<Answersheet> vastaukset, int rowLayout, OnClickListener listener) {
         this.vastaukset = vastaukset;
         this.rowLayout = rowLayout;
@@ -137,8 +148,10 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
 
     @Override
     public PalauteAdapter.PalauteHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(parent.getContext()).inflate(rowLayout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(rowLayout, parent, false);
+
         return new PalauteAdapter.PalauteHolder(view);
+
     }
 
     @Override

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fi.softala.tyokykypassi.R;
+import fi.softala.tyokykypassi.adapters.PalauteAdapter;
 import fi.softala.tyokykypassi.fragments.Palaute;
 import fi.softala.tyokykypassi.fragments.Palautetut;
 import fi.softala.tyokykypassi.models.Answerpoints;
@@ -158,14 +159,17 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
                 boolean tehty = true;
                 if (yksVastaus != null) {
                     yksVastaus.setWorksheetName(tehtavakortti.getWorksheetHeader());
+
                     for (Answerpoints aw : yksVastaus.getAnswerpointsList()) {
                         if (Integer.parseInt(aw.getInstructorRating()) == 0) {
                             tehty = false;
                         }
                     }
                     if (!tehty) {
+                        yksVastaus.setTyyppi(PalauteAdapter.VIEW_PALAUTTAMATTA);
                         tekemattomatKortit.add(yksVastaus);
                     } else {
+                        yksVastaus.setTyyppi(PalauteAdapter.VIEW_PALAUTETTU);
                         vastaukset.add(yksVastaus);
                     }
                 }
@@ -187,7 +191,7 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
             ProgressBar progressBar = (ProgressBar) findViewById(R.id.include);
             FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_container_palaute);
             ConstraintLayout palauteBoksi = (ConstraintLayout) frameLayout.findViewById(R.id.boksi_palautettu);
-            TextView otsikko = (TextView) palauteBoksi.findViewById(R.id.palautettu_maara);
+            TextView otsikko = (TextView) palauteBoksi.findViewById(R.id.boksi_maara);
             otsikko.setText("Arvioituja: " + tehdytKortit.size());
             ConstraintLayout palauttamattomatBoksi = (ConstraintLayout) frameLayout.findViewById(R.id.boksi_palauttamatta);
             TextView otsikkoPalauttamatta = (TextView) palauttamattomatBoksi.findViewById(R.id.palauttamatta_maara);

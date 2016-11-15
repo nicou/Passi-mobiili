@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/palautettu_nimi"
+        android:id="@+id/boksi_nimi"
         android:layout_width="209dp"
         android:layout_height="26dp"
         android:layout_marginTop="16dp"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="@+id/button_palaute" />
 
     <TextView
-        android:id="@+id/palautettu_maara"
+        android:id="@+id/boksi_maara"
         android:layout_width="159dp"
         android:layout_height="21dp"
         android:layout_marginTop="20dp"
@@ -42,5 +42,5 @@
         android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="@+id/button_palaute"
         app:layout_constraintRight_toRightOf="@+id/button_palaute"
-        app:layout_constraintTop_toBottomOf="@+id/palautettu_nimi" />
+        app:layout_constraintTop_toBottomOf="@+id/boksi_nimi" />
 </android.support.constraint.ConstraintLayout>
