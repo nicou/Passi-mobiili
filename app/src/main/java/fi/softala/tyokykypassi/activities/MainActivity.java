@@ -52,11 +52,18 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnFragmentIn
 
     @Override
     public void onFragmentInteraction() {
+
+        //SAARINÄKYMÄ!!!!
+//        Intent intent  = new Intent(getApplicationContext(), SaarinakymaActivity.class);
+//        startActivity(intent);
+
+
         Ryhmat ryhmaFragment = new Ryhmat();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.activity_ryhmat_container, ryhmaFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+
     }
 
     @Override
