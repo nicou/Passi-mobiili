@@ -31,7 +31,11 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +72,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
     private Context mContext;
     int groupID, userID;
     private ImageButton mCamera;
-    final HashMap<Integer, Etappi> etappiList = new HashMap<>();
+    HashMap<Integer, Etappi> etappiList = new HashMap<>();
     int waypointListLength;
     List<WorksheetWaypoints> waypoint = new ArrayList<>();
 
@@ -241,9 +245,9 @@ public class TehtavakorttiActivity extends ToolbarActivity {
             return false;
         }
 
-        for(WorksheetWaypoints w : waypoint){
+        for (WorksheetWaypoints w : waypoint) {
             Etappi e = etappiList.get(w.getWaypointID());
-            e.setPhotoEnabled( w.getWaypointPhotoEnabled());
+            e.setPhotoEnabled(w.getWaypointPhotoEnabled());
         }
         for (Etappi e :
                 etappiList.values()) {
@@ -549,7 +553,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         TextView textViewOtsikko = (TextView) findViewById(R.id.otsikko);
         textViewOtsikko.setText(tehtavakorttiOtsikkoString);
 
-        if(tehtavakorttiOtsikkoString.length() > maxPituus) {
+        if (tehtavakorttiOtsikkoString.length() > maxPituus) {
             textViewOtsikko.setTextSize(textSize);
         }
         waypoint = kortti.getWorksheetWaypoints();
@@ -605,6 +609,11 @@ public class TehtavakorttiActivity extends ToolbarActivity {
             public void onClick() {
                 laheta();
             }
+        }, new KorttiAdapter.OnTallennaListener() {
+            @Override
+            public void onClick() {
+                tallennaVastaus();
+            }
         });
 
         recyclerview.setAdapter(kAdapter);
@@ -618,6 +627,41 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         //Suunitelma teksti
         TextView textViewSuunitelma = (TextView) findViewById(R.id.suunitelmaTeksti);
         textViewSuunitelma.setText(suunitelmaString);
+
+    }
+
+    private void tallennaVastaus() {
+        lisaaKuvaUri();
+        FileOutputStream fos = null;
+        try {
+            fos = mContext.openFileOutput(String.valueOf(vastausID), Context.MODE_PRIVATE);
+            ObjectOutputStream os;
+
+            os = new ObjectOutputStream(fos);
+            os.writeObject(etappiList);
+            os.close();
+            fos.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Passi", "Tehtäväkortin tallennus epäonnistui");
+        }
+
+
+    }
+
+    private void haeVastaus() {
+        FileInputStream fis = null;
+        try {
+            fis = mContext.openFileInput(String.valueOf(vastausID));
+            ObjectInputStream is = new ObjectInputStream(fis);
+            etappiList = (HashMap<Integer, Etappi>) is.readObject();
+            Log.d("Passi", "Haettu etapit" + etappiList.toString());
+            is.close();
+            fis.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 

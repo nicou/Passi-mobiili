@@ -32,17 +32,20 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final onRadioButtonCheckChange mChangeListener;
     private final KorttiAdapter.OnTextChangeListener mTextListener;
     private final KorttiAdapter.OnClickListener mClickListener;
+    private final KorttiAdapter.OnTallennaListener mTallennaListener;
 
     public KorttiAdapter(List<WorksheetWaypoints> SubjectNames,
                          KorttiAdapter.OnItemClickListener listener,
                          KorttiAdapter.onRadioButtonCheckChange mlgListener,
                          KorttiAdapter.OnTextChangeListener textChangeListener,
-                        KorttiAdapter.OnClickListener clickListener) {
+                        KorttiAdapter.OnClickListener clickListener,
+    KorttiAdapter.OnTallennaListener tallennaListener) {
         this.SubjectNames = SubjectNames;
         this.mListener = listener;
         this.mChangeListener = mlgListener;
         this.mTextListener = textChangeListener;
         this.mClickListener = clickListener;
+        this.mTallennaListener = tallennaListener;
     }
 
 
@@ -62,7 +65,7 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(final RecyclerView.ViewHolder holder,final int position) {
         if (holder instanceof KorttiAdapter.FooterViewHolder) {
             KorttiAdapter.FooterViewHolder footerHolder = (KorttiAdapter.FooterViewHolder) holder;
-            footerHolder.bind(mClickListener);
+            footerHolder.bind(mClickListener, mTallennaListener);
         } else if (holder instanceof KorttiAdapter.ViewHolder) {
             KorttiAdapter.ViewHolder viewHolder = (KorttiAdapter.ViewHolder) holder;
             WorksheetWaypoints waypoints = SubjectNames.get(position);
@@ -89,6 +92,10 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public interface OnClickListener {
+        void onClick();
+    }
+
+    public interface OnTallennaListener {
         void onClick();
     }
 
@@ -195,17 +202,25 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      public static class FooterViewHolder extends RecyclerView.ViewHolder {
 
         final Button lahetaNappula;
+        final Button tallennaNappula;
 
         public FooterViewHolder(View itemView) {
             super(itemView);
             lahetaNappula = (Button) itemView.findViewById(R.id.lahetaNappula);
+            tallennaNappula = (Button) itemView.findViewById(R.id.tallennaNappula);
         }
 
-        public void bind(final KorttiAdapter.OnClickListener mClickListener) {
+        public void bind(final KorttiAdapter.OnClickListener mClickListener, final KorttiAdapter.OnTallennaListener mTallennaListener) {
             lahetaNappula.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mClickListener.onClick();
+                }
+            });
+            tallennaNappula.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mTallennaListener.onClick();
                 }
             });
         }
