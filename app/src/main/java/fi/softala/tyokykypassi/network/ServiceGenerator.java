@@ -120,7 +120,7 @@ public class ServiceGenerator {
         HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
         logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient client = httpClient.addInterceptor(logger).build();
+        OkHttpClient client = httpClient.build();
         Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
     }

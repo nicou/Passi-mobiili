@@ -44,7 +44,6 @@ import fi.softala.tyokykypassi.BuildConfig;
 import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.adapters.KorttiAdapter;
 import fi.softala.tyokykypassi.models.Etappi;
-import fi.softala.tyokykypassi.models.Kuvat;
 import fi.softala.tyokykypassi.models.Vastaus;
 import fi.softala.tyokykypassi.models.Worksheet;
 import fi.softala.tyokykypassi.models.WorksheetWaypoints;
@@ -61,8 +60,6 @@ public class TehtavakorttiActivity extends ToolbarActivity {
     File file;
     final List<File> otetutKuvat = new ArrayList<>();
     private ProgressDialog progressDialog;
-    final int id = 1;
-    int kuvaLkm;
     int vastausID;
     final int RC_TAKE_PHOTO = 1;
     String suunnitelmaString;
@@ -224,10 +221,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                     for (File kuva : otetutKuvat) {
                         kuvapolut.add(kuva.getAbsolutePath());
                     }
-                    Kuvat kuvat = new Kuvat(otetutKuvat);
-                    Log.d("Passi", "pituus= " + kuvat.getOtetutKuvat().size());
                     Intent upload = new Intent(TehtavakorttiActivity.this, KuvaUploadaus.class);
-                    //upload.putExtra("kuvat", kuvat);
                     upload.putExtra("kuvat", kuvapolut);
                     progressDialog.dismiss();
 

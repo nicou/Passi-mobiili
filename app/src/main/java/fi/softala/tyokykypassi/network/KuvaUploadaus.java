@@ -31,6 +31,7 @@ import retrofit2.Response;
 public class KuvaUploadaus extends IntentService {
     private static final String PROGRESS_EVENT = "PROGRESS";
     private static final String PROGRESS_KEY = "PROGRESS_KEY";
+    private final static int NOTIFICATION_ID = 1;
     int kuvaLkm;
 
     public KuvaUploadaus() {
@@ -46,7 +47,7 @@ public class KuvaUploadaus extends IntentService {
         mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload)
                 .setContentTitle("Tehtäväkortti")
                 .setContentText("Vastausta tallennetaan...");
-        mNotifyManager.notify(1, mBuilder.build());
+        mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
         Bundle extras = intent.getExtras();
         if (extras != null) {
             ArrayList<String> kuvapolut = extras.getStringArrayList("kuvat");
@@ -85,7 +86,7 @@ public class KuvaUploadaus extends IntentService {
                             if ((int) progress % (MAX_PROGRESS / 10) == 0) {
                                 mBuilder.setContentText("Tallennetaan kuvaa " + kuvaLkm + "/" + kuvatKoko);
                                 mBuilder.setProgress(MAX_PROGRESS, (int) progress, false);
-                                mNotifyManager.notify(1, mBuilder.build());
+                                mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
                                 sendMessage((int) progress);
                             }
                         }
@@ -112,7 +113,7 @@ public class KuvaUploadaus extends IntentService {
                 }
                 mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload_done);
                 mBuilder.setProgress(0, 0, false);
-                mNotifyManager.notify(1, mBuilder.build());
+                mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
             }
         }
 
