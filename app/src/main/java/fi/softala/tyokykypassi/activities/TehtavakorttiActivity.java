@@ -2,20 +2,17 @@ package fi.softala.tyokykypassi.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,25 +44,25 @@ import fi.softala.tyokykypassi.BuildConfig;
 import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.adapters.KorttiAdapter;
 import fi.softala.tyokykypassi.models.Etappi;
+import fi.softala.tyokykypassi.models.Kuvat;
 import fi.softala.tyokykypassi.models.Vastaus;
 import fi.softala.tyokykypassi.models.Worksheet;
 import fi.softala.tyokykypassi.models.WorksheetWaypoints;
-import fi.softala.tyokykypassi.network.CountingFileRequestBody;
+import fi.softala.tyokykypassi.network.KuvaUploadaus;
 import fi.softala.tyokykypassi.network.PassiClient;
 import fi.softala.tyokykypassi.network.ServiceGenerator;
-import fi.softala.tyokykypassi.utilities.ImageManipulation;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TehtavakorttiActivity extends ToolbarActivity {
     KorttiAdapter kAdapter;
     File file;
     final List<File> otetutKuvat = new ArrayList<>();
-    private NotificationManager mNotifyManager;
-    private NotificationCompat.Builder mBuilder;
+    private ProgressDialog progressDialog;
     final int id = 1;
+    int kuvaLkm;
     int vastausID;
     final int RC_TAKE_PHOTO = 1;
     String suunnitelmaString;
@@ -155,14 +152,105 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         taytaTiedotTehtavakorteista();
     }
 
+    public void poistaVastaus() {
+
+        progressDialog = new ProgressDialog(TehtavakorttiActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Tallennetaan vastausta...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+        String base = mySharedPreferences.getString("token", "");
+
+        PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, base);
+
+        Call<ResponseBody> call = passiClient.poistaVastaus(userID);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    uploadVastaus();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(TehtavakorttiActivity.this, "Wanhan poisto epäonnistui", Toast.LENGTH_SHORT).show();
+                Log.e("Tehtavakortti", "Poisto epäonnistui " + t.toString());
+            }
+        });
+    }
+
+    public void uploadVastaus() {
+        EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
+        suunnitelmaString = suunnitelma.getText().toString();
+        // treelist järjestää oikeaan muotoon
+        Map<Integer, Etappi> eList = new TreeMap<>(etappiList);
+        eList.putAll(etappiList);
+        Log.d("Passi", "Etappi treelist " + eList.toString());
+
+        // tästä haluttu arraylist muoto oikeassa järjestyksessä
+        ArrayList<Etappi> etappiArrayList = new ArrayList<>();
+        for (Etappi e : eList.values()
+                ) {
+            etappiArrayList.add(e);
+        }
+
+        Log.d("Passi", "Etappi sorted arraylist " + etappiArrayList.toString());
+
+        SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
+        Vastaus vastaus = new Vastaus();
+        Log.d("Passi", "Lähetetään ryhmään " + groupID + " käyttäjänä " + userID);
+
+        vastaus.setAnswerpoints(etappiArrayList);
+        vastaus.setPlanningText(suunnitelmaString);
+        vastaus.setWorksheetID(vastausID);
+        vastaus.setGroupID(groupID);
+        vastaus.setUserID(userID);
+
+        String base = mySharedPreferences.getString("token", "");
+
+        PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, base);
+        Call<ResponseBody> call = passiClient.tallennaVastaus(vastaus);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<String> kuvapolut = new ArrayList<String>();
+                    for (File kuva : otetutKuvat) {
+                        kuvapolut.add(kuva.getAbsolutePath());
+                    }
+                    Kuvat kuvat = new Kuvat(otetutKuvat);
+                    Log.d("Passi", "pituus= " + kuvat.getOtetutKuvat().size());
+                    Intent upload = new Intent(TehtavakorttiActivity.this, KuvaUploadaus.class);
+                    //upload.putExtra("kuvat", kuvat);
+                    upload.putExtra("kuvat", kuvapolut);
+                    progressDialog.dismiss();
+
+                    TehtavakorttiActivity.this.startService(upload);
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Tehtavakortti", "Vastauksen tallennus epäonnistui" + t.toString());
+                Toast.makeText(TehtavakorttiActivity.this, "Vastauksen tallennus epäonnistui", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void laheta() {
         lisaaKuvaUri();
         boolean ok = kentatOk();
         if (ok) {
-            new PoistaVastaus().execute();
-            Intent intent = new Intent(TehtavakorttiActivity.this, MainActivity.class);
-            startActivity(intent);
-
+            poistaVastaus();
         } else {
             Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_SHORT).show();
         }
@@ -184,56 +272,6 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         }
     }
 
-    //atm vastaus pitää poistaa enne uuden lisäämistä samaan vastaukseen
-    private class PoistaVastaus extends AsyncTask<String, Integer, Integer> {
-        Integer paluukoodi = 0;
-
-        @Override
-        protected void onPreExecute() {
-            mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(TehtavakorttiActivity.this);
-
-            Intent valikkoNakyma = new Intent(TehtavakorttiActivity.this, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(TehtavakorttiActivity.this, 0,
-                    valikkoNakyma, 0);
-
-            mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload)
-                    .setContentTitle("Tehtäväkortti")
-                    .setContentText("Vastausta tallennetaan...")
-                    .setContentIntent(pendingIntent);
-            mNotifyManager.notify(id, mBuilder.build());
-
-            Toast.makeText(getApplicationContext(), "Vastausta tallennetaan", Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        protected Integer doInBackground(String... path) {
-
-            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-            String base = mySharedPreferences.getString("token", "");
-
-            PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, base);
-
-            Call<ResponseBody> call = passiClient.poistaVastaus(userID);
-
-            try {
-                Response response = call.execute();
-                paluukoodi = response.code();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return paluukoodi;
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
-            new UploadVastaus().execute();
-
-        }
-    }
 
     public boolean kentatOk() {
 
@@ -283,156 +321,6 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         }
     }
 
-    private class UploadVastaus extends AsyncTask<String, Integer, Integer> {
-        Integer paluukoodi = 0;
-
-        @Override
-        protected void onPreExecute() {
-            EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
-            suunnitelmaString = suunnitelma.getText().toString();
-        }
-
-        @Override
-        protected Integer doInBackground(String... path) {
-
-            // treelist järjestää oikeaan muotoon
-            Map<Integer, Etappi> eList = new TreeMap<>(etappiList);
-            eList.putAll(etappiList);
-            Log.d("Passi", "Etappi treelist " + eList.toString());
-
-            // tästä haluttu arraylist muoto oikeassa järjestyksessä
-            ArrayList<Etappi> etappiArrayList = new ArrayList<>();
-            for (Etappi e : eList.values()
-                    ) {
-                etappiArrayList.add(e);
-            }
-
-
-            Log.d("Passi", "Etappi sorted arraylist " + etappiArrayList.toString());
-
-            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-
-
-            Vastaus vastaus = new Vastaus();
-            Log.d("Passi", "Lähetetään ryhmään " + groupID + " käyttäjänä " + userID);
-            vastaus.setAnswerpoints(etappiArrayList);
-            vastaus.setPlanningText(suunnitelmaString);
-            vastaus.setWorksheetID(vastausID);
-            vastaus.setGroupID(groupID);
-            vastaus.setUserID(userID);
-
-            String base = mySharedPreferences.getString("token", "");
-
-            PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, base);
-            Call<ResponseBody> call = passiClient.tallennaVastaus(vastaus);
-
-            try {
-                Response response = call.execute();
-                paluukoodi = response.code();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return paluukoodi;
-        }
-
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
-
-            if (result == 201) {
-                new uploadKuvat().execute();
-            } else if (result == 409) {
-                // do smthing
-            } else {
-                mBuilder.setContentText("Tallennus epäonnistui");
-                mNotifyManager.notify(id, mBuilder.build());
-                Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG).show();
-            }
-
-        }
-    }
-
-    private class uploadKuvat extends AsyncTask<String, Integer, Integer> {
-        Integer paluukoodi = 200;
-        long totalSize;
-        int progressValue;
-        Integer kuvaLkm;
-        final List<File> kuvat = otetutKuvat;
-        final Integer MAX_PROGRESS = 100;
-
-        protected Integer doInBackground(String... path) {
-            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-
-            String base = mySharedPreferences.getString("token", "");
-            PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, 300, base);
-            File kuva;
-            String kuvaNimi;
-
-            for (File kuvaEnnenMuutosta : kuvat) {
-                ImageManipulation.pienennaKuvaa(kuvaEnnenMuutosta, 600, 600);
-            }
-
-            for (int i = 0; i < kuvat.size(); i++) {
-                kuvaLkm = 1 + i;
-                mBuilder.setProgress(100, 0, false);
-                kuva = kuvat.get(i);
-                kuvaNimi = kuva.getName().split("\\.")[0];
-                progressValue = 0;
-                try {
-                    totalSize = kuva.length();
-                    RequestBody responseBody = new CountingFileRequestBody(kuva, "image/jpeg", new CountingFileRequestBody.ProgressListener() {
-                        @Override
-                        public void transferred(long num) {
-                            float progress = (num / (float) totalSize) * 100;
-                            progressValue = (int) progress;
-                            if (progressValue % (MAX_PROGRESS / 10) == 0) {
-                                publishProgress(progressValue, kuvaLkm);
-                            }
-                        }
-                    });
-                    Call<ResponseBody> call = passiClient.tallennaKuva(kuvaNimi, responseBody);
-                    Response response = call.execute();
-                    if (response.isSuccessful()) {
-                        paluukoodi = response.code();
-                    } else {
-                        paluukoodi = 400;
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            return paluukoodi;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... progress) {
-            mBuilder.setContentText("Tallennetaan kuvaa " + progress[1] + "/" + kuvat.size());
-            mBuilder.setProgress(MAX_PROGRESS, progress[0], false);
-            mNotifyManager.notify(id, mBuilder.build());
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
-            if (result == 200) {
-                Intent vahvistusNakyma = new Intent(TehtavakorttiActivity.this, VahvistusActivity.class);
-                PendingIntent pendingIntent = PendingIntent.getActivity(TehtavakorttiActivity.this, 0,
-                        vahvistusNakyma, 0);
-                mBuilder.setContentIntent(pendingIntent);
-                mBuilder.setContentText("Vastaus tallennettu");
-                Toast.makeText(getApplicationContext(), "Vastaus tallennettu", Toast.LENGTH_LONG).show();
-            } else {
-                mBuilder.setContentText("Tallennus epäonnistui");
-            }
-            mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload_done);
-            mBuilder.setProgress(0, 0, false);
-            mNotifyManager.notify(id, mBuilder.build());
-        }
-    }
 
     /*
         Kysy lupia kunnes käyttäjä hyväksyy
@@ -637,7 +525,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
     private void tallennaVastaus() {
         lisaaKuvaUri();
-        FileOutputStream fos = null;
+        FileOutputStream fos;
         try {
             fos = this.openFileOutput(String.valueOf(vastausID), Context.MODE_PRIVATE);
             ObjectOutputStream os;
