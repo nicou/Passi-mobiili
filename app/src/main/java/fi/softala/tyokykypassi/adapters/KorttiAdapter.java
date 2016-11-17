@@ -132,7 +132,7 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             final int id = waypoints.getWaypointID();
 
             final boolean cameraValinta = waypoints.getWaypointPhotoEnabled();
-            if (cameraValinta == false){
+            if (!cameraValinta){
                 camera.setVisibility(View.GONE);
             }
 

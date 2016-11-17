@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
@@ -42,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import fi.softala.tyokykypassi.BuildConfig;
 import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.adapters.KorttiAdapter;
 import fi.softala.tyokykypassi.models.Etappi;
@@ -369,7 +371,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
             String kuvaNimi;
 
             for (File kuvaEnnenMuutosta : kuvat) {
-                ImageManipulation.pienennaKuvaa(kuvaEnnenMuutosta);
+                ImageManipulation.pienennaKuvaa(kuvaEnnenMuutosta, 600, 600);
             }
 
             for (int i = 0; i < kuvat.size(); i++) {
@@ -468,7 +470,8 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         mContext = context;
         file = new File(TehtavakorttiActivity.this.getExternalCacheDir(),
                 String.valueOf(kuvaNimi));
-        fileUri = Uri.fromFile(file);
+        fileUri = FileProvider.getUriForFile(TehtavakorttiActivity.this, BuildConfig.APPLICATION_ID + ".provider", file);
+
         Log.d("Passi", "Kuva otettu " + fileUri);
         kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         TehtavakorttiActivity.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
@@ -541,6 +544,8 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         String korttiJSON = getIntent().getStringExtra("TehtavakorttiActivity");
         final Worksheet kortti = gson.fromJson(korttiJSON, Worksheet.class);
         vastausID = kortti.getWorksheetID();
+
+
         RecyclerView recyclerview = (RecyclerView) findViewById(R.id.etappi_recycler_view);
 
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
@@ -634,16 +639,18 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         lisaaKuvaUri();
         FileOutputStream fos = null;
         try {
-            fos = mContext.openFileOutput(String.valueOf(vastausID), Context.MODE_PRIVATE);
+            fos = this.openFileOutput(String.valueOf(vastausID), Context.MODE_PRIVATE);
             ObjectOutputStream os;
 
             os = new ObjectOutputStream(fos);
             os.writeObject(etappiList);
             os.close();
             fos.close();
+            Toast.makeText(this, "Tallennus onnistui", Toast.LENGTH_SHORT).show();
 
         } catch (IOException e) {
             e.printStackTrace();
+            Toast.makeText(this, "Tallennus epäonnistui", Toast.LENGTH_SHORT).show();
             Log.e("Passi", "Tehtäväkortin tallennus epäonnistui");
         }
 
@@ -653,12 +660,17 @@ public class TehtavakorttiActivity extends ToolbarActivity {
     private void haeVastaus() {
         FileInputStream fis = null;
         try {
-            fis = mContext.openFileInput(String.valueOf(vastausID));
-            ObjectInputStream is = new ObjectInputStream(fis);
-            etappiList = (HashMap<Integer, Etappi>) is.readObject();
-            Log.d("Passi", "Haettu etapit" + etappiList.toString());
-            is.close();
-            fis.close();
+            File vastaukset = this.getFileStreamPath(String.valueOf(vastausID));
+            if (vastaukset.exists()) {
+                fis = this.openFileInput(String.valueOf(vastausID));
+                ObjectInputStream is = new ObjectInputStream(fis);
+                etappiList = (HashMap<Integer, Etappi>) is.readObject();
+                Log.d("Passi", "Haettu etapit" + etappiList.toString());
+                Toast.makeText(this, "Tiedot haettu", Toast.LENGTH_SHORT).show();
+                is.close();
+                fis.close();
+            }
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

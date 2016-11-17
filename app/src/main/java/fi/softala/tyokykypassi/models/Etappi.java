@@ -3,11 +3,13 @@ package fi.softala.tyokykypassi.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by joakimkajan on 29/09/16.
  */
 
-public class Etappi {
+public class Etappi implements Serializable{
 
     @SerializedName("waypointID")
     int waypointID;
