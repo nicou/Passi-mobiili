@@ -5,8 +5,8 @@ package fi.softala.tyokykypassi.models;
  */
 
 public class WaypointOptions {
-    Integer optionID;
-    String optionText;
+    private Integer optionID;
+    private String optionText;
 
     public WaypointOptions(String optionText, Integer optionID) {
         this.optionText = optionText;

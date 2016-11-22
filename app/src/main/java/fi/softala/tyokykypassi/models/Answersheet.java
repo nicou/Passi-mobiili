@@ -31,6 +31,27 @@ public class Answersheet implements Parcelable{
     private List<Answerpoints> answerpointsList;
     private String worksheetName;
 
+    protected Answersheet(Parcel in) {
+        tyyppi = in.readInt();
+        answersheetId = in.readString();
+        planning = in.readString();
+        instructorComment = in.readString();
+        timestamp = in.readLong();
+        worksheetName = in.readString();
+    }
+
+    public static final Creator<Answersheet> CREATOR = new Creator<Answersheet>() {
+        @Override
+        public Answersheet createFromParcel(Parcel in) {
+            return new Answersheet(in);
+        }
+
+        @Override
+        public Answersheet[] newArray(int size) {
+            return new Answersheet[size];
+        }
+    };
+
     public String getWorksheetName() {
         return worksheetName;
     }
@@ -135,6 +156,11 @@ public class Answersheet implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeInt(tyyppi);
+        parcel.writeString(answersheetId);
+        parcel.writeString(planning);
+        parcel.writeString(instructorComment);
+        parcel.writeLong(timestamp);
+        parcel.writeString(worksheetName);
     }
 }

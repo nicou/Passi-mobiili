@@ -7,11 +7,10 @@ import java.util.List;
  */
 
 public class WorksheetWaypoints {
-    Integer waypointID;
-    String waypointTask;
-    Boolean waypointPhotoEnabled;
-    List<WaypointOptions> waypointOptions;
-
+    private Integer waypointID;
+    private String waypointTask;
+    private Boolean waypointPhotoEnabled;
+    private List<WaypointOptions> waypointOptions;
 
     public WorksheetWaypoints(Integer waypointID, String waypointTask, Boolean waypointPhotoEnabled, List<WaypointOptions> waypointOptions) {
         this.waypointID = waypointID;
@@ -20,7 +19,7 @@ public class WorksheetWaypoints {
         this.waypointOptions = waypointOptions;
     }
 
-    public WorksheetWaypoints(){
+    public WorksheetWaypoints() {
 
     }
 

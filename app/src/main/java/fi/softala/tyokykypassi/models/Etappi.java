@@ -12,14 +12,14 @@ import java.io.Serializable;
 public class Etappi implements Serializable{
 
     @SerializedName("waypointID")
-    int waypointID;
+    private int waypointID;
     @SerializedName("optionID")
-    int selectedOptionID;
+    private int selectedOptionID;
     @SerializedName("imageURL")
-    String imageURL;
+    private String imageURL;
     @SerializedName("answerText")
-    String answerText;
-    Boolean photoEnabled;
+    private String answerText;
+    private Boolean photoEnabled;
 
     public Boolean getPhotoEnabled() {
         return photoEnabled;
