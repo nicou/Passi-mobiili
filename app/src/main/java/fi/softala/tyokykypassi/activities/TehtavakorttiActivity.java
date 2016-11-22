@@ -220,6 +220,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                 if (response.isSuccessful()) {
                     ArrayList<String> kuvapolut = new ArrayList<String>();
                     for (File kuva : otetutKuvat) {
+                        Log.d("Kuva", "Path = " + kuva.getAbsolutePath());
                         kuvapolut.add(kuva.getAbsolutePath());
                     }
                     if (otetutKuvat.size() >= 1) {
@@ -523,7 +524,10 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
     private void poistaValiaikainenVastaus() {
         File vastaukset = this.getFileStreamPath(String.valueOf(vastausID));
-        vastaukset.delete();
+        boolean poistettu = vastaukset.delete();
+        if (!poistettu) {
+            Log.e("Poisto", "Tiedoston poisto epäonnistui");
+        }
     }
 
     private void tallennaVastaus() {
@@ -544,7 +548,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
             os.close();
             fos.close();
             Toast.makeText(this, "Tallennus onnistui", Toast.LENGTH_SHORT).show();
-
+            tallennaKuvat();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Tallennus epäonnistui", Toast.LENGTH_SHORT).show();
@@ -573,28 +577,64 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                         EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
                         suunnitelma.setText(etappi.getSuunnitelma());
                     }
+
                     for (WorksheetWaypoints ww : kortti.getWorksheetWaypoints()) {
                         if (ww.getWaypointID() == etappi.getWaypointID()) {
+                            if (etappi.getImageURL() != null) {
+                                ww.setWanhaKuvaUrl(etappi.getImageURL());
+                            }
                             ww.setWanhaRadioButtonValinta(etappi.getSelectedOptionID());
                             ww.setWanhaVastaus(etappi.getAnswerText());
-
                         }
                     }
                 }
-                Toast.makeText(this, "Tiedot haettu", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Wanhat tiedot haettu", Toast.LENGTH_SHORT).show();
                 is.close();
                 fis.close();
             }
-
+            haeKuvat();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
     }
 
+    private void haeKuvat() {
+        for (Object o : etappiList.entrySet()) {
+            Map.Entry pair = (Map.Entry) o;
+            Etappi etappi = (Etappi) pair.getValue();
+            if (etappi.getImageURL() != null) {
+                File kuva = new File(getExternalCacheDir(), etappi.getImageURL());
+                if (kuva.exists()) {
+                    Log.d("Kuva", "löytyy path  = " + kuva.getAbsolutePath());
 
+                    otetutKuvat.add(kuva);
+                }
+            }
+
+        }
+    }
+
+    private void tallennaKuvat() {
+        FileOutputStream fos;
+        ArrayList<String> kuvapolut = new ArrayList<>();
+        for (File kuva : otetutKuvat) {
+            try {
+                fos = this.openFileOutput(kuva.getName(), Context.MODE_PRIVATE);
+                ObjectOutputStream os;
+                os = new ObjectOutputStream(fos);
+                os.writeObject(kuva);
+                os.close();
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Tallennus epäonnistui", Toast.LENGTH_SHORT).show();
+                Log.e("Passi", "Tehtäväkortin tallennus epäonnistui");
+            }
+        }
+
+    }
 }
-
 
 
 

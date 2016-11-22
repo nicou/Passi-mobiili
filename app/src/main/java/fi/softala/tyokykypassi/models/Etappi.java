@@ -21,6 +21,7 @@ public class Etappi implements Serializable{
     private String answerText;
     private Boolean photoEnabled;
     private String suunnitelma;
+
     public Boolean getPhotoEnabled() {
         return photoEnabled;
     }

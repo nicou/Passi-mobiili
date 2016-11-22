@@ -32,7 +32,8 @@ public class KuvaUploadaus extends IntentService {
     private static final String PROGRESS_KEY = "PROGRESS_KEY";
     private final static int NOTIFICATION_ID = 1;
     int kuvaLkm;
-
+    List<File> kuvat;
+    
     public KuvaUploadaus() {
         super("Uploadkuvaservice");
     }
@@ -51,15 +52,18 @@ public class KuvaUploadaus extends IntentService {
         if (extras != null) {
             ArrayList<String> kuvapolut = extras.getStringArrayList("kuvat");
             Log.d("KuvaUploadaus", "polkuja on " + kuvapolut.size());
-            List<File> kuvat = new ArrayList<>();
+            kuvat = new ArrayList<>();
             for (String polku : kuvapolut) {
                 File kuva = new File(polku);
                 kuvat.add(kuva);
             }
+            for (File k : kuvat) {
+                Log.d("Kuva", "Kuvapolku = " + k.getAbsolutePath());
+            }
             final int kuvatKoko = kuvat.size();
 
             final int MAX_PROGRESS = 100;
-            int paluukoodi = 200;
+
             SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
             String base = mySharedPreferences.getString("token", "");
@@ -110,9 +114,19 @@ public class KuvaUploadaus extends IntentService {
                 mBuilder.setProgress(0, 0, false);
                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
             }
+            poistaKuvat();
         }
 
 
+    }
+
+    private void poistaKuvat() {
+        for (File k : kuvat) {
+            boolean poistettu = k.delete();
+            if (!poistettu) {
+                Log.e("KuvaUploadaus", "Kuvan poisto epäonnistui");
+            }
+        }
     }
 
     private void sendMessage(int progress) {

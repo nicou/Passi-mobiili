@@ -135,6 +135,10 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (!cameraValinta){
                 camera.setVisibility(View.GONE);
             }
+            if (waypoints.getWanhaKuvaUrl() != null) {
+                camera.setBackgroundResource(R.drawable.thumb_up);
+                camera.setEnabled(false);
+            }
 
             button1.setId(waypoints.getWaypointOptions().get(0).getOptionID());
             button2.setId(waypoints.getWaypointOptions().get(1).getOptionID());

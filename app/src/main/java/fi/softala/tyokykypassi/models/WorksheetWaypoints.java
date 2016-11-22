@@ -13,6 +13,7 @@ public class WorksheetWaypoints {
     private List<WaypointOptions> waypointOptions;
     private String wanhaVastaus;
     private int wanhaRadioButtonValinta;
+    private String wanhaKuvaUrl;
 
     public WorksheetWaypoints(Integer waypointID, String waypointTask, Boolean waypointPhotoEnabled, List<WaypointOptions> waypointOptions) {
         this.waypointID = waypointID;
@@ -23,6 +24,14 @@ public class WorksheetWaypoints {
 
     public WorksheetWaypoints() {
 
+    }
+
+    public String getWanhaKuvaUrl() {
+        return wanhaKuvaUrl;
+    }
+
+    public void setWanhaKuvaUrl(String wanhaKuvaUrl) {
+        this.wanhaKuvaUrl = wanhaKuvaUrl;
     }
 
     public int getWanhaRadioButtonValinta() {
