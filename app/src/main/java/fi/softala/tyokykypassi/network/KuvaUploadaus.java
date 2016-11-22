@@ -98,10 +98,9 @@ public class KuvaUploadaus extends IntentService {
                         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                                 vahvistusNakyma, 0);
                         mBuilder.setContentIntent(pendingIntent);
-                        mBuilder.setContentText("Vastaus tallennettu");
-                        Toast.makeText(getApplicationContext(), "Vastaus tallennettu", Toast.LENGTH_LONG).show();
+                        mBuilder.setContentText("Kuvat tallennettu");
                     } else {
-                        mBuilder.setContentText("Tallennus epäonnistui");
+                        mBuilder.setContentText("Kuvien tallennus epäonnistui");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

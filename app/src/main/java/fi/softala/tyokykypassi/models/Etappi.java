@@ -20,7 +20,7 @@ public class Etappi implements Serializable{
     @SerializedName("answerText")
     private String answerText;
     private Boolean photoEnabled;
-
+    private String suunnitelma;
     public Boolean getPhotoEnabled() {
         return photoEnabled;
     }
@@ -39,6 +39,14 @@ public class Etappi implements Serializable{
 
     public Etappi() {
 
+    }
+
+    public String getSuunnitelma() {
+        return suunnitelma;
+    }
+
+    public void setSuunnitelma(String suunnitelma) {
+        this.suunnitelma = suunnitelma;
     }
 
     public Integer getWaypointID() {

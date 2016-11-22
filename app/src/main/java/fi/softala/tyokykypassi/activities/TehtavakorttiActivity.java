@@ -36,6 +36,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -163,12 +164,12 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
         PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, base);
 
-        Call<ResponseBody> call = passiClient.poistaVastaus(userID);
+        Call<ResponseBody> call = passiClient.poistaVastaus(vastausID, userID);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() || response.code() == 404) {
                     uploadVastaus();
                 }
             }
@@ -221,12 +222,15 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                     for (File kuva : otetutKuvat) {
                         kuvapolut.add(kuva.getAbsolutePath());
                     }
-                    Intent upload = new Intent(TehtavakorttiActivity.this, KuvaUploadaus.class);
-                    upload.putExtra("kuvat", kuvapolut);
+                    if (otetutKuvat.size() >= 1) {
+                        Intent upload = new Intent(TehtavakorttiActivity.this, KuvaUploadaus.class);
+                        upload.putExtra("kuvat", kuvapolut);
+                        TehtavakorttiActivity.this.startService(upload);
+                    }
+                    Intent vahvistus = new Intent(TehtavakorttiActivity.this, VahvistusActivity.class);
+                    poistaValiaikainenVastaus();
                     progressDialog.dismiss();
-
-                    TehtavakorttiActivity.this.startService(upload);
-
+                    startActivity(vahvistus);
                 } else {
                     Toast.makeText(getApplicationContext(), "Tallennus epäonnistui!", Toast.LENGTH_LONG).show();
                 }
@@ -444,7 +448,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
             textViewOtsikko.setTextSize(textSize);
         }
         waypoint = kortti.getWorksheetWaypoints();
-
+        haeVastaus(kortti);
         waypointListLength = waypoint.size();
         Log.d("Passi", "Etappilistan pituus " + waypointListLength);
 
@@ -516,6 +520,10 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         textViewSuunitelma.setText(suunitelmaString);
 
     }
+    private void poistaValiaikainenVastaus() {
+        File vastaukset = this.getFileStreamPath(String.valueOf(vastausID));
+        vastaukset.delete();
+    }
 
     private void tallennaVastaus() {
         lisaaKuvaUri();
@@ -525,6 +533,12 @@ public class TehtavakorttiActivity extends ToolbarActivity {
             ObjectOutputStream os;
 
             os = new ObjectOutputStream(fos);
+            Iterator iterator = etappiList.entrySet().iterator();
+            Map.Entry pair = (Map.Entry) iterator.next();
+            Etappi etappi = (Etappi) pair.getValue();
+            EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
+            etappi.setSuunnitelma(suunnitelma.getText().toString());
+            etappiList.put(etappi.getWaypointID(), etappi);
             os.writeObject(etappiList);
             os.close();
             fos.close();
@@ -539,7 +553,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
     }
 
-    private void haeVastaus() {
+    private void haeVastaus(Worksheet kortti) {
         FileInputStream fis = null;
         try {
             File vastaukset = this.getFileStreamPath(String.valueOf(vastausID));
@@ -548,6 +562,24 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                 ObjectInputStream is = new ObjectInputStream(fis);
                 etappiList = (HashMap<Integer, Etappi>) is.readObject();
                 Log.d("Passi", "Haettu etapit" + etappiList.toString());
+                Iterator iterator = etappiList.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry pair = (Map.Entry) iterator.next();
+                    Etappi etappi = (Etappi) pair.getValue();
+                    Log.d("Hashmap", etappi.toString());
+                    if (etappi.getSuunnitelma() != null) {
+
+                        EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
+                        suunnitelma.setText(etappi.getSuunnitelma());
+                    }
+                    for (WorksheetWaypoints ww : kortti.getWorksheetWaypoints()) {
+                        if (ww.getWaypointID() == etappi.getWaypointID()) {
+                            ww.setWanhaRadioButtonValinta(etappi.getSelectedOptionID());
+                            ww.setWanhaVastaus(etappi.getAnswerText());
+
+                        }
+                    }
+                }
                 Toast.makeText(this, "Tiedot haettu", Toast.LENGTH_SHORT).show();
                 is.close();
                 fis.close();

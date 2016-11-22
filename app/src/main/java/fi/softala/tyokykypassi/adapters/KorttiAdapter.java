@@ -143,10 +143,19 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             button1.setText(waypoints.getWaypointOptions().get(0).getOptionText());
             button2.setText(waypoints.getWaypointOptions().get(1).getOptionText());
             button3.setText(waypoints.getWaypointOptions().get(2).getOptionText());
-
+            if (waypoints.getWaypointOptions().get(0).getOptionID() == waypoints.getWanhaRadioButtonValinta()) {
+                button1.setChecked(true);
+            } else if (waypoints.getWaypointOptions().get(1).getOptionID() == waypoints.getWanhaRadioButtonValinta()) {
+                button2.setChecked(true);
+            } else if (waypoints.getWaypointOptions().get(2).getOptionID() == waypoints.getWanhaRadioButtonValinta()) {
+                button3.setChecked(true);
+            }
             position = position+1;
             editText.setText(position + ". " + waypoints.getWaypointTask());
 
+            if (waypoints.getWanhaVastaus() != null) {
+                selostus.setText(waypoints.getWanhaVastaus());
+            }
             selostus.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {

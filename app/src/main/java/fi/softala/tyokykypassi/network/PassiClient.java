@@ -35,8 +35,8 @@ public interface PassiClient {
             @Body RequestBody byteKuva
     );
 
-    @DELETE("answer/1/{userID}")
-    Call<ResponseBody> poistaVastaus(@Path("userID") Integer userID);
+    @DELETE("answer/{vastausID}/{userID}")
+    Call<ResponseBody> poistaVastaus(@Path("vastausID") Integer vastausID, @Path("userID") Integer userID);
 
     @GET("worksheet/{group_id}")
     Call<List<Category>> haeTehtavakortit(@Path("group_id") Integer groupID);
