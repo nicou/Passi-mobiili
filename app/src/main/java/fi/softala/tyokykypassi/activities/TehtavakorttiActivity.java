@@ -478,6 +478,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                 if (e == null) {
                     e = new Etappi();
                 }
+
                 e.setWaypointID(waypointId);
                 e.setSelectedOptionID(radioID);
                 etappiList.put(waypointId, e);

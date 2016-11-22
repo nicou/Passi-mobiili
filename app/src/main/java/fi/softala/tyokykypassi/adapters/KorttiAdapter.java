@@ -119,6 +119,8 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             button2 = (RadioButton) view.findViewById(R.id.etappi_radiobutton_yellow);
             button3 = (RadioButton) view.findViewById(R.id.etappi_radiobutton_red);
             selostus = (EditText) view.findViewById(R.id.selostusKentta1);
+
+
         }
 
         /*
@@ -147,6 +149,24 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             button1.setText(waypoints.getWaypointOptions().get(0).getOptionText());
             button2.setText(waypoints.getWaypointOptions().get(1).getOptionText());
             button3.setText(waypoints.getWaypointOptions().get(2).getOptionText());
+
+            //Katso onko aurinko, kilpi tai sydän
+
+            //!!!!! MUISTA LAITTAA SELECTOREIHIN NOTPRESSEDIT KUN HENNA NE TOIMITTAA!!!!!!
+            String radio1 = waypoints.getWaypointOptions().get(0).getOptionText();
+            String radio2 = waypoints.getWaypointOptions().get(1).getOptionText();
+            String radio3 = waypoints.getWaypointOptions().get(2).getOptionText();
+            if (radio1.equalsIgnoreCase("aurinko")){
+                button1.setButtonDrawable(R.drawable.aurinkoselector);
+            }
+            if (radio2.equalsIgnoreCase("kilpi")){
+                button2.setButtonDrawable(R.drawable.kilpiselector);
+            }
+            if (radio3.equalsIgnoreCase("sydän")){
+                button3.setButtonDrawable(R.drawable.sydanselector);
+            }
+
+
             if (waypoints.getWaypointOptions().get(0).getOptionID() == waypoints.getWanhaRadioButtonValinta()) {
                 button1.setChecked(true);
             } else if (waypoints.getWaypointOptions().get(1).getOptionID() == waypoints.getWanhaRadioButtonValinta()) {
