@@ -41,6 +41,21 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
     int userId;
     private List<Answersheet> tekemattomatKortit;
     private List<Answersheet> tehdytKortit;
+    Call<Answersheet> vastaus;
+    Call<List<Category>> call;
+    boolean lopetettu;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (call.isExecuted()) {
+            call.cancel();
+        }
+        if (vastaus.isExecuted()) {
+            vastaus.cancel();
+        }
+        lopetettu = true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +92,7 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
         passiClient = ServiceGenerator.createService(PassiClient.class, base);
 
 
-        Call<List<Category>> call = passiClient.haeTehtavakortit(groupId);
+        call = passiClient.haeTehtavakortit(groupId);
         call.enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
@@ -144,12 +159,13 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
             for (Worksheet tehtavakortti :
                     path[0]) {
                 int id = tehtavakortti.getWorksheetID();
-                Call<Answersheet> vastaus = passiClient.haeOpettajanKommentit(
+                vastaus = passiClient.haeOpettajanKommentit(
                         id,
                         groupId,
                         userId);
 
                 Answersheet yksVastaus = null;
+
                 try {
                     yksVastaus = vastaus.execute().body();
                 } catch (IOException e) {
@@ -180,6 +196,7 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
             return vastaukset;
         }
 
+
         @Override
         protected void onPostExecute(List<Answersheet> result) {
             super.onPostExecute(result);
@@ -187,19 +204,22 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
         }
 
         private void asetaData(List<Answersheet> result) {
-            tehdytKortit = new ArrayList<>();
-            tehdytKortit.addAll(result);
-            ProgressBar progressBar = (ProgressBar) findViewById(R.id.include);
-            FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_container_palaute);
-            ConstraintLayout palauteBoksi = (ConstraintLayout) frameLayout.findViewById(R.id.boksi_palautettu);
-            TextView otsikko = (TextView) palauteBoksi.findViewById(R.id.boksi_maara);
-            otsikko.setText("Arvioituja: " + tehdytKortit.size());
-            ConstraintLayout palauttamattomatBoksi = (ConstraintLayout) frameLayout.findViewById(R.id.boksi_palauttamatta);
-            TextView otsikkoPalauttamatta = (TextView) palauttamattomatBoksi.findViewById(R.id.palauttamatta_maara);
-            otsikkoPalauttamatta.setText("Odottaa palautetta: " + tekemattomatKortit.size());
+            if (!lopetettu) {
+                tehdytKortit = new ArrayList<>();
+                tehdytKortit.addAll(result);
+                ProgressBar progressBar = (ProgressBar) findViewById(R.id.include);
+                FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_container_palaute);
+                ConstraintLayout palauteBoksi = (ConstraintLayout) frameLayout.findViewById(R.id.boksi_palautettu);
+                TextView otsikko = (TextView) palauteBoksi.findViewById(R.id.boksi_maara);
+                otsikko.setText("Arvioituja: " + tehdytKortit.size());
+                ConstraintLayout palauttamattomatBoksi = (ConstraintLayout) frameLayout.findViewById(R.id.boksi_palauttamatta);
+                TextView otsikkoPalauttamatta = (TextView) palauttamattomatBoksi.findViewById(R.id.palauttamatta_maara);
+                otsikkoPalauttamatta.setText("Odottaa palautetta: " + tekemattomatKortit.size());
 
-            progressBar.setVisibility(View.GONE);
-            frameLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+                frameLayout.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 

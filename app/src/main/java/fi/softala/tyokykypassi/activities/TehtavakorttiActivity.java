@@ -520,6 +520,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         textViewSuunitelma.setText(suunitelmaString);
 
     }
+
     private void poistaValiaikainenVastaus() {
         File vastaukset = this.getFileStreamPath(String.valueOf(vastausID));
         vastaukset.delete();
