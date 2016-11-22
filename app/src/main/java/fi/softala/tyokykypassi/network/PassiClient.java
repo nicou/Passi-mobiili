@@ -46,4 +46,8 @@ public interface PassiClient {
                                             @Path("group_id") Integer groupId,
                                             @Path("user_id") Integer userId);
 
+    @GET("join/{join_key}/{user_id}")
+    Call<ResponseBody> LiityRyhmaan(@Path("join_key") String groupID,
+                                            @Path("user_id") Integer userId);
+
 }
