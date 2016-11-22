@@ -143,14 +143,7 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
 
     //atm vastaus pitää poistaa enne uuden lisäämistä samaan vastaukseen
     private class haeVastaukset extends AsyncTask<List<Worksheet>, Object, List<Answersheet>> {
-
-
-        @Override
-        protected void onPreExecute() {
-
-            Toast.makeText(getApplicationContext(), "Haetaan vastauksia", Toast.LENGTH_LONG).show();
-        }
-
+        
         @SafeVarargs
         @Override
         protected final List<Answersheet> doInBackground(List<Worksheet>... path) {
