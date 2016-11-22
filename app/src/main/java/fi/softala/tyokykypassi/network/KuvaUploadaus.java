@@ -94,23 +94,20 @@ public class KuvaUploadaus extends IntentService {
                     Call<ResponseBody> call = passiClient.tallennaKuva(kuvaNimi, responseBody);
                     Response response = call.execute();
                     if (response.isSuccessful()) {
-                        paluukoodi = response.code();
+                        Intent vahvistusNakyma = new Intent(this, VahvistusActivity.class);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                                vahvistusNakyma, 0);
+                        mBuilder.setContentIntent(pendingIntent);
+                        mBuilder.setContentText("Vastaus tallennettu");
+                        Toast.makeText(getApplicationContext(), "Vastaus tallennettu", Toast.LENGTH_LONG).show();
                     } else {
-                        paluukoodi = 400;
+                        mBuilder.setContentText("Tallennus epäonnistui");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Log.e("KuvaUploadaus", "Levy error " + e.toString());
                 }
-                if (paluukoodi == 200) {
-                    Intent vahvistusNakyma = new Intent(this, VahvistusActivity.class);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                            vahvistusNakyma, 0);
-                    mBuilder.setContentIntent(pendingIntent);
-                    mBuilder.setContentText("Vastaus tallennettu");
-                    Toast.makeText(getApplicationContext(), "Vastaus tallennettu", Toast.LENGTH_LONG).show();
-                } else {
-                    mBuilder.setContentText("Tallennus epäonnistui");
-                }
+
                 mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload_done);
                 mBuilder.setProgress(0, 0, false);
                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
