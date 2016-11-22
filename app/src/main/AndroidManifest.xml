@@ -41,10 +41,7 @@
         <activity
             android:name=".activities.VahvistusActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.SaarinakymaActivity"
-            android:label="@string/title_activity_saarinakyma"
-            android:theme="@style/AppTheme"></activity>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

@@ -38,9 +38,10 @@ public class Tehtavakortit extends Fragment {
     RecyclerView recyclerView;
     ProgressBar mProgressBar;
     RecyclerView.Adapter adapter;
-    Ryhma ryhma;
+    Integer ryhma;
+    Integer kategoria;
 
-    private Tehtavakortit.OnFragmentInteractionListener mListener;
+    private OnTehtavakortitFragmentInteractionListener mListener;
 
     public Tehtavakortit() {
         // Required empty public constructor
@@ -51,9 +52,10 @@ public class Tehtavakortit extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            ryhma = getArguments().getParcelable("ryhma");
+            ryhma = getArguments().getInt("ryhmaID");
+            kategoria = getArguments().getInt("kategoriaID");
         }
-        getRyhmat(ryhma.getGroupID());
+        getRyhmat(ryhma, kategoria);
     }
 
     @Override
@@ -70,11 +72,11 @@ public class Tehtavakortit extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof Tehtavakortit.OnFragmentInteractionListener) {
-            mListener = (Tehtavakortit.OnFragmentInteractionListener) context;
+        if (context instanceof OnTehtavakortitFragmentInteractionListener) {
+            mListener = (OnTehtavakortitFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnSaariFragmentInteractionListener");
         }
     }
 
@@ -94,12 +96,12 @@ public class Tehtavakortit extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnTehtavakortitFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(int ryhmaID, String korttiJSON);
+        void onTehtavakortitFragmentInteraction(int ryhmaID, String korttiJSON);
     }
 
-    public void getRyhmat(int groupID) {
+    public void getRyhmat(int groupID, final int kategoriaID) {
         SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
         String token = mySharedPreferences.getString("token", null);
         PassiClient service = ServiceGenerator.createService(PassiClient.class, token);
@@ -113,7 +115,12 @@ public class Tehtavakortit extends Fragment {
                     List<Worksheet> tehtavaKortit = new ArrayList<Worksheet>();
                     for (Category cat :
                             kategoriat) {
-                        tehtavaKortit.addAll(cat.getCategoryWorksheets());
+                        Integer jsonKategoria = cat.getCategoryID();
+                        if(jsonKategoria == kategoriaID){
+                            tehtavaKortit.addAll(cat.getCategoryWorksheets());
+
+                        }
+
                     }
                     asetaData(tehtavaKortit);
                 } else {
@@ -138,8 +145,8 @@ public class Tehtavakortit extends Fragment {
             @Override
             public void onItemClick(Worksheet kortti) {
                 String korttiJSON = gson.toJson(kortti);
-                int ryhmaID = ryhma.getGroupID();
-                mListener.onFragmentInteraction(ryhmaID, korttiJSON);
+                int ryhmaID = ryhma;
+                mListener.onTehtavakortitFragmentInteraction(ryhmaID, korttiJSON);
 
             }
         });

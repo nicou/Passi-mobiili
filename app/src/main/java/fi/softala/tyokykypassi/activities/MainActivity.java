@@ -13,11 +13,12 @@ import android.widget.ImageButton;
 
 import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.fragments.Ryhmat;
+import fi.softala.tyokykypassi.fragments.Saarinakyma;
 import fi.softala.tyokykypassi.fragments.Tehtavakortit;
 import fi.softala.tyokykypassi.fragments.Valikko;
 import fi.softala.tyokykypassi.models.Ryhma;
 
-public class MainActivity extends ToolbarActivity implements Ryhmat.OnFragmentInteractionListener, Tehtavakortit.OnFragmentInteractionListener, Valikko.OnFragmentInteractionListener {
+public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFragmentInteractionListener, Tehtavakortit.OnTehtavakortitFragmentInteractionListener, Valikko.OnFragmentInteractionListener, Saarinakyma.OnSaariFragmentInteractionListener {
 
 
     @Override
@@ -53,10 +54,10 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnFragmentIn
     @Override
     public void onFragmentInteraction() {
 
-        //SAARINÄKYMÄ!!!!
+
+//        //SAARINÄKYMÄ!!!!
 //        Intent intent  = new Intent(getApplicationContext(), SaarinakymaActivity.class);
 //        startActivity(intent);
-
 
         Ryhmat ryhmaFragment = new Ryhmat();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -67,24 +68,43 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnFragmentIn
     }
 
     @Override
-    public void onFragmentInteraction(Ryhma ryhma) {
-        Tehtavakortit tehtavakortit = new Tehtavakortit();
+    public void onRyhmatFragmentInteraction(Ryhma ryhma) {
+
+        Saarinakyma saariFragment = new Saarinakyma();
         Bundle args = new Bundle();
         args.putParcelable("ryhma", ryhma);
+        saariFragment.setArguments(args);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.activity_ryhmat_container, saariFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+
+    }
+
+    @Override
+    public void onSaariFragmentInteraction(Integer ryhmaID, Integer kategoriaID){
+        Tehtavakortit tehtavakortit = new Tehtavakortit();
+        Bundle args = new Bundle();
+        args.putInt("ryhmaID", ryhmaID);
+        args.putInt("kategoriaID", kategoriaID);
         tehtavakortit.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.activity_ryhmat_container, tehtavakortit);
         transaction.addToBackStack(null);
         transaction.commit();
+
     }
 
     @Override
-    public void onFragmentInteraction(int ryhmaID, String korttiJSON) {
+    public void onTehtavakortitFragmentInteraction(int ryhmaID, String korttiJSON) {
+
         Intent intent = new Intent(getApplicationContext(), TehtavakorttiActivity.class);
         intent.putExtra("TehtavakorttiActivity", korttiJSON);
         intent.putExtra("ryhmaID", String.valueOf(ryhmaID));
         startActivity(intent);
     }
+
 
 
     //Hoitaa toolbarin iconien klikkauksen
