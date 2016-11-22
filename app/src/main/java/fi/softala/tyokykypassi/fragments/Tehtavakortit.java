@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,8 +65,11 @@ public class Tehtavakortit extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_ryhmat, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.ryhma_recycler_view);
-        mProgressBar = (ProgressBar) v.findViewById(R.id.include);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        mProgressBar = (ProgressBar) v.findViewById(R.id.include);
+
         return v;
     }
 
@@ -138,7 +142,7 @@ public class Tehtavakortit extends Fragment {
     public void asetaData(List<Worksheet> worksheets) {
         final Gson gson = new Gson();
         GridLayoutManager gridLayoutManager =
-                new GridLayoutManager(getActivity(), 2);
+                new GridLayoutManager(getActivity(), 1);
 
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new TehtavakorttiAdapter(worksheets, R.layout.button_layout, new TehtavakorttiAdapter.OnItemClickListener() {
