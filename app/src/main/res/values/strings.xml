@@ -2,6 +2,7 @@
     <string name="app_name">Passi</string>
     <string name="profile">profileTransition</string>
     <string name="title_activity_saarinakyma">SaarinakymaActivity</string>
+    <string name="title_activity_liity_ryhma">LiityRyhmaActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
