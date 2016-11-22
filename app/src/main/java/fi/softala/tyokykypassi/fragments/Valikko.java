@@ -54,7 +54,7 @@ public class Valikko extends Fragment {
             mListener = (Valikko.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnSaariFragmentInteractionListener");
         }
     }
 

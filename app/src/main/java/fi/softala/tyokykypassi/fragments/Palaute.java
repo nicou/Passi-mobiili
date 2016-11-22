@@ -60,7 +60,7 @@ public class Palaute extends android.support.v4.app.Fragment {
             mListener = (Palaute.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnSaariFragmentInteractionListener");
         }
     }
 

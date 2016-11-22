@@ -33,7 +33,7 @@ public class Ryhmat extends Fragment {
     private ProgressBar mProgressBar;
     private RecyclerView.Adapter adapter;
 
-    private OnFragmentInteractionListener mListener;
+    private OnRyhmatFragmentInteractionListener mListener;
 
     public Ryhmat() {
         // Required empty public constructor
@@ -68,11 +68,11 @@ public class Ryhmat extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnRyhmatFragmentInteractionListener) {
+            mListener = (OnRyhmatFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnSaariFragmentInteractionListener");
         }
     }
 
@@ -92,9 +92,9 @@ public class Ryhmat extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnRyhmatFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Ryhma uri);
+        void onRyhmatFragmentInteraction(Ryhma uri);
     }
 
     public void getRyhmat() {
@@ -133,7 +133,7 @@ public class Ryhmat extends Fragment {
                 new GroupAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Ryhma ryhma) {
-                        mListener.onFragmentInteraction(ryhma);
+                        mListener.onRyhmatFragmentInteraction(ryhma);
                     }
                 }
         );

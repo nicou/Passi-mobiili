@@ -41,10 +41,6 @@
         <activity
             android:name=".activities.VahvistusActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.SaarinakymaActivity"
-            android:label="@string/title_activity_saarinakyma"
-            android:theme="@style/AppTheme"></activity>
 
         <activity android:name=".activities.LiityRyhmaActivity"></activity>
         <provider
