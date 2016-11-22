@@ -44,10 +44,12 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFrag
         ImageButton imHome = (ImageButton) findViewById(R.id.home);
         ImageButton imFeedback = (ImageButton) findViewById(R.id.feedback);
         ImageButton imLogout = (ImageButton) findViewById(R.id.logout);
+        ImageButton imJoin  = (ImageButton) findViewById(R.id.join);
 
         imHome.setOnClickListener(this);
         imFeedback.setOnClickListener(this);
         imLogout.setOnClickListener(this);
+        imJoin.setOnClickListener(this);
 
     }
 
@@ -123,6 +125,11 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFrag
             case R.id.feedback:
                 Intent palaute = new Intent(getApplicationContext(), PalauteActivity.class);
                 startActivity(palaute);
+                break;
+
+            case R.id.join:
+                Intent join = new Intent(getApplicationContext(), LiityRyhmaActivity.class);
+                startActivity(join);
                 break;
         }
     }

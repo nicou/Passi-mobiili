@@ -12,15 +12,15 @@ import java.util.List;
 public class Vastaus {
 
     @SerializedName("worksheetID")
-    Integer worksheetID;
+    private Integer worksheetID;
     @SerializedName("groupID")
-    Integer groupID;
+    private Integer groupID;
     @SerializedName("userID")
-    Integer userID;
+    private Integer userID;
     @SerializedName("planning")
-    String planningText;
+    private String planningText;
     @SerializedName("answerpoints")
-    List<Etappi> answerpoints;
+    private List<Etappi> answerpoints;
 
     public Vastaus(Integer worksheetID, Integer groupId, Integer userId, String planningText, List<Etappi> answerpoints) {
         this.worksheetID = worksheetID;

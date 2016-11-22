@@ -9,11 +9,11 @@ import java.util.List;
 
 public class Worksheet {
 
-    Integer worksheetID;
-    String worksheetHeader;
-    String worksheetPreface;
-    String worksheetPlanning;
-    List<WorksheetWaypoints> worksheetWaypoints;
+    private Integer worksheetID;
+    private String worksheetHeader;
+    private String worksheetPreface;
+    private String worksheetPlanning;
+    private List<WorksheetWaypoints> worksheetWaypoints;
 
     public Worksheet(Integer worksheetID, String worksheetHeader, String worksheetPreface, String worksheetPlanning, List<WorksheetWaypoints> worksheetWaypoints) {
         this.worksheetID = worksheetID;

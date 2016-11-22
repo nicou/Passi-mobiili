@@ -42,6 +42,10 @@ public class ToolbarActivity extends AppCompatActivity implements View.OnClickLi
                 intent = new Intent(getApplicationContext(), PalauteActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.join:
+                intent = new Intent(getApplicationContext(), LiityRyhmaActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 

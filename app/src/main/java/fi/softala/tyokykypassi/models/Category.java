@@ -8,9 +8,9 @@ import java.util.List;
 
 public class Category {
 
-    Integer categoryID;
-    String categoryName;
-    List <Worksheet> categoryWorksheets;
+    private Integer categoryID;
+    private String categoryName;
+    private List <Worksheet> categoryWorksheets;
 
     public Category(Integer categoryID, String categoryName, List<Worksheet> categoryWorksheets) {
         this.categoryID = categoryID;

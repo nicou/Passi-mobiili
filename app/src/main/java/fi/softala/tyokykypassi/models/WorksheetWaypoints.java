@@ -7,11 +7,12 @@ import java.util.List;
  */
 
 public class WorksheetWaypoints {
-    Integer waypointID;
-    String waypointTask;
-    Boolean waypointPhotoEnabled;
-    List<WaypointOptions> waypointOptions;
-
+    private Integer waypointID;
+    private String waypointTask;
+    private Boolean waypointPhotoEnabled;
+    private List<WaypointOptions> waypointOptions;
+    private String wanhaVastaus;
+    private int wanhaRadioButtonValinta;
 
     public WorksheetWaypoints(Integer waypointID, String waypointTask, Boolean waypointPhotoEnabled, List<WaypointOptions> waypointOptions) {
         this.waypointID = waypointID;
@@ -20,8 +21,24 @@ public class WorksheetWaypoints {
         this.waypointOptions = waypointOptions;
     }
 
-    public WorksheetWaypoints(){
+    public WorksheetWaypoints() {
 
+    }
+
+    public int getWanhaRadioButtonValinta() {
+        return wanhaRadioButtonValinta;
+    }
+
+    public void setWanhaRadioButtonValinta(int wanhaRadioButtonValinta) {
+        this.wanhaRadioButtonValinta = wanhaRadioButtonValinta;
+    }
+
+    public String getWanhaVastaus() {
+        return wanhaVastaus;
+    }
+
+    public void setWanhaVastaus(String wanhaVastaus) {
+        this.wanhaVastaus = wanhaVastaus;
     }
 
     public Integer getWaypointID() {
