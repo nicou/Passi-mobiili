@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/button_palaute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/arvioidut_pohja"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/boksi_nimi"
+        android:layout_width="209dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:text="ARVIOIDUT"
+        android:textColor="#197fb3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintLeft_toLeftOf="@+id/button_palaute"
+        app:layout_constraintRight_toRightOf="@+id/button_palaute"
+        app:layout_constraintTop_toTopOf="@+id/button_palaute" />
+
+    <TextView
+        android:id="@+id/boksi_maara"
+        android:layout_width="159dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:text="kuinka monta palautettu"
+        android:textAlignment="center"
+        app:layout_constraintLeft_toLeftOf="@+id/button_palaute"
+        app:layout_constraintRight_toRightOf="@+id/button_palaute"
+        app:layout_constraintTop_toBottomOf="@+id/boksi_nimi" />
+</android.support.constraint.ConstraintLayout>
