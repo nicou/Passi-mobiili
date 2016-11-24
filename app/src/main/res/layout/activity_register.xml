@@ -1,107 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_register"
+    android:background="@drawable/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="fi.softala.tyokykypassi.activities.RegisterActivity">
 
+    <ImageView
+        android:id="@+id/rekisterointiPohja"
+        android:src="@drawable/tehtava_palautettu_pohja"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/comboUkkeli"
+        android:layout_marginBottom="50dp" />
 
-    <TextView
-        android:text="Käyttäjänimi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="49dp"
-        android:layout_marginStart="49dp"
-        android:layout_marginTop="77dp"
-        android:id="@+id/textView4" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/textView4"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_alignStart="@+id/textView4"
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/etKayttajaNimi"
-        android:hint="Käyttäjänimi" />
-
-    <TextView
-        android:text="Etunimi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etKayttajaNimi"
-        android:layout_alignLeft="@+id/etKayttajaNimi"
-        android:layout_alignStart="@+id/etKayttajaNimi"
-        android:id="@+id/textView5" />
+        app:layout_constraintTop_toTopOf="@+id/rekisterointiPohja"
+        android:layout_marginTop="35dp"
+        app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"
+        app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/textView5"
-        android:layout_alignLeft="@+id/textView5"
-        android:layout_alignStart="@+id/textView5"
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:textColorHint="#3498db"
+            android:ems="10"
+            android:maxLines="1"
+            android:hint="Käyttäjänimi" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/etEtuNimi"
-        android:hint="Etunimi" />
-
-    <TextView
-        android:text="Sukunimi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etEtuNimi"
-        android:layout_alignLeft="@+id/etEtuNimi"
-        android:layout_alignStart="@+id/etEtuNimi"
-        android:id="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/etKayttajaNimi"
+        app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"
+        app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja">
 
-    <TextView
-        android:text="Salasana"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etSukunimi"
-        android:layout_alignLeft="@+id/etSukunimi"
-        android:layout_alignStart="@+id/etSukunimi"
-        android:id="@+id/textView12" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:textColorHint="#3498db"
+            android:ems="10"
+            android:maxLines="1"
+            android:hint="Etunimi" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/etSukunimi"
-        android:hint="Sukunimi"
-        android:layout_below="@+id/textView10"
-        android:layout_alignLeft="@+id/textView10"
-        android:layout_alignStart="@+id/textView10" />
-
-    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
+        app:layout_constraintTop_toBottomOf="@+id/etEtuNimi"
+        app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"
+        app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:textColorHint="#3498db"
+            android:ems="10"
+            android:maxLines="1"
+            android:hint="Sukunimi" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/etSahkoposti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/etSukunimi"
+        app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"
+        app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColorHint="#3498db"
+            android:ems="10"
+            android:maxLines="1"
+            android:hint="Sähköposti" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/etPuhelinnumero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/etSahkoposti"
+        app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"
+        app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:textColorHint="#3498db"
+            android:ems="10"
+            android:maxLines="1"
+            android:hint="Puhelinnumero" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/etSalasana"
-        android:hint="Salasana"
-        android:layout_below="@+id/textView12"
-        android:layout_alignLeft="@+id/textView12"
-        android:layout_alignStart="@+id/textView12" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/etPuhelinnumero"
+        app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"
+        app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColorHint="#3498db"
+            android:ems="10"
+            android:maxLines="1"
+            android:hint="Salasana" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/etSalasanaVahvistus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/etSalasana"
+        app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"
+        app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColorHint="#3498db"
+            android:ems="10"
+            android:maxLines="1"
+            android:hint="Salasana uudelleen" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:text="Rekisteröidy"
+        android:id="@+id/btnSubmitRegister"
+        android:padding="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnSubmitRegister"
-        android:layout_marginBottom="55dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/etSalasana"
-        android:layout_alignStart="@+id/etSalasana" />
+        android:textColor="#3498db"
+        android:text="REKISTERÖIDY"
+        android:textSize="14sp"
+        android:background="@drawable/nappi"
+        app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja"
+        app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/etSalasanaVahvistus" />
 
-</RelativeLayout>
+    <ImageView
+        android:background="@drawable/combo_hahmo_ei_alavarjoa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="30dp"
+        android:id="@+id/comboUkkeli"
+        android:layout_marginStart="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="100dp" />
+
+</android.support.constraint.ConstraintLayout>

@@ -3,6 +3,7 @@ package fi.softala.tyokykypassi.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,32 +32,57 @@ public class RegisterActivity extends AppCompatActivity {
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                EditText etKayttajaTunnus = (EditText)findViewById(R.id.etKayttajaNimi);
-                EditText etEtunimi = (EditText)findViewById(R.id.etEtuNimi);
-                EditText etSukunimi = (EditText)findViewById(R.id.etSukunimi);
-                EditText etSalasana = (EditText)findViewById(R.id.etSalasana);
-
-                String stringKayttajatunnus = etKayttajaTunnus.getText().toString().trim();
-                String stringEtunimi = etEtunimi.getText().toString().trim();
-                String stringSukunimi = etSukunimi.getText().toString().trim();
-                String stringSalasana = etSalasana.getText().toString().trim();
-                String stringVahvistaSalasana = etSalasana.getText().toString().trim();
-
-                UusiKayttaja kayttaja = new UusiKayttaja();
-                kayttaja.setFirstname(stringEtunimi);
-                kayttaja.setLastname(stringSukunimi);
-                kayttaja.setUsername(stringKayttajatunnus);
-                kayttaja.setPassword(stringSalasana);
-                kayttaja.setConfirmPassword(stringVahvistaSalasana);
-
-                // Hardcoded values for now
-                kayttaja.setEmail("test@testerinx.fi");
-                kayttaja.setPhone("0401231234");
-
-                doRegister(kayttaja);
+            registerOnClick(v);
             }
         });
 
+    }
+
+    public String capitalizeFirstLetter(String s) {
+        if (s.length() < 2) { return s; }
+        return (s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase());
+    }
+
+    public boolean valStr(String s) {
+        return (s != null && s.length() > 2) ? false : true;
+    }
+
+    public void registerOnClick(View v) {
+        TextInputLayout etKayttajaTunnus = (TextInputLayout) findViewById(R.id.etKayttajaNimi);
+        TextInputLayout etEtunimi = (TextInputLayout) findViewById(R.id.etEtuNimi);
+        TextInputLayout etSukunimi = (TextInputLayout) findViewById(R.id.etSukunimi);
+        TextInputLayout etSahkoposti = (TextInputLayout) findViewById(R.id.etSahkoposti);
+        TextInputLayout etPuhelinnumero = (TextInputLayout) findViewById(R.id.etPuhelinnumero);
+        TextInputLayout etSalasana = (TextInputLayout) findViewById(R.id.etSalasana);
+        TextInputLayout etSalasanaVahvistus = (TextInputLayout) findViewById(R.id.etSalasanaVahvistus) ;
+
+        String stringKayttajatunnus = etKayttajaTunnus.getEditText().getText().toString().trim();
+        String stringEtunimi = etEtunimi.getEditText().getText().toString().trim();
+        String stringSukunimi = etSukunimi.getEditText().getText().toString().trim();
+        String stringSahkoposti = etSahkoposti.getEditText().getText().toString().trim();
+        String stringPuhelinnumero = etPuhelinnumero.getEditText().getText().toString().trim();
+        String stringSalasana = etSalasana.getEditText().getText().toString().trim();
+        String stringVahvistaSalasana = etSalasanaVahvistus.getEditText().getText().toString().trim();
+
+        // TODO: better input validation
+        if (valStr(stringKayttajatunnus) || valStr(stringEtunimi) || valStr(stringSukunimi) ||
+                valStr(stringSahkoposti) || valStr(stringPuhelinnumero) ||
+                valStr(stringSalasana) || valStr(stringVahvistaSalasana)) {
+            onRegisterFailed("Täytä kaikki kentät");
+        } else if (!stringSalasana.equals(stringVahvistaSalasana)) {
+            onRegisterFailed("Salasanat eivät täsmää");
+        } else {
+            UusiKayttaja kayttaja = new UusiKayttaja();
+            kayttaja.setFirstname(capitalizeFirstLetter(stringEtunimi));
+            kayttaja.setLastname(capitalizeFirstLetter(stringSukunimi));
+            kayttaja.setUsername(stringKayttajatunnus);
+            kayttaja.setPassword(stringSalasana);
+            kayttaja.setConfirmPassword(stringVahvistaSalasana);
+            kayttaja.setEmail(stringSahkoposti);
+            kayttaja.setPhone(stringPuhelinnumero);
+
+            doRegister(kayttaja);
+        }
     }
 
     public void doRegister(UusiKayttaja kayttaja) {
