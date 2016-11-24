@@ -33,11 +33,10 @@ public class KuvaUploadaus extends IntentService {
     private final static int NOTIFICATION_ID = 1;
     int kuvaLkm;
     List<File> kuvat;
-    
+
     public KuvaUploadaus() {
         super("Uploadkuvaservice");
     }
-
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -51,70 +50,71 @@ public class KuvaUploadaus extends IntentService {
         Bundle extras = intent.getExtras();
         if (extras != null) {
             ArrayList<String> kuvapolut = extras.getStringArrayList("kuvat");
-            Log.d("KuvaUploadaus", "polkuja on " + kuvapolut.size());
-            kuvat = new ArrayList<>();
-            for (String polku : kuvapolut) {
-                File kuva = new File(polku);
-                kuvat.add(kuva);
-            }
-            for (File k : kuvat) {
-                Log.d("Kuva", "Kuvapolku = " + k.getAbsolutePath());
-            }
-            final int kuvatKoko = kuvat.size();
-
-            final int MAX_PROGRESS = 100;
-
-            SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-
-            String base = mySharedPreferences.getString("token", "");
-            PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, 300, base);
-            File kuva;
-            String kuvaNimi;
-
-            for (File kuvaEnnenMuutosta : kuvat) {
-                ImageManipulation.pienennaKuvaa(kuvaEnnenMuutosta, 600, 600);
-            }
-
-            for (int i = 0; i < kuvat.size(); i++) {
-                mBuilder.setProgress(100, 0, false);
-                kuva = kuvat.get(i);
-                kuvaNimi = kuva.getName().split("\\.")[0];
-                kuvaLkm = i + 1;
-                try {
-                    final long totalSize = kuva.length();
-                    RequestBody responseBody = new CountingFileRequestBody(kuva, "image/jpeg", new CountingFileRequestBody.ProgressListener() {
-                        @Override
-                        public void transferred(long num) {
-                            float progress = (num / (float) totalSize) * 100;
-                            if ((int) progress % (MAX_PROGRESS / 10) == 0) {
-                                mBuilder.setContentText("Tallennetaan kuvaa " + kuvaLkm + "/" + kuvatKoko);
-                                mBuilder.setProgress(MAX_PROGRESS, (int) progress, false);
-                                mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
-                                sendMessage((int) progress);
-                            }
-                        }
-                    });
-                    Call<ResponseBody> call = passiClient.tallennaKuva(kuvaNimi, responseBody);
-                    Response response = call.execute();
-                    if (response.isSuccessful()) {
-                        Intent vahvistusNakyma = new Intent(this, VahvistusActivity.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                                vahvistusNakyma, 0);
-                        mBuilder.setContentIntent(pendingIntent);
-                        mBuilder.setContentText("Kuvat tallennettu");
-                    } else {
-                        mBuilder.setContentText("Kuvien tallennus epäonnistui");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e("KuvaUploadaus", "Levy error " + e.toString());
+            if (kuvapolut != null) {
+                Log.d("KuvaUploadaus", "polkuja on " + kuvapolut.size());
+                kuvat = new ArrayList<>();
+                for (String polku : kuvapolut) {
+                    File kuva = new File(polku);
+                    kuvat.add(kuva);
                 }
 
-                mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload_done);
-                mBuilder.setProgress(0, 0, false);
-                mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
+                final int kuvatKoko = kuvat.size();
+
+                final int MAX_PROGRESS = 100;
+
+                SharedPreferences mySharedPreferences = getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
+                String base = mySharedPreferences.getString("token", "");
+                PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, 300, base);
+                File kuva;
+                String kuvaNimi;
+
+                for (File kuvaEnnenMuutosta : kuvat) {
+                    ImageManipulation.pienennaKuvaa(kuvaEnnenMuutosta, 600, 600);
+                }
+
+                for (int i = 0; i < kuvat.size(); i++) {
+                    mBuilder.setProgress(100, 0, false);
+                    kuva = kuvat.get(i);
+                    kuvaNimi = kuva.getName().split("\\.")[0];
+                    kuvaLkm = i + 1;
+                    try {
+                        final long totalSize = kuva.length();
+                        RequestBody responseBody = new CountingFileRequestBody(kuva, "image/jpeg", new CountingFileRequestBody.ProgressListener() {
+                            @Override
+                            public void transferred(long num) {
+                                float progress = (num / (float) totalSize) * 100;
+                                if ((int) progress % (MAX_PROGRESS / 10) == 0) {
+                                    mBuilder.setContentText("Tallennetaan kuvaa " + kuvaLkm + "/" + kuvatKoko);
+                                    mBuilder.setProgress(MAX_PROGRESS, (int) progress, false);
+                                    mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
+                                    sendMessage((int) progress);
+                                }
+                            }
+                        });
+                        Call<ResponseBody> call = passiClient.tallennaKuva(kuvaNimi, responseBody);
+                        Response response = call.execute();
+                        if (response.isSuccessful()) {
+                            Intent vahvistusNakyma = new Intent(this, VahvistusActivity.class);
+                            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                                    vahvistusNakyma, 0);
+                            mBuilder.setContentIntent(pendingIntent);
+                            mBuilder.setContentText("Kuvat tallennettu");
+                        } else {
+                            mBuilder.setContentText("Kuvien tallennus epäonnistui");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e("KuvaUploadaus", "Levy error " + e.toString());
+                    }
+
+                    mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload_done);
+                    mBuilder.setProgress(0, 0, false);
+                    mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
+                }
+                poistaKuvat();
             }
-            poistaKuvat();
+
         }
 
 

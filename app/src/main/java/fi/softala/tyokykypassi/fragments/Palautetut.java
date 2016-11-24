@@ -23,7 +23,6 @@ import fi.softala.tyokykypassi.models.Answersheet;
  */
 
 public class Palautetut extends Fragment {
-    private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private ArrayList<Answersheet> kortit;
 
@@ -67,7 +66,7 @@ public class Palautetut extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_palautetut, container, false);
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.palautetut_recycler_view);
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.palautetut_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);

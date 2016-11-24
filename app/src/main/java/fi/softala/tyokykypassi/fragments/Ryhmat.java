@@ -34,6 +34,7 @@ public class Ryhmat extends Fragment {
     private RecyclerView.Adapter adapter;
 
     private OnRyhmatFragmentInteractionListener mListener;
+    private OnRyhmatLisaaInteractionListener mLisaaListener;
 
     public Ryhmat() {
         // Required empty public constructor
@@ -68,18 +69,16 @@ public class Ryhmat extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnRyhmatFragmentInteractionListener) {
+            mLisaaListener = (OnRyhmatLisaaInteractionListener) context;
             mListener = (OnRyhmatFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnSaariFragmentInteractionListener");
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mLisaaListener = null;
     }
 
     /**
@@ -95,6 +94,10 @@ public class Ryhmat extends Fragment {
     public interface OnRyhmatFragmentInteractionListener {
         // TODO: Update argument type and name
         void onRyhmatFragmentInteraction(Ryhma uri);
+    }
+
+    public interface OnRyhmatLisaaInteractionListener{
+        void onRyhmatLisaaFragmentInteraction();
     }
 
     public void getRyhmat() {
@@ -124,7 +127,7 @@ public class Ryhmat extends Fragment {
         });
     }
 
-    public void asetaData(List<Ryhma> ryhmat) {
+    public void asetaData(final List<Ryhma> ryhmat) {
 
 
         adapter = new GroupAdapter(
@@ -134,6 +137,12 @@ public class Ryhmat extends Fragment {
                     @Override
                     public void onItemClick(Ryhma ryhma) {
                         mListener.onRyhmatFragmentInteraction(ryhma);
+                    }
+                },
+                new GroupAdapter.OnClickListener() {
+                    @Override
+                    public void onClick() {
+                        mLisaaListener.onRyhmatLisaaFragmentInteraction();
                     }
                 }
         );

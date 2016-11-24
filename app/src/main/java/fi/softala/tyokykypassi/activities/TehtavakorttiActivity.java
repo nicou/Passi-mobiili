@@ -68,6 +68,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
     private static final int MY_PERMISSION_WRITE_EXTERNAL = 20;
     private Context mContext;
     int groupID, userID;
+    String tehtavakorttiOtsikkoString;
     private ImageButton mCamera;
     HashMap<Integer, Etappi> etappiList = new HashMap<>();
     int waypointListLength;
@@ -229,6 +230,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                         TehtavakorttiActivity.this.startService(upload);
                     }
                     Intent vahvistus = new Intent(TehtavakorttiActivity.this, VahvistusActivity.class);
+                    vahvistus.putExtra("nimi",tehtavakorttiOtsikkoString);
                     poistaValiaikainenVastaus();
                     progressDialog.dismiss();
                     startActivity(vahvistus);
@@ -440,7 +442,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
         String johdantoString = kortti.getWorksheetPreface();
         String suunitelmaString = kortti.getWorksheetPlanning();
-        String tehtavakorttiOtsikkoString = kortti.getWorksheetHeader();
+        tehtavakorttiOtsikkoString = kortti.getWorksheetHeader();
 
         TextView textViewOtsikko = (TextView) findViewById(R.id.otsikko);
         textViewOtsikko.setText(tehtavakorttiOtsikkoString);
@@ -453,7 +455,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         waypointListLength = waypoint.size();
         Log.d("Passi", "Etappilistan pituus " + waypointListLength);
 
-        kAdapter = new KorttiAdapter(waypoint, new KorttiAdapter.OnItemClickListener() {
+        kAdapter = new KorttiAdapter(kortti, new KorttiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(WorksheetWaypoints points, Context context, ImageButton camera) {
 
@@ -532,35 +534,43 @@ public class TehtavakorttiActivity extends ToolbarActivity {
     }
 
     private void tallennaVastaus() {
-        lisaaKuvaUri();
-        FileOutputStream fos;
-        try {
-            fos = this.openFileOutput(String.valueOf(vastausID), Context.MODE_PRIVATE);
-            ObjectOutputStream os;
+        if (etappiList.size() > 0) {
 
-            os = new ObjectOutputStream(fos);
-            Iterator iterator = etappiList.entrySet().iterator();
-            Map.Entry pair = (Map.Entry) iterator.next();
-            Etappi etappi = (Etappi) pair.getValue();
-            EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
-            etappi.setSuunnitelma(suunnitelma.getText().toString());
-            etappiList.put(etappi.getWaypointID(), etappi);
-            os.writeObject(etappiList);
-            os.close();
-            fos.close();
-            Toast.makeText(this, "Tallennus onnistui", Toast.LENGTH_SHORT).show();
-            tallennaKuvat();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Tallennus epäonnistui", Toast.LENGTH_SHORT).show();
-            Log.e("Passi", "Tehtäväkortin tallennus epäonnistui");
+            lisaaKuvaUri();
+            FileOutputStream fos;
+            try {
+                fos = this.openFileOutput(String.valueOf(vastausID), Context.MODE_PRIVATE);
+                ObjectOutputStream os;
+
+                os = new ObjectOutputStream(fos);
+                Iterator iterator = etappiList.entrySet().iterator();
+                Map.Entry pair = (Map.Entry) iterator.next();
+                Etappi etappi = (Etappi) pair.getValue();
+                EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
+                etappi.setSuunnitelma(suunnitelma.getText().toString());
+                etappiList.put(etappi.getWaypointID(), etappi);
+                os.writeObject(etappiList);
+                os.close();
+                fos.close();
+                Toast.makeText(this, "Tallennus onnistui", Toast.LENGTH_SHORT).show();
+                tallennaKuvat();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Tallennus epäonnistui", Toast.LENGTH_SHORT).show();
+                Log.e("Passi", "Tehtäväkortin tallennus epäonnistui");
+            }
+
+        } else {
+            Toast.makeText(this, "Ei tallennettavaa", Toast.LENGTH_SHORT).show();
         }
+
 
 
     }
 
     private void haeVastaus(Worksheet kortti) {
-        FileInputStream fis = null;
+        FileInputStream fis;
         try {
             File vastaukset = this.getFileStreamPath(String.valueOf(vastausID));
             if (vastaukset.exists()) {
@@ -568,9 +578,8 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                 ObjectInputStream is = new ObjectInputStream(fis);
                 etappiList = (HashMap<Integer, Etappi>) is.readObject();
                 Log.d("Passi", "Haettu etapit" + etappiList.toString());
-                Iterator iterator = etappiList.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Map.Entry pair = (Map.Entry) iterator.next();
+                for (Object o : etappiList.entrySet()) {
+                    Map.Entry pair = (Map.Entry) o;
                     Etappi etappi = (Etappi) pair.getValue();
                     Log.d("Hashmap", etappi.toString());
                     if (etappi.getSuunnitelma() != null) {
@@ -589,7 +598,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                         }
                     }
                 }
-                Toast.makeText(this, "Wanhat tiedot haettu", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Haettu tallennetut tiedot", Toast.LENGTH_SHORT).show();
                 is.close();
                 fis.close();
             }
@@ -618,7 +627,6 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
     private void tallennaKuvat() {
         FileOutputStream fos;
-        ArrayList<String> kuvapolut = new ArrayList<>();
         for (File kuva : otetutKuvat) {
             try {
                 fos = this.openFileOutput(kuva.getName(), Context.MODE_PRIVATE);
