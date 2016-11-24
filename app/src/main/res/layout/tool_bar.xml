@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/join"
             android:clickable="true"
-            toolbar:srcCompat="@drawable/shield"
+            toolbar:srcCompat="@drawable/shield_notpressed"
             android:background="#00000000"
             toolbar:layout_constraintRight_toLeftOf="@+id/logout"
             android:layout_marginEnd="16dp"
