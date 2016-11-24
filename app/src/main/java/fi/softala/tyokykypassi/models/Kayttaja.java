@@ -25,6 +25,10 @@ public class Kayttaja {
     @SerializedName("groups")
     private List<Ryhma> ryhmat;
 
+    public Kayttaja() {
+
+    }
+
     public Kayttaja(String userID, String username, String firstname, String lastname, String email, String phone, List<Ryhma> ryhmat) {
         this.userID = userID;
         this.username = username;

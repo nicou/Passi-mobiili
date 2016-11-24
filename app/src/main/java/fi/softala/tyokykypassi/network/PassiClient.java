@@ -5,6 +5,7 @@ import java.util.List;
 import fi.softala.tyokykypassi.models.Answersheet;
 import fi.softala.tyokykypassi.models.Category;
 import fi.softala.tyokykypassi.models.Kayttaja;
+import fi.softala.tyokykypassi.models.UusiKayttaja;
 import fi.softala.tyokykypassi.models.Vastaus;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -49,5 +50,8 @@ public interface PassiClient {
     @GET("join/{join_key}/{user_id}")
     Call<ResponseBody> LiityRyhmaan(@Path("join_key") String groupID,
                                             @Path("user_id") Integer userId);
+
+    @POST("register/")
+    Call<ResponseBody> rekisteroiKayttaja(@Body UusiKayttaja kayttaja);
 
 }

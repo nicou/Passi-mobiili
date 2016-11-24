@@ -30,7 +30,11 @@ public class ServiceGenerator {
                     .addConverterFactory(GsonConverterFactory.create());
 
     public static <S> S createService(Class<S> serviceClass) {
-        Retrofit retrofit = builder.client(httpClient.build()).build();
+        HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
+        logger.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = httpClient.addInterceptor(logger).build();
+
+        Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
     }
 

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="fi.softala.tyokykypassi.activities.RegisterActivity">
+
+
+    <TextView
+        android:text="Käyttäjänimi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="49dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="77dp"
+        android:id="@+id/textView4" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/textView4"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4"
+        android:id="@+id/etKayttajaNimi"
+        android:hint="Käyttäjänimi" />
+
+    <TextView
+        android:text="Etunimi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etKayttajaNimi"
+        android:layout_alignLeft="@+id/etKayttajaNimi"
+        android:layout_alignStart="@+id/etKayttajaNimi"
+        android:id="@+id/textView5" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/textView5"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_alignStart="@+id/textView5"
+        android:id="@+id/etEtuNimi"
+        android:hint="Etunimi" />
+
+    <TextView
+        android:text="Sukunimi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etEtuNimi"
+        android:layout_alignLeft="@+id/etEtuNimi"
+        android:layout_alignStart="@+id/etEtuNimi"
+        android:id="@+id/textView10" />
+
+    <TextView
+        android:text="Salasana"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etSukunimi"
+        android:layout_alignLeft="@+id/etSukunimi"
+        android:layout_alignStart="@+id/etSukunimi"
+        android:id="@+id/textView12" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/etSukunimi"
+        android:hint="Sukunimi"
+        android:layout_below="@+id/textView10"
+        android:layout_alignLeft="@+id/textView10"
+        android:layout_alignStart="@+id/textView10" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/etSalasana"
+        android:hint="Salasana"
+        android:layout_below="@+id/textView12"
+        android:layout_alignLeft="@+id/textView12"
+        android:layout_alignStart="@+id/textView12" />
+
+    <Button
+        android:text="Rekisteröidy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSubmitRegister"
+        android:layout_marginBottom="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/etSalasana"
+        android:layout_alignStart="@+id/etSalasana" />
+
+</RelativeLayout>

@@ -15,19 +15,24 @@ public class UusiKayttajaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        Button loginButton = (Button) findViewById(R.id.btnLogin);
+        Button registerButton = (Button) findViewById(R.id.btnRegister);
 
-        Button button = (Button) findViewById(R.id.btnLogin);
-        button.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 Intent intent = new Intent(UusiKayttajaActivity.this, KirjautumisActivity.class);
                 startActivity(intent);
             }
         });
 
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(UusiKayttajaActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
-
-
     public void onBackPressed() {
         moveTaskToBack(true);
     }
