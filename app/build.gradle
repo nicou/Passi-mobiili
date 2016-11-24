@@ -8,8 +8,8 @@ android {
         applicationId "fi.softala.tyokykypassi"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 4
-        versionName "2016.11.22"
+        versionCode 5
+        versionName "2016.11.24"
     }
     buildTypes {
         release {
