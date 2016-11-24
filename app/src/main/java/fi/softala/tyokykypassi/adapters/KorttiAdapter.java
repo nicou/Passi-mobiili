@@ -18,14 +18,18 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fi.softala.tyokykypassi.R;
+import fi.softala.tyokykypassi.models.Worksheet;
 import fi.softala.tyokykypassi.models.WorksheetWaypoints;
+import okhttp3.internal.platform.Platform;
 
 public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     final List<WorksheetWaypoints> SubjectNames;
+    final Worksheet mWorksheet;
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
     private final KorttiAdapter.OnItemClickListener mListener;
@@ -34,13 +38,14 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final KorttiAdapter.OnClickListener mClickListener;
     private final KorttiAdapter.OnTallennaListener mTallennaListener;
 
-    public KorttiAdapter(List<WorksheetWaypoints> SubjectNames,
+    public KorttiAdapter(Worksheet worksheet,
                          KorttiAdapter.OnItemClickListener listener,
                          KorttiAdapter.onRadioButtonCheckChange mlgListener,
                          KorttiAdapter.OnTextChangeListener textChangeListener,
                         KorttiAdapter.OnClickListener clickListener,
     KorttiAdapter.OnTallennaListener tallennaListener) {
-        this.SubjectNames = SubjectNames;
+        this.mWorksheet = worksheet;
+        this.SubjectNames = worksheet.getWorksheetWaypoints();
         this.mListener = listener;
         this.mChangeListener = mlgListener;
         this.mTextListener = textChangeListener;
@@ -69,7 +74,7 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (holder instanceof KorttiAdapter.ViewHolder) {
             KorttiAdapter.ViewHolder viewHolder = (KorttiAdapter.ViewHolder) holder;
             WorksheetWaypoints waypoints = SubjectNames.get(position);
-            viewHolder.bind(position, waypoints, mListener, mChangeListener, mTextListener);
+            viewHolder.bind(position, waypoints, mListener, mChangeListener, mTextListener, mWorksheet);
         }
     }
 
@@ -130,7 +135,8 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public void bind(int position, final WorksheetWaypoints waypoints,
                          final OnItemClickListener mListener,
                          final onRadioButtonCheckChange mChangeListener,
-                         final OnTextChangeListener mTextListener) {
+                         final OnTextChangeListener mTextListener,
+                         final Worksheet worksheet) {
             final int id = waypoints.getWaypointID();
 
             final boolean cameraValinta = waypoints.getWaypointPhotoEnabled();
@@ -151,20 +157,45 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             button3.setText(waypoints.getWaypointOptions().get(2).getOptionText());
 
             //Katso onko aurinko, kilpi tai sydän
-
-            //!!!!! MUISTA LAITTAA SELECTOREIHIN NOTPRESSEDIT KUN HENNA NE TOIMITTAA!!!!!!
             String radio1 = waypoints.getWaypointOptions().get(0).getOptionText();
             String radio2 = waypoints.getWaypointOptions().get(1).getOptionText();
             String radio3 = waypoints.getWaypointOptions().get(2).getOptionText();
+
+            //Poista muotoilu radioButtonista
+
+            Boolean neutraaliRadio;
+
+            neutraaliRadio = isNeutraaliRadio(worksheet);
+
+            if(!neutraaliRadio){
+                button1.setButtonDrawable(R.drawable.greenfaceselector);
+                button2.setButtonDrawable(R.drawable.yellowfaceselector);
+                button3.setButtonDrawable(R.drawable.redfaceselector);
+            }
+
+            final String tyhja = "";
+
             if (radio1.equalsIgnoreCase("aurinko")){
                 button1.setButtonDrawable(R.drawable.aurinkoselector);
+                button1.setText(tyhja);
             }
             if (radio2.equalsIgnoreCase("kilpi")){
                 button2.setButtonDrawable(R.drawable.kilpiselector);
+                button2.setText(tyhja);
             }
             if (radio3.equalsIgnoreCase("sydän")){
                 button3.setButtonDrawable(R.drawable.sydanselector);
+                button3.setText(tyhja);
             }
+
+            Boolean isPeukku = isPeukku(worksheet);
+
+            if(isPeukku){
+                button1.setButtonDrawable(R.drawable.thumb_up);
+                button2.setButtonDrawable(R.drawable.hand);
+                button3.setButtonDrawable(R.drawable.thumb_down);
+            }
+
 
 
             if (waypoints.getWaypointOptions().get(0).getOptionID() == waypoints.getWanhaRadioButtonValinta()) {
@@ -218,6 +249,63 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
         }
 
+        private boolean isPeukku(Worksheet worksheet){
+
+            final String peukku1 = "Taukoliikuntaa";
+            final String peukku2 = "Liikutko sinä riittävästi?";
+            final String peukku3 = "Oma tapa liikkua";
+            final String peukku4 = "Syö hyvin";
+            final String peukku5 = "Ryhmän rakentaminen";
+            final String peukku6 = "Suomalaisuus";
+
+            boolean valitaankoPeukku = false;
+            String header = worksheet.getWorksheetHeader();
+
+            if(header.equals(peukku1)||
+                    header.equals(peukku2)||
+                    header.equals(peukku3)||
+                    header.equals(peukku4)||
+                    header.equals(peukku5)||
+                    header.equals(peukku6)){
+                valitaankoPeukku = true;
+            }
+
+            return valitaankoPeukku;
+        }
+
+        private boolean isNeutraaliRadio (Worksheet worksheet){
+
+            final String neturaali1 = "Asikastilanteet";
+            final String neturaali2 = "Ergonomia";
+            final String neturaali3 = "Ohjeiden laatiminen";
+            final String neturaali4 = "Työväline esittely";
+            final String neturaali5 = "Juominen ja biletys";
+            final String neturaali6 = "Juominen ja sosiaaliset suhteet";
+            final String neturaali7 = "Arvot ja asenteet";
+            final String neturaali8 = "Viihtyisä oppilaitos";
+            final String neturaali9 = "Mihin käytät aikaasi: Ensimmäinen osa";
+            final String neturaali10 = "Työhyvinvointia tukevat keinot";
+
+            Boolean onkoNeutraali = false;
+            String header = worksheet.getWorksheetHeader();
+            if(header.equals(neturaali1) ||
+                    header.equals(neturaali2) ||
+                    header.equals(neturaali3) ||
+                    header.equals(neturaali4) ||
+                    header.equals(neturaali5) ||
+                    header.equals(neturaali6) ||
+                    header.equals(neturaali7) ||
+                    header.equals(neturaali8) ||
+                    header.equals(neturaali9) ||
+                    header.equals(neturaali10)
+
+                    ){
+                onkoNeutraali = true;
+            }
+
+            return onkoNeutraali;
+        }
+
     }
 
     @Override
@@ -260,4 +348,6 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+
 }
+

@@ -455,7 +455,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         waypointListLength = waypoint.size();
         Log.d("Passi", "Etappilistan pituus " + waypointListLength);
 
-        kAdapter = new KorttiAdapter(waypoint, new KorttiAdapter.OnItemClickListener() {
+        kAdapter = new KorttiAdapter(kortti, new KorttiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(WorksheetWaypoints points, Context context, ImageButton camera) {
 
