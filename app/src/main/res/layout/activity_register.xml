@@ -22,7 +22,7 @@
         android:layout_marginEnd="30dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/comboUkkeli"
+        app:layout_constraintBottom_toBottomOf="@+id/dummy"
         android:layout_marginBottom="50dp" />
 
     <android.support.design.widget.TextInputLayout
@@ -173,17 +173,13 @@
         android:layout_marginTop="15dp"
         app:layout_constraintTop_toBottomOf="@+id/etSalasanaVahvistus" />
 
-    <ImageView
-        android:background="@drawable/combo_hahmo_ei_alavarjoa"
+    <TextView
+        android:id="@+id/dummy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="30dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="30dp"
-        android:id="@+id/comboUkkeli"
-        android:layout_marginStart="100dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="100dp" />
+        app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja"
+        app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"
+        android:layout_marginTop="75dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnSubmitRegister" />
 
 </android.support.constraint.ConstraintLayout>
