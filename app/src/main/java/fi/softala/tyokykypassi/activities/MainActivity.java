@@ -18,7 +18,7 @@ import fi.softala.tyokykypassi.fragments.Tehtavakortit;
 import fi.softala.tyokykypassi.fragments.Valikko;
 import fi.softala.tyokykypassi.models.Ryhma;
 
-public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFragmentInteractionListener, Tehtavakortit.OnTehtavakortitFragmentInteractionListener, Valikko.OnFragmentInteractionListener, Saarinakyma.OnSaariFragmentInteractionListener {
+public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFragmentInteractionListener, Tehtavakortit.OnTehtavakortitFragmentInteractionListener, Valikko.OnFragmentInteractionListener, Saarinakyma.OnSaariFragmentInteractionListener, Ryhmat.OnRyhmatLisaaInteractionListener {
 
 
     @Override
@@ -44,12 +44,10 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFrag
         ImageButton imHome = (ImageButton) findViewById(R.id.home);
         ImageButton imFeedback = (ImageButton) findViewById(R.id.feedback);
         ImageButton imLogout = (ImageButton) findViewById(R.id.logout);
-        ImageButton imJoin  = (ImageButton) findViewById(R.id.join);
 
         imHome.setOnClickListener(this);
         imFeedback.setOnClickListener(this);
         imLogout.setOnClickListener(this);
-        imJoin.setOnClickListener(this);
 
     }
 
@@ -82,6 +80,12 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFrag
         transaction.commit();
 
 
+    }
+
+    @Override
+    public void onRyhmatLisaaFragmentInteraction() {
+        Intent intent = new Intent(getApplicationContext(), LiityRyhmaActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -127,10 +131,6 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFrag
                 startActivity(palaute);
                 break;
 
-            case R.id.join:
-                Intent join = new Intent(getApplicationContext(), LiityRyhmaActivity.class);
-                startActivity(join);
-                break;
         }
     }
 
@@ -167,6 +167,7 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFrag
             startActivity(intent);
         }
     }
+
 
 
 }
