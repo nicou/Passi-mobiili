@@ -15,8 +15,7 @@
         android:layout_marginLeft="3dp"
         android:layout_marginStart="3dp"
         android:text="TALLENNA"
-        android:background="@drawable/no_shadow_nappi"
-        android:textColor="#a6a6a6" />
+        android:background="@drawable/no_shadow_nappi" />
 
     <Button
 

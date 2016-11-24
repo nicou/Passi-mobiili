@@ -2,9 +2,13 @@ package fi.softala.tyokykypassi.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.test.suitebuilder.TestMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import fi.softala.tyokykypassi.R;
 
@@ -14,6 +18,13 @@ public class VahvistusActivity extends ToolbarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vahvistus);
+
+        String tehtavakortinNimi = getIntent().getStringExtra("nimi");
+
+        if (tehtavakortinNimi != null) {
+            TextView otsikko = (TextView) findViewById(R.id.textView3);
+            otsikko.setText(tehtavakortinNimi);
+        }
 
         //Luo iconeille listenerit ja lähettää valikkoActivityyn, jossa id:n perusteella toiminnot
         ImageButton imHome = (ImageButton) findViewById(R.id.home);
