@@ -95,13 +95,13 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             //defaulttina harmaa tähti jos ei arvioitu
             tahti.setImageResource(R.drawable.tahti_eiarvioitu);
 
-            if (prosenttiPisteet < alin && arvioitu == true) {
+            if (prosenttiPisteet < alin && arvioitu) {
                 tahti.setImageResource(R.drawable.tahti_pronssi);
             }
-            if (prosenttiPisteet >= alin && prosenttiPisteet < ylin && arvioitu == true) {
+            if (prosenttiPisteet >= alin && prosenttiPisteet < ylin && arvioitu) {
                 tahti.setImageResource(R.drawable.tahti_hopea);
             }
-            if (prosenttiPisteet >= ylin && arvioitu == true) {
+            if (prosenttiPisteet >= ylin && arvioitu) {
                 tahti.setImageResource(R.drawable.tahti_kulta);
             }
 

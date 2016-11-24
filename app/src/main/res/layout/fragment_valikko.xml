@@ -82,8 +82,7 @@
         android:layout_marginTop="7dp"
         android:background="@drawable/nappi"
         android:text="TYÖKYKYPASSI"
-        android:textColor="#3498db"
-        android:transitionName="@string/profile" />
+        android:textColor="#3498db" />
 
     <!--<Button-->
         <!--android:layout_width="wrap_content"-->

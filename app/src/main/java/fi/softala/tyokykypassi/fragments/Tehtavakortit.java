@@ -22,7 +22,6 @@ import java.util.List;
 import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.adapters.TehtavakorttiAdapter;
 import fi.softala.tyokykypassi.models.Category;
-import fi.softala.tyokykypassi.models.Ryhma;
 import fi.softala.tyokykypassi.models.Worksheet;
 import fi.softala.tyokykypassi.network.PassiClient;
 import fi.softala.tyokykypassi.network.ServiceGenerator;
