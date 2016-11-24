@@ -35,15 +35,7 @@
         android:layout_marginTop="14dp"
         app:srcCompat="@drawable/tyokykypassiin_pohja" />
 
-    <ImageView
-        android:id="@+id/imageView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageView10"
-        android:layout_alignStart="@+id/imageView10"
-        android:layout_below="@+id/imageView10"
-        android:layout_marginTop="17dp"
-        app:srcCompat="@drawable/valinekauppa_pohja" />
+
 
     <ImageView
         android:layout_width="wrap_content"
@@ -93,17 +85,27 @@
         android:textColor="#3498db"
         android:transitionName="@string/profile" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/imageView11"
-        android:layout_alignRight="@+id/imageView11"
-        android:layout_alignTop="@+id/imageView11"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/nappi"
-        android:text="VÄLINEKAUPPA"
-        android:textColor="#a6a6a6"/>
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignEnd="@+id/imageView11"-->
+        <!--android:layout_alignRight="@+id/imageView11"-->
+        <!--android:layout_alignTop="@+id/imageView11"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:background="@drawable/nappi"-->
+        <!--android:text="VÄLINEKAUPPA"-->
+        <!--android:textColor="#a6a6a6"/>-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imageView11"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@+id/imageView10"-->
+        <!--android:layout_alignStart="@+id/imageView10"-->
+        <!--android:layout_below="@+id/imageView10"-->
+        <!--android:layout_marginTop="17dp"-->
+        <!--app:srcCompat="@drawable/valinekauppa_pohja" />-->
 
 </RelativeLayout>
 
