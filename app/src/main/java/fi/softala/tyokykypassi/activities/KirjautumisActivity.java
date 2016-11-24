@@ -39,29 +39,35 @@ public class KirjautumisActivity extends AppCompatActivity {
         passwordWrapper.setHint("Salasana");
 
         btn.setOnClickListener(new View.OnClickListener() {
+            String username;
+            String password;
             @Override
             public void onClick(View v) {
                 hideKeyboard();
 
-                String username = usernameWrapper.getEditText().getText().toString();
-                String password = passwordWrapper.getEditText().getText().toString();
-                if (!validateUsername(username)) {
-                    if (validatePassword(password)) {
-                        passwordWrapper.setErrorEnabled(false);
-                    }
-                    usernameWrapper.requestFocus();
-                    usernameWrapper.setError("Käyttäjänimi liian lyhyt!");
-                } else if (!validatePassword(password)) {
-                    if (validateUsername(username)) {
-                        usernameWrapper.setErrorEnabled(false);
-                    }
-                    passwordWrapper.requestFocus();
-                    passwordWrapper.setError("Salasana liian lyhyt!");
-                } else {
-                    usernameWrapper.setErrorEnabled(false);
-                    passwordWrapper.setErrorEnabled(false);
-                    doLogin(username, password);
+                if (usernameWrapper.getEditText() != null && passwordWrapper.getEditText() != null) {
+                    username = usernameWrapper.getEditText().getText().toString();
+                    password = passwordWrapper.getEditText().getText().toString();
                 }
+                    if (!validateUsername(username)) {
+                        if (validatePassword(password)) {
+                            passwordWrapper.setErrorEnabled(false);
+                        }
+                        usernameWrapper.requestFocus();
+                        usernameWrapper.setError("Käyttäjänimi liian lyhyt!");
+                    } else if (!validatePassword(password)) {
+                        if (validateUsername(username)) {
+                            usernameWrapper.setErrorEnabled(false);
+                        }
+                        passwordWrapper.requestFocus();
+                        passwordWrapper.setError("Salasana liian lyhyt!");
+                    } else {
+                        usernameWrapper.setErrorEnabled(false);
+                        passwordWrapper.setErrorEnabled(false);
+                        doLogin(username, password);
+                    }
+
+
             }
         });
 
