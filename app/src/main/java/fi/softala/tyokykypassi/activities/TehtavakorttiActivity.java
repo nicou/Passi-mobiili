@@ -560,7 +560,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
     }
 
     private void haeVastaus(Worksheet kortti) {
-        FileInputStream fis = null;
+        FileInputStream fis;
         try {
             File vastaukset = this.getFileStreamPath(String.valueOf(vastausID));
             if (vastaukset.exists()) {

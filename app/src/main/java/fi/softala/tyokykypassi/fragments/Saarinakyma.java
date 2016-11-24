@@ -12,7 +12,7 @@ import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.models.Ryhma;
 
 
-public class Saarinakyma extends Fragment implements View.OnClickListener{
+public class Saarinakyma extends Fragment implements View.OnClickListener {
 
     private OnSaariFragmentInteractionListener mListener;
     ImageButton kategoria1;
@@ -35,7 +35,10 @@ public class Saarinakyma extends Fragment implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             ryhma = getArguments().getParcelable("ryhma");
-            ryhmaID = ryhma.getGroupID();
+
+            if (ryhma != null) {
+                ryhmaID = ryhma.getGroupID();
+            }
         }
 
     }
@@ -89,7 +92,7 @@ public class Saarinakyma extends Fragment implements View.OnClickListener{
      * >Communicating with Other Fragments</a> for more information.
      */
 
-    public void haeRyhmanKortit (final Integer ryhmaID, final Integer kategoriaID){
+    public void haeRyhmanKortit(final Integer ryhmaID, final Integer kategoriaID) {
 
 
         onItemClick(ryhmaID, kategoriaID);
@@ -98,7 +101,7 @@ public class Saarinakyma extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.kartta_nappi_1:
                 final Integer kategoria1 = 1;
                 haeRyhmanKortit(ryhmaID, kategoria1);
@@ -134,4 +137,4 @@ public class Saarinakyma extends Fragment implements View.OnClickListener{
     public void onItemClick(Integer ryhmaID, Integer kategoriaID) {
         mListener.onSaariFragmentInteraction(ryhmaID, kategoriaID);
     }
-    }
+}
