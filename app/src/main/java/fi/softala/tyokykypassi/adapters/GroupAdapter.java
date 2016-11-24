@@ -125,6 +125,7 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public void bind(final GroupAdapter.OnClickListener mClickListener) {
             lisaaRyhma.setText("Lisää uusi ryhmä");
+            lisaaRyhma.setBackgroundResource(R.drawable.nappi);
             lisaaRyhma.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
