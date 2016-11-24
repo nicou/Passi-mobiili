@@ -568,9 +568,8 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                 ObjectInputStream is = new ObjectInputStream(fis);
                 etappiList = (HashMap<Integer, Etappi>) is.readObject();
                 Log.d("Passi", "Haettu etapit" + etappiList.toString());
-                Iterator iterator = etappiList.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Map.Entry pair = (Map.Entry) iterator.next();
+                for (Object o : etappiList.entrySet()) {
+                    Map.Entry pair = (Map.Entry) o;
                     Etappi etappi = (Etappi) pair.getValue();
                     Log.d("Hashmap", etappi.toString());
                     if (etappi.getSuunnitelma() != null) {
@@ -589,7 +588,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                         }
                     }
                 }
-                Toast.makeText(this, "Wanhat tiedot haettu", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Haettu tallennetut tiedot", Toast.LENGTH_SHORT).show();
                 is.close();
                 fis.close();
             }
@@ -618,7 +617,6 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
     private void tallennaKuvat() {
         FileOutputStream fos;
-        ArrayList<String> kuvapolut = new ArrayList<>();
         for (File kuva : otetutKuvat) {
             try {
                 fos = this.openFileOutput(kuva.getName(), Context.MODE_PRIVATE);

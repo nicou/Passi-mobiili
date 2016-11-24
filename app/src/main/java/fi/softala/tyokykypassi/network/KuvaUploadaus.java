@@ -33,11 +33,10 @@ public class KuvaUploadaus extends IntentService {
     private final static int NOTIFICATION_ID = 1;
     int kuvaLkm;
     List<File> kuvat;
-    
+
     public KuvaUploadaus() {
         super("Uploadkuvaservice");
     }
-
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -57,9 +56,7 @@ public class KuvaUploadaus extends IntentService {
                 File kuva = new File(polku);
                 kuvat.add(kuva);
             }
-            for (File k : kuvat) {
-                Log.d("Kuva", "Kuvapolku = " + k.getAbsolutePath());
-            }
+
             final int kuvatKoko = kuvat.size();
 
             final int MAX_PROGRESS = 100;
