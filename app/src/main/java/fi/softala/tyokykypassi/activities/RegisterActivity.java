@@ -49,6 +49,10 @@ public class RegisterActivity extends AppCompatActivity {
                 kayttaja.setPassword(stringSalasana);
                 kayttaja.setConfirmPassword(stringVahvistaSalasana);
 
+                // Hardcoded values for now
+                kayttaja.setEmail("test@testerinx.fi");
+                kayttaja.setPhone("0401231234");
+
                 doRegister(kayttaja);
             }
         });
@@ -64,7 +68,8 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        final int RESULT_NOT_FOUND = 401;
+        final int RESULT_USERNAME_EXISTS = 409;
+        final int RESULT_RUNTIME_EXCEPTION = 417;
 
         PassiClient service = ServiceGenerator.createService(PassiClient.class);
 
@@ -73,34 +78,40 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                String text;
                 progressDialog.dismiss();
 
-                Log.v("UusiKayttajaActivity", "Response: " + response);
-
                 if (response.isSuccessful()) {
-
-                } else if (response.code() == RESULT_NOT_FOUND) {
-
+                    Log.v("RegisterActivity", "Rekisterointi onnistui!");
+                    onRegisterSuccess();
+                } else if (response.code() == RESULT_USERNAME_EXISTS) {
+                    Log.v("RegisterActivity", "Rekisteroinnissa virhe: kayttajanimi on jo olemassa!");
+                    onRegisterFailed("Käyttäjänimi on jo olemassa!");
+                } else if (response.code() == RESULT_RUNTIME_EXCEPTION) {
+                   Log.v("RegisterActivity", "Rekisteroinnissa virhe: runtime exception");
+                   onRegisterFailed("Täytithän kaikki kentät?");
                 } else {
-
+                    Log.v("RegisterActivity", "Rekisteroinnissa virhe: status " + response.code());
+                    onRegisterFailed("Rekisteröitymisessä tapahtui virhe!");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("UusiKayttajaActivity", "Virhe rekisteroitymisessa " + t.toString());
+                Log.e("RegisterActivity", "Rekisteroinnissa virhe: " + t.toString());
+                onRegisterFailed("Rekisteröitymisessä tapahtui virhe!");
             }
         });
     }
 
-    public void onLoginSuccess() {
-        Intent valikko = new Intent(RegisterActivity.this, MainActivity.class);
-        valikko.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(valikko);
+    public void onRegisterSuccess() {
+        Toast toast;
+        toast = Toast.makeText(getApplicationContext(), "Rekisteröinti onnistui!", Toast.LENGTH_LONG);
+        toast.show();
+        Intent intent = new Intent(RegisterActivity.this, UusiKayttajaActivity.class);
+        startActivity(intent);
     }
 
-    public void onLoginFailed(String virheViesti) {
+    public void onRegisterFailed(String virheViesti) {
         Context context = getApplicationContext();
         Toast toast;
         int duration = Toast.LENGTH_LONG;

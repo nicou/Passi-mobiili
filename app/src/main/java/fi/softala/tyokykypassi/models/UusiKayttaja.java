@@ -12,7 +12,7 @@ public class UusiKayttaja extends Kayttaja {
 
     @SerializedName("password")
     String password;
-    @SerializedName("confirmPassword")
+    @SerializedName("passwordConfirm")
     String confirmPassword;
 
     public UusiKayttaja() {
