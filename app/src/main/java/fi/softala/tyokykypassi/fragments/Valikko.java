@@ -17,6 +17,7 @@ import fi.softala.tyokykypassi.R;
 public class Valikko extends Fragment {
 
     private Valikko.OnFragmentInteractionListener mListener;
+    private OnProfiiliNappiFragmentInteractionListener mProfileListener;
 
     public Valikko() {
         // Required empty public constructor
@@ -35,12 +36,20 @@ public class Valikko extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_valikko, container, false);
-        final Button button=(Button) v.findViewById(R.id.btnTyokykypassi);
+        final Button btnTyokykypassi = (Button) v.findViewById(R.id.btnTyokykypassi);
+        final Button btnProfiili = (Button) v.findViewById(R.id.btnProfiiliNappi);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        btnTyokykypassi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onFragmentInteraction();
+            }
+        });
+
+        btnProfiili.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProfileListener.onProfiiliNappiFragmentInteraction();
             }
         });
 
@@ -56,12 +65,18 @@ public class Valikko extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnSaariFragmentInteractionListener");
         }
+        if (context instanceof OnProfiiliNappiFragmentInteractionListener) {
+            mProfileListener = (OnProfiiliNappiFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnProfiiliFragmentInteractionListener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mProfileListener = null;
     }
 
     /**
@@ -77,5 +92,10 @@ public class Valikko extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction();
+    }
+
+    public interface OnProfiiliNappiFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onProfiiliNappiFragmentInteraction();
     }
 }
