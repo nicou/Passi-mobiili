@@ -1,24 +1,36 @@
 package fi.softala.tyokykypassi.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import fi.softala.tyokykypassi.R;
+import fi.softala.tyokykypassi.models.Kayttaja;
+import fi.softala.tyokykypassi.models.Ryhma;
+import fi.softala.tyokykypassi.network.PassiClient;
+import fi.softala.tyokykypassi.network.ServiceGenerator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Profiili extends Fragment {
 
-    private RecyclerView recyclerView;
     private ProgressBar mProgressBar;
-    private RecyclerView.Adapter adapter;
+    private LinearLayout profiiliWrapper;
 
     private OnProfiiliFragmentInteractionListener mListener;
 
@@ -29,6 +41,7 @@ public class Profiili extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getKayttaja();
     }
 
     @Override
@@ -36,10 +49,7 @@ public class Profiili extends Fragment {
                              Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_profiili, container, false);
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.ryhma_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
+        profiiliWrapper = (LinearLayout) v.findViewById(R.id.profiilitietoWrapper);
         mProgressBar = (ProgressBar) v.findViewById(R.id.include);
 
         return v;
@@ -60,6 +70,48 @@ public class Profiili extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void renderoiKayttajatiedot(Kayttaja kayttaja) {
+        TextView profiiliKokonimi = (TextView) profiiliWrapper.findViewById(R.id.profiiliKokonimi);
+        TextView profiiliKayttajanimi = (TextView) profiiliWrapper.findViewById(R.id.profiiliKayttajanimi);
+        TextView profiiliSahkoposti = (TextView) profiiliWrapper.findViewById(R.id.profiiliSahkoposti);
+        TextView profiiliPuhelinnumero = (TextView) profiiliWrapper.findViewById(R.id.profiiliPuhelinnumero);
+        String kokonimi = kayttaja.getFirstname() + " " + kayttaja.getLastname();
+        profiiliKokonimi.setText(kokonimi);
+        profiiliKayttajanimi.setText(kayttaja.getUsername());
+        profiiliSahkoposti.setText(kayttaja.getEmail());
+        profiiliPuhelinnumero.setText(kayttaja.getPhone());
+
+        mProgressBar.setVisibility(View.GONE);
+        profiiliWrapper.setVisibility(View.VISIBLE);
+    }
+
+    public void getKayttaja() {
+        SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+        String base = mySharedPreferences.getString("token", null);
+        String tunnus = mySharedPreferences.getString("tunnus", null);
+
+        PassiClient service = ServiceGenerator.createService(PassiClient.class, base);
+
+        Call<Kayttaja> call = service.haeKayttaja(tunnus);
+
+        call.enqueue(new Callback<Kayttaja>() {
+            @Override
+            public void onResponse(Call<Kayttaja> call, Response<Kayttaja> response) {
+                if (response.isSuccessful()) {
+                    renderoiKayttajatiedot(response.body());
+                } else {
+                    Toast.makeText(getActivity(), "Profiilitietojen haku ei onnistunut", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Kayttaja> call, Throwable t) {
+                Log.e("Passi", "Ryhmien haku epäonnistui " + t.toString());
+                Toast.makeText(getActivity(), "Profiilitietojen haku ei onnistunut", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
