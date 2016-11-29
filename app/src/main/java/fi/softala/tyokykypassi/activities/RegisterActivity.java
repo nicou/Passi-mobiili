@@ -43,8 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
         return (s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase());
     }
 
-    public boolean valStr(String s) {
-        return (s != null && s.length() > 2) ? false : true;
+    public boolean valStr(String s, int length) {
+        return (s != null && s.length() >= length) ? false : true;
     }
 
     public void registerOnClick(View v) {
@@ -52,7 +52,6 @@ public class RegisterActivity extends AppCompatActivity {
         TextInputLayout etEtunimi = (TextInputLayout) findViewById(R.id.etEtuNimi);
         TextInputLayout etSukunimi = (TextInputLayout) findViewById(R.id.etSukunimi);
         TextInputLayout etSahkoposti = (TextInputLayout) findViewById(R.id.etSahkoposti);
-        TextInputLayout etPuhelinnumero = (TextInputLayout) findViewById(R.id.etPuhelinnumero);
         TextInputLayout etSalasana = (TextInputLayout) findViewById(R.id.etSalasana);
         TextInputLayout etSalasanaVahvistus = (TextInputLayout) findViewById(R.id.etSalasanaVahvistus) ;
 
@@ -60,14 +59,12 @@ public class RegisterActivity extends AppCompatActivity {
         String stringEtunimi = etEtunimi.getEditText().getText().toString().trim();
         String stringSukunimi = etSukunimi.getEditText().getText().toString().trim();
         String stringSahkoposti = etSahkoposti.getEditText().getText().toString().trim();
-        String stringPuhelinnumero = etPuhelinnumero.getEditText().getText().toString().trim();
         String stringSalasana = etSalasana.getEditText().getText().toString().trim();
         String stringVahvistaSalasana = etSalasanaVahvistus.getEditText().getText().toString().trim();
 
         // TODO: better input validation
-        if (valStr(stringKayttajatunnus) || valStr(stringEtunimi) || valStr(stringSukunimi) ||
-                valStr(stringSahkoposti) || valStr(stringPuhelinnumero) ||
-                valStr(stringSalasana) || valStr(stringVahvistaSalasana)) {
+        if (valStr(stringKayttajatunnus, 3) || valStr(stringEtunimi, 2) || valStr(stringSukunimi, 2) ||
+                valStr(stringSahkoposti, 4) || valStr(stringSalasana, 5) || valStr(stringVahvistaSalasana, 5)) {
             onRegisterFailed("Täytä kaikki kentät");
         } else if (!stringSalasana.equals(stringVahvistaSalasana)) {
             onRegisterFailed("Salasanat eivät täsmää");
@@ -79,7 +76,6 @@ public class RegisterActivity extends AppCompatActivity {
             kayttaja.setPassword(stringSalasana);
             kayttaja.setConfirmPassword(stringVahvistaSalasana);
             kayttaja.setEmail(stringSahkoposti);
-            kayttaja.setPhone(stringPuhelinnumero);
 
             doRegister(kayttaja);
         }
