@@ -14,13 +14,12 @@ import android.widget.ImageButton;
 import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.fragments.Profiili;
 import fi.softala.tyokykypassi.fragments.Ryhmat;
-import fi.softala.tyokykypassi.fragments.Ryhmat.OnRyhmatMenePalautteeseenListener;
 import fi.softala.tyokykypassi.fragments.Saarinakyma;
 import fi.softala.tyokykypassi.fragments.Tehtavakortit;
 import fi.softala.tyokykypassi.fragments.Valikko;
 import fi.softala.tyokykypassi.models.Ryhma;
 
-public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFragmentInteractionListener, Tehtavakortit.OnTehtavakortitFragmentInteractionListener, Valikko.OnFragmentInteractionListener, Saarinakyma.OnSaariFragmentInteractionListener, Ryhmat.OnRyhmatLisaaInteractionListener, Valikko.OnProfiiliNappiFragmentInteractionListener, Profiili.OnProfiiliFragmentInteractionListener, OnRyhmatMenePalautteeseenListener {
+public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFragmentInteractionListener, Tehtavakortit.OnTehtavakortitFragmentInteractionListener, Valikko.OnFragmentInteractionListener, Saarinakyma.OnSaariFragmentInteractionListener, Ryhmat.OnRyhmatLisaaInteractionListener, Valikko.OnProfiiliNappiFragmentInteractionListener, Profiili.OnProfiiliFragmentInteractionListener {
 
 
     @Override
@@ -185,8 +184,5 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFrag
     }
 
 
-    @Override
-    public void onRyhmatMenePalauteInteraction(int groupID) {
 
-    }
 }

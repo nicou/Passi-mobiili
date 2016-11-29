@@ -1,34 +1,13 @@
 package fi.softala.tyokykypassi.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import fi.softala.tyokykypassi.R;
-import fi.softala.tyokykypassi.adapters.PalauteAdapter;
-import fi.softala.tyokykypassi.models.Answerpoints;
-import fi.softala.tyokykypassi.models.Answersheet;
-import fi.softala.tyokykypassi.models.Category;
-import fi.softala.tyokykypassi.models.Worksheet;
-import fi.softala.tyokykypassi.network.PassiClient;
-import fi.softala.tyokykypassi.network.ServiceGenerator;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by villeaaltonen on 08/11/2016.
@@ -39,17 +18,6 @@ public class Palaute extends android.support.v4.app.Fragment {
     private Palaute.OnFragmentInteractionListener mListener;
     private final int PALAUTETUT_TEHTAVAKORTIT = 1;
     private final int PALAUTTAMATTOMAT_TEHTAVAKORTIT = 2;
-    private PassiClient passiClient;
-    int groupId;
-    int userId;
-    private List<Answersheet> tekemattomatKortit;
-    private List<Answersheet> tehdytKortit;
-    Call<Answersheet> vastaus;
-    Call<List<Category>> call;
-    boolean lopetettu;
-    ProgressBar progressBar;
-    ConstraintLayout palauteBoksi;
-    ConstraintLayout palauttamattomatBoksi;
 
     public Palaute() {
         // Required empty public constructor
@@ -59,121 +27,8 @@ public class Palaute extends android.support.v4.app.Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            groupId = getArguments().getInt("groupID");
-        }
-        haeTehtavakortit();
-    }
-
-    private void haeTehtavakortit() {
-        SharedPreferences mySharedPreferences = getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-
-        String base = mySharedPreferences.getString("token", null);
-        Log.d("jeejeejee", groupId + " on ryhmaid");
-        userId = Integer.parseInt(mySharedPreferences.getString("userID", null));
-
-        passiClient = ServiceGenerator.createService(PassiClient.class, base);
-
-
-        call = passiClient.haeTehtavakortit(groupId);
-        call.enqueue(new Callback<List<Category>>() {
-            @Override
-            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-
-                if (response.isSuccessful()) {
-                    List<Category> kategoriat = response.body();
-                    List<Worksheet> tehtavaKortit = new ArrayList<Worksheet>();
-                    for (Category cat :
-                            kategoriat
-                            ) {
-                        tehtavaKortit.addAll(cat.getCategoryWorksheets());
-                    }
-                    new haeVastaukset().execute(tehtavaKortit);
-
-                } else {
-                    Toast.makeText(getActivity(), "Korttien haku epäonnistui", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Category>> call, Throwable t) {
-                Log.e("Passi", "Tehtäväkorttien haku epäonnistui " + t.toString());
-            }
-        });
-    }
-
-    //atm vastaus pitää poistaa enne uuden lisäämistä samaan vastaukseen
-    private class haeVastaukset extends AsyncTask<List<Worksheet>, Object, List<Answersheet>> {
-
-        @SafeVarargs
-        @Override
-        protected final List<Answersheet> doInBackground(List<Worksheet>... path) {
-            List<Answersheet> vastaukset = new ArrayList<>();
-            tekemattomatKortit = new ArrayList<>();
-            for (Worksheet tehtavakortti :
-                    path[0]) {
-                if (lopetettu) {
-                    break;
-                }
-                int id = tehtavakortti.getWorksheetID();
-                vastaus = passiClient.haeOpettajanKommentit(
-                        id,
-                        groupId,
-                        userId);
-
-                Answersheet yksVastaus = null;
-
-                try {
-                    yksVastaus = vastaus.execute().body();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                boolean tehty = true;
-
-                if (yksVastaus != null) {
-                    yksVastaus.setWorksheetName(tehtavakortti.getWorksheetHeader());
-
-                    for (Answerpoints aw : yksVastaus.getAnswerpointsList()) {
-                        if (Integer.parseInt(aw.getInstructorRating()) == 0) {
-                            tehty = false;
-                        }
-                    }
-                    if (!tehty) {
-                        yksVastaus.setTyyppi(PalauteAdapter.VIEW_PALAUTTAMATTA);
-                        tekemattomatKortit.add(yksVastaus);
-                    } else {
-                        yksVastaus.setTyyppi(PalauteAdapter.VIEW_PALAUTETTU);
-                        vastaukset.add(yksVastaus);
-                    }
-                }
-
-
-            }
-            return vastaukset;
         }
 
-
-        @Override
-        protected void onPostExecute(List<Answersheet> result) {
-            super.onPostExecute(result);
-            asetaData(result);
-        }
-
-        private void asetaData(List<Answersheet> result) {
-            if (!lopetettu) {
-                tehdytKortit = new ArrayList<>();
-                tehdytKortit.addAll(result);
-
-                TextView otsikko = (TextView) palauteBoksi.findViewById(R.id.boksi_maara);
-                otsikko.setText("Arvioituja: " + tehdytKortit.size());
-                TextView otsikkoPalauttamatta = (TextView) palauttamattomatBoksi.findViewById(R.id.palauttamatta_maara);
-                otsikkoPalauttamatta.setText("Odottaa palautetta: " + tekemattomatKortit.size());
-                progressBar.setVisibility(View.GONE);
-                palauteBoksi.setVisibility(View.VISIBLE);
-                palauttamattomatBoksi.setVisibility(View.VISIBLE);
-            }
-
-        }
     }
 
     @Override
@@ -181,21 +36,18 @@ public class Palaute extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_palaute, container, false);
-        palauteBoksi = (ConstraintLayout) v.findViewById(R.id.boksi_palautettu);
-        palauttamattomatBoksi = (ConstraintLayout) v.findViewById(R.id.boksi_palauttamatta);
-        progressBar = (ProgressBar) v.findViewById(R.id.progressBarTest);
         ImageView palautetut = (ImageView) v.findViewById(R.id.button_palaute);
         ImageView palauttamattomat = (ImageView) v.findViewById(R.id.button_palauttamatta);
         palautetut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onFragmentInteraction(PALAUTETUT_TEHTAVAKORTIT, tehdytKortit);
+                mListener.onFragmentInteraction(PALAUTETUT_TEHTAVAKORTIT);
             }
         });
         palauttamattomat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onFragmentInteraction(PALAUTTAMATTOMAT_TEHTAVAKORTIT, tekemattomatKortit);
+                mListener.onFragmentInteraction(PALAUTTAMATTOMAT_TEHTAVAKORTIT);
             }
         });
         return v;
@@ -216,10 +68,6 @@ public class Palaute extends android.support.v4.app.Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        if (call != null && call.isExecuted()) {
-            call.cancel();
-        }
-        lopetettu = true;
     }
 
     /**
@@ -234,7 +82,7 @@ public class Palaute extends android.support.v4.app.Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(int valinta, List<Answersheet> tekemattomatKortit);
+        void onFragmentInteraction(int valinta);
     }
 
 }

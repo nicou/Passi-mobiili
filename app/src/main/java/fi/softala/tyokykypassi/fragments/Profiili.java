@@ -1,7 +1,6 @@
 package fi.softala.tyokykypassi.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,9 +19,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import fi.softala.tyokykypassi.R;
-import fi.softala.tyokykypassi.activities.LogotActivity;
-import fi.softala.tyokykypassi.activities.MainActivity;
-import fi.softala.tyokykypassi.activities.VahvistusActivity;
 import fi.softala.tyokykypassi.models.Kayttaja;
 import fi.softala.tyokykypassi.models.Ryhma;
 import fi.softala.tyokykypassi.network.PassiClient;
@@ -56,16 +51,6 @@ public class Profiili extends Fragment {
 
         profiiliWrapper = (LinearLayout) v.findViewById(R.id.profiilitietoWrapper);
         mProgressBar = (ProgressBar) v.findViewById(R.id.include);
-
-        Button button3 = (Button) v.findViewById(R.id.logo_button);
-        button3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Intent intent = new Intent(Profiili.this.getActivity(), LogotActivity.class);
-                startActivity(intent);
-
-            }
-        });
 
         return v;
     }

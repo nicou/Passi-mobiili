@@ -17,7 +17,6 @@
         android:background="@drawable/tehtavan_kuvaus_pohja"
         android:text="Tekstin haku epäonnistui."
         android:textStyle="bold"
-        android:textColor="#848484"
         android:clickable="false"
         android:inputType="none"
         android:enabled="false"
