@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/background_and_title"
+    tools:context="fi.softala.tyokykypassi.activities.LogotActivity">
+
+    <include
+        layout="@layout/tool_bar"
+        android:id="@+id/palkki" />
+    <TextView
+        android:text="TIETOA SOVELLUKSESTA"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#3498db"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:id="@+id/tietoaSovelluksesta"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/palkki"
+        android:layout_marginStart="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="20dp"/>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:padding="28dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/scrollView"
+        app:layout_constraintTop_toBottomOf="@+id/tietoaSovelluksesta">
+
+        <LinearLayout
+            android:id="@+id/logotWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@android:color/white">
+
+            <TextView
+                android:id="@+id/logoteksti1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="18dp"
+                android:textColor="#919191"/>
+
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnCount="2"
+                android:useDefaultMargins="true">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/kehittaja_haagahelia"
+                android:id="@+id/haaga_logo"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="40dp"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/kehittaja_ttl"
+                android:id="@+id/ttl_logo"
+                android:scaleType="fitCenter"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/kehittaja_saku"
+                android:id="@+id/saku_logo"
+                android:scaleType="fitCenter"
+                />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/kehittaja_eu_esr"
+                android:id="@+id/eu_logo"
+                android:scaleType="fitCenter"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/kehittaja_ely"
+                android:id="@+id/ely_logo"
+                android:scaleType="fitCenter"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/kehittaja_vipuvoimaa"
+                android:id="@+id/vipuvoimaa_logo"
+                android:scaleType="fitCenter"/>
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="70dp"
+                    app:srcCompat="@drawable/kehittaja_stadin_ammattiopisto"
+                    android:id="@+id/stadin_ammattiopisto_logo"
+                    android:scaleType="fitCenter"/>
+
+            </GridLayout>
+
+            <TextView
+                android:id="@+id/logoteksti2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#919191"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnCount="2"
+                android:useDefaultMargins="true"
+                >
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/yhteistyo_smart_moves"
+                android:id="@+id/smart_moves_logo"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="40dp"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/yhteistyo_ehyt"
+                android:id="@+id/ehyt_logo"
+                android:scaleType="fitCenter"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/yhteistyo_mieli"
+                android:id="@+id/mieli_logo"
+                android:scaleType="fitCenter"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/yhteistyo_ye"
+                android:id="@+id/ye_logo"
+                android:scaleType="fitCenter"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/yhteistyo_sydanliitto"
+                android:id="@+id/sydanliitto_logo"
+                android:scaleType="fitCenter" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/yhteistyo_nuorten_akatemia"
+                android:id="@+id/nuorten_akatemia_logo"
+                android:scaleType="fitCenter" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/yhteistyo_tyokykypassi"
+                android:id="@+id/tyokykypassi_logo"
+                android:scaleType="fitCenter"/>
+
+            </GridLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>
+
+

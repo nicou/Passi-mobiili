@@ -57,7 +57,8 @@
             android:name=".network.KuvaUploadaus"
             android:exported="false" />
 
-        <activity android:name=".activities.RegisterActivity"></activity>
+        <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.LogotActivity"></activity>
     </application>
 
 </manifest>

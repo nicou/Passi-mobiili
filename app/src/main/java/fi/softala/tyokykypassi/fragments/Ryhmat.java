@@ -32,9 +32,10 @@ public class Ryhmat extends Fragment {
     private RecyclerView recyclerView;
     private ProgressBar mProgressBar;
     private RecyclerView.Adapter adapter;
-
+    private boolean palaute;
     private OnRyhmatFragmentInteractionListener mListener;
     private OnRyhmatLisaaInteractionListener mLisaaListener;
+    private OnRyhmatMenePalautteeseenListener mMeneListener;
 
     public Ryhmat() {
         // Required empty public constructor
@@ -45,6 +46,8 @@ public class Ryhmat extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            palaute = getArguments().getBoolean("palaute");
+            Log.d("DEBU", "oncreate palaute on " + palaute);
         }
         getRyhmat();
     }
@@ -53,24 +56,39 @@ public class Ryhmat extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_ryhmat, container, false);
+        Log.d("jeejeejee", "palaute on createview on " + palaute);
+        if (palaute) {
+            Log.d("jeejeejee", "mentiin tänne");
+            View v = inflater.inflate(R.layout.fragment_palaute_boksit, container, false);
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.ryhma_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        mProgressBar = (ProgressBar) v.findViewById(R.id.include);
-        TextView otsikko = (TextView) v.findViewById(R.id.fragment_otsikko);
-        otsikko.setText("RYHMÄT");
+            recyclerView = (RecyclerView) v.findViewById(R.id.palauteryhma_recycler_view);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setAdapter(adapter);
+            recyclerView.setHasFixedSize(true);
+            mProgressBar = (ProgressBar) v.findViewById(R.id.progressBarTest);
+            return v;
+        } else {
+            View v = inflater.inflate(R.layout.fragment_ryhmat, container, false);
 
-        return v;
+            recyclerView = (RecyclerView) v.findViewById(R.id.ryhma_recycler_view);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setAdapter(adapter);
+            recyclerView.setHasFixedSize(true);
+            mProgressBar = (ProgressBar) v.findViewById(R.id.include);
+            TextView otsikko = (TextView) v.findViewById(R.id.fragment_otsikko);
+            otsikko.setText("RYHMÄT");
+
+            return v;
+        }
+
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-            mLisaaListener = (OnRyhmatLisaaInteractionListener) context;
-            mListener = (OnRyhmatFragmentInteractionListener) context;
+        mMeneListener = (OnRyhmatMenePalautteeseenListener) context;
+        mLisaaListener = (OnRyhmatLisaaInteractionListener) context;
+        mListener = (OnRyhmatFragmentInteractionListener) context;
 
     }
 
@@ -79,6 +97,7 @@ public class Ryhmat extends Fragment {
         super.onDetach();
         mListener = null;
         mLisaaListener = null;
+        mMeneListener = null;
     }
 
     /**
@@ -96,12 +115,16 @@ public class Ryhmat extends Fragment {
         void onRyhmatFragmentInteraction(Ryhma uri);
     }
 
-    public interface OnRyhmatLisaaInteractionListener{
+    public interface OnRyhmatLisaaInteractionListener {
         void onRyhmatLisaaFragmentInteraction();
     }
 
+    public interface OnRyhmatMenePalautteeseenListener {
+        void onRyhmatMenePalauteInteraction(int groupID);
+    }
+
     public void getRyhmat() {
-        SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+        SharedPreferences mySharedPreferences = getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
         String base = mySharedPreferences.getString("token", null);
         String tunnus = mySharedPreferences.getString("tunnus", null);
 
@@ -112,6 +135,7 @@ public class Ryhmat extends Fragment {
         call.enqueue(new Callback<Kayttaja>() {
             @Override
             public void onResponse(Call<Kayttaja> call, Response<Kayttaja> response) {
+                Log.d("jeejeejee", response.message());
                 if (response.isSuccessful()) {
                     List<Ryhma> ryhmat = response.body().getRyhmat();
                     asetaData(ryhmat);
@@ -136,8 +160,11 @@ public class Ryhmat extends Fragment {
                 new GroupAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Ryhma ryhma) {
-                        lisaaRyhmaAsetuksiin(ryhma.getGroupID());
-                        mListener.onRyhmatFragmentInteraction(ryhma);
+                        if (palaute) {
+                            mMeneListener.onRyhmatMenePalauteInteraction(ryhma.getGroupID());
+                        } else {
+                            mListener.onRyhmatFragmentInteraction(ryhma);
+                        }
                     }
                 },
                 new GroupAdapter.OnClickListener() {
@@ -151,12 +178,8 @@ public class Ryhmat extends Fragment {
         recyclerView.setAdapter(adapter);
         mProgressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
-
+        Log.d("jeejeejee", "Kaik tehty");
     }
 
-    private void lisaaRyhmaAsetuksiin(int groupID) {
-        SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
-        Log.d("Jeejee", "Ryhmä tallennetaan " +  groupID);
-        mySharedPreferences.edit().putInt("groupID", groupID).apply();
-    }
+
 }
