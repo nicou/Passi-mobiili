@@ -33,7 +33,6 @@
         android:textStyle="bold"
         android:paddingTop="7dp"
         android:textColor="#3498db"
-        tools:layout_editor_absoluteY="0dp"
         app:layout_constraintTop_toTopOf="@+id/otsikko_pohja"
         app:layout_constraintLeft_toLeftOf="@+id/otsikko_pohja"
         app:layout_constraintRight_toRightOf="@+id/otsikko_pohja" />
@@ -53,8 +52,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="16dp" />
 
-    <ScrollView
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
+        android:layout_weight="0.4"
+        android:layout_height="100dp"
+        android:id="@+id/logo_button"
+        android:text="TIETOA SOVELLUKSESTA"
+        android:textSize="14sp"
+        android:textColor="#3498db"
+        android:background="@drawable/ammatin_tyokykyvalmiudet_small"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="50dp" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
@@ -62,12 +76,13 @@
         app:layout_constraintTop_toBottomOf="@+id/otsikko_pohja"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/scrollView2">
 
         <LinearLayout
             android:id="@+id/profiilitietoWrapper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
             android:visibility="gone"
@@ -108,5 +123,6 @@
         </LinearLayout>
 
     </ScrollView>
+
 
 </android.support.constraint.ConstraintLayout>
