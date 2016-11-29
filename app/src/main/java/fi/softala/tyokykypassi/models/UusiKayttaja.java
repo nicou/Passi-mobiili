@@ -19,8 +19,13 @@ public class UusiKayttaja extends Kayttaja {
         super();
     }
 
-    public UusiKayttaja(String userID, String username, String firstname, String lastname, String email, String phone, List<Ryhma> ryhmat, String password, String confirmPassword) {
-        super(userID, username, firstname, lastname, email, phone, ryhmat);
+    public UusiKayttaja(String password, String confirmPassword) {
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+    }
+
+    public UusiKayttaja(String userID, String username, String firstname, String lastname, String email, List<Ryhma> ryhmat, String password, String confirmPassword) {
+        super(userID, username, firstname, lastname, email, ryhmat);
         this.password = password;
         this.confirmPassword = confirmPassword;
     }

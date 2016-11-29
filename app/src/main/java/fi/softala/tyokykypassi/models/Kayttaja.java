@@ -20,8 +20,6 @@ public class Kayttaja {
     private String lastname;
     @SerializedName("email")
     private String email;
-    @SerializedName("phone")
-    private String phone;
     @SerializedName("groups")
     private List<Ryhma> ryhmat;
 
@@ -29,13 +27,12 @@ public class Kayttaja {
 
     }
 
-    public Kayttaja(String userID, String username, String firstname, String lastname, String email, String phone, List<Ryhma> ryhmat) {
+    public Kayttaja(String userID, String username, String firstname, String lastname, String email, List<Ryhma> ryhmat) {
         this.userID = userID;
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.phone = phone;
         this.ryhmat = ryhmat;
     }
 
@@ -79,14 +76,6 @@ public class Kayttaja {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public List<Ryhma> getRyhmat() {
         return ryhmat;
     }
@@ -94,4 +83,5 @@ public class Kayttaja {
     public void setRyhmat(List<Ryhma> ryhmat) {
         this.ryhmat = ryhmat;
     }
+
 }

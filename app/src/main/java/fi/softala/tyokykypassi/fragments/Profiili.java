@@ -76,12 +76,10 @@ public class Profiili extends Fragment {
         TextView profiiliKokonimi = (TextView) profiiliWrapper.findViewById(R.id.profiiliKokonimi);
         TextView profiiliKayttajanimi = (TextView) profiiliWrapper.findViewById(R.id.profiiliKayttajanimi);
         TextView profiiliSahkoposti = (TextView) profiiliWrapper.findViewById(R.id.profiiliSahkoposti);
-        TextView profiiliPuhelinnumero = (TextView) profiiliWrapper.findViewById(R.id.profiiliPuhelinnumero);
         String kokonimi = kayttaja.getFirstname() + " " + kayttaja.getLastname();
         profiiliKokonimi.setText(kokonimi);
         profiiliKayttajanimi.setText(kayttaja.getUsername());
         profiiliSahkoposti.setText(kayttaja.getEmail());
-        profiiliPuhelinnumero.setText(kayttaja.getPhone());
 
         mProgressBar.setVisibility(View.GONE);
         profiiliWrapper.setVisibility(View.VISIBLE);
