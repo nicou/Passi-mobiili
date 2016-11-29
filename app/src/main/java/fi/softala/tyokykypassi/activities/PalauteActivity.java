@@ -48,12 +48,18 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (call.isExecuted()) {
-            call.cancel();
+        if (call != null) {
+            if (call.isExecuted()) {
+                call.cancel();
+            }
         }
-        if (vastaus.isExecuted()) {
-            vastaus.cancel();
+
+        if (vastaus != null) {
+            if (vastaus.isExecuted()) {
+                vastaus.cancel();
+            }
         }
+
         lopetettu = true;
     }
 
@@ -86,7 +92,8 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
         SharedPreferences mySharedPreferences = this.getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
         String base = mySharedPreferences.getString("token", null);
-        groupId = 1;
+        groupId = mySharedPreferences.getInt("groupID", 0);
+        Log.d("jeejeejee", groupId + " on ryhmaid");
         userId = Integer.parseInt(mySharedPreferences.getString("userID", null));
 
         passiClient = ServiceGenerator.createService(PassiClient.class, base);
@@ -143,7 +150,7 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
 
     //atm vastaus pitää poistaa enne uuden lisäämistä samaan vastaukseen
     private class haeVastaukset extends AsyncTask<List<Worksheet>, Object, List<Answersheet>> {
-        
+
         @SafeVarargs
         @Override
         protected final List<Answersheet> doInBackground(List<Worksheet>... path) {

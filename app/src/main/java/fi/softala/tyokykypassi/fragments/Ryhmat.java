@@ -136,6 +136,7 @@ public class Ryhmat extends Fragment {
                 new GroupAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Ryhma ryhma) {
+                        lisaaRyhmaAsetuksiin(ryhma.getGroupID());
                         mListener.onRyhmatFragmentInteraction(ryhma);
                     }
                 },
@@ -151,5 +152,11 @@ public class Ryhmat extends Fragment {
         mProgressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
 
+    }
+
+    private void lisaaRyhmaAsetuksiin(int groupID) {
+        SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+        Log.d("Jeejee", "Ryhmä tallennetaan " +  groupID);
+        mySharedPreferences.edit().putInt("groupID", groupID).apply();
     }
 }
