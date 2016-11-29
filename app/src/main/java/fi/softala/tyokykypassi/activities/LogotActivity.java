@@ -41,6 +41,7 @@ public class LogotActivity extends ToolbarActivity {
         ImageView eu = (ImageView) findViewById(R.id.eu_logo);
         ImageView ely = (ImageView) findViewById(R.id.ely_logo);
         ImageView vipu = (ImageView) findViewById(R.id.vipuvoimaa_logo);
+        ImageView sao = (ImageView) findViewById(R.id.stadin_ammattiopisto_logo);
         ImageView smart = (ImageView) findViewById(R.id.smart_moves_logo);
         ImageView ehyt = (ImageView) findViewById(R.id.ehyt_logo);
         ImageView mieli = (ImageView) findViewById(R.id.mieli_logo);
@@ -61,6 +62,8 @@ public class LogotActivity extends ToolbarActivity {
                 ImageManipulation.decodeSampledBitmapFromResource(getResources(), R.drawable.kehittaja_ely, 100, 70));
         vipu.setImageBitmap(
                 ImageManipulation.decodeSampledBitmapFromResource(getResources(), R.drawable.kehittaja_vipuvoimaa, 100, 70));
+        sao.setImageBitmap(
+                ImageManipulation.decodeSampledBitmapFromResource(getResources(), R.drawable.kehittaja_stadin_ammattiopisto, 100, 70));
         smart.setImageBitmap(
                 ImageManipulation.decodeSampledBitmapFromResource(getResources(), R.drawable.yhteistyo_smart_moves, 100, 70));
         ehyt.setImageBitmap(

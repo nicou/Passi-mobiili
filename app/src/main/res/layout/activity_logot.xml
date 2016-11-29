@@ -111,6 +111,13 @@
                 android:id="@+id/vipuvoimaa_logo"
                 android:scaleType="fitCenter"/>
 
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="70dp"
+                    app:srcCompat="@drawable/kehittaja_stadin_ammattiopisto"
+                    android:id="@+id/stadin_ammattiopisto_logo"
+                    android:scaleType="fitCenter"/>
+
             </GridLayout>
 
             <TextView
