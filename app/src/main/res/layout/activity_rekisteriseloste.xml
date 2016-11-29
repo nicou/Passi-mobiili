@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/background_and_title"
+    tools:context="fi.softala.tyokykypassi.activities.RekisteriselosteActivity">
+
+    <include
+        layout="@layout/tool_bar"
+        android:id="@+id/palkki" />
+    <TextView
+        android:text="REKISTERISELOSTE"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#3498db"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:id="@+id/rekisteriseloste"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/palkki"
+        android:layout_marginStart="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="20dp"/>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:padding="28dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/scrollView"
+        app:layout_constraintTop_toBottomOf="@+id/rekisteriseloste">
+
+        <LinearLayout
+            android:id="@+id/selosteWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@android:color/white">
+
+            <TextView
+                android:id="@+id/selosteteksti1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="18dp"
+                android:textColor="#919191"
+                />
+
+         </LinearLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

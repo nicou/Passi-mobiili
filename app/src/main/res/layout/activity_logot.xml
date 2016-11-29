@@ -177,6 +177,8 @@
                 android:id="@+id/tyokykypassi_logo"
                 android:scaleType="fitCenter"/>
 
+
+
             </GridLayout>
 
         </LinearLayout>

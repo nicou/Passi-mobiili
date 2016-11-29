@@ -23,6 +23,7 @@ import java.util.List;
 import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.activities.LogotActivity;
 import fi.softala.tyokykypassi.activities.MainActivity;
+import fi.softala.tyokykypassi.activities.RekisteriselosteActivity;
 import fi.softala.tyokykypassi.activities.VahvistusActivity;
 import fi.softala.tyokykypassi.models.Kayttaja;
 import fi.softala.tyokykypassi.models.Ryhma;
@@ -62,6 +63,16 @@ public class Profiili extends Fragment {
             public void onClick(View v) {
 
                 Intent intent = new Intent(Profiili.this.getActivity(), LogotActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        Button Rekisteriseloste = (Button) v.findViewById(R.id.rekisteri_button);
+        Rekisteriseloste.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Profiili.this.getActivity(), RekisteriselosteActivity.class);
                 startActivity(intent);
 
             }
