@@ -189,9 +189,9 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Boolean isPeukku = isPeukku(worksheet);
 
             if (isPeukku) {
-                button1.setButtonDrawable(R.drawable.thumb_up);
-                button2.setButtonDrawable(R.drawable.hand);
-                button3.setButtonDrawable(R.drawable.thumb_down);
+                button1.setButtonDrawable(R.drawable.thumb_up_selector);
+                button2.setButtonDrawable(R.drawable.hand_selector);
+                button3.setButtonDrawable(R.drawable.thumb_down_selector);
             }
 
 
