@@ -63,9 +63,21 @@ public class RegisterActivity extends AppCompatActivity {
         String stringVahvistaSalasana = etSalasanaVahvistus.getEditText().getText().toString().trim();
 
         // TODO: better input validation
-        if (valStr(stringKayttajatunnus, 3) || valStr(stringEtunimi, 2) || valStr(stringSukunimi, 2) ||
-                valStr(stringSahkoposti, 4) || valStr(stringSalasana, 5) || valStr(stringVahvistaSalasana, 5)) {
-            onRegisterFailed("Täytä kaikki kentät");
+
+        boolean onkoKentatTaytetty = true;
+        if(valStr(stringKayttajatunnus, 3) || valStr(stringEtunimi, 2) || valStr(stringSukunimi, 2) ||
+                valStr(stringSahkoposti, 4)){
+            onkoKentatTaytetty = false;
+        }
+        if (onkoKentatTaytetty|| valStr(stringSalasana, 5) || valStr(stringVahvistaSalasana, 5)) {
+            if(!onkoKentatTaytetty){
+                onRegisterFailed("Täytä kaikki kentät");
+            }
+            else if(valStr(stringSalasana, 5) || valStr(stringVahvistaSalasana, 5) && onkoKentatTaytetty){
+                onRegisterFailed("Salasanan täytyy olla vähintään viisi merkkiä");
+            }else{
+                onRegisterFailed("Täytä kaikki kentät");
+            }
         } else if (!stringSalasana.equals(stringVahvistaSalasana)) {
             onRegisterFailed("Salasanat eivät täsmää");
         } else {
