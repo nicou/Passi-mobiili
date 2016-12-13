@@ -4,7 +4,6 @@ package fi.softala.tyokykypassi.activities;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.widget.ImageButton;
 
 import java.util.ArrayList;
@@ -78,10 +77,6 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
 
     @Override
     public void onFragmentInteraction(int valinta, List<Answersheet> kortit) {
-        Log.d("jeejeejee", "valinta oli " + valinta);
-        for (Answersheet a : kortit) {
-            Log.d("jeejeejee", a.toString());
-        }
 
         // palautetut tehtavakortit
         Palautetut palautetut = new Palautetut();
