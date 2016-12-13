@@ -24,7 +24,7 @@ import fi.softala.tyokykypassi.models.Answersheet;
 
 public class Palautetut extends Fragment {
     private RecyclerView.Adapter adapter;
-    private ArrayList<Answersheet> kortit;
+    private ArrayList<Answersheet> kortit = new ArrayList<>();
 
     public Palautetut() {
         // Required empty public constructor

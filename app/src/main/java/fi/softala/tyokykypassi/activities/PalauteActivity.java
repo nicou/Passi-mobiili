@@ -79,6 +79,10 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
     @Override
     public void onFragmentInteraction(int valinta, List<Answersheet> kortit) {
         Log.d("jeejeejee", "valinta oli " + valinta);
+        for (Answersheet a : kortit) {
+            Log.d("jeejeejee", a.toString());
+        }
+
         // palautetut tehtavakortit
         Palautetut palautetut = new Palautetut();
         Bundle args = new Bundle();
@@ -119,9 +123,6 @@ public class PalauteActivity extends ToolbarActivity implements Palaute.OnFragme
                 .commit();
     }
 
-    private void palauteKamat() {
-
-    }
 
 
 }

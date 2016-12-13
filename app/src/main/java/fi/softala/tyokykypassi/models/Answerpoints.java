@@ -8,23 +8,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class Answerpoints {
 
-    @SerializedName("answerpoint_id")
+    @SerializedName("answerpointId")
     private Integer answerpointId;
     @SerializedName("answer_text")
     private String answerText;
-    @SerializedName("instructor_comment")
+    @SerializedName("instructorComment")
     private String instructorComment;
-    @SerializedName("instructor_rating")
+    @SerializedName("instructorRating")
     private String instructorRating;
     @SerializedName("imageURL")
     private String imageUrl;
-    @SerializedName("answersheet_id")
+    @SerializedName("answersheetId")
     private Integer answersheetId;
-    @SerializedName("waypoint_id")
+    @SerializedName("waypointId")
     private Integer waypointId;
-    @SerializedName("option_id")
+    @SerializedName("optionId")
     private Integer optionId;
-    @SerializedName("option_text")
+    @SerializedName("optionText")
     private String optionText;
 
     public Answerpoints() {

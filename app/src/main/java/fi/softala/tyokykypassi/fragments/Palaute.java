@@ -14,11 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +27,6 @@ import fi.softala.tyokykypassi.models.Category;
 import fi.softala.tyokykypassi.models.Worksheet;
 import fi.softala.tyokykypassi.network.PassiClient;
 import fi.softala.tyokykypassi.network.ServiceGenerator;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,28 +72,29 @@ public class Palaute extends android.support.v4.app.Fragment {
         userId = Integer.parseInt(mySharedPreferences.getString("userID", null));
 
         passiClient = ServiceGenerator.createService(PassiClient.class, base);
-        Call<ResponseBody> hae = passiClient.haeVastausMap(groupId, userId);
+        Call<List<Category>> hae = passiClient.haeTehtavakortit(groupId);
 
-        hae.enqueue(new Callback<ResponseBody>() {
+        hae.enqueue(new Callback<List<Category>>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    try {
 
-                        String jsonMap = response.body().string();
-                        Gson gson = new Gson();
-                        Type stringIntegerMap = new TypeToken<Map<String, Integer>>() {
-                        }.getType();
-                        Map<String, Integer> vastausMap = gson.fromJson(jsonMap, stringIntegerMap);
-                        new haeVastaukset().execute(vastausMap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+
+                    List<Category> kategoriat = response.body();
+                    List<Worksheet> tehtavaKortit = new ArrayList<Worksheet>();
+                    for (Category cat :
+                            kategoriat
+                            ) {
+                        tehtavaKortit.addAll(cat.getCategoryWorksheets());
                     }
+
+                    new haeVastaukset().execute(tehtavaKortit);
+
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<List<Category>> call, Throwable t) {
 
             }
         });
@@ -142,24 +138,21 @@ public class Palaute extends android.support.v4.app.Fragment {
         });
     }
 
-    private class haeVastaukset extends AsyncTask<Map<String, Integer>, Object, List<Answersheet>> {
+    private class haeVastaukset extends AsyncTask<List<Worksheet>, Object, List<Answersheet>> {
 
 
         @SafeVarargs
         @Override
-        protected final List<Answersheet> doInBackground(Map<String, Integer>... maps) {
+        protected final List<Answersheet> doInBackground(List<Worksheet>... path) {
             List<Answersheet> vastaukset = new ArrayList<>();
             tekemattomatKortit = new ArrayList<>();
 
-            for (Map.Entry<String, Integer> entry :
-                    maps[0].entrySet()) {
+            for (Worksheet tehtavakortti :
+                    path[0]) {
                 if (lopetettu) {
                     break;
                 }
-                int id = entry.getValue();
-                if (entry.getValue() != 1) {
-                    break;
-                }
+                int id = tehtavakortti.getWorksheetID();
 
                 vastaus = passiClient.haeOpettajanKommentit(
                         id,
@@ -177,9 +170,9 @@ public class Palaute extends android.support.v4.app.Fragment {
                 boolean tehty = true;
 
                 if (yksVastaus != null) {
-
+                    yksVastaus.setWorksheetName(tehtavakortti.getWorksheetHeader());
                     for (Answerpoints aw : yksVastaus.getAnswerpointsList()) {
-                        if (aw.getInstructorRating() != null && aw.getInstructorRating().equals("null")) {
+                        if (Integer.parseInt(aw.getInstructorRating()) == 0) {
                             tehty = false;
                         }
                     }
