@@ -13,19 +13,19 @@ import java.util.List;
 
 public class Answersheet implements Parcelable{
     private int tyyppi;
-    @SerializedName("answersheetID")
+    @SerializedName("answersheet_id")
     private String answersheetId;
     @SerializedName("planning")
     private String planning;
-    @SerializedName("instructorComment")
+    @SerializedName("instructor_comment")
     private String instructorComment;
     @SerializedName("timestamp")
     private long timestamp;
-    @SerializedName("worksheetID")
+    @SerializedName("worksheet_id")
     private Integer worksheetId;
-    @SerializedName("groupID")
+    @SerializedName("group_id")
     private Integer groupId;
-    @SerializedName("userID")
+    @SerializedName("user_id")
     private Integer userId;
     @SerializedName("answerpoints")
     private List<Answerpoints> answerpointsList;

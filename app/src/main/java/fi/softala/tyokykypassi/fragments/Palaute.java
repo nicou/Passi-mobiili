@@ -14,9 +14,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.adapters.PalauteAdapter;
@@ -26,6 +31,7 @@ import fi.softala.tyokykypassi.models.Category;
 import fi.softala.tyokykypassi.models.Worksheet;
 import fi.softala.tyokykypassi.network.PassiClient;
 import fi.softala.tyokykypassi.network.ServiceGenerator;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,18 +67,53 @@ public class Palaute extends android.support.v4.app.Fragment {
         if (getArguments() != null) {
             groupId = getArguments().getInt("groupID");
         }
-        haeTehtavakortit();
+        haeVastauksetJotkaArvioitu();
     }
 
-    private void haeTehtavakortit() {
+    private void haeVastauksetJotkaArvioitu() {
         SharedPreferences mySharedPreferences = getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
 
         String base = mySharedPreferences.getString("token", null);
-        Log.d("jeejeejee", groupId + " on ryhmaid");
         userId = Integer.parseInt(mySharedPreferences.getString("userID", null));
 
         passiClient = ServiceGenerator.createService(PassiClient.class, base);
+        Call<ResponseBody> hae = passiClient.haeVastausMap(groupId, userId);
 
+        hae.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+
+                        String jsonMap = response.body().string();
+                        Gson gson = new Gson();
+                        Type stringIntegerMap = new TypeToken<Map<String, Integer>>() {
+                        }.getType();
+                        Map<String, Integer> vastausMap = gson.fromJson(jsonMap, stringIntegerMap);
+                        new haeVastaukset().execute(vastausMap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+    private void haeTehtavakortit(Map<String, Integer> vastausMap) {
+
+        SharedPreferences mySharedPreferences = getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+
+        String base = mySharedPreferences.getString("token", null);
+        userId = Integer.parseInt(mySharedPreferences.getString("userID", null));
+
+        passiClient = ServiceGenerator.createService(PassiClient.class, base);
 
         call = passiClient.haeTehtavakortit(groupId);
         call.enqueue(new Callback<List<Category>>() {
@@ -87,7 +128,7 @@ public class Palaute extends android.support.v4.app.Fragment {
                             ) {
                         tehtavaKortit.addAll(cat.getCategoryWorksheets());
                     }
-                    new haeVastaukset().execute(tehtavaKortit);
+                    new haeVastaukset().execute();
 
                 } else {
                     Toast.makeText(getActivity(), "Korttien haku epäonnistui", Toast.LENGTH_LONG).show();
@@ -101,20 +142,25 @@ public class Palaute extends android.support.v4.app.Fragment {
         });
     }
 
-    //atm vastaus pitää poistaa enne uuden lisäämistä samaan vastaukseen
-    private class haeVastaukset extends AsyncTask<List<Worksheet>, Object, List<Answersheet>> {
+    private class haeVastaukset extends AsyncTask<Map<String, Integer>, Object, List<Answersheet>> {
+
 
         @SafeVarargs
         @Override
-        protected final List<Answersheet> doInBackground(List<Worksheet>... path) {
+        protected final List<Answersheet> doInBackground(Map<String, Integer>... maps) {
             List<Answersheet> vastaukset = new ArrayList<>();
             tekemattomatKortit = new ArrayList<>();
-            for (Worksheet tehtavakortti :
-                    path[0]) {
+
+            for (Map.Entry<String, Integer> entry :
+                    maps[0].entrySet()) {
                 if (lopetettu) {
                     break;
                 }
-                int id = tehtavakortti.getWorksheetID();
+                int id = entry.getValue();
+                if (entry.getValue() != 1) {
+                    break;
+                }
+
                 vastaus = passiClient.haeOpettajanKommentit(
                         id,
                         groupId,
@@ -131,10 +177,9 @@ public class Palaute extends android.support.v4.app.Fragment {
                 boolean tehty = true;
 
                 if (yksVastaus != null) {
-                    yksVastaus.setWorksheetName(tehtavakortti.getWorksheetHeader());
 
                     for (Answerpoints aw : yksVastaus.getAnswerpointsList()) {
-                        if (Integer.parseInt(aw.getInstructorRating()) == 0) {
+                        if (aw.getInstructorRating() != null && aw.getInstructorRating().equals("null")) {
                             tehty = false;
                         }
                     }
