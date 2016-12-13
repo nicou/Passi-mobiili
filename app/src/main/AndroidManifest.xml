@@ -59,7 +59,6 @@
 
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.LogotActivity"></activity>
-        <activity android:name=".activities.RekisteriselosteActivity" />
     </application>
 
 </manifest>

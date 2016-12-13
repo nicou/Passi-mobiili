@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
         // TODO: better input validation
 
         boolean onkoKentatTaytetty = true;
-        if(!valStr(stringKayttajatunnus, 3) || !valStr(stringEtunimi, 2) || !valStr(stringSukunimi, 2) ||
+        if(!valStr(stringKayttajatunnus, 5) || !valStr(stringEtunimi, 2) || !valStr(stringSukunimi, 2) ||
                 !valStr(stringSahkoposti, 4)){
             onkoKentatTaytetty = false;
         }
