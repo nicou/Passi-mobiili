@@ -11,10 +11,11 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
         android:layout_weight="0.4"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:id="@+id/group_button"
         android:textSize="14sp"
         android:textColor="#3498db"
+        android:padding="30dp"
         android:background="@drawable/ammatin_tyokykyvalmiudet_small"/>
 
 </LinearLayout>
