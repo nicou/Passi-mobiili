@@ -50,8 +50,8 @@
             android:id="@+id/logotWrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="#F7F5E9"
+            android:orientation="vertical"
             android:padding="16dp">
 
             <TextView
@@ -175,6 +175,14 @@
 
             </GridLayout>
 
+            <TextView
+                android:id="@+id/tekijat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textColor="#919191"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </ScrollView>

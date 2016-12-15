@@ -1,6 +1,5 @@
 package fi.softala.tyokykypassi.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,6 +30,21 @@ public class LogotActivity extends ToolbarActivity {
                 "Sovellukseen kehittämiseen ovat osallistuneet Haaga-Helia Ammattikorkeakoulu, Työterveyslaitos, Saku Ry ja Stadin ammattiopisto.");
 
 
+        TextView tekijat = (TextView) findViewById(R.id.tekijat);
+        tekijat.setText("Kehittäjät: \n" +
+                "Ville Aaltonen \n" +
+                "Petteri Haimakainen \n" +
+                "Julius Heinonen \n" +
+                "Roope Heinonen \n" +
+                "Sami Holopainen \n" +
+                "Joakim Kajan \n" +
+                "Vilhelmiina Karttunen \n" +
+                "Teemu Laurila \n" +
+                "Lucy Liu \n" +
+                "Sanna Mäki \n" +
+                "Mika Ropponen \n" +
+                "Varvara Zhilibovskaya \n"
+        );
 
         TextView logotext2 = (TextView) findViewById(R.id.logoteksti2);
         logotext2.setText("Sovelluksen sisällössä on hyödynnetty Alpo.fi-sivujen tehtäviä, jotka on aiemmin laadittu yhteistyössä seuraavien tahojen kanssa:");
@@ -53,7 +67,7 @@ public class LogotActivity extends ToolbarActivity {
         haaga.setImageBitmap(
                 ImageManipulation.decodeSampledBitmapFromResource(getResources(), R.drawable.kehittaja_haagahelia, 100, 70));
         ttl.setImageBitmap(
-                ImageManipulation.decodeSampledBitmapFromResource(getResources(),R.drawable.kehittaja_ttl, 100, 70));
+                ImageManipulation.decodeSampledBitmapFromResource(getResources(), R.drawable.kehittaja_ttl, 100, 70));
         saku.setImageBitmap(
                 ImageManipulation.decodeSampledBitmapFromResource(getResources(), R.drawable.kehittaja_saku, 100, 70));
         eu.setImageBitmap(
@@ -78,6 +92,7 @@ public class LogotActivity extends ToolbarActivity {
                 ImageManipulation.decodeSampledBitmapFromResource(getResources(), R.drawable.yhteistyo_nuorten_akatemia, 100, 70));
         tyokyky.setImageBitmap(
                 ImageManipulation.decodeSampledBitmapFromResource(getResources(), R.drawable.yhteistyo_tyokykypassi, 100, 70));
+
 
     }
 
