@@ -2,6 +2,9 @@ package fi.softala.tyokykypassi.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 
 import fi.softala.tyokykypassi.R;
@@ -30,6 +35,9 @@ public class Valikko extends Fragment {
     private Valikko.OnFragmentInteractionListener mListener;
     private OnProfiiliNappiFragmentInteractionListener mProfileListener;
     private TextView topProgressText;
+    private ImageView bottomProgressFill;
+    private ImageView bottomProgressBackground;
+    private TextView bottomProgressPercentage;
 
     public Valikko() {
         // Required empty public constructor
@@ -66,7 +74,9 @@ public class Valikko extends Fragment {
         });
 
         topProgressText = (TextView) v.findViewById(R.id.topProgressText);
-
+        bottomProgressFill = (ImageView) v.findViewById(R.id.bottomProgressFill);
+        bottomProgressBackground = (ImageView) v.findViewById(R.id.bottomProgressBackground);
+        bottomProgressPercentage = (TextView) v.findViewById(R.id.bottomProgressPercentage);
         return v;
     }
 
@@ -99,7 +109,19 @@ public class Valikko extends Fragment {
             topProgressText.setText("0 / 0");
         } else {
             topProgressText.setText(progress.get("completed") + " / " + progress.get("total"));
+            double progressPercentage = Double.valueOf(progress.get("completed")) / Double.valueOf(progress.get("total"));
+            renderProgressBar(progressPercentage);
         }
+    }
+
+    public void renderProgressBar(double progressPercentage) {
+        Bitmap source = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.etenemispalkkiv2_varipalkki);
+        Double croppedWidth = Math.floor(progressPercentage * source.getWidth());
+        Bitmap progressBar = Bitmap.createBitmap(source, 0, 0, croppedWidth.intValue(), source.getHeight() - 10);
+        DecimalFormat df = new DecimalFormat("#");
+
+        bottomProgressFill.setImageBitmap(progressBar);
+        bottomProgressPercentage.setText(df.format(progressPercentage * 100) + "%");
     }
 
     public void getProgress() {
