@@ -1,6 +1,7 @@
 package fi.softala.tyokykypassi.network;
 
 import java.util.List;
+import java.util.Map;
 
 import fi.softala.tyokykypassi.models.Answersheet;
 import fi.softala.tyokykypassi.models.Category;
@@ -56,5 +57,8 @@ public interface PassiClient {
 
     @POST("register/")
     Call<ResponseBody> rekisteroiKayttaja(@Body UusiKayttaja kayttaja);
+
+    @GET("progress/")
+    Call<Map<String, Integer>> getProgress();
 
 }

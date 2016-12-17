@@ -42,7 +42,6 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFrag
                     .commit();
         }
 
-
         ImageButton imHome = (ImageButton) findViewById(R.id.home);
         ImageButton imFeedback = (ImageButton) findViewById(R.id.feedback);
         ImageButton imLogout = (ImageButton) findViewById(R.id.logout);
@@ -184,4 +183,5 @@ public class MainActivity extends ToolbarActivity implements Ryhmat.OnRyhmatFrag
     public void onRyhmatMenePalauteInteraction(int groupID) {
 
     }
+
 }

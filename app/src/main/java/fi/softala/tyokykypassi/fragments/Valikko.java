@@ -1,14 +1,25 @@
 package fi.softala.tyokykypassi.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Map;
 
 import fi.softala.tyokykypassi.R;
+import fi.softala.tyokykypassi.network.PassiClient;
+import fi.softala.tyokykypassi.network.ServiceGenerator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by villeaaltonen on 27/10/2016.
@@ -18,6 +29,7 @@ public class Valikko extends Fragment {
 
     private Valikko.OnFragmentInteractionListener mListener;
     private OnProfiiliNappiFragmentInteractionListener mProfileListener;
+    private TextView topProgressText;
 
     public Valikko() {
         // Required empty public constructor
@@ -53,12 +65,15 @@ public class Valikko extends Fragment {
             }
         });
 
+        topProgressText = (TextView) v.findViewById(R.id.topProgressText);
+
         return v;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        getProgress();
         if (context instanceof Valikko.OnFragmentInteractionListener) {
             mListener = (Valikko.OnFragmentInteractionListener) context;
         } else {
@@ -77,6 +92,40 @@ public class Valikko extends Fragment {
         super.onDetach();
         mListener = null;
         mProfileListener = null;
+    }
+
+    public void renderProgress(Map<String, Integer> progress) {
+        if (!progress.containsKey("completed") && !progress.containsKey("total")) {
+            topProgressText.setText("0 / 0");
+        } else {
+            topProgressText.setText(progress.get("completed") + " / " + progress.get("total"));
+        }
+    }
+
+    public void getProgress() {
+        SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
+        String base = mySharedPreferences.getString("token", null);
+
+        PassiClient service = ServiceGenerator.createService(PassiClient.class, base);
+
+        Call<Map<String, Integer>> call = service.getProgress();
+
+        call.enqueue(new Callback<Map<String, Integer>>() {
+            @Override
+            public void onResponse(Call<Map<String, Integer>> call, Response<Map<String, Integer>> response) {
+                if (response.isSuccessful()) {
+                    Log.v("Valikko", "Haettiin progress: " + response.body());
+                    renderProgress(response.body());
+                } else {
+                    Log.v("Valikko", "Progressin haku ei onnistunut.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Integer>> call, Throwable t) {
+                Log.e("Valikko", "Progressin haku epäonnistui " + t.toString());
+            }
+        });
     }
 
     /**
