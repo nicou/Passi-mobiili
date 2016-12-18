@@ -56,6 +56,7 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             final String pisteetRivi = "\nPisteet: ";
             final String kaksoispisteJaVali = ": ";
             final String tuplarivi = "\n \n";
+            final String koostePalaute = "Koostepalaute: ";
 
             final int maxPisteet = answ.size() * 3;
             final double ylin = 2.0 / 3.0;
@@ -64,6 +65,7 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
             Boolean exist = false;
             Boolean arvioitu = true;
             String opettajanKommentti = "";
+            String opettajanKoostePalaute = vastaus.getInstructorComment();
             int numero = 1;
             int pisteet = 0;
 
@@ -85,7 +87,7 @@ public class PalauteAdapter extends RecyclerView.Adapter<PalauteAdapter.PalauteH
 
             }
 
-            opettajanKommentti = opettajanKommentti + kokonaispisteet + pisteet + kautta + maxPisteet;
+            opettajanKommentti = opettajanKommentti + kokonaispisteet + pisteet + kautta + maxPisteet + tuplarivi + koostePalaute + opettajanKoostePalaute;
 
             Double dPisteet = (double) pisteet;
             Double dMax = (double) maxPisteet;
