@@ -517,7 +517,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
         //Johdanto teksti
         TextView textViewJohdanto = (TextView) findViewById(R.id.textView1);
-        textViewJohdanto.setText(johdantoString);
+        textViewJohdanto.setText(johdantoString + "\n");
 
         //Suunitelma teksti
         TextView textViewSuunitelma = (TextView) findViewById(R.id.suunitelmaTeksti);
