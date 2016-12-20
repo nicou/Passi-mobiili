@@ -117,6 +117,9 @@ public class Valikko extends Fragment {
     public void renderProgressBar(double progressPercentage) {
         Bitmap source = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.etenemispalkkiv2_varipalkki);
         Double croppedWidth = Math.floor(progressPercentage * source.getWidth());
+        if (croppedWidth < 1) {
+            croppedWidth = 1.0;
+        }
         Bitmap progressBar = Bitmap.createBitmap(source, 0, 0, croppedWidth.intValue(), source.getHeight() - 10);
         DecimalFormat df = new DecimalFormat("#");
 
