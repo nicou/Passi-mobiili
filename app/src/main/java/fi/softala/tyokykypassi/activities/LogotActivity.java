@@ -31,8 +31,9 @@ public class LogotActivity extends ToolbarActivity {
 
 
         TextView tekijat = (TextView) findViewById(R.id.tekijat);
-        tekijat.setText("Kehittäjät: \n" +
+        tekijat.setText("Kehittäjät: \n\n" +
                 "Ville Aaltonen \n" +
+                "Nico Hagelberg \n" +
                 "Petteri Haimakainen \n" +
                 "Julius Heinonen \n" +
                 "Roope Heinonen \n" +
@@ -43,7 +44,9 @@ public class LogotActivity extends ToolbarActivity {
                 "Lucy Liu \n" +
                 "Sanna Mäki \n" +
                 "Mika Ropponen \n" +
-                "Varvara Zhilibovskaya \n"
+                "Varvara Zhilibovskaya \n\n" +
+                "Kuvat:\n\n" +
+                "Henna Ahvenniemi \n"
         );
 
         TextView logotext2 = (TextView) findViewById(R.id.logoteksti2);
