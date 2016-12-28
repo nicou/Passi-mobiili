@@ -7,11 +7,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import fi.softala.tyokykypassi.R;
@@ -33,10 +36,15 @@ public class KirjautumisActivity extends AppCompatActivity {
         setContentView(R.layout.activity_kirjautuminen);
         final TextInputLayout usernameWrapper = (TextInputLayout) findViewById(R.id.usernameWrapper);
         final TextInputLayout passwordWrapper = (TextInputLayout) findViewById(R.id.passwordWrapper);
+        final TextView salasananPalautus = (TextView) findViewById(R.id.salasananPalautus);
+
         final Button btn = (Button) findViewById(R.id.btn);
 
         usernameWrapper.setHint("Käyttäjänimi");
         passwordWrapper.setHint("Salasana");
+        salasananPalautus.setMovementMethod(LinkMovementMethod.getInstance());
+        String salasananPalautusText = "<a href='http://juslin.org/passi/passrestore'>Unohtuneen salasanan palautus</a>";
+        salasananPalautus.setText(Html.fromHtml(salasananPalautusText));
 
         btn.setOnClickListener(new View.OnClickListener() {
             String username;
