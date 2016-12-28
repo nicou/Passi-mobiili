@@ -55,7 +55,7 @@ public class Tehtavakortit extends Fragment {
             ryhma = getArguments().getInt("ryhmaID");
             kategoria = getArguments().getInt("kategoriaID");
         }
-        getRyhmat(ryhma, kategoria);
+        getWorksheets(ryhma, kategoria);
     }
 
     @Override
@@ -104,10 +104,10 @@ public class Tehtavakortit extends Fragment {
         void onTehtavakortitFragmentInteraction(int ryhmaID, String korttiJSON);
     }
 
-    public void getRyhmat(int groupID, final int kategoriaID) {
+    public void getWorksheets(int groupID, final int kategoriaID) {
         SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("konfiguraatio", Context.MODE_PRIVATE);
         String token = mySharedPreferences.getString("token", null);
-        PassiClient service = ServiceGenerator.createService(PassiClient.class, token);
+        PassiClient service = ServiceGenerator.createService(PassiClient.class, 30, token);
         Call<List<Category>> call = service.haeTehtavakortit(groupID);
         call.enqueue(new Callback<List<Category>>() {
             @Override
@@ -152,7 +152,7 @@ public class Tehtavakortit extends Fragment {
                 mListener.onTehtavakortitFragmentInteraction(ryhmaID, korttiJSON);
 
             }
-        });
+        }, getContext());
 
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(adapter);

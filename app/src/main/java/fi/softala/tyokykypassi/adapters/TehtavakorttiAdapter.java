@@ -1,11 +1,14 @@
 package fi.softala.tyokykypassi.adapters;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class TehtavakorttiAdapter extends RecyclerView.Adapter<TehtavakorttiAdap
     private final List<Worksheet> kortit;
     private final int rowLayout;
     private final TehtavakorttiAdapter.OnItemClickListener mListener;
+    private static Context context;
 
     public static class TehtavakorttiHolder extends RecyclerView.ViewHolder {
         final LinearLayout groupLayout;
@@ -34,12 +38,24 @@ public class TehtavakorttiAdapter extends RecyclerView.Adapter<TehtavakorttiAdap
         public void bind(final Worksheet kortti, final TehtavakorttiAdapter.OnItemClickListener mListener) {
 
             groupButton.setText(kortti.getWorksheetHeader());
-            groupButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onItemClick(kortti);
-                }
-            });
+            if (kortti.isWorksheetCompleted()) {
+                Drawable backgroundCompleted = context.getResources().getDrawable(R.drawable.ammatin_tyokykyvalmiudet_small_complete);
+                groupButton.setBackground(backgroundCompleted);
+
+                groupButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(v.getContext(), "Tehtäväkortti on jo suoritettu", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                groupButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.onItemClick(kortti);
+                    }
+                });
+            }
         }
     }
 
@@ -47,10 +63,11 @@ public class TehtavakorttiAdapter extends RecyclerView.Adapter<TehtavakorttiAdap
         void onItemClick(Worksheet kortti);
     }
 
-    public TehtavakorttiAdapter(List<Worksheet> kortit, int rowLayout, TehtavakorttiAdapter.OnItemClickListener listener) {
+    public TehtavakorttiAdapter(List<Worksheet> kortit, int rowLayout, TehtavakorttiAdapter.OnItemClickListener listener, Context context) {
         this.kortit = kortit;
         this.rowLayout = rowLayout;
         this.mListener = listener;
+        this.context = context;
     }
 
     @Override

@@ -14,13 +14,15 @@ public class Worksheet {
     private String worksheetPreface;
     private String worksheetPlanning;
     private List<WorksheetWaypoints> worksheetWaypoints;
+    private boolean worksheetCompleted;
 
-    public Worksheet(Integer worksheetID, String worksheetHeader, String worksheetPreface, String worksheetPlanning, List<WorksheetWaypoints> worksheetWaypoints) {
+    public Worksheet(Integer worksheetID, String worksheetHeader, String worksheetPreface, String worksheetPlanning, List<WorksheetWaypoints> worksheetWaypoints, boolean worksheetCompleted) {
         this.worksheetID = worksheetID;
         this.worksheetHeader = worksheetHeader;
         this.worksheetPreface = worksheetPreface;
         this.worksheetPlanning = worksheetPlanning;
         this.worksheetWaypoints = worksheetWaypoints;
+        this.worksheetCompleted = worksheetCompleted;
     }
     public Worksheet(){
 
@@ -66,6 +68,14 @@ public class Worksheet {
         this.worksheetWaypoints = worksheetWaypoints;
     }
 
+    public boolean isWorksheetCompleted() {
+        return worksheetCompleted;
+    }
+
+    public void setWorksheetCompleted(boolean worksheetCompleted) {
+        this.worksheetCompleted = worksheetCompleted;
+    }
+
     @Override
     public String toString() {
         return "Worksheet{" +
@@ -74,6 +84,7 @@ public class Worksheet {
                 ", worksheetPreface='" + worksheetPreface + '\'' +
                 ", worksheetPlanning='" + worksheetPlanning + '\'' +
                 ", worksheetWaypoints=" + worksheetWaypoints +
+                ", worksheetCompleted=" + worksheetCompleted +
                 '}';
     }
 }
