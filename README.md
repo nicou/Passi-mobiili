@@ -1,6 +1,15 @@
 # passi
 Työkykypassi
 
+Tämä on työkykypassin mobiiliosa Android-puhelimille. IOS-versiota ei toistaiseksi ole.  
+  
+Ohjelmisto koostuu kolmesta osasesta, jotka on jaettu kolmeen github repositoryyn: Passi-mobiili, passi ja passi-rest. Tämä on mobiilin repository. passi sisältää www-käyttöliittymän ja passi-rest on mobiilin backend.  
+  
+Ohjelmisto on suunnattu 2. asteen oppilaitoksiin. Ohjelmisto mahdollistaa opiskelijoille mobiiliohjelmistolla kuvien ottamisen, tekstimuotoisten vastausten palauttamisen yms. mobiilisovelluksen perustoiminnot. www-käyttöliittymä (passi) on tarkoitettu opettajille, jossa he voivat tarkastella ja arvioida opiskelijoiden suorituksia, jotka kuuluvat tiettyyn ryhmään.  
+  
+Passi saa tietonsa rest-backendin kautta, jonka kanssa mobiilisovellus asioi.
+  
+
 Uuden projektin haku palvelimelta (git clone):
 1.  tee kansio nimeltä git (jos ei jo ole)
 2.  cd git
