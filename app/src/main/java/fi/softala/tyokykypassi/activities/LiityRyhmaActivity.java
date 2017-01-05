@@ -60,7 +60,6 @@ public class LiityRyhmaActivity extends ToolbarActivity {
 
         Integer userId = Integer.parseInt(mySharedPreferences.getString("userID", null));
 
-
         PassiClient passiClient = ServiceGenerator.createService(PassiClient.class, base);
         Call<ResponseBody> call = passiClient.LiityRyhmaan(tunnus, userId);
         call.enqueue(new Callback<ResponseBody>() {

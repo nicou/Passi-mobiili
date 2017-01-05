@@ -177,7 +177,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(TehtavakorttiActivity.this, "Wanhan poisto epäonnistui", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TehtavakorttiActivity.this, "Vanhan poisto epäonnistui", Toast.LENGTH_SHORT).show();
                 Log.e("Tehtavakortti", "Poisto epäonnistui " + t.toString());
             }
         });
@@ -539,7 +539,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
             lisaaKuvaUri();
             FileOutputStream fos;
             try {
-                fos = this.openFileOutput(String.valueOf(vastausID), Context.MODE_PRIVATE);
+                fos = this.openFileOutput(String.valueOf(vastausID + "_" + userID), Context.MODE_PRIVATE);
                 ObjectOutputStream os;
 
                 os = new ObjectOutputStream(fos);
@@ -572,9 +572,9 @@ public class TehtavakorttiActivity extends ToolbarActivity {
     private void haeVastaus(Worksheet kortti) {
         FileInputStream fis;
         try {
-            File vastaukset = this.getFileStreamPath(String.valueOf(vastausID));
+            File vastaukset = this.getFileStreamPath(String.valueOf(vastausID + "_" + userID));
             if (vastaukset.exists()) {
-                fis = this.openFileInput(String.valueOf(vastausID));
+                fis = this.openFileInput(String.valueOf(vastausID + "_" + userID));
                 ObjectInputStream is = new ObjectInputStream(fis);
                 etappiList = (HashMap<Integer, Etappi>) is.readObject();
                 Log.d("Passi", "Haettu etapit" + etappiList.toString());
