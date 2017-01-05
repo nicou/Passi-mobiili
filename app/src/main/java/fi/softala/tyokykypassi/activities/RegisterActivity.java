@@ -65,15 +65,14 @@ public class RegisterActivity extends AppCompatActivity {
         // TODO: better input validation
 
         boolean onkoKentatTaytetty = true;
-        if(!valStr(stringKayttajatunnus, 5) || !valStr(stringEtunimi, 2) || !valStr(stringSukunimi, 2) ||
+        if(!valStr(stringKayttajatunnus, 2) || !valStr(stringEtunimi, 2) || !valStr(stringSukunimi, 2) ||
                 !valStr(stringSahkoposti, 4)){
             onkoKentatTaytetty = false;
         }
 
-
         if (!onkoKentatTaytetty || !valStr(stringSalasana, 5) || !valStr(stringVahvistaSalasana, 5)) {
             if(!onkoKentatTaytetty){
-                onRegisterFailed("Täytä kaikki kentät ");
+                onRegisterFailed("Täytä kaikki kentät");
             }
             else if(!valStr(stringSalasana, 5) || !valStr(stringVahvistaSalasana, 5) && !onkoKentatTaytetty){
                 onRegisterFailed("Salasanan täytyy olla vähintään viisi merkkiä");
