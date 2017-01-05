@@ -272,7 +272,7 @@ public class KorttiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         private boolean isNeutraaliRadio(Worksheet worksheet) {
 
-            final String neturaali1 = "Asikastilanteet";
+            final String neturaali1 = "Asiakastilanteet";
             final String neturaali2 = "Ergonomia";
             final String neturaali3 = "Ohjeiden laatiminen";
             final String neturaali4 = "Työväline esittely";
