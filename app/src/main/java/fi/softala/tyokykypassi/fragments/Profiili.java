@@ -63,7 +63,7 @@ public class Profiili extends Fragment {
         Button Rekisteriseloste = (Button) v.findViewById(R.id.rekisteri_button);
         Rekisteriseloste.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Uri uri = Uri.parse("http://juslin.org/passi/static/combo_rekisteriseloste.pdf");
+                Uri uri = Uri.parse("http://tyokykypassi.net/passi/static/combo_rekisteriseloste.pdf");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
 

@@ -43,7 +43,7 @@ public class KirjautumisActivity extends AppCompatActivity {
         usernameWrapper.setHint("Käyttäjänimi");
         passwordWrapper.setHint("Salasana");
         salasananPalautus.setMovementMethod(LinkMovementMethod.getInstance());
-        String salasananPalautusText = "<a href='http://juslin.org/passi/passrestore'>Unohtuneen salasanan palautus</a>";
+        String salasananPalautusText = "<a href='http://tyokykypassi.net/passi/passrestore'>Unohtuneen salasanan palautus</a>";
         salasananPalautus.setText(Html.fromHtml(salasananPalautusText));
 
         btn.setOnClickListener(new View.OnClickListener() {

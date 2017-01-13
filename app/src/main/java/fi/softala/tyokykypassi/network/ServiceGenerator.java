@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
-    public static final String API_BASE_URL = "http://juslin.org/passi-rest/";
+    public static final String API_BASE_URL = "http://tyokykypassi.net/passi-rest/";
 
     private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
