@@ -361,7 +361,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                 String.valueOf(kuvaNimi));
         fileUri = FileProvider.getUriForFile(TehtavakorttiActivity.this, BuildConfig.APPLICATION_ID + ".provider", file);
 
-        Log.d("Passi", "Kuva otettu " + fileUri);
+        Log.v("Passi", "Kuva otettu " + fileUri);
         kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         TehtavakorttiActivity.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
     }
@@ -539,7 +539,8 @@ public class TehtavakorttiActivity extends ToolbarActivity {
             lisaaKuvaUri();
             FileOutputStream fos;
             try {
-                fos = this.openFileOutput(String.valueOf(vastausID + "_" + userID), Context.MODE_PRIVATE);
+                fos = this.openFileOutput(String.valueOf(groupID + "_" + vastausID + "_" + userID), Context.MODE_PRIVATE);
+                Log.d("TehtavakorttiActivity", "Tallennetaan vastaus " + groupID + "_" + vastausID + "_" + userID);
                 ObjectOutputStream os;
 
                 os = new ObjectOutputStream(fos);
@@ -572,9 +573,10 @@ public class TehtavakorttiActivity extends ToolbarActivity {
     private void haeVastaus(Worksheet kortti) {
         FileInputStream fis;
         try {
-            File vastaukset = this.getFileStreamPath(String.valueOf(vastausID + "_" + userID));
+            File vastaukset = this.getFileStreamPath(String.valueOf(groupID + "_" + vastausID + "_" + userID));
             if (vastaukset.exists()) {
-                fis = this.openFileInput(String.valueOf(vastausID + "_" + userID));
+                fis = this.openFileInput(String.valueOf(groupID + "_" + vastausID + "_" + userID));
+                Log.d("TehtavakorttiActivity", "Haettiin vastaus " + groupID + "_" + vastausID + "_" + userID);
                 ObjectInputStream is = new ObjectInputStream(fis);
                 etappiList = (HashMap<Integer, Etappi>) is.readObject();
                 Log.d("Passi", "Haettu etapit" + etappiList.toString());
