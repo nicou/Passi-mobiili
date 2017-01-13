@@ -62,13 +62,13 @@ public class KirjautumisActivity extends AppCompatActivity {
                             passwordWrapper.setErrorEnabled(false);
                         }
                         usernameWrapper.requestFocus();
-                        usernameWrapper.setError("Käyttäjänimi liian lyhyt!");
+                        usernameWrapper.setError("Liian lyhyt käyttäjänimi!");
                     } else if (!validatePassword(password)) {
                         if (validateUsername(username)) {
                             usernameWrapper.setErrorEnabled(false);
                         }
                         passwordWrapper.requestFocus();
-                        passwordWrapper.setError("Salasana liian lyhyt!");
+                        passwordWrapper.setError("Liian lyhyt salasana!");
                     } else {
                         usernameWrapper.setErrorEnabled(false);
                         passwordWrapper.setErrorEnabled(false);
@@ -82,7 +82,7 @@ public class KirjautumisActivity extends AppCompatActivity {
     }
 
     public boolean validateUsername(String username) {
-        return username.length() > 4;
+        return username.length() > 2;
     }
 
     public boolean validatePassword(String password) {
