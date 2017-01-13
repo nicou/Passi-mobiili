@@ -83,9 +83,9 @@ public class Valikko extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        getProgress();
         if (context instanceof Valikko.OnFragmentInteractionListener) {
             mListener = (Valikko.OnFragmentInteractionListener) context;
+            getProgress();
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnSaariFragmentInteractionListener");
