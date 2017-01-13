@@ -43,8 +43,23 @@ public class RegisterActivity extends AppCompatActivity {
         return (s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase());
     }
 
-    public boolean valStr(String s, int length) {
-        return (s != null && s.length() >= length);
+    private String validateUser(UusiKayttaja kayttaja) {
+        if (kayttaja.getUsername().length() < 3) {
+            return "Käyttäjänimessä on oltava vähintään 3 merkkiä";
+        } else if (kayttaja.getFirstname().length() < 2) {
+            return "Etunimessä on oltava vähintään 2 merkkiä";
+        } else if (kayttaja.getLastname().length() < 2) {
+            return "Sukunimessä on oltava vähintään 2 merkkiä";
+        } else if (kayttaja.getEmail().length() < 4 || !kayttaja.getEmail().contains("@")) {
+            // Terrible validation for proper email, but the correct regex just seems just as ridiculous:
+            // https://stackoverflow.com/questions/8204680/java-regex-email/13013056#13013056
+            return "Sähköpostiosoitteessa on oltava vähintään 5 merkkiä";
+        } else if (!kayttaja.getPassword().equals(kayttaja.getConfirmPassword())) {
+            return "Salasanat eivät täsmää";
+        } else if (kayttaja.getPassword().length() < 5 || kayttaja.getConfirmPassword().length() < 5) {
+            return "Salasanassa on oltava vähintään 5 merkkiä";
+        }
+        return null;
     }
 
     public void registerOnClick(View v) {
@@ -55,42 +70,27 @@ public class RegisterActivity extends AppCompatActivity {
         TextInputLayout etSalasana = (TextInputLayout) findViewById(R.id.etSalasana);
         TextInputLayout etSalasanaVahvistus = (TextInputLayout) findViewById(R.id.etSalasanaVahvistus) ;
 
-        String stringKayttajatunnus = etKayttajaTunnus.getEditText().getText().toString().trim();
+        String stringKayttajatunnus = etKayttajaTunnus.getEditText().getText().toString().trim().toLowerCase();
         String stringEtunimi = etEtunimi.getEditText().getText().toString().trim();
         String stringSukunimi = etSukunimi.getEditText().getText().toString().trim();
         String stringSahkoposti = etSahkoposti.getEditText().getText().toString().trim();
         String stringSalasana = etSalasana.getEditText().getText().toString().trim();
         String stringVahvistaSalasana = etSalasanaVahvistus.getEditText().getText().toString().trim();
 
-        // TODO: better input validation
+        UusiKayttaja kayttaja = new UusiKayttaja();
+        kayttaja.setFirstname(capitalizeFirstLetter(stringEtunimi));
+        kayttaja.setLastname(capitalizeFirstLetter(stringSukunimi));
+        kayttaja.setUsername(stringKayttajatunnus);
+        kayttaja.setPassword(stringSalasana);
+        kayttaja.setConfirmPassword(stringVahvistaSalasana);
+        kayttaja.setEmail(stringSahkoposti);
 
-        boolean onkoKentatTaytetty = true;
-        if(!valStr(stringKayttajatunnus, 2) || !valStr(stringEtunimi, 2) || !valStr(stringSukunimi, 2) ||
-                !valStr(stringSahkoposti, 4)){
-            onkoKentatTaytetty = false;
-        }
+        String validation = validateUser(kayttaja);
 
-        if (!onkoKentatTaytetty || !valStr(stringSalasana, 5) || !valStr(stringVahvistaSalasana, 5)) {
-            if(!onkoKentatTaytetty){
-                onRegisterFailed("Täytä kaikki kentät");
-            }
-            else if(!valStr(stringSalasana, 5) || !valStr(stringVahvistaSalasana, 5) && !onkoKentatTaytetty){
-                onRegisterFailed("Salasanan täytyy olla vähintään viisi merkkiä");
-            }else{
-                onRegisterFailed("Täytä kaikki kentät");
-            }
-        } else if (!stringSalasana.equals(stringVahvistaSalasana)) {
-            onRegisterFailed("Salasanat eivät täsmää");
-        } else {
-            UusiKayttaja kayttaja = new UusiKayttaja();
-            kayttaja.setFirstname(capitalizeFirstLetter(stringEtunimi));
-            kayttaja.setLastname(capitalizeFirstLetter(stringSukunimi));
-            kayttaja.setUsername(stringKayttajatunnus);
-            kayttaja.setPassword(stringSalasana);
-            kayttaja.setConfirmPassword(stringVahvistaSalasana);
-            kayttaja.setEmail(stringSahkoposti);
-
+        if (validation == null) {
             doRegister(kayttaja);
+        } else {
+            onRegisterFailed(validation);
         }
     }
 
