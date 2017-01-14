@@ -534,8 +534,9 @@ public class TehtavakorttiActivity extends ToolbarActivity {
     }
 
     private void tallennaVastaus() {
-        if (etappiList.size() > 0) {
+        EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
 
+        if (etappiList.size() > 0) {
             lisaaKuvaUri();
             FileOutputStream fos;
             try {
@@ -547,8 +548,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                 Iterator iterator = etappiList.entrySet().iterator();
                 Map.Entry pair = (Map.Entry) iterator.next();
                 Etappi etappi = (Etappi) pair.getValue();
-                EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
-                etappi.setSuunnitelma(suunnitelma.getText().toString());
+                etappi.setSuunnitelma(suunnitelma.getText().toString().trim());
                 etappiList.put(etappi.getWaypointID(), etappi);
                 os.writeObject(etappiList);
                 os.close();
@@ -562,12 +562,11 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                 Log.e("Passi", "Tehtäväkortin tallennus epäonnistui");
             }
 
+        } else if (suunnitelma.getText().toString().trim().length() > 0) {
+            Toast.makeText(this, "Aloita vähintään 1 tehtävä ennen tallennusta", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Ei tallennettavaa", Toast.LENGTH_SHORT).show();
         }
-
-
-
     }
 
     private void haeVastaus(Worksheet kortti) {
