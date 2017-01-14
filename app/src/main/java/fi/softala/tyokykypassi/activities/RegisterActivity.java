@@ -119,11 +119,11 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.v("RegisterActivity", "Rekisterointi onnistui!");
                     onRegisterSuccess();
                 } else if (response.code() == RESULT_USERNAME_EXISTS) {
-                    Log.v("RegisterActivity", "Rekisteroinnissa virhe: kayttajanimi on jo olemassa!");
-                    onRegisterFailed("Käyttäjänimi on jo olemassa!");
+                    Log.v("RegisterActivity", "Rekisteroinnissa virhe: kayttajanimi tai sähköposti on jo käytössä!");
+                    onRegisterFailed("Käyttäjänimi tai sähköposti on jo käytössä!");
                 } else if (response.code() == RESULT_RUNTIME_EXCEPTION) {
                    Log.v("RegisterActivity", "Rekisteroinnissa virhe: runtime exception");
-                   onRegisterFailed("Täytithän kaikki kentät?");
+                   onRegisterFailed("Käyttäjän lisäys tietokantaan ei onnistunut!");
                 } else {
                     Log.v("RegisterActivity", "Rekisteroinnissa virhe: status " + response.code());
                     onRegisterFailed("Rekisteröitymisessä tapahtui virhe!");
