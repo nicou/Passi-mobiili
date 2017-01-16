@@ -46,14 +46,22 @@ public class RegisterActivity extends AppCompatActivity {
     private String validateUser(UusiKayttaja kayttaja) {
         if (kayttaja.getUsername().length() < 3) {
             return "Käyttäjänimessä on oltava vähintään 3 merkkiä";
+        } else if (kayttaja.getUsername().length() > 30) {
+            return "Käyttäjänimessä on oltava enintään 30 merkkiä";
+        } else if (!kayttaja.getUsername().trim().matches("^[A-z-._]{3,30}$")) {
+            return "Käyttäjänimi sisältää virheellisiä merkkejä. Sallitut erikoismerkit: . - ja _";
         } else if (kayttaja.getFirstname().length() < 2) {
             return "Etunimessä on oltava vähintään 2 merkkiä";
         } else if (kayttaja.getLastname().length() < 2) {
             return "Sukunimessä on oltava vähintään 2 merkkiä";
-        } else if (kayttaja.getEmail().length() < 4 || !kayttaja.getEmail().contains("@")) {
+        } else if (kayttaja.getFirstname().length() > 40) {
+            return "Etunimessä on oltava enintään 40 merkkiä";
+        } else if (kayttaja.getLastname().length() > 40) {
+            return "Sukunimessä on oltava enintään 40 merkkiä";
+        } else if (kayttaja.getEmail().length() < 4 || !kayttaja.getEmail().contains("@") || kayttaja.getEmail().length() > 80) {
             // Terrible validation for proper email, but the correct regex just seems just as ridiculous:
             // https://stackoverflow.com/questions/8204680/java-regex-email/13013056#13013056
-            return "Sähköpostiosoitteessa on oltava vähintään 5 merkkiä";
+            return "Sähköpostiosoite on virheellinen";
         } else if (!kayttaja.getPassword().equals(kayttaja.getConfirmPassword())) {
             return "Salasanat eivät täsmää";
         } else if (kayttaja.getPassword().length() < 5 || kayttaja.getConfirmPassword().length() < 5) {
@@ -105,6 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         final int RESULT_USERNAME_EXISTS = 409;
         final int RESULT_RUNTIME_EXCEPTION = 417;
+        final int RESULT_FAILED_DEPENDENCY = 424;
 
         PassiClient service = ServiceGenerator.createService(PassiClient.class);
 
@@ -124,6 +133,9 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (response.code() == RESULT_RUNTIME_EXCEPTION) {
                    Log.v("RegisterActivity", "Rekisteroinnissa virhe: runtime exception");
                    onRegisterFailed("Käyttäjän lisäys tietokantaan ei onnistunut!");
+                } else if (response.code() == RESULT_FAILED_DEPENDENCY) {
+                    Log.v("RegisterActivity", "Rekisteroinnissa virhe: laittomia merkkejä käyttäjänimessä");
+                    onRegisterFailed("Käyttäjänimi sisältää virheellisiä merkkejä. Sallitut erikoismerkit: . - ja _");
                 } else {
                     Log.v("RegisterActivity", "Rekisteroinnissa virhe: status " + response.code());
                     onRegisterFailed("Rekisteröitymisessä tapahtui virhe!");
