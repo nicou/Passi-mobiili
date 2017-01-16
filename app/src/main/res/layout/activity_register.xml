@@ -145,14 +145,17 @@
     <TextView
         android:id="@+id/etPassuHint"
         android:padding="20dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#3498db"
-        android:text="Salasanan on oltava vähintään 5 merkkiä pitkä."
+        android:text="Käyttäjänimi ei saa sisältää skandeja. Sallitut erityismerkit ovat piste, viiva ja alaviiva.\n\nSalasanan on oltava vähintään 5 merkkiä pitkä."
         android:textSize="11sp"
         app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja"
         app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"
         android:layout_marginTop="0dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="0dp"
+        android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@+id/etSalasanaVahvistus" />
 
     <Button
@@ -166,7 +169,7 @@
         android:background="@drawable/nappi"
         app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja"
         app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintTop_toBottomOf="@+id/etPassuHint" />
 
     <TextView
