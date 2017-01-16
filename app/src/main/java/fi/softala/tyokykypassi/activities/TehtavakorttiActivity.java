@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -359,10 +360,15 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         mContext = context;
         file = new File(TehtavakorttiActivity.this.getExternalCacheDir(),
                 String.valueOf(kuvaNimi));
-        fileUri = FileProvider.getUriForFile(TehtavakorttiActivity.this, BuildConfig.APPLICATION_ID + ".provider", file);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            fileUri = FileProvider.getUriForFile(TehtavakorttiActivity.this, BuildConfig.APPLICATION_ID + ".provider", file);
 
-        Log.v("Passi", "Kuva otettu " + fileUri);
-        kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            Log.v("Passi", "Kuva otettu " + fileUri);
+            kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        } else {
+            kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+            Log.v("Passi", "Kuva otettu " + Uri.fromFile(file).toString());
+        }
         TehtavakorttiActivity.this.startActivityForResult(kameraIntent, RC_TAKE_PHOTO);
     }
 
