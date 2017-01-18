@@ -309,7 +309,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                     return false;
                 } else if (e.getSelectedOptionID() == 0) {
                     Log.e("Passi", "Etapin " + e.getWaypointID() + " monivalintaa ei ole valittu");
-                    Toast.makeText(getApplicationContext(), "Vastaa kaikkiin tehtävien monivalintoihin ennen lähetystä", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Vastaa jokaisen tehtävän monivalintaan ennen lähetystä", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
