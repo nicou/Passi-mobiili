@@ -250,11 +250,8 @@ public class TehtavakorttiActivity extends ToolbarActivity {
 
     public void laheta() {
         lisaaKuvaUri();
-        boolean ok = kentatOk();
-        if (ok) {
+        if (kentatOk()) {
             poistaVastaus();
-        } else {
-            Toast.makeText(getApplicationContext(), "Vastaa kaikkiin kohtiin", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -280,10 +277,12 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         EditText suunnitelma = (EditText) findViewById(R.id.suunnitelmaKentta);
         if (suunnitelma.getText().length() == 0) {
             Log.e("Passi", "Suunnitelma on liian lyhyt");
+            Toast.makeText(getApplicationContext(), "Täytä suunnitelma ennen lähetystä", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (etappiList.size() < waypointListLength) {
             Log.e("Passi", "Etappilista on " + etappiList.size() + " kun pitäisi olla " + waypointListLength);
+            Toast.makeText(getApplicationContext(), "Vastaa kaikkiin tehtäviin ennen lähetystä", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -294,14 +293,23 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         for (Etappi e :
                 etappiList.values()) {
             if (e.getAnswerText() == null
-                    || e.getImageURL() == null && e.getPhotoEnabled()
                     || e.getSelectedOptionID() == null
                     || e.getWaypointID() == null) {
+                Toast.makeText(getApplicationContext(), "Vastaa kaikkiin tehtäviin ennen lähetystä", Toast.LENGTH_SHORT).show();
                 Log.e("Passi", "Etappilista sai nullin " + e.toString());
+                return false;
+            } else if (e.getImageURL() == null && e.getPhotoEnabled()) {
+                Log.e("Passi", "Jostain etapista puuttuu kuva");
+                Toast.makeText(getApplicationContext(), "Ota kuva kaikkiin tehtäviin jotka vaativat kuvan", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 if (e.getAnswerText().length() == 0) {
                     Log.e("Passi", "Etappilista vastaus on " + e.getAnswerText());
+                    Toast.makeText(getApplicationContext(), "Vastaa kaikkiin tehtäviin ennen lähetystä", Toast.LENGTH_SHORT).show();
+                    return false;
+                } else if (e.getSelectedOptionID() == 0) {
+                    Log.e("Passi", "Etapin " + e.getWaypointID() + " monivalintaa ei ole valittu");
+                    Toast.makeText(getApplicationContext(), "Vastaa kaikkiin tehtävien monivalintoihin ennen lähetystä", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
