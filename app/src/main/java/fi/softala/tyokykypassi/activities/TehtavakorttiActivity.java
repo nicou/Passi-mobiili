@@ -507,7 +507,10 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                 Etappi e = etappiList.get(waypointId);
                 if (e == null) {
                     e = new Etappi();
+                    e.setSelectedOptionID(0);
                 }
+
+                e.setWaypointID(waypointId);
                 e.setAnswerText(text);
                 etappiList.put(waypointId, e);
 
@@ -568,6 +571,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
                 os.close();
                 fos.close();
                 Toast.makeText(this, "Tallennus onnistui", Toast.LENGTH_SHORT).show();
+                Log.d("Tallennus", "Tallennettiin: " + etappiList.toString());
                 tallennaKuvat();
 
             } catch (IOException e) {
