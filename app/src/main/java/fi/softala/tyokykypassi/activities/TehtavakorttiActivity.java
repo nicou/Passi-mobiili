@@ -368,7 +368,7 @@ public class TehtavakorttiActivity extends ToolbarActivity {
         mContext = context;
         file = new File(TehtavakorttiActivity.this.getExternalCacheDir(),
                 String.valueOf(kuvaNimi));
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             fileUri = FileProvider.getUriForFile(TehtavakorttiActivity.this, BuildConfig.APPLICATION_ID + ".provider", file);
 
             Log.v("Passi", "Kuva otettu " + fileUri);
