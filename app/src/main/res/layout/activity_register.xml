@@ -148,7 +148,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#3498db"
-        android:text="Käyttäjänimi ei saa sisältää skandeja. Sallitut erityismerkit ovat piste, viiva ja alaviiva.\n\nSalasanan on oltava vähintään 5 merkkiä pitkä."
+        android:text="Käyttäjänimessä sallitut erikoismerkit ovat piste, viiva ja alaviiva. Salasanan on oltava vähintään 5 merkkiä pitkä."
         android:textSize="11sp"
         app:layout_constraintLeft_toLeftOf="@+id/rekisterointiPohja"
         app:layout_constraintRight_toRightOf="@+id/rekisterointiPohja"

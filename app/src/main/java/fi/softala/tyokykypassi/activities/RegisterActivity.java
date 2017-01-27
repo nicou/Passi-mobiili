@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
             return "Käyttäjänimessä on oltava vähintään 3 merkkiä";
         } else if (kayttaja.getUsername().length() > 30) {
             return "Käyttäjänimessä on oltava enintään 30 merkkiä";
-        } else if (!kayttaja.getUsername().trim().matches("^[A-z-._]{3,30}$")) {
+        } else if (!kayttaja.getUsername().trim().matches("^[A-zÄÖäöÅå0-9-._]{0,30}$")) {
             return "Käyttäjänimi sisältää virheellisiä merkkejä. Sallitut erikoismerkit: . - ja _";
         } else if (kayttaja.getFirstname().length() < 2) {
             return "Etunimessä on oltava vähintään 2 merkkiä";

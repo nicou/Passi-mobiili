@@ -54,7 +54,7 @@ public class KirjautumisActivity extends AppCompatActivity {
                 hideKeyboard();
 
                 if (usernameWrapper.getEditText() != null && passwordWrapper.getEditText() != null) {
-                    username = usernameWrapper.getEditText().getText().toString();
+                    username = usernameWrapper.getEditText().getText().toString().toLowerCase();
                     password = passwordWrapper.getEditText().getText().toString();
                 }
                     if (!validateUsername(username)) {
