@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.models.Kayttaja;
 import fi.softala.tyokykypassi.network.PassiClient;
@@ -130,10 +132,9 @@ public class KirjautumisActivity extends AppCompatActivity {
                 } else if (response.code() == RESULT_NOT_FOUND) {
                     text = "Salasana tai käyttäjänimi väärin";
                     onLoginFailed(text);
-
-                    // Jokin muu virhe
-                } else {
+                } else { // Jokin muu virhe
                     text = "Virhe tietojen haussa";
+                    FirebaseCrash.log("Failed login attempt");
                     onLoginFailed(text);
                 }
             }

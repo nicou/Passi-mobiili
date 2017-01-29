@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import fi.softala.tyokykypassi.R;
 import fi.softala.tyokykypassi.models.UusiKayttaja;
 import fi.softala.tyokykypassi.network.PassiClient;
@@ -132,12 +134,14 @@ public class RegisterActivity extends AppCompatActivity {
                     onRegisterFailed("Käyttäjänimi tai sähköposti on jo käytössä!");
                 } else if (response.code() == RESULT_RUNTIME_EXCEPTION) {
                    Log.v("RegisterActivity", "Rekisteroinnissa virhe: runtime exception");
+                    FirebaseCrash.log("User registration failed on backend - RUNTIME EXCEPTION");
                    onRegisterFailed("Käyttäjän lisäys tietokantaan ei onnistunut!");
                 } else if (response.code() == RESULT_FAILED_DEPENDENCY) {
                     Log.v("RegisterActivity", "Rekisteroinnissa virhe: laittomia merkkejä käyttäjänimessä");
                     onRegisterFailed("Käyttäjänimi sisältää virheellisiä merkkejä. Sallitut erikoismerkit: . - ja _");
                 } else {
                     Log.v("RegisterActivity", "Rekisteroinnissa virhe: status " + response.code());
+                    FirebaseCrash.log("User registration failed on backend - Unknown cause");
                     onRegisterFailed("Rekisteröitymisessä tapahtui virhe!");
                 }
             }
